@@ -20,7 +20,7 @@ resource "openstack_compute_instance_v2" "salt_master" {
 	 	agent = "true"
 	 	
 	}
-	key_pair = "${var.image_id}"
+	key_pair = "${var.key_pair}"
 	 	
 	provisioner "remote-exec" {
 		inline = [

@@ -10,7 +10,7 @@ resource "openstack_compute_instance_v2" "tracker" {
   	image_id = "${var.image_id}"
 	flavor_name = "m1.medium"
 	security_groups = ["internal"]
-	name = "salt-master"
+	name = "tracker"
 	connection {
 		user = "${var.user}"
 	 	key_file = "${var.key_file}"
@@ -20,7 +20,7 @@ resource "openstack_compute_instance_v2" "tracker" {
 	 	agent = "true"
 	 	
 	}
-	key_pair = "${var.image_id}"
+	key_pair = "${var.key_pair}"
 	provisioner "remote-exec" {
 		inline = [
 			"sudo yum install epel-release -y",
