@@ -31,7 +31,7 @@ resource "openstack_compute_instance_v2" "genotyper" {
 			"sudo service salt-minion stop",
 			"echo 'master: ${var.salt_master_ip}' | sudo tee  -a /etc/salt/minion",
 			"echo 'id: name = ${concat("genotyper-", count.index)}' | sudo tee -a /etc/salt/minion",
-			"echo 'roles: [genotyper]' | sudo tee -a /etc/salt/grains",
+			"echo 'roles: [genotyper, consul-client]' | sudo tee -a /etc/salt/grains",
 			"sudo service salt-minion start"
 		]
 	}

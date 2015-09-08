@@ -30,7 +30,7 @@ resource "openstack_compute_instance_v2" "merger" {
 			"sudo service salt-minion stop",
 			"echo 'master: ${var.salt_master_ip}' | sudo tee  -a /etc/salt/minion",
 			"echo 'id: merger' | sudo tee -a /etc/salt/minion",
-			"echo 'roles: [merger]' | sudo tee -a /etc/salt/grains",
+			"echo 'roles: [merger, consul-client]' | sudo tee -a /etc/salt/grains",
 			"sudo service salt-minion start"
 		]
 	}
