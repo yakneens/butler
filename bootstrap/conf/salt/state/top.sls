@@ -17,4 +17,5 @@ base:
   'G@roles:monitoring-server':
     - influxdb
     - grafana 
- 
+  'G@roles:genotyper':
+    - freebayes
