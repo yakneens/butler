@@ -497,7 +497,7 @@ gitfs_provider: gitpython
 # environments.
 # Note:  file:// repos will be treated as a remote, so refs you want used must
 # exist in that repo as *local* refs.
-gitfs_remotes:
+#gitfs_remotes:
 #  - git://github.com/saltstack/salt-states.git
 #  - file:///var/git/saltmaster
 #  - https://github.com/saltstack-formulas/salt-formula.git
