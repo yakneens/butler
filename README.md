@@ -3,7 +3,7 @@
 - Install gradle or run ./gradlew from any submodule
 - Run ```gradle eclipse``` to generate eclipse project files
 - Import project files into Eclipse
-- 
+
 
 # Ports Configuration
 The following ports need to be open for various components to work properly
