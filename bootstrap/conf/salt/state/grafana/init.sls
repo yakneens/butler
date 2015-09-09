@@ -1,13 +1,13 @@
-adduser:
+initscripts:
   pkg.installed: []
 
-libfontconfig:
+fontconfig:
   pkg.installed: []
 
 grafana:
   pkg.installed:
     - sources:
-      - grafana: https://grafanarel.s3.amazonaws.com/builds/grafana_2.1.2_amd64.deb
+      - grafana: https://grafanarel.s3.amazonaws.com/builds/grafana-2.1.3-1.x86_64.rpm
   service.running:
     - name: grafana-server
     - require:
