@@ -1,4 +1,8 @@
-git://github.com/ekg/freebayes.git
+git:
+  pkg.installed: []
+
+clone:
   git.latest:
-    - target: /opt/
+    - name: git://github.com/ekg/freebayes.git
+    - target: /opt/freebayes
     - submodules: True
