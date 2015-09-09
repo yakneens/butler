@@ -1,4 +1,4 @@
-/opt/:
-  git.clone:
-    - repository: git://github.com/ekg/freebayes.git
-    - opts: --recursive
+git.clone:
+  cwd: /opt/
+  repository: git://github.com/ekg/freebayes.git
+  opts: --recursive
