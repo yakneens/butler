@@ -7,7 +7,7 @@
     
 /usr/lib/systemd/system/consul-client.service:
   file.managed:
-    - source: salt://consul/config/bootstrap/consul-client.service
+    - source: salt://consul/config/client/consul-client.service
     - user: root
     - group: root
     - mode: 744
@@ -17,11 +17,11 @@ consul-client:
     - enable: True
     - watch:
       - file: /etc/opt/consul.d/*    
-{%- set servers = salt['mine.get']('roles:(consul-server|consul-bootstrap)', 'network.get_hostname', 'grain_pcre').values() %}
-{%- set nodename = salt['grains.get']('nodename') %}
+{%- set servers = salt['mine.get']('roles:(consul-server|consul-bootstrap)', 'network.interface_ip eth0', 'grain_pcre').values() %}
+{%- set node_ip = salt['grains.get']('fqdn_ip4') %}
 # Create a list of servers that can be used to join the cluster
 {%- set join_server = [] %}
-{%- for server in servers if server != nodename %}
+{%- for server in servers if server != node_ip %}
 {% do join_server.append(server) %}
 {%- endfor %}
 join-cluster:
