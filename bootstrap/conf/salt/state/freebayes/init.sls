@@ -1,9 +1,13 @@
-git:
-  pkg.installed: []
-
-gcc-c++:
-  pkg.installed: []
-  
+pkgs:
+  pkg.installed:
+    - pkgs:
+      - git
+      - gcc-c++
+      - wget
+      - make
+      - cmake
+      - kernel-devel
+      - gcc   
 freebayes-clone:
   git.latest:
     - name: git://github.com/ekg/freebayes.git
@@ -11,7 +15,11 @@ freebayes-clone:
     - submodules: True
 freebayes-make:
   cmd.wait:
+    - name: make
+    - cwd: /opt/freebayes
+    - watch: freebayes-clone
+freebayes-install:
+  cmd.wait:
     - name: make install
     - cwd: /opt/freebayes
-    - watch:
-      - git: freebayes-clone
+    - watch: freebayes-make
