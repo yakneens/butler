@@ -19,6 +19,7 @@ collectd_config:
     - user: root
     - group: root
     - mode: 644
+    - makedirs: True
     - require:
       - pkg: collectd
 
@@ -30,5 +31,6 @@ collectd_types_db:
     - user: root
     - group: root
     - mode: 644
+    - makedirs: True
     - require:
       - pkg: collectd    
