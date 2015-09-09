@@ -1,5 +1,4 @@
-get_package:
-  git.clone:
-    - cwd: /opt/
-    - repository: git://github.com/ekg/freebayes.git
-    -  opts: --recursive
+git://github.com/ekg/freebayes.git
+  git.latest:
+    - target: /opt/
+    - submodules: True
