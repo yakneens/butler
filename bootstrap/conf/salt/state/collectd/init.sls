@@ -14,7 +14,7 @@ collectd_run:
       
 collectd_config:
   file.managed:
-    - name: /etc/collectd/collectd.conf
+    - name: /etc/collectd.conf
     - source: salt://collectd/config/collectd.conf
     - user: root
     - group: root
