@@ -14,12 +14,12 @@ freebayes-clone:
     - target: /opt/freebayes
     - submodules: True
 freebayes-make:
-  cmd.wait:
+  cmd.run:
     - name: make
     - cwd: /opt/freebayes
     - watch: freebayes-clone
 freebayes-install:
-  cmd.wait:
+  cmd.run:
     - name: make install
     - cwd: /opt/freebayes
     - watch: freebayes-make
