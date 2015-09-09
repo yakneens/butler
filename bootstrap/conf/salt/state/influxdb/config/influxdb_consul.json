@@ -1,0 +1,1 @@
+{"service": {"name": "Influxdb", "tags": ["influxdb"], "port": 8096}}

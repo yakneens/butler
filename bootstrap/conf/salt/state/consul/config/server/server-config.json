@@ -1,0 +1,9 @@
+{
+	"bootstrap": false,
+	"server": true,
+	"datacenter": "rheos_dc",
+	"data_dir": "/var/consul",
+	"log_level": "INFO",
+	"enable_syslog": true,
+	"ui_dir": "/opt/consul/ui/dist/"
+}
