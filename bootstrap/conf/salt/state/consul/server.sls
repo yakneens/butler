@@ -26,4 +26,4 @@ consul-server:
 {%- endfor %}
 join-cluster:
   cmd.run:
-    - name: consul join {{ join_server[0] }}  
+    - name: consul join {{ join_server[0][0] }}  
