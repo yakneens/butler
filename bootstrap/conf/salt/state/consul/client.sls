@@ -21,9 +21,9 @@ consul-client:
 {%- set node_ip = salt['grains.get']('fqdn_ip4') %}
 # Create a list of servers that can be used to join the cluster
 {%- set join_server = [] %}
-{%- for server in servers if server != node_ip %}
-{% do join_server.append(server) %}
+{%- for server in servers if server[0] != node_ip %}
+{% do join_server.append(server[0]) %}
 {%- endfor %}
 join-cluster:
   cmd.run:
-    - name: consul join {{ join_server[0][0] }}   
+    - name: consul join {{ join_server[0] }}   
