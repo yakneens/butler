@@ -8,7 +8,7 @@ collectd_run:
     - require:
       - pkg: collectd
     - watch:
-      - file: /etc/collectd/collectd.conf
+      - file: /etc/collectd.conf
       - file: /usr/share/collectd/types.db
       
       
