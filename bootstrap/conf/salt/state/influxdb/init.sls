@@ -1,7 +1,7 @@
 influxdb:
   pkg.installed:
     - sources:
-      - influxdb: http://influxdb.s3.amazonaws.com/influxdb_0.9.2_amd64.deb
+      - influxdb: https://s3.amazonaws.com/influxdb/influxdb-0.9.3-1.x86_64.rpm
   service.running:
     - require:
       - pkg: influxdb
@@ -40,7 +40,7 @@ influxdb:
 
 influxdb_consul_config:
   file.managed:
-    - name: /etc/consul.d/influxdb_consul.json
+    - name: /etc/opt/consul.d/influxdb_consul.json
     - source: salt://influxdb/config/influxdb_consul.json
     - user: root
     - group: root
