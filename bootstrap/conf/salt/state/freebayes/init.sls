@@ -7,7 +7,8 @@ pkgs:
       - make
       - cmake
       - kernel-devel
-      - gcc   
+      - gcc
+      - zlib-devel   
 freebayes-clone:
   git.latest:
     - name: git://github.com/ekg/freebayes.git
@@ -25,3 +26,17 @@ freebayes-install:
     - cwd: /opt/freebayes
     - watch: 
       - cmd: freebayes-make
+/usr/bin/freebayes:
+  file.symlink:
+    - target: /opt/freebayes/bin/freebayes
+    - user: root
+    - group: root
+    - mode: 755
+    - force: True
+/usr/bin/bamleftalign:
+  file.symlink:
+    - target: /opt/freebayes/bin/bamleftalign
+    - user: root
+    - group: root
+    - mode: 755
+    - force: True
