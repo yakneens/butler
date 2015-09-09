@@ -1,25 +1,25 @@
 agent:
   archive.extracted:
-    - name: /etc/consul/agent
+    - name: /opt/consul/agent
     - source: https://dl.bintray.com/mitchellh/consul/0.5.2_linux_amd64.zip
     - source_hash: md5=37000419d608fd34f0f2d97806cf7399
     - archive_format: zip
 ui:
   archive.extracted:
-    - name: /etc/consul/ui
+    - name: /opt/consul/ui
     - source: https://dl.bintray.com/mitchellh/consul/0.5.2_web_ui.zip
     - source_hash: md5=eb98ba602bc7e177333eb2e520881f4f
     - archive_format: zip
 
-/etc/consul/agent/consul:
+/opt/consul/agent/consul:
   file.managed:
     - user: root
     - group: root
     - mode: 744
 
-/usr/local/bin/consul:
+/usr/bin/consul:
   file.symlink:
-    - target: /etc/consul/agent/consul
+    - target: /opt/consul/agent/consul
     - user: root
     - group: root
     - mode: 744
@@ -31,22 +31,14 @@ ui:
     - mode: 744
     - makedirs: True
 
-/etc/consul.d:
+/etc/opt/consul.d:
   file.directory:
     - user: root
     - group: root
     - mode: 755
     - makedirs: True
 
-/etc/init:
-  file.directory:
-    - user: root
-    - group: root
-    - mode: 755
-    - makedirs: True
-   
-
-/etc/consul.d/:
+/etc/opt/consul.d/:
   file.recurse:
     - source: salt://consul/config/host-level-checks
     - user: root
