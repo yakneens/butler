@@ -6,11 +6,11 @@ provider "openstack" {
 }
 
 
-resource "openstack_compute_instance_v2" "chunker" {
+resource "openstack_compute_instance_v2" "merger" {
   	image_id = "${var.image_id}"
 	flavor_name = "m1.medium"
 	security_groups = ["internal"]
-	name = "chunker"
+	name = "merger"
 	connection {
 		user = "${var.user}"
 	 	key_file = "${var.key_file}"
@@ -29,8 +29,9 @@ resource "openstack_compute_instance_v2" "chunker" {
 			"sudo yum install salt-minion -y",
 			"sudo service salt-minion stop",
 			"echo 'master: ${var.salt_master_ip}' | sudo tee  -a /etc/salt/minion",
-			"echo 'id: chunker' | sudo tee -a /etc/salt/minion",
-			"echo 'roles: [chunker, consul-server]' | sudo tee -a /etc/salt/grains",
+			"echo 'id: merger' | sudo tee -a /etc/salt/minion",
+			"echo 'roles: [merger, consul-client]' | sudo tee -a /etc/salt/grains",
+			"hostname merger",
 			"sudo service salt-minion start"
 		]
 	}

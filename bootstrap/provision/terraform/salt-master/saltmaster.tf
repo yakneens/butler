@@ -46,6 +46,7 @@ resource "openstack_compute_instance_v2" "salt_master" {
 			"echo 'id: salt-master' | sudo tee -a /etc/salt/minion",
 			"echo 'roles: [salt-master, consul-bootstrap, monitoring-server]' | sudo tee -a /etc/salt/grains",
 			"sudo service salt-master start",
+			"hostname salt-master",
 			"sudo service salt-minion start"
                 ]
         }

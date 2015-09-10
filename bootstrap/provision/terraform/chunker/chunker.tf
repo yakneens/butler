@@ -6,11 +6,11 @@ provider "openstack" {
 }
 
 
-resource "openstack_compute_instance_v2" "genotyper" {
+resource "openstack_compute_instance_v2" "chunker" {
   	image_id = "${var.image_id}"
-	flavor_name = "m1.huge"
+	flavor_name = "m1.medium"
 	security_groups = ["internal"]
-	name = "${concat("genotyper-", count.index)}"
+	name = "chunker"
 	connection {
 		user = "${var.user}"
 	 	key_file = "${var.key_file}"
@@ -20,7 +20,6 @@ resource "openstack_compute_instance_v2" "genotyper" {
 	 	agent = "true"
 	 	
 	}
-	count = "3"
 	key_pair = "${var.key_pair}"
 	provisioner "remote-exec" {
 		inline = [
@@ -30,8 +29,9 @@ resource "openstack_compute_instance_v2" "genotyper" {
 			"sudo yum install salt-minion -y",
 			"sudo service salt-minion stop",
 			"echo 'master: ${var.salt_master_ip}' | sudo tee  -a /etc/salt/minion",
-			"echo 'id: name = ${concat("genotyper-", count.index)}' | sudo tee -a /etc/salt/minion",
-			"echo 'roles: [genotyper, consul-client]' | sudo tee -a /etc/salt/grains",
+			"echo 'id: chunker' | sudo tee -a /etc/salt/minion",
+			"echo 'roles: [chunker, consul-server]' | sudo tee -a /etc/salt/grains",
+			"hostname chunker",
 			"sudo service salt-minion start"
 		]
 	}
