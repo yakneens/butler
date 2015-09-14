@@ -19,8 +19,7 @@ ui:
     - user: root
     - group: root
     - mode: 744
-    - require:
-      - file: /opt/consul/agent
+    - create: False
 
 /usr/bin/consul:
   file.symlink:
