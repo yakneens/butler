@@ -19,3 +19,5 @@ base:
     - grafana 
   'G@roles:genotyper':
     - freebayes
+  'G@roles:tracker':
+    - airflow
