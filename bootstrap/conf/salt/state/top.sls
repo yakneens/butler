@@ -21,3 +21,4 @@ base:
     - freebayes
   'G@roles:tracker':
     - airflow
+    - postgres
