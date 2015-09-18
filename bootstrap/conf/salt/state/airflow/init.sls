@@ -2,7 +2,9 @@ upgrade_pip:
   pip.upgrade: []
   
 install_numpy:
-  pip.installed: numpy
+  pip.installed: 
+    - name: numpy
   
 install_airflow:
-  pip.installed: airflow
+  pip.installed: 
+    - name: airflow
