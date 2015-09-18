@@ -1,5 +1,6 @@
 upgrade_pip:
-  pip.upgrade: []
+  cmd.run:
+    - name: pip install -U pip
   
 install_numpy:
   pip.installed: 
