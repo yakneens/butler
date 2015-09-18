@@ -32,12 +32,12 @@ add_pcawg_user:
 create_pcawg_tablespace:
   cmd.run:
     - user: postgres
-    - name: psql -c "CREATE TABLESPACE germline_dbspace LOCATION '/data/germline_genotype_tracking/db' OWNER pcawg_admin"    
+    - name: psql -c "CREATE TABLESPACE germline_dbspace OWNER pcawg_admin LOCATION '/data/germline_genotype_tracking/db'"    
 
 create_pcawg_indexspace:
   cmd.run:
     - user: postgres
-    - name: psql -c "CREATE TABLESPACE germline_indexspace LOCATION '/data/germline_genotype_tracking/indexes' OWNER pcawg_admin"    
+    - name: psql -c "CREATE TABLESPACE germline_indexspace OWNER pcawg_admin LOCATION '/data/germline_genotype_tracking/indexes'"    
 
 create_pcawg_sample_db:
   cmd.run:
