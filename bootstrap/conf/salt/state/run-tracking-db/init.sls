@@ -51,6 +51,6 @@ sqlalchemy:
   cmd.run:
     - name: pip install sqlalchemy   
      
-python-psycopg2
+python-psycopg2:
   pkg.installed:
     - name: python-psycopg2
