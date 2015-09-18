@@ -22,3 +22,4 @@ base:
   'G@roles:tracker':
     - airflow
     - postgres
+    - run-tracking-db
