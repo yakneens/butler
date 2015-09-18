@@ -42,5 +42,9 @@ variable "bastion_host" {
 variable "bastion_user" {
 	default = "centos"
 }
+
+variable "network_id" {
+	default = "829e5182-916f-49da-9d3c-5c8574bcbe8a"
+}
 	
 	

@@ -11,6 +11,9 @@ resource "openstack_compute_instance_v2" "genotyper" {
 	flavor_name = "m1.huge"
 	security_groups = ["internal"]
 	name = "${concat("genotyper-", count.index)}"
+	network = {
+		uuid = "${var.network_id}"
+	}
 	connection {
 		user = "${var.user}"
 	 	key_file = "${var.key_file}"
@@ -20,7 +23,7 @@ resource "openstack_compute_instance_v2" "genotyper" {
 	 	agent = "true"
 	 	
 	}
-	count = "3"
+	count = "40"
 	key_pair = "${var.key_pair}"
 	provisioner "remote-exec" {
 		inline = [

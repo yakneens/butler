@@ -11,6 +11,9 @@ resource "openstack_compute_instance_v2" "salt_master" {
 	flavor_name = "m1.medium"
 	security_groups = ["internal"]
 	name = "salt-master"
+	network = {
+		uuid = "${var.network_id}"
+	}
 	connection {
 		user = "${var.user}"
 	 	key_file = "${var.key_file}"
