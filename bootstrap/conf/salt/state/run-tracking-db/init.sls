@@ -49,7 +49,8 @@ pandas:
     - name: pip install pandas
 sqlalchemy:
   cmd.run:
-    - name: pip install sqlalchemy    
+    - name: pip install sqlalchemy   
+     
 python-psycopg2
   pkg.installed:
     - name: python-psycopg2
