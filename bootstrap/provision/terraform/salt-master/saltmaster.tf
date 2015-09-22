@@ -50,8 +50,12 @@ resource "openstack_compute_instance_v2" "salt_master" {
 			"echo 'roles: [salt-master, consul-bootstrap, monitoring-server]' | sudo tee -a /etc/salt/grains",
 			"sudo service salt-master start",
 			"hostname salt-master",
+			"git clone https://github.com/llevar/germline-regenotyper",
+			"git checkout develop",
+			"ln -s /root/germline-regenotyper/bootstrap/conf/salt/state /srv/salt",
+			"ln -s /root/germline-regenotyper/bootstrap/conf/salt/pillar /srv/pillar",
 			"sudo service salt-minion start"
-                ]
+			    ]
         }
 	provisioner "local-exec" {
 		command = "export TF_VAR_salt_master_ip=${self.access_ip_v4}"
