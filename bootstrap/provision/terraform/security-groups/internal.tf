@@ -118,6 +118,13 @@ resource "openstack_compute_secgroup_v2" "internal" {
 		ip_protocol = "tcp"
 		self = "true"
 	}
+	#Postgres
+	rule {
+		from_port = 5432
+		to_port = 5432
+		ip_protocol = "tcp"
+		self = "true"
+	}
 	
 	
 }
