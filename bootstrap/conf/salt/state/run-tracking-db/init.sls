@@ -1,4 +1,4 @@
-grafana_consul_config:
+run_tracking_db_consul_config:
   file.managed:
     - name: /etc/opt/consul.d/run_tracking_db_consul.json
     - source: salt://run-tracking-db/config/run_tracking_db_consul.json
