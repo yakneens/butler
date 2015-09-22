@@ -47,17 +47,8 @@ grafana_consul_config:
     - dir_mode: 755
     - file_mode: 644
 
-http://grafana.service.consul:3000/api/datasources:
-  http.query:
-    - method: 'POST'
-    - status: '200'
-    - username: 'admin'
-    - password: 'admin'
-    - data_render: True
-    - header_dict: {'Accept':'application/json', 'Content-Type':'application/json'}
-    - data_file: salt://grafana/config/metrics_data_source.json
-    - header_render: True
-    - cookies: True
-    - persist_session: True
+create_data_source:
+  cmd.run:
+    - name: curl --user admin:admin 'http://grafana.service.consul:3000/api/datasources' -X POST --data-binary '{"name":"test","type":"influxdb","Url":"http://influxdb.service.consul:8086","Access":"proxy","isDefault":false,"Database":"metrics","User":"root","Password":"root"}' -H Content-Type:application/json
     
  
