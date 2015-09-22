@@ -1,0 +1,841 @@
+{
+  "id": 2,
+  "title": "Salt Master",
+  "originalTitle": "Salt Master",
+  "tags": [],
+  "style": "dark",
+  "timezone": "browser",
+  "editable": true,
+  "hideControls": false,
+  "sharedCrosshair": false,
+  "rows": [
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Influxdb",
+          "decimals": null,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": 100,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": 100,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 1,
+          "leftYAxisLabel": "",
+          "legend": {
+            "avg": true,
+            "current": true,
+            "max": true,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "mean user",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type_instance"
+              ],
+              "measurement": "cpu_value",
+              "query": "SELECT mean(value) FROM \"cpu_value\" WHERE \"host\" = 'salt-master' AND \"type_instance\" = 'user' AND $timeFilter GROUP BY time($interval), \"type_instance\"",
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=",
+                  "value": "salt-master"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "user"
+                }
+              ]
+            },
+            {
+              "alias": "mean system",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type_instance"
+              ],
+              "measurement": "cpu_value",
+              "query": "SELECT mean(value) FROM \"cpu_value\" WHERE \"host\" = 'salt-master' AND \"type_instance\" = 'system' AND $timeFilter GROUP BY time($interval), \"type_instance\"",
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=",
+                  "value": "salt-master"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "system"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "CPU",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "percent",
+            "percent"
+          ]
+        }
+      ],
+      "title": "Row"
+    },
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Influxdb",
+          "editable": true,
+          "error": false,
+          "fill": 3,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 2,
+          "legend": {
+            "avg": true,
+            "current": true,
+            "max": true,
+            "min": true,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 12,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "$tag_type_instance",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type_instance"
+              ],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" = 'salt-master' AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval), \"type_instance\"",
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=",
+                  "value": "salt-master"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "used"
+                }
+              ]
+            },
+            {
+              "alias": "$tag_type_instance",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type_instance"
+              ],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" = 'salt-master' AND \"type_instance\" = 'cached' AND $timeFilter GROUP BY time($interval), \"type_instance\"",
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=",
+                  "value": "salt-master"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "cached"
+                }
+              ]
+            },
+            {
+              "alias": "$tag_type_instance",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type_instance"
+              ],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" = 'salt-master' AND \"type_instance\" = 'buffered' AND $timeFilter GROUP BY time($interval), \"type_instance\"",
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=",
+                  "value": "salt-master"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "buffered"
+                }
+              ]
+            },
+            {
+              "alias": "$tag_type_instance",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type_instance"
+              ],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" = 'salt-master' AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval), \"type_instance\"",
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=",
+                  "value": "salt-master"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "free"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Memory",
+          "tooltip": {
+            "shared": true,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "bytes",
+            "bytes"
+          ]
+        }
+      ],
+      "title": "New row"
+    },
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Influxdb",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 3,
+          "interval": ">10s",
+          "legend": {
+            "avg": true,
+            "current": true,
+            "max": true,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "Incoming",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type"
+              ],
+              "measurement": "interface_rx",
+              "query": "SELECT mean(value) FROM \"interface_rx\" WHERE \"host\" = 'salt-master' AND \"type\" = 'if_packets' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=",
+                  "value": "salt-master"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type",
+                  "operator": "=",
+                  "value": "if_packets"
+                }
+              ]
+            },
+            {
+              "alias": "Outgoing",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type"
+              ],
+              "measurement": "interface_tx",
+              "query": "SELECT mean(value) FROM \"interface_tx\" WHERE \"host\" = 'salt-master' AND \"type\" = 'if_packets' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=",
+                  "value": "salt-master"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type",
+                  "operator": "=",
+                  "value": "if_packets"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Network Packet Rate",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "pps",
+            "pps"
+          ]
+        }
+      ],
+      "title": "New row"
+    },
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Influxdb",
+          "decimals": 2,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 4,
+          "interval": ">10s",
+          "legend": {
+            "avg": true,
+            "current": true,
+            "max": true,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type"
+              ],
+              "hide": false,
+              "measurement": "disk_read",
+              "query": "SELECT mean(value) FROM \"disk_read\" WHERE \"host\" = 'salt-master' AND \"type\" = 'disk_octets' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=",
+                  "value": "salt-master"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_octets"
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type"
+              ],
+              "measurement": "disk_write",
+              "query": "SELECT mean(value) FROM \"disk_write\" WHERE \"host\" = 'salt-master' AND \"type\" = 'disk_octets' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=",
+                  "value": "salt-master"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_octets"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Disk Read/Write Rates",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "Bps",
+            "Bps"
+          ]
+        }
+      ],
+      "title": "New row"
+    },
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Influxdb",
+          "decimals": 2,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 6,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 12,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_read",
+              "query": "SELECT mean(value) FROM \"disk_read\" WHERE \"host\" = 'salt-master' AND \"type\" = 'disk_ops' AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=",
+                  "value": "salt-master"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_ops"
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_write",
+              "query": "SELECT mean(value) FROM \"disk_write\" WHERE \"host\" = 'salt-master' AND \"type\" = 'disk_ops' AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=",
+                  "value": "salt-master"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_ops"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Disk IOPS",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "short",
+            "short"
+          ]
+        }
+      ],
+      "title": "New row"
+    },
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Influxdb",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 5,
+          "legend": {
+            "avg": true,
+            "current": true,
+            "max": true,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 12,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "$tag_type_instance",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "host",
+                "type_instance"
+              ],
+              "measurement": "df_value",
+              "query": "SELECT mean(value) FROM \"df_value\" WHERE \"host\" = 'salt-master' AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval), \"host\", \"type_instance\"",
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=",
+                  "value": "salt-master"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "used"
+                }
+              ]
+            },
+            {
+              "alias": "$tag_type_instance",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "host",
+                "type_instance"
+              ],
+              "measurement": "df_value",
+              "query": "SELECT mean(value) FROM \"df_value\" WHERE \"host\" = 'salt-master' AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval), \"host\", \"type_instance\"",
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=",
+                  "value": "salt-master"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "free"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Disk Space",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "bytes",
+            "short"
+          ]
+        }
+      ],
+      "title": "New row"
+    }
+  ],
+  "nav": [
+    {
+      "collapse": false,
+      "enable": true,
+      "notice": false,
+      "now": true,
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "status": "Stable",
+      "time_options": [
+        "5m",
+        "15m",
+        "1h",
+        "6h",
+        "12h",
+        "24h",
+        "2d",
+        "7d",
+        "30d"
+      ],
+      "type": "timepicker"
+    }
+  ],
+  "time": {
+    "from": "now-7d",
+    "to": "now"
+  },
+  "templating": {
+    "list": []
+  },
+  "annotations": {
+    "list": []
+  },
+  "schemaVersion": 6,
+  "version": 3,
+  "links": []
+}

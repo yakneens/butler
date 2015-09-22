@@ -1,3 +1,6 @@
+unzip:
+  pkg.installed: []
+
 agent:
   archive.extracted:
     - name: /opt/consul/agent
@@ -16,6 +19,7 @@ ui:
     - user: root
     - group: root
     - mode: 744
+    - create: False
 
 /usr/bin/consul:
   file.symlink:
@@ -23,6 +27,8 @@ ui:
     - user: root
     - group: root
     - mode: 744
+    - require:
+      - file: /opt/consul/agent/consul
 
 /var/consul:
   file.directory:

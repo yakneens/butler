@@ -1,7 +1,7 @@
 {
 	"bootstrap": true,
 	"server": true,
-	"datacenter": "rheos_dc",
+	"datacenter": "pcawg_germline_dc",
 	"data_dir": "/var/consul",
 	"log_level": "INFO",
 	"enable_syslog": true,

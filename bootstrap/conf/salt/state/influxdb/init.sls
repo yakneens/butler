@@ -5,6 +5,8 @@ influxdb:
   service.running:
     - require:
       - pkg: influxdb
+    - watch:
+      - file: /etc/opt/influxdb/influxdb.conf
   
 /var/lib/.influxdb:
   file.directory:
@@ -30,6 +32,12 @@ influxdb:
     - group: influxdb
     - dir_mode: 755
     - file_mode: 644
+/var/lib/.influxdb/wal:
+  file.directory:
+    - user: influxdb
+    - group: influxdb
+    - dir_mode: 755
+    - file_mode: 644    
     
 /etc/opt/influxdb/influxdb.conf:
   file.managed:

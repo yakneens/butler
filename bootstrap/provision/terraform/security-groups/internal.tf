@@ -98,6 +98,12 @@ resource "openstack_compute_secgroup_v2" "internal" {
 		ip_protocol = "tcp"
 		self = "true"
 	}
+	rule {
+		from_port = 8096
+		to_port = 8096
+		ip_protocol = "udp"
+		self = "true"
+	}
 	#Collectd
 	rule {
 		from_port = 25826
@@ -109,6 +115,13 @@ resource "openstack_compute_secgroup_v2" "internal" {
 	rule {
 		from_port = 3000
 		to_port = 3000
+		ip_protocol = "tcp"
+		self = "true"
+	}
+	#Postgres
+	rule {
+		from_port = 5432
+		to_port = 5432
 		ip_protocol = "tcp"
 		self = "true"
 	}

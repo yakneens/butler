@@ -11,6 +11,9 @@ resource "openstack_compute_instance_v2" "tracker" {
 	flavor_name = "m1.medium"
 	security_groups = ["internal"]
 	name = "tracker"
+	network = {
+		uuid = "${var.network_id}"
+	}
 	connection {
 		user = "${var.user}"
 	 	key_file = "${var.key_file}"
@@ -31,6 +34,7 @@ resource "openstack_compute_instance_v2" "tracker" {
 			"echo 'master: ${var.salt_master_ip}' | sudo tee  -a /etc/salt/minion",
 			"echo 'id: tracker' | sudo tee -a /etc/salt/minion",
 			"echo 'roles: [tracker, consul-client]' | sudo tee -a /etc/salt/grains",
+			"hostname tracker",
 			"sudo service salt-minion start"
 		]
 	}
