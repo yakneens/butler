@@ -8,7 +8,7 @@ provider "openstack" {
 
 resource "openstack_compute_instance_v2" "genotyper" {
   	image_id = "${var.image_id}"
-	flavor_name = "m1.huge"
+	flavor_name = "m1.germline16"
 	security_groups = ["internal"]
 	name = "${concat("genotyper-", count.index)}"
 	network = {
@@ -23,7 +23,7 @@ resource "openstack_compute_instance_v2" "genotyper" {
 	 	agent = "true"
 	 	
 	}
-	count = "40"
+	count = "55"
 	key_pair = "${var.key_pair}"
 	provisioner "remote-exec" {
 		inline = [
