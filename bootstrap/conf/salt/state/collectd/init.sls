@@ -1,9 +1,13 @@
-/tmp/collectd_log_allow.pp:
+/tmp/collectd_log_allow.te:
   file.managed:
     - source: salt://collectd/config/collectd_log_allow.pp
     - user: root
     - password: root
     - mode: 644
+
+compile_collectd_log_policy:
+  cmd.run:
+    - name: semodule_package -m /tmp/collectd_log_allow.te -o /tmp/collectd_log_allow.pp
 
 allow_collectd_log_write:
   cmd.run:
