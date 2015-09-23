@@ -73,12 +73,19 @@ python-psycopg2:
 
 /data/germline_genotype_tracking/csv/pcawg_sample_list_august_2015.csv:
   file.managed:
+    - source: salt://run-tracking-db/data/pcawg_sample_list_august_2015.csv
     - user: root
     - group: root
     - mode: 644
+
+/tmp/import_sample_data.py:
+  file.managed:
+    - source: salt://run-tracking-db/scripts/import_sample_data.py
+    - user: root
+    - group: root
+    - mode: 744
     
 import_sample_data:
-  cmd.script:
-    - source: salt://run-tracking-db/scripts/impot_sample_data.py
-    - name: python /data/germline_genotype_tracking/csv/pcawg_sample_list_august_2015.csv
+  cmd.run:
+    - name: python /tmp/import_sample_data.py /data/germline_genotype_tracking/csv/pcawg_sample_list_august_2015.csv
  
