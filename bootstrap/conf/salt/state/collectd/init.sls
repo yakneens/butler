@@ -1,6 +1,6 @@
 /tmp/collectd_log_allow.te:
   file.managed:
-    - source: salt://collectd/config/collectd_log_allow.pp
+    - source: salt://collectd/config/collectd_log_allow.te
     - user: root
     - password: root
     - mode: 644
