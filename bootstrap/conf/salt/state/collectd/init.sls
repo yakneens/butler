@@ -1,3 +1,14 @@
+/tmp/collectd_log_allow.pp:
+  file.manage:
+    - source: salt://collectd/config/collectd_log_allow.pp
+    - user: root
+    - password: root
+    - mode: 644
+
+allow_collectd_log_write:
+  cmd.run:
+    - name: semodule -i /tmp/collectd_log_allow.pp
+
 collectd_install:
   pkg.installed:
     - name: collectd
@@ -7,6 +18,7 @@ collectd_run:
     - name: collectd 
     - require:
       - pkg: collectd
+      - cmd: allow_collectd_log_write
     - watch:
       - file: /etc/collectd.conf
       - file: /usr/share/collectd/types.db
