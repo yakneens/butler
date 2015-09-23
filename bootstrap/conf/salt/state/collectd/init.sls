@@ -1,5 +1,5 @@
 /tmp/collectd_log_allow.pp:
-  file.manage:
+  file.managed:
     - source: salt://collectd/config/collectd_log_allow.pp
     - user: root
     - password: root
