@@ -1,5 +1,8 @@
 import pandas as pd
-df = pd.read_csv('pcawg_sample_list_august_2015.csv')
+import sys
+
+
+df = pd.read_csv(sys.argv[1])
 df.columns = [c.lower() for c in df.columns]
 
 from sqlalchemy import create_engine

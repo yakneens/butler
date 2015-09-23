@@ -63,5 +63,22 @@ sqlalchemy:
 python-psycopg2:
   pkg.installed:
     - name: python-psycopg2
+
+/data/germline_genotype_tracking/csv:
+  file.directory:
+    - user: root
+    - group: root
+    - mode: 744
+    - makedirs: True
+
+/data/germline_genotype_tracking/csv/pcawg_sample_list_august_2015.csv:
+  file.managed:
+    - user: root
+    - group: root
+    - mode: 644
     
+import_sample_data:
+  cmd.script:
+    - source: salt://run-tracking-db/scripts/impot_sample_data.py
+    - name: python /data/germline_genotype_tracking/csv/pcawg_sample_list_august_2015.csv
  
