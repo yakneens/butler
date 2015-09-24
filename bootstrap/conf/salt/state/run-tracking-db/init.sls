@@ -70,23 +70,23 @@ python-psycopg2:
 
 /data/germline_genotype_tracking/csv:
   file.directory:
-    - user: root
-    - group: root
+    - user: postgres
+    - group: postgres
     - mode: 744
     - makedirs: True
 
 /data/germline_genotype_tracking/csv/pcawg_sample_list_august_2015.csv:
   file.managed:
     - source: salt://run-tracking-db/data/pcawg_sample_list_august_2015.csv
-    - user: root
-    - group: root
+    - user: postgres
+    - group: postgres
     - mode: 644
 
 /tmp/import_sample_data.py:
   file.managed:
     - source: salt://run-tracking-db/scripts/import_sample_data.py
-    - user: root
-    - group: root
+    - user: postgres
+    - group: postgres
     - mode: 744
     
 import_sample_data:
