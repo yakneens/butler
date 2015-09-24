@@ -55,7 +55,7 @@ create_pcawg_tablespace:
 #  cmd.run:
 #    - user: postgres
 #    - name: psql -c "CREATE TABLESPACE germline_dbspace OWNER pcawg_admin LOCATION '/data/germline_genotype_tracking/db'"    
-   postgres_tablespace.present:
+  postgres_tablespace.present:
      - name: germline_dbspace
      - owner: pcawg_admin
      - directory: /data/germline_genotype_tracking/db
