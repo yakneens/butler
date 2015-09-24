@@ -12,6 +12,7 @@ try:
     df.to_sql("pcawg_samples", engine)
 except ValueError as e:
     if str(e) != "Table 'pcawg_samples' already exists.":
-        print (e)
+        print str(e)
         exit(1)
-        
+    else:
+        print str(e)
