@@ -1,0 +1,5 @@
+postgres.host: 'localhost'
+postgres.port: '5432'
+postgres.user: 'pcawg_admin'
+postgres.pass: 'pcawg'
+postgres.maintenance_db: 'postgres'
