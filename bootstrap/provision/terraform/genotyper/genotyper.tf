@@ -27,9 +27,22 @@ resource "openstack_compute_instance_v2" "genotyper" {
 	key_pair = "${var.key_pair}"
 	provisioner "remote-exec" {
 		inline = [
-			"sudo yum install epel-release -y",
+		    "sudo yum install epel-release -y",
 		    "sudo yum -y update",
-		    "sudo yum install yum-plugin-priorities -y", 
+		    "sudo yum install yum-plugin-priorities -y",
+		    "wget https://repo.saltstack.com/yum/rhel7/SALTSTACK-GPG-KEY.pub",
+			"rpm --import SALTSTACK-GPG-KEY.pub",
+			"rm -f SALTSTACK-GPG-KEY.pub"
+		]
+		
+	}
+	provisioner "file" {
+			source = "../saltstack.repo"
+			destination = "/home/centos/saltstack.repo"
+	}
+	provisioner "remote-exec" {
+		inline = [
+			"sudo mv /home/centos/saltstack.repo /etc/yum.repos.d/saltstack.repo",
 			"sudo yum install salt-minion -y",
 			"sudo service salt-minion stop",
 			"echo 'master: ${var.salt_master_ip}' | sudo tee  -a /etc/salt/minion",
