@@ -39,9 +39,14 @@ add_pcawg_user:
     - makedirs: True
     
 create_pcawg_tablespace:
-  cmd.run:
-    - user: postgres
-    - name: psql -c "CREATE TABLESPACE germline_dbspace OWNER pcawg_admin LOCATION '/data/germline_genotype_tracking/db'"    
+#  cmd.run:
+#    - user: postgres
+#    - name: psql -c "CREATE TABLESPACE germline_dbspace OWNER pcawg_admin LOCATION '/data/germline_genotype_tracking/db'"    
+   postgres.tablespace_create:
+     - name: germline_dbspace
+     - owner: pcawg_admin
+     - location: /data/germline_genotype_tracking/db
+
 
 create_pcawg_indexspace:
   cmd.run:
@@ -88,4 +93,5 @@ python-psycopg2:
 import_sample_data:
   cmd.run:
     - name: python /tmp/import_sample_data.py /data/germline_genotype_tracking/csv/pcawg_sample_list_august_2015.csv
+ 
  
