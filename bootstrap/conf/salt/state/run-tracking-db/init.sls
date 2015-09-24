@@ -26,7 +26,11 @@ add_pcawg_admin_user:
 #  cmd.run:
 #    - user: postgres
 #    - name: psql -c "GRANT postgres TO pcawg_admin"
-#add_pcawg_user:
+add_pcawg_user:
+  postgres_user.present:
+    - name: pcawg
+    - password: pcawg
+    - user: postgres
 #  cmd.run:
 #    - user: postgres
 #    - name: psql -c "CREATE USER pcawg WITH PASSWORD 'pcawg'"
@@ -48,23 +52,35 @@ add_pcawg_admin_user:
     - makedirs: True
     
 create_pcawg_tablespace:
-  cmd.run:
-    - user: postgres
-    - name: psql -c "CREATE TABLESPACE germline_dbspace OWNER pcawg_admin LOCATION '/data/germline_genotype_tracking/db'"    
-#   postgres.tablespace_create:
-#     - name: germline_dbspace
-#     - owner: pcawg_admin
-#     - location: /data/germline_genotype_tracking/db
+#  cmd.run:
+#    - user: postgres
+#    - name: psql -c "CREATE TABLESPACE germline_dbspace OWNER pcawg_admin LOCATION '/data/germline_genotype_tracking/db'"    
+   postgres.tablespace_present:
+     - name: germline_dbspace
+     - owner: pcawg_admin
+     - directory: /data/germline_genotype_tracking/db
+     - user: postgres
 
 create_pcawg_indexspace:
-  cmd.run:
-    - user: postgres
-    - name: psql -c "CREATE TABLESPACE germline_indexspace OWNER pcawg_admin LOCATION '/data/germline_genotype_tracking/indexes'"    
+  postgres.tablespace_present:
+     - name: germline_indexspace
+     - owner: pcawg_admin
+     - directory: /data/germline_genotype_tracking/indexes
+     - user: postgres
+#  cmd.run:
+#    - user: postgres
+#    - name: psql -c "CREATE TABLESPACE germline_indexspace OWNER pcawg_admin LOCATION '/data/germline_genotype_tracking/indexes'"    
 
 create_pcawg_sample_db:
-  cmd.run:
+  postgres_database.present:
+    - name: germline_genotype_tracking
+    - owner: pcawg_admin
+    - tablespace: germline_dbspace
     - user: postgres
-    - name: psql -c "CREATE DATABASE germline_genotype_tracking OWNER pcawg_admin TABLESPACE germline_dbspace"
+    
+  #cmd.run:
+  #  - user: postgres
+  #  - name: psql -c "CREATE DATABASE germline_genotype_tracking OWNER pcawg_admin TABLESPACE germline_dbspace"
 
 pandas:
   cmd.run:
