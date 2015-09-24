@@ -13,7 +13,8 @@ add_pcawg_admin_user:
     - createdb: True
     - superuser: True
     - password: pcawg
-    - runas: postgres
+    - user: postgres
+
 #  cmd.run:
 #    - user: postgres
 #    - name: psql -c "CREATE USER pcawg_admin WITH PASSWORD 'pcawg'"
