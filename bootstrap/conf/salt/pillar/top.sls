@@ -1,5 +1,5 @@
 base:
   '*':
     - saltmine
-  'G@roles:tracker':
-    - postgres
+#  'G@roles:tracker':
+#    - postgres
