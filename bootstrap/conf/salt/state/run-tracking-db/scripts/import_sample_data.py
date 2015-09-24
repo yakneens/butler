@@ -11,7 +11,7 @@ engine = create_engine('postgresql://localhost:5432/germline_genotype_tracking')
 try:
     df.to_sql("pcawg_samples", engine)
 except ValueError as e:
-    if str(e) != "Table 'pcawg_samples' already exists":
+    if str(e) != "Table 'pcawg_samples' already exists.":
         print (e)
         exit(1)
         
