@@ -52,7 +52,15 @@ cluster-volume:
 {%- endfor %}
     - stripe: {{ servers|length }}
     - start: True
- 
+
+/share:
+  file.directory:
+    - user: root
+    - group: root
+    - dir_mode: 755
+    - file_mode: 644
+    - makedirs: True 
+    
 share-mount:
   mount.mounted:
     - name: /share
