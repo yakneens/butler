@@ -51,8 +51,11 @@ cluster-volume:
       - {{ server[0] }}:/mnt/gluster/brick1
 {%- endfor %}
     - stripe: {{ servers|length }}
-    
-
-cluster-start:
-  glusterfs.started:
-    - name: share  
+    - start: True
+ 
+share-mount:
+  mount.mounted:
+    - type: glusterfs
+    - name: /share
+    - device: {{ salt['grains.get']('fqdn_ip4', '') }}:/share
+    - fstype: glusterfs
