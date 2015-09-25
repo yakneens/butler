@@ -10,10 +10,13 @@ pkgs:
       - gcc
       - zlib-devel   
 freebayes-clone:
-  git.latest:
-    - name: git://github.com/ekg/freebayes.git
-    - target: /opt/freebayes
-    - submodules: True
+  cmd.run: 
+    - name: git clone --recursive git://github.com/ekg/freebayes.git
+    - cwd: /opt
+#  git.latest:
+#    - name: git://github.com/ekg/freebayes.git
+#    - target: /opt/freebayes
+#    - submodules: True
 freebayes-make:
   cmd.run:
     - name: make
