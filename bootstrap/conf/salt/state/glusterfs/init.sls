@@ -45,4 +45,5 @@ cluster-volume:
     - replica: 2
 
 cluster-start:
-  glusterfs.started: []     
+  glusterfs.started:
+    - name: share  
