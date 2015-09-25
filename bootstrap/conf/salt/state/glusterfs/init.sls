@@ -35,12 +35,20 @@ cluster-peers:
       - {{ server[0] }}
 {%- endfor %}
 
+/mnt/gluster/brick1:
+  file.directory:
+    - user: root
+    - group: root
+    - dir_mode: 755
+    - file_mode: 644
+    - makedirs: True
+    
 cluster-volume:
   glusterfs.created:
     - name: share
     - bricks:
 {%- for server in servers %}
-      - {{ server[0] }}:/mnt
+      - {{ server[0] }}:/mnt/gluster/brick1
 {%- endfor %}
     - stripe: {{ servers|length }}
     
