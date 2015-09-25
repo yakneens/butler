@@ -26,7 +26,7 @@ freebayes-make:
     - name: make
     - cwd: /opt/freebayes
     - watch: 
-      - git: freebayes-clone
+      - file: /opt/freebayes
 freebayes-install:
   cmd.run:
     - name: make install
