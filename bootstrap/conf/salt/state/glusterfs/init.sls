@@ -23,14 +23,14 @@ glusterd:
     - requre:
       - pkg: glusterfs-server
 
-{%- set servers = salt['mine.get']('roles:glusterfs-server', 'network.get_hostname', 'grain_pcre').values() %}
+{%- set servers = salt['mine.get']('roles:glusterfs-server', 'network.ip_addrs', 'grain_pcre').values() %}
 blah:
   cmd.run:
     - name: echo '{{servers}}'
 
-#cluster-peers:
-#  glusterfs.peered:
-#    - names:
-#{%- for server in servers %}
-#      - name: {{ server }}
-#{%- endfor %}
+cluster-peers:
+  glusterfs.peered:
+    - names:
+{%- for server in servers %}
+      - name: {{ server }}
+{%- endfor %}
