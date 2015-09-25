@@ -42,7 +42,7 @@ cluster-volume:
 {%- for server in servers %}
       - {{ server[0] }}:/mnt
 {%- endfor %}
-    - replica: 2
+    - stripe: True
 
 cluster-start:
   glusterfs.started:
