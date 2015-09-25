@@ -32,5 +32,15 @@ cluster-peers:
   glusterfs.peered:
     - names:
 {%- for server in servers %}
-      - name: {{ server }}
+      - {{ server[0] }}
 {%- endfor %}
+
+cluster-volume:
+  glusterfs.created:
+    - name: share
+    - bricks:
+{%- for server in servers %}
+      - {{ server[0] }}: /mnt
+{%- endfor %}
+    - replica: 2
+    - start: True       
