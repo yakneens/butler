@@ -8,10 +8,14 @@ pkgs:
       - cmake
       - kernel-devel
       - gcc
-      - zlib-devel   
+      - zlib-devel
+      
+/opt/freebayes:
+  file.absent: []
+  
 freebayes-clone:
   cmd.run: 
-    - name: git clone --recursive git://github.com/ekg/freebayes.git .
+    - name: git clone --recursive git://github.com/ekg/freebayes.git
     - cwd: /opt
 #  git.latest:
 #    - name: git://github.com/ekg/freebayes.git
