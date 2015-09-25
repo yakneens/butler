@@ -18,6 +18,7 @@ base:
     - influxdb
     - grafana 
   'G@roles:genotyper':
+    - glusterfs
     - freebayes
   'G@roles:tracker':
     - airflow
