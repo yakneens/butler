@@ -57,5 +57,5 @@ share-mount:
   mount.mounted:
     - type: glusterfs
     - name: /share
-    - device: {{ salt['grains.get']('fqdn_ip4', '') }}:/share
+    - device: {{ salt['grains.get']('fqdn_ip4', '')[0] }}:/share
     - fstype: glusterfs
