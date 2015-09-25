@@ -23,7 +23,7 @@ resource "openstack_compute_instance_v2" "genotyper" {
 	 	agent = "true"
 	 	
 	}
-	count = "55"
+	count = "3"
 	key_pair = "${var.key_pair}"
 	provisioner "remote-exec" {
 		inline = [
@@ -47,7 +47,7 @@ resource "openstack_compute_instance_v2" "genotyper" {
 			"sudo service salt-minion stop",
 			"echo 'master: ${var.salt_master_ip}' | sudo tee  -a /etc/salt/minion",
 			"echo 'id: name = ${concat("genotyper-", count.index)}' | sudo tee -a /etc/salt/minion",
-			"echo 'roles: [genotyper, consul-client]' | sudo tee -a /etc/salt/grains",
+			"echo 'roles: [genotyper, consul-client, glusterfs-server]' | sudo tee -a /etc/salt/grains",
 			"hostname ${concat("genotyper-", count.index)}",
 			"sudo service salt-minion start"
 		]
