@@ -40,7 +40,9 @@ cluster-volume:
     - name: share
     - bricks:
 {%- for server in servers %}
-      - {{ server[0] }}: /mnt
+      - {{ server[0] }}:/mnt
 {%- endfor %}
     - replica: 2
-    - start: True       
+
+cluster-start:
+  glusterfs.started: []     
