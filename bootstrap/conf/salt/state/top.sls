@@ -3,6 +3,7 @@ base:
     - consul
     - dnsmasq
     - collectd
+    - hostfile
   'G@roles:read-streamer':
     - sun-java
     - sun-java.env
