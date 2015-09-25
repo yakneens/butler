@@ -20,7 +20,7 @@ variable "salt_master_ip" {
 }
 
 variable "image_id" {
-	default = "5a761f0f-25fe-43dc-a5d0-8bf2e94f5c7e"
+	default = "7b7c410f-611a-4bcb-ba74-6e34b7cb23de"
 }
 
 variable "user" {

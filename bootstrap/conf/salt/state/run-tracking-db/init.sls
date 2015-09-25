@@ -7,22 +7,20 @@ run_tracking_db_consul_config:
     - mode: 644 
     - makedirs: True
 
-add_pcawg_admin_user:
-  cmd.run:
+pcawg_admin_user:
+  postgres_user.present:
+    - name: pcawg_admin
+    - createdb: True
+    - superuser: True
+    - password: pcawg
     - user: postgres
-    - name: psql -c "CREATE USER pcawg_admin WITH PASSWORD 'pcawg'"
-pcawg_admin_grant_createdb:
-  cmd.run:
+
+pcawg_user:
+  postgres_user.present:
+    - name: pcawg
+    - password: pcawg
     - user: postgres
-    - name: psql -c "ALTER USER pcawg_admin CREATEDB"
-pcawg_admin_grant_superuser:
-  cmd.run:
-    - user: postgres
-    - name: psql -c "GRANT postgres TO pcawg_admin"
-add_pcawg_user:
-  cmd.run:
-    - user: postgres
-    - name: psql -c "CREATE USER pcawg WITH PASSWORD 'pcawg'"
+
     
 /data/germline_genotype_tracking/db:
   file.directory:
@@ -38,20 +36,26 @@ add_pcawg_user:
     - mode: 744
     - makedirs: True
     
-create_pcawg_tablespace:
-  cmd.run:
-    - user: postgres
-    - name: psql -c "CREATE TABLESPACE germline_dbspace OWNER pcawg_admin LOCATION '/data/germline_genotype_tracking/db'"    
+pcawg_tablespace:
+  postgres_tablespace.present:
+     - name: germline_dbspace
+     - owner: pcawg_admin
+     - directory: /data/germline_genotype_tracking/db
+     - user: postgres
 
-create_pcawg_indexspace:
-  cmd.run:
-    - user: postgres
-    - name: psql -c "CREATE TABLESPACE germline_indexspace OWNER pcawg_admin LOCATION '/data/germline_genotype_tracking/indexes'"    
+pcawg_indexspace:
+  postgres_tablespace.present:
+     - name: germline_indexspace
+     - owner: pcawg_admin
+     - directory: /data/germline_genotype_tracking/indexes
+     - user: postgres
 
-create_pcawg_sample_db:
-  cmd.run:
+pcawg_sample_db:
+  postgres_database.present:
+    - name: germline_genotype_tracking
+    - owner: pcawg_admin
+    - tablespace: germline_dbspace
     - user: postgres
-    - name: psql -c "CREATE DATABASE germline_genotype_tracking OWNER pcawg_admin TABLESPACE germline_dbspace"
 
 pandas:
   cmd.run:
@@ -63,5 +67,30 @@ sqlalchemy:
 python-psycopg2:
   pkg.installed:
     - name: python-psycopg2
+
+/data/germline_genotype_tracking/csv:
+  file.directory:
+    - user: postgres
+    - group: postgres
+    - mode: 744
+    - makedirs: True
+
+/data/germline_genotype_tracking/csv/pcawg_sample_list_august_2015.csv:
+  file.managed:
+    - source: salt://run-tracking-db/data/pcawg_sample_list_august_2015.csv
+    - user: postgres
+    - group: postgres
+    - mode: 644
+
+/tmp/import_sample_data.py:
+  file.managed:
+    - source: salt://run-tracking-db/scripts/import_sample_data.py
+    - user: postgres
+    - group: postgres
+    - mode: 744
     
+import_sample_data:
+  cmd.run:
+    - name: python /tmp/import_sample_data.py /data/germline_genotype_tracking/csv/pcawg_sample_list_august_2015.csv
+    - user: postgres
  

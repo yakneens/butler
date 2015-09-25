@@ -8,18 +8,21 @@ pkgs:
       - cmake
       - kernel-devel
       - gcc
-      - zlib-devel   
+      - zlib-devel
+      
 freebayes-clone:
   git.latest:
     - name: git://github.com/ekg/freebayes.git
     - target: /opt/freebayes
     - submodules: True
+    
 freebayes-make:
   cmd.run:
     - name: make
     - cwd: /opt/freebayes
     - watch: 
       - git: freebayes-clone
+      
 freebayes-install:
   cmd.run:
     - name: make install

@@ -23,18 +23,31 @@ resource "openstack_compute_instance_v2" "genotyper" {
 	 	agent = "true"
 	 	
 	}
-	count = "55"
+	count = "3"
 	key_pair = "${var.key_pair}"
 	provisioner "remote-exec" {
 		inline = [
-			"sudo yum install epel-release -y",
+		    "sudo yum install epel-release -y",
 		    "sudo yum -y update",
-		    "sudo yum install yum-plugin-priorities -y", 
+		    "sudo yum install yum-plugin-priorities -y",
+		    "wget https://repo.saltstack.com/yum/rhel7/SALTSTACK-GPG-KEY.pub",
+			"rpm --import SALTSTACK-GPG-KEY.pub",
+			"rm -f SALTSTACK-GPG-KEY.pub"
+		]
+		
+	}
+	provisioner "file" {
+			source = "../saltstack.repo"
+			destination = "/home/centos/saltstack.repo"
+	}
+	provisioner "remote-exec" {
+		inline = [
+			"sudo mv /home/centos/saltstack.repo /etc/yum.repos.d/saltstack.repo",
 			"sudo yum install salt-minion -y",
 			"sudo service salt-minion stop",
 			"echo 'master: ${var.salt_master_ip}' | sudo tee  -a /etc/salt/minion",
-			"echo 'id: name = ${concat("genotyper-", count.index)}' | sudo tee -a /etc/salt/minion",
-			"echo 'roles: [genotyper, consul-client]' | sudo tee -a /etc/salt/grains",
+			"echo 'id: ${concat("genotyper-", count.index)}' | sudo tee -a /etc/salt/minion",
+			"echo 'roles: [genotyper, consul-client, glusterfs-server]' | sudo tee -a /etc/salt/grains",
 			"hostname ${concat("genotyper-", count.index)}",
 			"sudo service salt-minion start"
 		]

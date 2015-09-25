@@ -1,0 +1,13 @@
+module collectd_log 1.0;
+
+require {
+        type var_log_t;
+        type collectd_t;
+        class dir { write add_name };
+        class file open;
+}
+
+#============= collectd_t ==============
+allow collectd_t var_log_t:dir write;
+allow collectd_t var_log_t:dir add_name;
+allow collectd_t var_log_t:file open;
