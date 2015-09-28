@@ -21,7 +21,7 @@ base:
     - postgres
     - run-tracking-db
   'G@roles:glusterfs-server':
-    - glusterfs
+    - gluster
  #   - glusterfs.mount
  # 'G@roles:glusterfs-master':
  #   - glusterfs.master
