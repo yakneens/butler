@@ -8,10 +8,10 @@ gluster_volume_setup:
     - tgt: 'roles:glusterfs-master'
     - tgt_type: grain
     - sls: 
-      - gluster.master
+      - glusterfs.master
 gluster_volume_mount:
   salt.state:
     - tgt: 'roles:glusterfs-server'
     - tgt_type: grain
     - sls:
-      - gluster.mount
+      - glusterfs.mount
