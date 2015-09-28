@@ -5,11 +5,6 @@ base:
     - collectd
 #    - collectd.log_policy
     - hostfile
-  'G@roles:read-streamer':
-    - sun-java
-    - sun-java.env
-    - jetty
-    - read-streaming-service
   'G@roles:consul-bootstrap':
     - consul.bootstrap
   'G@roles:consul-server':
@@ -20,9 +15,14 @@ base:
     - influxdb
     - grafana 
   'G@roles:genotyper':
-    - glusterfs
     - freebayes
   'G@roles:tracker':
     - airflow
     - postgres
     - run-tracking-db
+  'G@roles:glusterfs-server':
+    - glusterfs
+    - glusterfs.mount
+  'G@roles:glusterfs-master':
+    - glusterfs.master
+    

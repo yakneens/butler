@@ -60,7 +60,7 @@ resource "openstack_compute_instance_v2" "salt_master" {
 			"sudo mv /home/centos/master /etc/salt/master",       
 			"echo 'master: ${self.access_ip_v4}' | sudo tee -a /etc/salt/minion",
 			"echo 'id: salt-master' | sudo tee -a /etc/salt/minion",
-			"echo 'roles: [salt-master, consul-bootstrap, monitoring-server]' | sudo tee -a /etc/salt/grains",
+			"echo 'roles: [salt-master, consul-bootstrap, monitoring-server, glusterfs-master]' | sudo tee -a /etc/salt/grains",
 			"sudo service salt-master start",
 			"hostname salt-master",
 			"git clone https://github.com/llevar/germline-regenotyper",

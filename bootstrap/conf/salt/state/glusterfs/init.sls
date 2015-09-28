@@ -23,17 +23,6 @@ glusterd:
     - requre:
       - pkg: glusterfs-server
 
-{%- set servers = salt['mine.get']('roles:glusterfs-server', 'network.get_hostname', 'grain_pcre').values() %}
-blah:
-  cmd.run:
-    - name: echo '{{servers}}'
-
-cluster-peers:
-  glusterfs.peered:
-    - names:
-{%- for server in servers %}
-      - {{ server }}
-{%- endfor %}
 
 /mnt/gluster/brick1:
   file.directory:
@@ -42,27 +31,6 @@ cluster-peers:
     - dir_mode: 755
     - file_mode: 644
     - makedirs: True
-    
-cluster-volume:
-  glusterfs.created:
-    - name: share
-    - bricks:
-{%- for server in servers %}
-      - {{ server }}:/mnt/gluster/brick1
-{%- endfor %}
-    - stripe: {{ servers|length }}
-    - start: True
+    - require_in:
+      - glusterfs: cluster-volume
 
-/share:
-  file.directory:
-    - user: root
-    - group: root
-    - dir_mode: 755
-    - file_mode: 644
-    - makedirs: True 
-    
-share-mount:
-  mount.mounted:
-    - name: /share
-    - device: {{ salt['grains.get']('host', '')}}:/share
-    - fstype: glusterfs
