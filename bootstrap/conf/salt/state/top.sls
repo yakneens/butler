@@ -22,7 +22,8 @@ base:
     - run-tracking-db
   'G@roles:glusterfs-server':
     - gluster
- #   - glusterfs.mount
- # 'G@roles:glusterfs-master':
- #   - glusterfs.master
+    - gluster.bricks
+  'G@roles:glusterfs-master':
+    - gluster
+ #   - gluster.master
     

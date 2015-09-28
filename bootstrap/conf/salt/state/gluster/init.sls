@@ -23,13 +23,12 @@ glusterd:
     - requre:
       - pkg: glusterfs-server
 
+{%- set gluster_master = salt['mine.get']('roles:glusterfs-master', 'network.get_hostname', 'grain_pcre').values() %}
 
-/mnt/gluster/brick1:
-  file.directory:
-    - user: root
-    - group: root
-    - dir_mode: 755
-    - file_mode: 644
-    - makedirs: True
+master-peers:
+  glusterfs.peered:
+    - names:
+      - {{ gluster_master[0] }}
+
    
 
