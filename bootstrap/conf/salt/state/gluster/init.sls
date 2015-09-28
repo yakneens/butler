@@ -30,5 +30,15 @@ master-peers:
     - names:
       - {{ gluster_master[0] }}
 
+volume_voodoo:
+  cmd.run:
+    - name: setfattr -x trusted.gfid /mnt/gluster/brick1
+
+volume_voodo2:
+  cmd.run:
+    - name: setfattr -x trusted.glusterfs.volume-id /mnt/gluster/brick1
+
+
+
    
 

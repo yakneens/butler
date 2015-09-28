@@ -1,5 +1,5 @@
 {%- set servers = salt['mine.get']('roles:glusterfs-server', 'network.get_hostname', 'grain_pcre').values() %}
-{%- set master = salt['mine.get']('roles:glusterfs-master', 'network.get_hostname', 'grain_pcre').values() %}
+
 cluster-peers:
   glusterfs.peered:
     - names:
