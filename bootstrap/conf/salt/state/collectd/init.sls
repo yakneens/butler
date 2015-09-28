@@ -23,7 +23,6 @@ collectd_run:
     - name: collectd 
     - require:
       - pkg: collectd
-      - cmd: allow_collectd_log_write
     - watch:
       - file: /etc/collectd.conf
       - file: /usr/share/collectd/types.db
