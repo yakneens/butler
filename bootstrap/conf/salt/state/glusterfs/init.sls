@@ -31,6 +31,5 @@ glusterd:
     - dir_mode: 755
     - file_mode: 644
     - makedirs: True
-    - require_in:
-      - glusterfs: cluster-volume
+   
 

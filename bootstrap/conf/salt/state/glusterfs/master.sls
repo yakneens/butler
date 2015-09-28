@@ -21,5 +21,4 @@ cluster-volume:
     - start: True
     - require:
       - glusterfs: cluster-peers
-    - require_in:
-      - mount: gluster_share_mount
+    
