@@ -16,6 +16,15 @@ freebayes-clone:
     - target: /opt/freebayes
     - submodules: True
     
+freebayes-submodule-init:
+  module.run:
+    - name: git.submodule
+    - cwd: /opt/freebayes
+    - command: update
+    - opts: '--recursive --init'
+    - require_in:
+      - cmd: freebayes-make
+          
 freebayes-make:
   cmd.run:
     - name: make
