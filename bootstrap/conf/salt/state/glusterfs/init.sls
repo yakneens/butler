@@ -23,7 +23,7 @@ glusterd:
     - requre:
       - pkg: glusterfs-server
 
-{%- set servers = salt['mine.get']('roles:glusterfs-server', 'network.ip_addrs', 'grain_pcre').values() %}
+{%- set servers = salt['mine.get']('roles:glusterfs-server', 'network.get_hostname', 'grain_pcre').values() %}
 blah:
   cmd.run:
     - name: echo '{{servers}}'
@@ -64,5 +64,5 @@ cluster-volume:
 share-mount:
   mount.mounted:
     - name: /share
-    - device: {{ salt['grains.get']('fqdn_ip4', '')[0] }}:/share
+    - device: {{ salt['grains.get']('host', '')[0] }}:/share
     - fstype: glusterfs
