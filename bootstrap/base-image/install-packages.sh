@@ -28,3 +28,9 @@ sudo yum install dnsmasq -y
 sudo yum install salt-minion -y
 
 sudo  yum install collectd -y
+
+#Update local policy to allow collectd access to the log file. 
+#Need to place collectd_log_allow.te into /tmp on the host before running
+checkmodule -M -m -o /tmp/collectd_log_allow.mod /tmp/collectd_log_allow.te
+semodule_package -m /tmp/collectd_log_allow.mod -o /tmp/collectd_log_allow.pp
+semodule -i /tmp/collectd_log_allow.pp
