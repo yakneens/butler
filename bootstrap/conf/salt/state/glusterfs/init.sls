@@ -32,7 +32,7 @@ cluster-peers:
   glusterfs.peered:
     - names:
 {%- for server in servers %}
-      - {{ server[0] }}
+      - {{ server }}
 {%- endfor %}
 
 /mnt/gluster/brick1:
@@ -48,7 +48,7 @@ cluster-volume:
     - name: share
     - bricks:
 {%- for server in servers %}
-      - {{ server[0] }}:/mnt/gluster/brick1
+      - {{ server }}:/mnt/gluster/brick1
 {%- endfor %}
     - stripe: {{ servers|length }}
     - start: True
@@ -64,5 +64,5 @@ cluster-volume:
 share-mount:
   mount.mounted:
     - name: /share
-    - device: {{ salt['grains.get']('host', '')[0] }}:/share
+    - device: {{ salt['grains.get']('host', '')}}:/share
     - fstype: glusterfs
