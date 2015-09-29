@@ -93,6 +93,12 @@ import_sample_data:
   cmd.run:
     - name: python /tmp/import_sample_data.py /data/germline_genotype_tracking/csv/pcawg_sample_list_august_2015.csv
     - user: postgres
+    
+add_sample_primary_key:
+  cmd.run:
+    - user: postgres
+    - name: psql -d germline_genotype_tracking -c "ALTER TABLE pcawg_samples ADD PRIMARY KEY(index)"
+
  
 create_sample_locations_table:
   cmd.run:
