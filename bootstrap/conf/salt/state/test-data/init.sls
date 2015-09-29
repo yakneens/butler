@@ -1,7 +1,7 @@
 {%- set sample_path = '/share/data/samples' %}
 {%- set base_url = 'ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase3/data/' %}
 
-{%- for sample_id, sample_files in pillar.get('reference_files',{}).items() %}
+{%- for sample_id, sample_files in pillar.get('test_samples',{}).items() %}
 {{ sample_path }}/{{ sample_id }}:
   file.directory:
     - user: root
