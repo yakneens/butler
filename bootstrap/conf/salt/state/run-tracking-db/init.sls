@@ -98,7 +98,7 @@ add_sample_primary_key:
   cmd.run:
     - user: postgres
     - name: psql -d germline_genotype_tracking -c "ALTER TABLE pcawg_samples ADD PRIMARY KEY(index)"
-
+    - unless: psql -t -d germline_genotype_tracking -c "SELECT count(*)  FROM pg_constraint co, pg_class cl WHERE co.conrelid=cl.oid AND cl.relname LIKE 'pcawg_samples' AND contype LIKE 'c'" | awk 'NF {print $1==0?"False":"True"}'
  
 create_sample_locations_table:
   cmd.run:
