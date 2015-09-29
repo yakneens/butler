@@ -94,3 +94,7 @@ import_sample_data:
     - name: python /tmp/import_sample_data.py /data/germline_genotype_tracking/csv/pcawg_sample_list_august_2015.csv
     - user: postgres
  
+ create_sample_locations_table:
+  cmd.run:
+    - user: postgres
+    - name: psql -c "CREATE TABLE sample_locations (sample_location_id integer PRIMARY KEY DEFAULT nextval('serial'), donor_index integer REFERENCES pcawg_samples(index), normal_sample_location varchar(512), tumor_sample_location varchar(512)) "
