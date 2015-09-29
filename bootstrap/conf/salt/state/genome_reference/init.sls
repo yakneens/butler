@@ -24,8 +24,7 @@
 extract_reference:
   cmd.run:
     - name: gunzip -c {{ ref_path }}/genome.fa.gz > {{ ref_path }}/genome.fa
-    - unless:
-      - file.exists: {{ ref_path }}/genome.fa
+    - unless: ls {{ ref_path }}/genome.fa
     
 {{ ref_path }}/genome.fa.fai:
   file.copy:
@@ -33,6 +32,5 @@ extract_reference:
     - user: root
     - group: root
     - mode: 644
-    - unless:
-      - file.exists: {{ ref_path }}/genome.fa.gz.fai
+    - unless: ls {{ ref_path }}/genome.fa.gz.fai
     
