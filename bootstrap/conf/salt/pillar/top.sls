@@ -1,6 +1,7 @@
 base:
   '*':
     - saltmine
-    - genome_reference
+    - genome-reference
+    - test-data
 #  'G@roles:tracker':
 #    - postgres

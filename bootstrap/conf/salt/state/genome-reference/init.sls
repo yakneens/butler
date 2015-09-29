@@ -1,9 +1,6 @@
 {%- set ref_path = '/share/data/reference' %}
 {%- set base_url = 'http://s3.amazonaws.com/pan-cancer-data/pan-cancer-reference' %}
 
-
-  
-
 {{ ref_path }}:
   file.directory:
     - user: root
