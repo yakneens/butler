@@ -8,7 +8,7 @@
     - group: root
     - dir_mode: 755
     - file_mode: 644
-    - makesubdirs: True
+    - makedirs: True
 {%- for sample_record in sample_files %}
 {%- set file_name = sample_record[0] %}
 {%- set md5_sum = sample_record[1] %} 

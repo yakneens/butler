@@ -7,6 +7,7 @@
     - group: root
     - dir_mode: 755
     - file_mode: 644
+    - makedirs: True
     
 {%- for file_name, md5sum in pillar.get('reference_files',{}).items() %}
 {{ ref_path }}/{{file_name}}:  
