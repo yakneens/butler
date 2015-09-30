@@ -23,7 +23,7 @@ resource "openstack_compute_instance_v2" "genotyper" {
 	 	agent = "true"
 	 	
 	}
-	count = "3"
+	count = "50"
 	key_pair = "${var.key_pair}"
 	provisioner "remote-exec" {
 		inline = [
