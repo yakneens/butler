@@ -54,7 +54,7 @@ resource "openstack_compute_instance_v2" "salt_master" {
         	destination = "/home/centos/master"
     	}
 	provisioner "remote-exec" {
-		inline = [
+	›	inline = [
 			"sudo service salt-master stop",
 			"sudo service salt-minion stop",
 			"sudo mv /home/centos/master /etc/salt/master",       
@@ -62,7 +62,7 @@ resource "openstack_compute_instance_v2" "salt_master" {
 			"echo 'id: salt-master' | sudo tee -a /etc/salt/minion",
 			"echo 'roles: [salt-master, consul-bootstrap, monitoring-server, glusterfs-master]' | sudo tee -a /etc/salt/grains",
 			"sudo service salt-master start",
-			"hostname salt-master",
+			"sudo hostname salt-master",
 			"git clone https://github.com/llevar/germline-regenotyper",
 			"git checkout develop",
 			"ln -s /root/germline-regenotyper/bootstrap/conf/salt/state /srv/salt",

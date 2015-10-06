@@ -9,7 +9,7 @@ cluster-peers:
 
 cluster-volume:
   glusterfs.created:
-    - name: share
+    - name: shared
     - bricks:
 {%- for server in servers %}
       - {{ server }}:/mnt/gluster/brick1

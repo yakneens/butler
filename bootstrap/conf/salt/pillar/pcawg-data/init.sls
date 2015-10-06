@@ -1,0 +1,1 @@
+location_prefix: /gnosdata/data

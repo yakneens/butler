@@ -1,6 +1,6 @@
 {%- set gluster_master = salt['mine.get']('roles:glusterfs-master', 'network.get_hostname', 'grain_pcre').values() %}
 
-/share:
+/shared:
   file.directory:
     - user: root
     - group: root
@@ -10,6 +10,6 @@
     
 gluster_share_mount:
   mount.mounted:
-    - name: /share
-    - device: {{ gluster_master[0] }}:/share
+    - name: /shared
+    - device: {{ gluster_master[0] }}:/shared
     - fstype: glusterfs
