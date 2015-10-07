@@ -15,6 +15,7 @@ base:
     - influxdb
     - grafana 
   'G@roles:genotyper':
+    - dnsmasq.gnos
     - freebayes
   'G@roles:tracker':
     - airflow
