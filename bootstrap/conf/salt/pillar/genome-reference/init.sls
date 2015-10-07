@@ -1,5 +1,5 @@
 ref_path: /shared/data/reference
-base_url: http://s3.amazonaws.com/pan-cancer-data/pan-cancer-reference
+ref_base_url: http://s3.amazonaws.com/pan-cancer-data/pan-cancer-reference
 
 reference_files:
   genome.fa.gz: a07c7647c4f2e78977068e9a4a31af15
@@ -10,4 +10,4 @@ reference_files:
   genome.fa.gz.64.pac: cbc647939a64ce1e5600f17e499db4f1
   genome.fa.gz.64.sa: 30b5f1a1811eb3036b44281b5f013c0e
  
-location: /shared/data/genome.fa.gz
+reference_location: /shared/data/genome.fa.gz

@@ -1,5 +1,5 @@
-{%- set sample_path = pillar['test-data.sample_path'] %}
-{%- set base_url = pillar['test-data.base_url'] %}
+{%- set sample_path = pillar['test_data_sample_path'] %}
+{%- set base_url = pillar['test_data_base_url'] %}
 
 {%- for sample_id, sample_files in pillar.get('test_samples',{}).items() %}
 {{ sample_path }}/{{ sample_id }}:

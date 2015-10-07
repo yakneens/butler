@@ -1,1 +1,1 @@
-location_prefix: /gnosdata/data
+pcawg_location_prefix: /gnosdata/data

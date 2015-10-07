@@ -1,6 +1,6 @@
-sample_path: /share/data/samples
+test_data_sample_path: /share/data/samples
 
-base_url: http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase3/data/
+test_data_base_url: http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase3/data/
 
 test_samples:
   NA12874:
