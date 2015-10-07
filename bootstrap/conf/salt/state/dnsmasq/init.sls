@@ -12,5 +12,6 @@ dnsmasq:
     - makedirs: True
   service.running:
     - watch:
-      - file: /etc/dnsmasq.conf
-      - file: /etc/dnsmasq.d/*
+      - files:      
+        - /etc/dnsmasq.conf
+        - /etc/dnsmasq.d/*
