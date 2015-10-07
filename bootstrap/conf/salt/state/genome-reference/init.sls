@@ -1,5 +1,5 @@
-{%- set ref_path = '/shared/data/reference' %}
-{%- set base_url = 'http://s3.amazonaws.com/pan-cancer-data/pan-cancer-reference' %}
+{%- set ref_path = pillar['genome-reference.ref_path'] %}
+{%- set base_url = pillar['genome-reference.base_url'] %}
 
 {{ ref_path }}:
   file.directory:

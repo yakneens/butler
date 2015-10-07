@@ -11,7 +11,7 @@ sudo yum install yum-plugin-priorities -y
 
 sudo yum install unzip tcpdump netstat wget tmux -y
 sudo yum install postfix vixie-cron crontabs man mlocate logrotate logwatch wget which -y
-
+sudo yum install bind-utils -y
 sudo yum install zlib-devel -y
 
 sudo yum install kernel-devel -y
