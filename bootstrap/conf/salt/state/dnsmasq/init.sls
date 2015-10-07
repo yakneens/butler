@@ -2,9 +2,8 @@ dnsmasq:
   pkg.installed: []
   service.running:
     - watch:
-      - files:      
-        - /etc/dnsmasq.conf
-        - /etc/dnsmasq.d/*
+      - file: /etc/dnsmasq.conf
+      - file: /etc/dnsmasq.d/*
         
 /etc/dnsmasq.conf:
   file.managed:
