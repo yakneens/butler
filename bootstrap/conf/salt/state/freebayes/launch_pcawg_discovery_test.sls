@@ -1,2 +1,3 @@
 salt://freebayes/scripts/launch_pcawg_discovery_test.sh:
-  cmd.script: []
+  cmd.script:
+    - template: jinja
