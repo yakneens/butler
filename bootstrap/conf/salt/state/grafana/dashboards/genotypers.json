@@ -1,0 +1,3840 @@
+{
+  "id": 9,
+  "title": "Genotypers",
+  "originalTitle": "Genotypers",
+  "tags": [],
+  "style": "dark",
+  "timezone": "browser",
+  "editable": true,
+  "hideControls": false,
+  "sharedCrosshair": false,
+  "rows": [
+    {
+      "collapse": true,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 45,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 2,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "host"
+              ],
+              "measurement": "load_midterm",
+              "query": "SELECT mean(value) FROM \"load_midterm\" WHERE \"host\" =~ /^genotyper/ AND $timeFilter GROUP BY time($interval), \"host\"",
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/^genotyper/"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Load",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "short",
+            "short"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 46,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 2,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "used",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /^genotyper/ AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/^genotyper/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "used"
+                }
+              ]
+            },
+            {
+              "alias": "cached",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /^genotyper/ AND \"type_instance\" = 'cached' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/^genotyper/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "cached"
+                }
+              ]
+            },
+            {
+              "alias": "free",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /^genotyper/ AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/^genotyper/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "free"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Memory",
+          "tooltip": {
+            "shared": true,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "bytes",
+            "short"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "editable": true,
+          "error": false,
+          "fill": 2,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": 100,
+            "leftMin": 0,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 47,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 4,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 2,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "cpu_value",
+              "query": "SELECT mean(value) FROM \"cpu_value\" WHERE \"type\" = 'percent' AND \"type_instance\" = 'user' AND \"host\" =~ /^genotyper/ AND $timeFilter GROUP BY time($interval)",
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "percent"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "user"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/^genotyper/"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "CPU",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "percent",
+            "short"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 48,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 2,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "interface_rx",
+              "query": "SELECT mean(value) FROM \"interface_rx\" WHERE \"instance\" = 'eth0' AND \"type\" = 'if_octets' AND $timeFilter GROUP BY time($interval)",
+              "tags": [
+                {
+                  "key": "instance",
+                  "operator": "=",
+                  "value": "eth0"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type",
+                  "operator": "=",
+                  "value": "if_octets"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "no title (click here)",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "short",
+            "short"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 49,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 2,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "tags": []
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "no title (click here)",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "short",
+            "short"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 50,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 2,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {}
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "no title (click here)",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "short",
+            "short"
+          ]
+        }
+      ],
+      "showTitle": true,
+      "title": "Overview"
+    },
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 8,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "$tag_host",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "host"
+              ],
+              "measurement": "load_midterm",
+              "query": "SELECT mean(value) FROM \"load_midterm\" WHERE \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"host\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Load",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "short",
+            "short"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": 100,
+            "leftMin": 0,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 28,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "$tag_host",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "host"
+              ],
+              "measurement": "cpu_value",
+              "query": "SELECT mean(value) FROM \"cpu_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'user' AND $timeFilter GROUP BY time($interval), \"host\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "user"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "CPU",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "percent",
+            "percent"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 13,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "$tag_host",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "host"
+              ],
+              "measurement": "df_value",
+              "query": "SELECT mean(value) FROM \"df_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'free' AND \"instance\" = 'root' AND $timeFilter GROUP BY time($interval), \"host\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "free"
+                },
+                {
+                  "condition": "AND",
+                  "key": "instance",
+                  "operator": "=",
+                  "value": "root"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Free Space",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "bytes",
+            "bytes"
+          ]
+        }
+      ],
+      "title": "New row"
+    },
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Influxdb",
+          "editable": true,
+          "error": false,
+          "fill": 3,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 2,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-45",
+              "value": "genotyper\\-45"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "used",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "used"
+                }
+              ]
+            },
+            {
+              "alias": "cached",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'cached' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "cached"
+                }
+              ]
+            },
+            {
+              "alias": "free",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "free"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Memory",
+          "tooltip": {
+            "shared": true,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "bytes",
+            "bytes"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Influxdb",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": 4000,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 3,
+          "interval": ">10s",
+          "legend": {
+            "avg": true,
+            "current": true,
+            "max": true,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-45",
+              "value": "genotyper\\-45"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "Incoming",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type"
+              ],
+              "measurement": "interface_rx",
+              "query": "SELECT derivative(value) FROM \"interface_rx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "if_packets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "instance",
+                  "operator": "=",
+                  "value": "eth0"
+                }
+              ]
+            },
+            {
+              "alias": "Outgoing",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type"
+              ],
+              "measurement": "interface_tx",
+              "query": "SELECT derivative(value) FROM \"interface_tx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "if_packets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "instance",
+                  "operator": "=",
+                  "value": "eth0"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Network Packet Rate",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "pps",
+            "pps"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": true,
+          "datasource": "Influxdb",
+          "decimals": 2,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 6,
+          "interval": "",
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": false,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-45",
+              "value": "genotyper\\-45"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "disk_write $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_write",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_ops"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            },
+            {
+              "alias": "disk_read $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_read",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_ops"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Disk IOPS",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "short",
+            "short"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": true,
+          "datasource": "Influxdb",
+          "decimals": 2,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": 0,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 4,
+          "interval": ">10s",
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": false,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 1,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-45",
+              "value": "genotyper\\-45"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "$measurement $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_write",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_octets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            },
+            {
+              "alias": "$measurement $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_read",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_octets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Disk Read/Write Rates",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "Bps",
+            "Bps"
+          ]
+        }
+      ],
+      "repeat": "my_host",
+      "scopedVars": {
+        "my_host": {
+          "selected": true,
+          "text": "genotyper-45",
+          "value": "genotyper\\-45"
+        }
+      },
+      "showTitle": true,
+      "title": "$my_host"
+    },
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Influxdb",
+          "editable": true,
+          "error": false,
+          "fill": 3,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 51,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-46",
+              "value": "genotyper\\-46"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "used",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "used"
+                }
+              ]
+            },
+            {
+              "alias": "cached",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'cached' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "cached"
+                }
+              ]
+            },
+            {
+              "alias": "free",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "free"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Memory",
+          "tooltip": {
+            "shared": true,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "bytes",
+            "bytes"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Influxdb",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": 4000,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 52,
+          "interval": ">10s",
+          "legend": {
+            "avg": true,
+            "current": true,
+            "max": true,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-46",
+              "value": "genotyper\\-46"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "Incoming",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type"
+              ],
+              "measurement": "interface_rx",
+              "query": "SELECT derivative(value) FROM \"interface_rx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "if_packets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "instance",
+                  "operator": "=",
+                  "value": "eth0"
+                }
+              ]
+            },
+            {
+              "alias": "Outgoing",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type"
+              ],
+              "measurement": "interface_tx",
+              "query": "SELECT derivative(value) FROM \"interface_tx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "if_packets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "instance",
+                  "operator": "=",
+                  "value": "eth0"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Network Packet Rate",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "pps",
+            "pps"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": true,
+          "datasource": "Influxdb",
+          "decimals": 2,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 53,
+          "interval": "",
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": false,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-46",
+              "value": "genotyper\\-46"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "disk_write $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_write",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_ops"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            },
+            {
+              "alias": "disk_read $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_read",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_ops"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Disk IOPS",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "short",
+            "short"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": true,
+          "datasource": "Influxdb",
+          "decimals": 2,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": 0,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 54,
+          "interval": ">10s",
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": false,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 1,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-46",
+              "value": "genotyper\\-46"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "$measurement $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_write",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_octets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            },
+            {
+              "alias": "$measurement $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_read",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_octets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Disk Read/Write Rates",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "Bps",
+            "Bps"
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": 1444395393896,
+      "repeatRowId": 3,
+      "scopedVars": {
+        "my_host": {
+          "selected": true,
+          "text": "genotyper-46",
+          "value": "genotyper\\-46"
+        }
+      },
+      "showTitle": true,
+      "title": "$my_host"
+    },
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Influxdb",
+          "editable": true,
+          "error": false,
+          "fill": 3,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 55,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-47",
+              "value": "genotyper\\-47"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "used",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "used"
+                }
+              ]
+            },
+            {
+              "alias": "cached",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'cached' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "cached"
+                }
+              ]
+            },
+            {
+              "alias": "free",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "free"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Memory",
+          "tooltip": {
+            "shared": true,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "bytes",
+            "bytes"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Influxdb",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": 4000,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 56,
+          "interval": ">10s",
+          "legend": {
+            "avg": true,
+            "current": true,
+            "max": true,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-47",
+              "value": "genotyper\\-47"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "Incoming",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type"
+              ],
+              "measurement": "interface_rx",
+              "query": "SELECT derivative(value) FROM \"interface_rx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "if_packets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "instance",
+                  "operator": "=",
+                  "value": "eth0"
+                }
+              ]
+            },
+            {
+              "alias": "Outgoing",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type"
+              ],
+              "measurement": "interface_tx",
+              "query": "SELECT derivative(value) FROM \"interface_tx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "if_packets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "instance",
+                  "operator": "=",
+                  "value": "eth0"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Network Packet Rate",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "pps",
+            "pps"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": true,
+          "datasource": "Influxdb",
+          "decimals": 2,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 57,
+          "interval": "",
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": false,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-47",
+              "value": "genotyper\\-47"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "disk_write $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_write",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_ops"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            },
+            {
+              "alias": "disk_read $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_read",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_ops"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Disk IOPS",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "short",
+            "short"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": true,
+          "datasource": "Influxdb",
+          "decimals": 2,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": 0,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 58,
+          "interval": ">10s",
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": false,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 1,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-47",
+              "value": "genotyper\\-47"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "$measurement $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_write",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_octets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            },
+            {
+              "alias": "$measurement $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_read",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_octets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Disk Read/Write Rates",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "Bps",
+            "Bps"
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": 1444395393896,
+      "repeatRowId": 3,
+      "scopedVars": {
+        "my_host": {
+          "selected": true,
+          "text": "genotyper-47",
+          "value": "genotyper\\-47"
+        }
+      },
+      "showTitle": true,
+      "title": "$my_host"
+    },
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Influxdb",
+          "editable": true,
+          "error": false,
+          "fill": 3,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 59,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-48",
+              "value": "genotyper\\-48"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "used",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "used"
+                }
+              ]
+            },
+            {
+              "alias": "cached",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'cached' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "cached"
+                }
+              ]
+            },
+            {
+              "alias": "free",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "free"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Memory",
+          "tooltip": {
+            "shared": true,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "bytes",
+            "bytes"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Influxdb",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": 4000,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 60,
+          "interval": ">10s",
+          "legend": {
+            "avg": true,
+            "current": true,
+            "max": true,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-48",
+              "value": "genotyper\\-48"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "Incoming",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type"
+              ],
+              "measurement": "interface_rx",
+              "query": "SELECT derivative(value) FROM \"interface_rx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "if_packets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "instance",
+                  "operator": "=",
+                  "value": "eth0"
+                }
+              ]
+            },
+            {
+              "alias": "Outgoing",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type"
+              ],
+              "measurement": "interface_tx",
+              "query": "SELECT derivative(value) FROM \"interface_tx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "if_packets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "instance",
+                  "operator": "=",
+                  "value": "eth0"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Network Packet Rate",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "pps",
+            "pps"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": true,
+          "datasource": "Influxdb",
+          "decimals": 2,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 61,
+          "interval": "",
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": false,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-48",
+              "value": "genotyper\\-48"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "disk_write $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_write",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_ops"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            },
+            {
+              "alias": "disk_read $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_read",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_ops"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Disk IOPS",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "short",
+            "short"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": true,
+          "datasource": "Influxdb",
+          "decimals": 2,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": 0,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 62,
+          "interval": ">10s",
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": false,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 1,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-48",
+              "value": "genotyper\\-48"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "$measurement $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_write",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_octets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            },
+            {
+              "alias": "$measurement $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_read",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_octets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Disk Read/Write Rates",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "Bps",
+            "Bps"
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": 1444395393896,
+      "repeatRowId": 3,
+      "scopedVars": {
+        "my_host": {
+          "selected": true,
+          "text": "genotyper-48",
+          "value": "genotyper\\-48"
+        }
+      },
+      "showTitle": true,
+      "title": "$my_host"
+    },
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Influxdb",
+          "editable": true,
+          "error": false,
+          "fill": 3,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 63,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-49",
+              "value": "genotyper\\-49"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "used",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "used"
+                }
+              ]
+            },
+            {
+              "alias": "cached",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'cached' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "cached"
+                }
+              ]
+            },
+            {
+              "alias": "free",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "memory_value",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type_instance",
+                  "operator": "=",
+                  "value": "free"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Memory",
+          "tooltip": {
+            "shared": true,
+            "value_type": "individual"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "bytes",
+            "bytes"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "Influxdb",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": 4000,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 64,
+          "interval": ">10s",
+          "legend": {
+            "avg": true,
+            "current": true,
+            "max": true,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "null as zero",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-49",
+              "value": "genotyper\\-49"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "Incoming",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type"
+              ],
+              "measurement": "interface_rx",
+              "query": "SELECT derivative(value) FROM \"interface_rx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "if_packets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "instance",
+                  "operator": "=",
+                  "value": "eth0"
+                }
+              ]
+            },
+            {
+              "alias": "Outgoing",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type"
+              ],
+              "measurement": "interface_tx",
+              "query": "SELECT derivative(value) FROM \"interface_tx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "if_packets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                },
+                {
+                  "condition": "AND",
+                  "key": "instance",
+                  "operator": "=",
+                  "value": "eth0"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Network Packet Rate",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "pps",
+            "pps"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": true,
+          "datasource": "Influxdb",
+          "decimals": 2,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 65,
+          "interval": "",
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": false,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-49",
+              "value": "genotyper\\-49"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "disk_write $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_write",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_ops"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            },
+            {
+              "alias": "disk_read $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_read",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_ops"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Disk IOPS",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "short",
+            "short"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": true,
+          "datasource": "Influxdb",
+          "decimals": 2,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": 0,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 66,
+          "interval": ">10s",
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": false,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 1,
+          "points": false,
+          "renderer": "flot",
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-49",
+              "value": "genotyper\\-49"
+            }
+          },
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "$measurement $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_write",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_octets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            },
+            {
+              "alias": "$measurement $tag_instance",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_read",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_octets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=~",
+                  "value": "/$my_host/"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Disk Read/Write Rates",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "Bps",
+            "Bps"
+          ]
+        }
+      ],
+      "repeat": null,
+      "repeatIteration": 1444395393896,
+      "repeatRowId": 3,
+      "scopedVars": {
+        "my_host": {
+          "selected": true,
+          "text": "genotyper-49",
+          "value": "genotyper\\-49"
+        }
+      },
+      "showTitle": true,
+      "title": "$my_host"
+    }
+  ],
+  "nav": [
+    {
+      "collapse": false,
+      "enable": true,
+      "notice": false,
+      "now": true,
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "status": "Stable",
+      "time_options": [
+        "5m",
+        "15m",
+        "1h",
+        "3h",
+        " 6h",
+        "12h",
+        "24h",
+        "2d",
+        "7d",
+        "30d"
+      ],
+      "type": "timepicker"
+    }
+  ],
+  "time": {
+    "from": "now-12h",
+    "now": true,
+    "to": "now"
+  },
+  "templating": {
+    "list": [
+      {
+        "allFormat": "regex values",
+        "current": {
+          "tags": [],
+          "text": "genotyper-45 + genotyper-46 + genotyper-47 + genotyper-48 + genotyper-49",
+          "value": [
+            "genotyper\\-45",
+            "genotyper\\-46",
+            "genotyper\\-47",
+            "genotyper\\-48",
+            "genotyper\\-49"
+          ]
+        },
+        "datasource": null,
+        "includeAll": false,
+        "label": "Hostname",
+        "multi": true,
+        "multiFormat": "regex values",
+        "name": "my_host",
+        "options": [
+          {
+            "selected": false,
+            "text": "genotyper-0",
+            "value": "genotyper\\-0"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-1",
+            "value": "genotyper\\-1"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-10",
+            "value": "genotyper\\-10"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-11",
+            "value": "genotyper\\-11"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-12",
+            "value": "genotyper\\-12"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-13",
+            "value": "genotyper\\-13"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-14",
+            "value": "genotyper\\-14"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-15",
+            "value": "genotyper\\-15"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-16",
+            "value": "genotyper\\-16"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-17",
+            "value": "genotyper\\-17"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-18",
+            "value": "genotyper\\-18"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-19",
+            "value": "genotyper\\-19"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-2",
+            "value": "genotyper\\-2"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-20",
+            "value": "genotyper\\-20"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-21",
+            "value": "genotyper\\-21"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-22",
+            "value": "genotyper\\-22"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-23",
+            "value": "genotyper\\-23"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-24",
+            "value": "genotyper\\-24"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-25",
+            "value": "genotyper\\-25"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-26",
+            "value": "genotyper\\-26"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-27",
+            "value": "genotyper\\-27"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-28",
+            "value": "genotyper\\-28"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-29",
+            "value": "genotyper\\-29"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-3",
+            "value": "genotyper\\-3"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-30",
+            "value": "genotyper\\-30"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-31",
+            "value": "genotyper\\-31"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-32",
+            "value": "genotyper\\-32"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-33",
+            "value": "genotyper\\-33"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-34",
+            "value": "genotyper\\-34"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-35",
+            "value": "genotyper\\-35"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-36",
+            "value": "genotyper\\-36"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-37",
+            "value": "genotyper\\-37"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-38",
+            "value": "genotyper\\-38"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-39",
+            "value": "genotyper\\-39"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-4",
+            "value": "genotyper\\-4"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-40",
+            "value": "genotyper\\-40"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-41",
+            "value": "genotyper\\-41"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-42",
+            "value": "genotyper\\-42"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-43",
+            "value": "genotyper\\-43"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-44",
+            "value": "genotyper\\-44"
+          },
+          {
+            "selected": true,
+            "text": "genotyper-45",
+            "value": "genotyper\\-45"
+          },
+          {
+            "selected": true,
+            "text": "genotyper-46",
+            "value": "genotyper\\-46"
+          },
+          {
+            "selected": true,
+            "text": "genotyper-47",
+            "value": "genotyper\\-47"
+          },
+          {
+            "selected": true,
+            "text": "genotyper-48",
+            "value": "genotyper\\-48"
+          },
+          {
+            "selected": true,
+            "text": "genotyper-49",
+            "value": "genotyper\\-49"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-5",
+            "value": "genotyper\\-5"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-6",
+            "value": "genotyper\\-6"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-7",
+            "value": "genotyper\\-7"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-8",
+            "value": "genotyper\\-8"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-9",
+            "value": "genotyper\\-9"
+          },
+          {
+            "selected": false,
+            "text": "salt-master",
+            "value": "salt\\-master"
+          },
+          {
+            "selected": false,
+            "text": "tracker",
+            "value": "tracker"
+          }
+        ],
+        "query": "SHOW TAG VALUES WITH KEY = \"host\"",
+        "refresh_on_load": false,
+        "type": "query"
+      }
+    ]
+  },
+  "annotations": {
+    "list": []
+  },
+  "schemaVersion": 6,
+  "version": 25,
+  "links": []
+}
