@@ -12,6 +12,7 @@ pkgs:
       
 freebayes-clone:
   git.latest:
+    - rev: v0.9.20
     - name: git://github.com/ekg/freebayes.git
     - target: /opt/freebayes
     - submodules: True

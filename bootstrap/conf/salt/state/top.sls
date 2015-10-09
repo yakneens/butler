@@ -3,7 +3,6 @@ base:
     - consul
     - dnsmasq
     - collectd
-#    - collectd.log_policy
     - hostfile
   'G@roles:consul-bootstrap':
     - consul.bootstrap
@@ -26,5 +25,5 @@ base:
     - gluster.bricks
   'G@roles:glusterfs-master':
     - gluster
- #   - gluster.master
+
     
