@@ -587,7 +587,7 @@
                 "host"
               ],
               "measurement": "load_midterm",
-              "query": "SELECT mean(value) FROM \"load_midterm\" WHERE \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"host\"",
+              "query": "SELECT mean(value) FROM \"load_midterm\" WHERE \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"host\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -667,7 +667,7 @@
                 "host"
               ],
               "measurement": "cpu_value",
-              "query": "SELECT mean(value) FROM \"cpu_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'user' AND $timeFilter GROUP BY time($interval), \"host\"",
+              "query": "SELECT mean(value) FROM \"cpu_value\" WHERE \"host\" =~ /$my_host$/ AND \"type_instance\" = 'user' AND $timeFilter GROUP BY time($interval), \"host\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -753,7 +753,7 @@
                 "host"
               ],
               "measurement": "df_value",
-              "query": "SELECT mean(value) FROM \"df_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'free' AND \"instance\" = 'root' AND $timeFilter GROUP BY time($interval), \"host\"",
+              "query": "SELECT mean(value) FROM \"df_value\" WHERE \"host\" =~ /$my_host$/ AND \"type_instance\" = 'free' AND \"instance\" = 'root' AND $timeFilter GROUP BY time($interval), \"host\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -858,7 +858,7 @@
               ],
               "groupByTags": [],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval)",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host$/ AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval)",
               "rawQuery": false,
               "tags": [
                 {
@@ -884,7 +884,7 @@
               ],
               "groupByTags": [],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'cached' AND $timeFilter GROUP BY time($interval)",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host$/ AND \"type_instance\" = 'cached' AND $timeFilter GROUP BY time($interval)",
               "rawQuery": false,
               "tags": [
                 {
@@ -910,7 +910,7 @@
               ],
               "groupByTags": [],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval)",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host$/ AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval)",
               "rawQuery": false,
               "tags": [
                 {
@@ -1004,7 +1004,7 @@
                 "type"
               ],
               "measurement": "interface_rx",
-              "query": "SELECT derivative(value) FROM \"interface_rx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "query": "SELECT derivative(value) FROM \"interface_rx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host$/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -1038,7 +1038,7 @@
                 "type"
               ],
               "measurement": "interface_tx",
-              "query": "SELECT derivative(value) FROM \"interface_tx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "query": "SELECT derivative(value) FROM \"interface_tx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host$/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -1139,7 +1139,7 @@
                 "instance"
               ],
               "measurement": "disk_write",
-              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -1167,7 +1167,7 @@
                 "instance"
               ],
               "measurement": "disk_read",
-              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -1262,7 +1262,7 @@
                 "instance"
               ],
               "measurement": "disk_write",
-              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -1290,7 +1290,7 @@
                 "instance"
               ],
               "measurement": "disk_read",
-              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -1398,7 +1398,7 @@
               ],
               "groupByTags": [],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval)",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host$/ AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval)",
               "rawQuery": false,
               "tags": [
                 {
@@ -1424,7 +1424,7 @@
               ],
               "groupByTags": [],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'cached' AND $timeFilter GROUP BY time($interval)",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host$/ AND \"type_instance\" = 'cached' AND $timeFilter GROUP BY time($interval)",
               "rawQuery": false,
               "tags": [
                 {
@@ -1450,7 +1450,7 @@
               ],
               "groupByTags": [],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval)",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host$/ AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval)",
               "rawQuery": false,
               "tags": [
                 {
@@ -1544,7 +1544,7 @@
                 "type"
               ],
               "measurement": "interface_rx",
-              "query": "SELECT derivative(value) FROM \"interface_rx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "query": "SELECT derivative(value) FROM \"interface_rx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host$/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -1578,7 +1578,7 @@
                 "type"
               ],
               "measurement": "interface_tx",
-              "query": "SELECT derivative(value) FROM \"interface_tx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "query": "SELECT derivative(value) FROM \"interface_tx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host$/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -1679,7 +1679,7 @@
                 "instance"
               ],
               "measurement": "disk_write",
-              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -1707,7 +1707,7 @@
                 "instance"
               ],
               "measurement": "disk_read",
-              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -1802,7 +1802,7 @@
                 "instance"
               ],
               "measurement": "disk_write",
-              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -1830,7 +1830,7 @@
                 "instance"
               ],
               "measurement": "disk_read",
-              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -1940,7 +1940,7 @@
               ],
               "groupByTags": [],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval)",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host$/ AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval)",
               "rawQuery": false,
               "tags": [
                 {
@@ -1966,7 +1966,7 @@
               ],
               "groupByTags": [],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'cached' AND $timeFilter GROUP BY time($interval)",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host$/ AND \"type_instance\" = 'cached' AND $timeFilter GROUP BY time($interval)",
               "rawQuery": false,
               "tags": [
                 {
@@ -1992,7 +1992,7 @@
               ],
               "groupByTags": [],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval)",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host$/ AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval)",
               "rawQuery": false,
               "tags": [
                 {
@@ -2086,7 +2086,7 @@
                 "type"
               ],
               "measurement": "interface_rx",
-              "query": "SELECT derivative(value) FROM \"interface_rx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "query": "SELECT derivative(value) FROM \"interface_rx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host$/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -2120,7 +2120,7 @@
                 "type"
               ],
               "measurement": "interface_tx",
-              "query": "SELECT derivative(value) FROM \"interface_tx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "query": "SELECT derivative(value) FROM \"interface_tx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host$/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -2221,7 +2221,7 @@
                 "instance"
               ],
               "measurement": "disk_write",
-              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -2249,7 +2249,7 @@
                 "instance"
               ],
               "measurement": "disk_read",
-              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -2344,7 +2344,7 @@
                 "instance"
               ],
               "measurement": "disk_write",
-              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -2372,7 +2372,7 @@
                 "instance"
               ],
               "measurement": "disk_read",
-              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -2482,7 +2482,7 @@
               ],
               "groupByTags": [],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval)",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host$/ AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval)",
               "rawQuery": false,
               "tags": [
                 {
@@ -2508,7 +2508,7 @@
               ],
               "groupByTags": [],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'cached' AND $timeFilter GROUP BY time($interval)",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host$/ AND \"type_instance\" = 'cached' AND $timeFilter GROUP BY time($interval)",
               "rawQuery": false,
               "tags": [
                 {
@@ -2534,7 +2534,7 @@
               ],
               "groupByTags": [],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval)",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host$/ AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval)",
               "rawQuery": false,
               "tags": [
                 {
@@ -2628,7 +2628,7 @@
                 "type"
               ],
               "measurement": "interface_rx",
-              "query": "SELECT derivative(value) FROM \"interface_rx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "query": "SELECT derivative(value) FROM \"interface_rx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host$/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -2662,7 +2662,7 @@
                 "type"
               ],
               "measurement": "interface_tx",
-              "query": "SELECT derivative(value) FROM \"interface_tx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "query": "SELECT derivative(value) FROM \"interface_tx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host$/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -2763,7 +2763,7 @@
                 "instance"
               ],
               "measurement": "disk_write",
-              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -2791,7 +2791,7 @@
                 "instance"
               ],
               "measurement": "disk_read",
-              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -2886,7 +2886,7 @@
                 "instance"
               ],
               "measurement": "disk_write",
-              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -2914,7 +2914,7 @@
                 "instance"
               ],
               "measurement": "disk_read",
-              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -3024,7 +3024,7 @@
               ],
               "groupByTags": [],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval)",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host$/ AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval)",
               "rawQuery": false,
               "tags": [
                 {
@@ -3050,7 +3050,7 @@
               ],
               "groupByTags": [],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'cached' AND $timeFilter GROUP BY time($interval)",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host$/ AND \"type_instance\" = 'cached' AND $timeFilter GROUP BY time($interval)",
               "rawQuery": false,
               "tags": [
                 {
@@ -3076,7 +3076,7 @@
               ],
               "groupByTags": [],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host/ AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval)",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /$my_host$/ AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval)",
               "rawQuery": false,
               "tags": [
                 {
@@ -3170,7 +3170,7 @@
                 "type"
               ],
               "measurement": "interface_rx",
-              "query": "SELECT derivative(value) FROM \"interface_rx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "query": "SELECT derivative(value) FROM \"interface_rx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host$/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -3204,7 +3204,7 @@
                 "type"
               ],
               "measurement": "interface_tx",
-              "query": "SELECT derivative(value) FROM \"interface_tx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "query": "SELECT derivative(value) FROM \"interface_tx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /$my_host$/ AND \"instance\" = 'eth0' AND $timeFilter GROUP BY time($interval), \"type\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -3305,7 +3305,7 @@
                 "instance"
               ],
               "measurement": "disk_write",
-              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -3333,7 +3333,7 @@
                 "instance"
               ],
               "measurement": "disk_read",
-              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -3428,7 +3428,7 @@
                 "instance"
               ],
               "measurement": "disk_write",
-              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_write\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
@@ -3456,7 +3456,7 @@
                 "instance"
               ],
               "measurement": "disk_read",
-              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT derivative(value) FROM \"disk_read\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /$my_host$/ AND $timeFilter GROUP BY time($interval), \"instance\"",
               "rawQuery": false,
               "tags": [
                 {
