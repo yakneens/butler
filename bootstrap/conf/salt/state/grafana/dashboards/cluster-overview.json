@@ -1,7 +1,7 @@
 {
   "id": 6,
-  "title": "Cluster Overview Working Copy",
-  "originalTitle": "Cluster Overview Working Copy",
+  "title": "Cluster Overview",
+  "originalTitle": "Cluster Overview",
   "tags": [],
   "style": "dark",
   "timezone": "browser",
@@ -17,7 +17,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -98,7 +98,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "decimals": null,
           "editable": true,
           "error": false,
@@ -181,7 +181,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 3,
@@ -292,7 +292,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -393,7 +393,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -504,7 +504,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -608,7 +608,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 1,

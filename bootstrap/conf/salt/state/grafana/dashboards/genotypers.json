@@ -802,7 +802,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 3,
@@ -945,7 +945,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -1079,7 +1079,7 @@
         {
           "aliasColors": {},
           "bars": true,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -1202,7 +1202,7 @@
         {
           "aliasColors": {},
           "bars": true,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -1342,7 +1342,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 3,
@@ -1485,7 +1485,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -1619,7 +1619,7 @@
         {
           "aliasColors": {},
           "bars": true,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -1742,7 +1742,7 @@
         {
           "aliasColors": {},
           "bars": true,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -1884,7 +1884,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 3,
@@ -2027,7 +2027,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -2161,7 +2161,7 @@
         {
           "aliasColors": {},
           "bars": true,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -2284,7 +2284,7 @@
         {
           "aliasColors": {},
           "bars": true,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -2426,7 +2426,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 3,
@@ -2569,7 +2569,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -2703,7 +2703,7 @@
         {
           "aliasColors": {},
           "bars": true,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -2826,7 +2826,7 @@
         {
           "aliasColors": {},
           "bars": true,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -2968,7 +2968,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 3,
@@ -3111,7 +3111,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -3245,7 +3245,7 @@
         {
           "aliasColors": {},
           "bars": true,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -3368,7 +3368,7 @@
         {
           "aliasColors": {},
           "bars": true,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "decimals": 2,
           "editable": true,
           "error": false,
