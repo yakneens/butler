@@ -125,6 +125,42 @@ resource "openstack_compute_secgroup_v2" "internal" {
 		ip_protocol = "tcp"
 		self = "true"
 	}
-	
+	#Glusterfs
+	rule {
+		from_port = 24007
+		to_port = 24008
+		ip_protocol = "tcp"
+		self = "true"
+	}
+	rule {
+		from_port = 49152
+		to_port = 49202
+		ip_protocol = "tcp"
+		self = "true"
+	}
+	rule {
+		from_port = 38465
+		to_port = 38467
+		ip_protocol = "tcp"
+		self = "true"
+	}
+	rule {
+		from_port = 111
+		to_port = 111
+		ip_protocol = "tcp"
+		self = "true"
+	}
+	rule {
+		from_port = 111
+		to_port = 111
+		ip_protocol = "udp"
+		self = "true"
+	}
+	rule {
+		from_port = 2049
+		to_port = 2049
+		ip_protocol = "tcp"
+		self = "true"
+	}
 	
 }

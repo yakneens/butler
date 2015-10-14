@@ -1,5 +1,5 @@
 {
-  "id": 3,
+  "id": 6,
   "title": "Cluster Overview",
   "originalTitle": "Cluster Overview",
   "tags": [],
@@ -17,7 +17,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -45,6 +45,7 @@
           },
           "lines": true,
           "linewidth": 2,
+          "links": [],
           "nullPointMode": "connected",
           "percentage": false,
           "pointradius": 5,
@@ -66,7 +67,8 @@
                 "host"
               ],
               "measurement": "load_shortterm",
-              "query": "SELECT mean(value) FROM \"load_shortterm\" WHERE $timeFilter GROUP BY time($interval), \"host\"",
+              "query": "SELECT mean(value) FROM \"load_shortterm\" WHERE $timeFilter  AND \"host\" =~ /^genotyper/ GROUP BY time($interval), \"host\"",
+              "rawQuery": true,
               "tags": []
             }
           ],
@@ -83,8 +85,7 @@
           "y_formats": [
             "short",
             "short"
-          ],
-          "links": []
+          ]
         }
       ],
       "title": "Row"
@@ -97,7 +98,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "decimals": null,
           "editable": true,
           "error": false,
@@ -151,34 +152,13 @@
                 "host"
               ],
               "measurement": "cpu_value",
-              "query": "SELECT mean(value) FROM \"cpu_value\" WHERE \"type_instance\" = 'user' AND $timeFilter GROUP BY time($interval), \"type_instance\", \"host\"",
+              "query": "SELECT mean(value) FROM \"cpu_value\" WHERE \"type_instance\" = 'user' AND $timeFilter  AND \"host\" =~ /^genotyper/ GROUP BY time($interval), \"type_instance\", \"host\"",
+              "rawQuery": true,
               "tags": [
                 {
                   "key": "type_instance",
                   "operator": "=",
                   "value": "user"
-                }
-              ]
-            },
-            {
-              "alias": "",
-              "fields": [
-                {
-                  "func": "mean",
-                  "name": "value"
-                }
-              ],
-              "groupByTags": [
-                "type_instance",
-                "host"
-              ],
-              "measurement": "cpu_value",
-              "query": "SELECT mean(value) FROM \"cpu_value\" WHERE \"type_instance\" = 'system' AND $timeFilter GROUP BY time($interval), \"type_instance\", \"host\"",
-              "tags": [
-                {
-                  "key": "type_instance",
-                  "operator": "=",
-                  "value": "system"
                 }
               ]
             }
@@ -201,114 +181,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
-          "decimals": 2,
-          "editable": true,
-          "error": false,
-          "fill": 1,
-          "grid": {
-            "leftLogBase": 1,
-            "leftMax": null,
-            "leftMin": null,
-            "rightLogBase": 1,
-            "rightMax": null,
-            "rightMin": null,
-            "threshold1": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2": null,
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "id": 6,
-          "legend": {
-            "avg": false,
-            "current": false,
-            "max": false,
-            "min": false,
-            "show": false,
-            "total": false,
-            "values": false
-          },
-          "lines": true,
-          "linewidth": 2,
-          "links": [],
-          "nullPointMode": "connected",
-          "percentage": false,
-          "pointradius": 5,
-          "points": false,
-          "renderer": "flot",
-          "seriesOverrides": [],
-          "span": 6,
-          "stack": false,
-          "steppedLine": false,
-          "targets": [
-            {
-              "fields": [
-                {
-                  "func": "mean",
-                  "name": "value"
-                }
-              ],
-              "groupByTags": [
-                "instance"
-              ],
-              "measurement": "disk_read",
-              "query": "SELECT mean(value) FROM \"disk_read\" WHERE \"type\" = 'disk_ops' AND $timeFilter GROUP BY time($interval), \"instance\"",
-              "tags": [
-                {
-                  "key": "type",
-                  "operator": "=",
-                  "value": "disk_ops"
-                }
-              ]
-            },
-            {
-              "fields": [
-                {
-                  "func": "mean",
-                  "name": "value"
-                }
-              ],
-              "groupByTags": [
-                "instance"
-              ],
-              "measurement": "disk_write",
-              "query": "SELECT mean(value) FROM \"disk_write\" WHERE \"type\" = 'disk_ops' AND $timeFilter GROUP BY time($interval), \"instance\"",
-              "tags": [
-                {
-                  "key": "type",
-                  "operator": "=",
-                  "value": "disk_ops"
-                }
-              ]
-            }
-          ],
-          "timeFrom": null,
-          "timeShift": null,
-          "title": "Disk IOPS",
-          "tooltip": {
-            "shared": true,
-            "value_type": "cumulative"
-          },
-          "type": "graph",
-          "x-axis": true,
-          "y-axis": true,
-          "y_formats": [
-            "short",
-            "short"
-          ]
-        }
-      ],
-      "title": "New row"
-    },
-    {
-      "collapse": false,
-      "editable": true,
-      "height": "250px",
-      "panels": [
-        {
-          "aliasColors": {},
-          "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 3,
@@ -343,7 +216,7 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 12,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -360,7 +233,8 @@
                 "host"
               ],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval), \"type_instance\", \"host\"",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"type_instance\" = 'used'  AND \"host\" =~ /^genotyper/ AND $timeFilter GROUP BY time($interval), \"type_instance\", \"host\"",
+              "rawQuery": true,
               "tags": [
                 {
                   "key": "type_instance",
@@ -381,7 +255,8 @@
                 "type_instance"
               ],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval), \"type_instance\"",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"type_instance\" = 'free'  AND \"host\" =~ /^genotyper/ AND $timeFilter GROUP BY time($interval), \"type_instance\"",
+              "rawQuery": true,
               "tags": [
                 {
                   "key": "type_instance",
@@ -417,7 +292,108 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
+          "decimals": 2,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 6,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_read",
+              "query": "SELECT mean(value) FROM \"disk_read\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /^genotyper/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": true,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_ops"
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "disk_write",
+              "query": "SELECT mean(value) FROM \"disk_write\" WHERE \"type\" = 'disk_ops' AND \"host\" =~ /^genotyper/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": true,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "disk_ops"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Disk IOPS",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "short",
+            "short"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -453,7 +429,7 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 12,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -469,7 +445,8 @@
                 "type"
               ],
               "measurement": "interface_rx",
-              "query": "SELECT mean(value) FROM \"interface_rx\" WHERE \"type\" = 'if_packets' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "query": "SELECT mean(value) FROM \"interface_rx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /^genotyper/ AND $timeFilter GROUP BY time($interval), \"type\"",
+              "rawQuery": true,
               "tags": [
                 {
                   "key": "type",
@@ -490,7 +467,8 @@
                 "type"
               ],
               "measurement": "interface_tx",
-              "query": "SELECT mean(value) FROM \"interface_tx\" WHERE \"type\" = 'if_packets' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "query": "SELECT mean(value) FROM \"interface_tx\" WHERE \"type\" = 'if_packets' AND \"host\" =~ /^genotyper/ AND $timeFilter GROUP BY time($interval), \"type\"",
+              "rawQuery": true,
               "tags": [
                 {
                   "key": "type",
@@ -526,7 +504,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -563,7 +541,7 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 12,
+          "span": 6,
           "stack": false,
           "steppedLine": false,
           "targets": [
@@ -580,8 +558,8 @@
               ],
               "hide": false,
               "measurement": "disk_read",
-              "query": "SELECT mean(value) FROM \"disk_read\" WHERE \"type\" = 'disk_octets' AND $timeFilter GROUP BY time($interval), \"type\"",
-              "rawQuery": false,
+              "query": "SELECT mean(value) FROM \"disk_read\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /^genotyper/ AND $timeFilter GROUP BY time($interval), \"type\"",
+              "rawQuery": true,
               "tags": [
                 {
                   "key": "type",
@@ -601,8 +579,8 @@
                 "type"
               ],
               "measurement": "disk_write",
-              "query": "SELECT mean(value) FROM \"disk_write\" WHERE \"type\" = 'disk_octets' AND $timeFilter GROUP BY time($interval), \"type\"",
-              "rawQuery": false,
+              "query": "SELECT mean(value) FROM \"disk_write\" WHERE \"type\" = 'disk_octets' AND \"host\" =~ /^genotyper/ AND $timeFilter GROUP BY time($interval), \"type\"",
+              "rawQuery": true,
               "tags": [
                 {
                   "key": "type",
@@ -626,19 +604,11 @@
             "Bps",
             "Bps"
           ]
-        }
-      ],
-      "title": "New row"
-    },
-    {
-      "collapse": false,
-      "editable": true,
-      "height": "250px",
-      "panels": [
+        },
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": "Influxdb",
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -673,12 +643,12 @@
           "points": false,
           "renderer": "flot",
           "seriesOverrides": [],
-          "span": 12,
+          "span": 6,
           "stack": true,
           "steppedLine": false,
           "targets": [
             {
-              "alias": "$tag_type_instance",
+              "alias": "$tag_instance",
               "fields": [
                 {
                   "func": "mean",
@@ -689,7 +659,8 @@
                 "instance"
               ],
               "measurement": "df_value",
-              "query": "SELECT mean(value) FROM \"df_value\" WHERE \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT mean(value) FROM \"df_value\" WHERE \"type_instance\" = 'used' AND \"host\" =~ /^genotyper/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": true,
               "tags": [
                 {
                   "key": "type_instance",
@@ -699,7 +670,7 @@
               ]
             },
             {
-              "alias": "$tag_type_instance",
+              "alias": "$tag_instance",
               "fields": [
                 {
                   "func": "mean",
@@ -710,7 +681,8 @@
                 "instance"
               ],
               "measurement": "df_value",
-              "query": "SELECT mean(value) FROM \"df_value\" WHERE \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "query": "SELECT mean(value) FROM \"df_value\" WHERE \"type_instance\" = 'free' AND \"host\" =~ /^genotyper/ AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": true,
               "tags": [
                 {
                   "key": "type_instance",
@@ -773,7 +745,8 @@
     }
   ],
   "time": {
-    "from": "now-15m",
+    "from": "now-24h",
+    "now": false,
     "to": "now"
   },
   "templating": {
@@ -783,6 +756,6 @@
     "list": []
   },
   "schemaVersion": 6,
-  "version": 1,
+  "version": 3,
   "links": []
 }

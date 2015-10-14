@@ -4,11 +4,6 @@ base:
     - dnsmasq
     - collectd
     - hostfile
-  'G@roles:read-streamer':
-    - sun-java
-    - sun-java.env
-    - jetty
-    - read-streaming-service
   'G@roles:consul-bootstrap':
     - consul.bootstrap
   'G@roles:consul-server':
@@ -19,9 +14,16 @@ base:
     - influxdb
     - grafana 
   'G@roles:genotyper':
-    - glusterfs
+    - dnsmasq.gnos
     - freebayes
   'G@roles:tracker':
     - airflow
     - postgres
     - run-tracking-db
+  'G@roles:glusterfs-server':
+    - gluster
+    - gluster.bricks
+  'G@roles:glusterfs-master':
+    - gluster
+
+    

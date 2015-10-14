@@ -1,0 +1,795 @@
+{
+  "id": 8,
+  "title": "Freebayes",
+  "originalTitle": "Freebayes",
+  "tags": [],
+  "style": "dark",
+  "timezone": "browser",
+  "editable": true,
+  "hideControls": false,
+  "sharedCrosshair": false,
+  "rows": [
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 2,
+          "leftYAxisLabel": "jiffies/s",
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "$tag_host",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "host"
+              ],
+              "measurement": "processes_user",
+              "query": "SELECT derivative(value) FROM \"processes_user\" WHERE \"instance\" = 'freebayes' AND \"type\" = 'ps_cputime' AND \"host\" = '$my_host' AND $timeFilter GROUP BY time($interval), \"host\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "instance",
+                  "operator": "=",
+                  "value": "freebayes"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type",
+                  "operator": "=",
+                  "value": "ps_cputime"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=",
+                  "value": "$my_host"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "CPU",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "short",
+            "short"
+          ],
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-0",
+              "value": "genotyper-0"
+            }
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 1,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "type"
+              ],
+              "measurement": "processes_value",
+              "query": "SELECT mean(value) FROM \"processes_value\" WHERE \"instance\" = 'freebayes' AND \"host\" = '$my_host' AND $timeFilter GROUP BY time($interval), \"type\"",
+              "tags": [
+                {
+                  "key": "instance",
+                  "operator": "=",
+                  "value": "freebayes"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=",
+                  "value": "$my_host"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Memory",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "bytes",
+            "bytes"
+          ],
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-0",
+              "value": "genotyper-0"
+            }
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 3,
+          "leftYAxisLabel": "",
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "processes_read",
+              "query": "SELECT derivative(value) FROM \"processes_read\" WHERE \"instance\" = 'freebayes' AND \"type\" = 'ps_disk_octets' AND \"host\" = '$my_host' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "instance",
+                  "operator": "=",
+                  "value": "freebayes"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type",
+                  "operator": "=",
+                  "value": "ps_disk_octets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=",
+                  "value": "$my_host"
+                }
+              ]
+            },
+            {
+              "alias": "",
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "processes_write",
+              "query": "SELECT derivative(value) FROM \"processes_write\" WHERE \"instance\" = 'freebayes' AND \"type\" = 'ps_disk_octets' AND \"host\" = '$my_host' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "instance",
+                  "operator": "=",
+                  "value": "freebayes"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type",
+                  "operator": "=",
+                  "value": "ps_disk_octets"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=",
+                  "value": "$my_host"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Disk Read/Write",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "Bps",
+            "bytes"
+          ],
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-0",
+              "value": "genotyper-0"
+            }
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": null,
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 4,
+          "leftYAxisLabel": "IOPS/s",
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 3,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "processes_read",
+              "query": "SELECT derivative(value) FROM \"processes_read\" WHERE \"instance\" = 'freebayes' AND \"type\" = 'ps_disk_ops' AND \"host\" = '$my_host' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "instance",
+                  "operator": "=",
+                  "value": "freebayes"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type",
+                  "operator": "=",
+                  "value": "ps_disk_ops"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=",
+                  "value": "$my_host"
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "func": "derivative",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "processes_write",
+              "query": "SELECT derivative(value) FROM \"processes_write\" WHERE \"instance\" = 'freebayes' AND \"type\" = 'ps_disk_ops' AND \"host\" = '$my_host' AND $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "instance",
+                  "operator": "=",
+                  "value": "freebayes"
+                },
+                {
+                  "condition": "AND",
+                  "key": "type",
+                  "operator": "=",
+                  "value": "ps_disk_ops"
+                },
+                {
+                  "condition": "AND",
+                  "key": "host",
+                  "operator": "=",
+                  "value": "$my_host"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Disk IOPS",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "short",
+            "short"
+          ],
+          "scopedVars": {
+            "my_host": {
+              "selected": true,
+              "text": "genotyper-0",
+              "value": "genotyper-0"
+            }
+          }
+        }
+      ],
+      "repeat": "my_host",
+      "showTitle": true,
+      "title": "$my_host",
+      "scopedVars": {
+        "my_host": {
+          "selected": true,
+          "text": "genotyper-0",
+          "value": "genotyper-0"
+        }
+      }
+    }
+  ],
+  "nav": [
+    {
+      "collapse": false,
+      "enable": true,
+      "notice": false,
+      "now": true,
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ],
+      "status": "Stable",
+      "time_options": [
+        "5m",
+        "15m",
+        "1h",
+        "6h",
+        "12h",
+        "24h",
+        "2d",
+        "7d",
+        "30d"
+      ],
+      "type": "timepicker"
+    }
+  ],
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "templating": {
+    "list": [
+      {
+        "allFormat": "glob",
+        "current": {
+          "tags": [],
+          "text": "genotyper-0",
+          "value": "genotyper-0"
+        },
+        "datasource": null,
+        "includeAll": false,
+        "label": "Hostname",
+        "multi": true,
+        "multiFormat": "glob",
+        "name": "my_host",
+        "options": [
+          {
+            "selected": true,
+            "text": "genotyper-0",
+            "value": "genotyper-0"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-1",
+            "value": "genotyper-1"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-10",
+            "value": "genotyper-10"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-11",
+            "value": "genotyper-11"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-12",
+            "value": "genotyper-12"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-13",
+            "value": "genotyper-13"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-14",
+            "value": "genotyper-14"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-15",
+            "value": "genotyper-15"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-16",
+            "value": "genotyper-16"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-17",
+            "value": "genotyper-17"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-18",
+            "value": "genotyper-18"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-19",
+            "value": "genotyper-19"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-2",
+            "value": "genotyper-2"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-20",
+            "value": "genotyper-20"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-21",
+            "value": "genotyper-21"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-22",
+            "value": "genotyper-22"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-23",
+            "value": "genotyper-23"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-24",
+            "value": "genotyper-24"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-25",
+            "value": "genotyper-25"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-26",
+            "value": "genotyper-26"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-27",
+            "value": "genotyper-27"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-28",
+            "value": "genotyper-28"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-29",
+            "value": "genotyper-29"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-3",
+            "value": "genotyper-3"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-30",
+            "value": "genotyper-30"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-31",
+            "value": "genotyper-31"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-32",
+            "value": "genotyper-32"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-33",
+            "value": "genotyper-33"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-34",
+            "value": "genotyper-34"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-35",
+            "value": "genotyper-35"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-36",
+            "value": "genotyper-36"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-37",
+            "value": "genotyper-37"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-38",
+            "value": "genotyper-38"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-39",
+            "value": "genotyper-39"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-4",
+            "value": "genotyper-4"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-40",
+            "value": "genotyper-40"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-41",
+            "value": "genotyper-41"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-42",
+            "value": "genotyper-42"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-43",
+            "value": "genotyper-43"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-44",
+            "value": "genotyper-44"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-45",
+            "value": "genotyper-45"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-46",
+            "value": "genotyper-46"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-47",
+            "value": "genotyper-47"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-48",
+            "value": "genotyper-48"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-49",
+            "value": "genotyper-49"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-5",
+            "value": "genotyper-5"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-6",
+            "value": "genotyper-6"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-7",
+            "value": "genotyper-7"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-8",
+            "value": "genotyper-8"
+          },
+          {
+            "selected": false,
+            "text": "genotyper-9",
+            "value": "genotyper-9"
+          }
+        ],
+        "query": "SHOW TAG VALUES WITH key=\"host\"",
+        "refresh_on_load": false,
+        "regex": "/^genotyper/",
+        "type": "query"
+      }
+    ]
+  },
+  "annotations": {
+    "list": []
+  },
+  "schemaVersion": 6,
+  "version": 7,
+  "links": []
+}

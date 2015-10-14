@@ -20,7 +20,7 @@ variable "salt_master_ip" {
 }
 
 variable "image_id" {
-	default = "7b7c410f-611a-4bcb-ba74-6e34b7cb23de"
+	default = "66d3080b-bea2-4982-a443-fb9eb18f6122"
 }
 
 variable "user" {
@@ -43,8 +43,12 @@ variable "bastion_user" {
 	default = "centos"
 }
 
-variable "network_id" {
+variable "main_network_id" {
 	default = "829e5182-916f-49da-9d3c-5c8574bcbe8a"
+}
+
+variable "gnos_network_id" {
+	default = "099cc0b7-8809-4504-a72e-24565732dd45"
 }
 	
 	

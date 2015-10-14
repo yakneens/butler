@@ -47,7 +47,7 @@ resource "openstack_compute_instance_v2" "chunker" {
 			"echo 'master: ${var.salt_master_ip}' | sudo tee  -a /etc/salt/minion",
 			"echo 'id: chunker' | sudo tee -a /etc/salt/minion",
 			"echo 'roles: [chunker, consul-server]' | sudo tee -a /etc/salt/grains",
-			"hostname chunker",
+			"sudo hostname chunker",
 			"sudo service salt-minion start"
 		]
 	}

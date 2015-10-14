@@ -47,7 +47,7 @@ resource "openstack_compute_instance_v2" "tracker" {
 			"echo 'master: ${var.salt_master_ip}' | sudo tee  -a /etc/salt/minion",
 			"echo 'id: tracker' | sudo tee -a /etc/salt/minion",
 			"echo 'roles: [tracker, consul-client]' | sudo tee -a /etc/salt/grains",
-			"hostname tracker",
+			"sudo hostname tracker",
 			"sudo service salt-minion start"
 		]
 	}

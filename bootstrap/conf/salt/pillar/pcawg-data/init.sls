@@ -1,0 +1,1 @@
+pcawg_location_prefix: /gnosdata/data

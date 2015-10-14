@@ -1,5 +1,5 @@
 {
-  "id": 3,
+  "id": 5,
   "title": "Sample Tracking DB",
   "originalTitle": "Sample Tracking DB",
   "tags": [],
@@ -17,7 +17,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": null,
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -93,7 +93,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": null,
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -177,7 +177,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": null,
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -256,7 +256,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": null,
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -343,7 +343,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": null,
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -422,7 +422,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": null,
+          "datasource": "metrics",
           "decimals": 2,
           "editable": true,
           "error": false,
@@ -500,7 +500,7 @@
         {
           "aliasColors": {},
           "bars": false,
-          "datasource": null,
+          "datasource": "metrics",
           "editable": true,
           "error": false,
           "fill": 1,
@@ -580,359 +580,359 @@
       "title": "New row"
     },
     {
-      "title": "New row",
-      "height": "250px",
-      "editable": true,
       "collapse": false,
+      "editable": true,
+      "height": "250px",
       "panels": [
         {
-          "title": "IO Bytes",
-          "error": false,
-          "span": 4,
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "metrics",
           "editable": true,
-          "type": "graph",
-          "id": 8,
-          "datasource": null,
-          "renderer": "flot",
-          "x-axis": true,
-          "y-axis": true,
-          "y_formats": [
-            "bytes",
-            "bytes"
-          ],
+          "error": false,
+          "fill": 1,
           "grid": {
             "leftLogBase": 1,
             "leftMax": null,
-            "rightMax": null,
             "leftMin": null,
-            "rightMin": null,
             "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
             "threshold1": null,
-            "threshold2": null,
             "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
-          "lines": true,
-          "fill": 1,
-          "linewidth": 2,
-          "points": false,
-          "pointradius": 5,
-          "bars": false,
-          "stack": false,
-          "percentage": false,
+          "id": 8,
           "legend": {
-            "show": false,
-            "values": false,
-            "min": false,
-            "max": false,
+            "avg": false,
             "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
             "total": false,
-            "avg": false
+            "values": false
           },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
           "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 4,
+          "stack": false,
           "steppedLine": false,
-          "tooltip": {
-            "value_type": "cumulative",
-            "shared": true
-          },
-          "timeFrom": null,
-          "timeShift": null,
           "targets": [
             {
-              "tags": [
+              "fields": [
                 {
-                  "key": "type",
-                  "operator": "=",
-                  "value": "ps_disk_octets"
+                  "func": "mean",
+                  "name": "value"
                 }
               ],
               "groupByTags": [
                 "instance"
-              ],
-              "fields": [
-                {
-                  "name": "value",
-                  "func": "mean"
-                }
               ],
               "measurement": "processes_write",
               "query": "SELECT mean(value) FROM \"processes_write\" WHERE \"type\" = 'ps_disk_octets' AND $timeFilter GROUP BY time($interval), \"instance\"",
-              "rawQuery": false
-            },
-            {
+              "rawQuery": false,
               "tags": [
                 {
                   "key": "type",
                   "operator": "=",
                   "value": "ps_disk_octets"
                 }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
               ],
               "groupByTags": [
                 "instance"
-              ],
-              "fields": [
-                {
-                  "name": "value",
-                  "func": "mean"
-                }
               ],
               "measurement": "processes_read",
               "query": "SELECT mean(value) FROM \"processes_read\" WHERE \"type\" = 'ps_disk_octets' AND $timeFilter GROUP BY time($interval), \"instance\"",
-              "rawQuery": false
-            }
-          ],
-          "aliasColors": {},
-          "seriesOverrides": [],
-          "links": []
-        },
-        {
-          "title": "Disk IOPS",
-          "error": false,
-          "span": 4,
-          "editable": true,
-          "type": "graph",
-          "id": 9,
-          "datasource": null,
-          "renderer": "flot",
-          "x-axis": true,
-          "y-axis": true,
-          "y_formats": [
-            "short",
-            "short"
-          ],
-          "grid": {
-            "leftLogBase": 1,
-            "leftMax": null,
-            "rightMax": null,
-            "leftMin": null,
-            "rightMin": null,
-            "rightLogBase": 1,
-            "threshold1": null,
-            "threshold2": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "lines": true,
-          "fill": 1,
-          "linewidth": 2,
-          "points": false,
-          "pointradius": 5,
-          "bars": false,
-          "stack": false,
-          "percentage": false,
-          "legend": {
-            "show": false,
-            "values": false,
-            "min": false,
-            "max": false,
-            "current": false,
-            "total": false,
-            "avg": false
-          },
-          "nullPointMode": "connected",
-          "steppedLine": false,
-          "tooltip": {
-            "value_type": "cumulative",
-            "shared": true
-          },
-          "timeFrom": null,
-          "timeShift": null,
-          "targets": [
-            {
+              "rawQuery": false,
               "tags": [
                 {
                   "key": "type",
                   "operator": "=",
-                  "value": "ps_disk_ops"
+                  "value": "ps_disk_octets"
                 }
-              ],
-              "groupByTags": [
-                "instance"
-              ],
-              "fields": [
-                {
-                  "name": "value",
-                  "func": "mean"
-                }
-              ],
-              "measurement": "processes_write",
-              "query": "SELECT mean(value) FROM \"processes_write\" WHERE \"type\" = 'ps_disk_ops' AND $timeFilter GROUP BY time($interval), \"instance\"",
-              "rawQuery": false
-            },
-            {
-              "tags": [
-                {
-                  "key": "type",
-                  "operator": "=",
-                  "value": "ps_disk_ops"
-                }
-              ],
-              "groupByTags": [
-                "instance"
-              ],
-              "fields": [
-                {
-                  "name": "value",
-                  "func": "mean"
-                }
-              ],
-              "measurement": "processes_read",
-              "query": "SELECT mean(value) FROM \"processes_read\" WHERE \"type\" = 'ps_disk_ops' AND $timeFilter GROUP BY time($interval), \"instance\"",
-              "rawQuery": false
+              ]
             }
           ],
-          "aliasColors": {},
-          "seriesOverrides": [],
-          "links": []
-        },
-        {
-          "title": "CPU",
-          "error": false,
-          "span": 4,
-          "editable": true,
-          "type": "graph",
-          "id": 11,
-          "datasource": null,
-          "renderer": "flot",
-          "x-axis": true,
-          "y-axis": true,
-          "y_formats": [
-            "short",
-            "short"
-          ],
-          "grid": {
-            "leftLogBase": 1,
-            "leftMax": null,
-            "rightMax": null,
-            "leftMin": null,
-            "rightMin": null,
-            "rightLogBase": 1,
-            "threshold1": null,
-            "threshold2": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "lines": true,
-          "fill": 1,
-          "linewidth": 2,
-          "points": false,
-          "pointradius": 5,
-          "bars": false,
-          "stack": false,
-          "percentage": false,
-          "legend": {
-            "show": true,
-            "values": false,
-            "min": false,
-            "max": false,
-            "current": false,
-            "total": false,
-            "avg": false
-          },
-          "nullPointMode": "connected",
-          "steppedLine": false,
-          "tooltip": {
-            "value_type": "cumulative",
-            "shared": true
-          },
           "timeFrom": null,
           "timeShift": null,
-          "targets": [
-            {
-              "tags": [],
-              "groupByTags": [],
-              "fields": [
-                {
-                  "name": "value",
-                  "func": "mean"
-                }
-              ],
-              "measurement": "processes_user",
-              "query": "SELECT mean(value) FROM \"processes_user\" WHERE $timeFilter GROUP BY time($interval)",
-              "rawQuery": false,
-              "alias": "user"
-            },
-            {
-              "tags": [],
-              "groupByTags": [],
-              "fields": [
-                {
-                  "name": "value",
-                  "func": "mean"
-                }
-              ],
-              "measurement": "processes_syst",
-              "query": "SELECT mean(value) FROM \"processes_syst\" WHERE $timeFilter GROUP BY time($interval)",
-              "rawQuery": false,
-              "alias": "system"
-            }
-          ],
-          "aliasColors": {},
-          "seriesOverrides": [],
-          "links": []
-        }
-      ]
-    },
-    {
-      "title": "New row",
-      "height": "250px",
-      "editable": true,
-      "collapse": false,
-      "panels": [
-        {
-          "title": "Memory",
-          "error": false,
-          "span": 6,
-          "editable": true,
+          "title": "IO Bytes",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
           "type": "graph",
-          "id": 10,
-          "datasource": null,
-          "renderer": "flot",
           "x-axis": true,
           "y-axis": true,
           "y_formats": [
             "bytes",
             "bytes"
-          ],
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "metrics",
+          "editable": true,
+          "error": false,
+          "fill": 1,
           "grid": {
             "leftLogBase": 1,
             "leftMax": null,
-            "rightMax": null,
             "leftMin": null,
-            "rightMin": null,
             "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
             "threshold1": null,
-            "threshold2": null,
             "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
             "threshold2Color": "rgba(234, 112, 112, 0.22)"
           },
-          "lines": true,
-          "fill": 1,
-          "linewidth": 2,
-          "points": false,
-          "pointradius": 5,
-          "bars": false,
-          "stack": true,
-          "percentage": false,
+          "id": 9,
           "legend": {
-            "show": true,
-            "values": false,
-            "min": false,
-            "max": false,
+            "avg": false,
             "current": false,
+            "max": false,
+            "min": false,
+            "show": false,
             "total": false,
-            "avg": false
+            "values": false
           },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
           "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 4,
+          "stack": false,
           "steppedLine": false,
-          "tooltip": {
-            "value_type": "cumulative",
-            "shared": true
-          },
-          "timeFrom": null,
-          "timeShift": null,
           "targets": [
             {
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "processes_write",
+              "query": "SELECT mean(value) FROM \"processes_write\" WHERE \"type\" = 'ps_disk_ops' AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "ps_disk_ops"
+                }
+              ]
+            },
+            {
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "processes_read",
+              "query": "SELECT mean(value) FROM \"processes_read\" WHERE \"type\" = 'ps_disk_ops' AND $timeFilter GROUP BY time($interval), \"instance\"",
+              "rawQuery": false,
+              "tags": [
+                {
+                  "key": "type",
+                  "operator": "=",
+                  "value": "ps_disk_ops"
+                }
+              ]
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Disk IOPS",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "short",
+            "short"
+          ]
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "metrics",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 11,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 4,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "user",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "processes_user",
+              "query": "SELECT mean(value) FROM \"processes_user\" WHERE $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": []
+            },
+            {
+              "alias": "system",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "processes_syst",
+              "query": "SELECT mean(value) FROM \"processes_syst\" WHERE $timeFilter GROUP BY time($interval)",
+              "rawQuery": false,
+              "tags": []
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "CPU",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "short",
+            "short"
+          ]
+        }
+      ],
+      "title": "New row"
+    },
+    {
+      "collapse": false,
+      "editable": true,
+      "height": "250px",
+      "panels": [
+        {
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "metrics",
+          "editable": true,
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
+          "id": 10,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
+          "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": true,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "$tag_instance",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [
+                "instance"
+              ],
+              "measurement": "processes_value",
+              "query": "SELECT mean(value) FROM \"processes_value\" WHERE \"type\" = 'ps_vm' AND \"instance\" <> 'freebayes' AND $timeFilter GROUP BY time($interval), \"instance\"",
               "tags": [
                 {
                   "key": "type",
@@ -945,117 +945,117 @@
                   "operator": "<>",
                   "value": "freebayes"
                 }
-              ],
-              "groupByTags": [
-                "instance"
-              ],
-              "fields": [
-                {
-                  "name": "value",
-                  "func": "mean"
-                }
-              ],
-              "measurement": "processes_value",
-              "query": "SELECT mean(value) FROM \"processes_value\" WHERE \"type\" = 'ps_vm' AND \"instance\" <> 'freebayes' AND $timeFilter GROUP BY time($interval), \"instance\"",
-              "alias": "$tag_instance"
+              ]
             }
           ],
-          "aliasColors": {},
-          "seriesOverrides": [],
-          "links": []
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Memory",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
+          "x-axis": true,
+          "y-axis": true,
+          "y_formats": [
+            "bytes",
+            "bytes"
+          ]
         },
         {
-          "title": "Page Faults",
-          "error": false,
-          "span": 6,
+          "aliasColors": {},
+          "bars": false,
+          "datasource": "metrics",
           "editable": true,
-          "type": "graph",
+          "error": false,
+          "fill": 1,
+          "grid": {
+            "leftLogBase": 1,
+            "leftMax": null,
+            "leftMin": null,
+            "rightLogBase": 1,
+            "rightMax": null,
+            "rightMin": null,
+            "threshold1": null,
+            "threshold1Color": "rgba(216, 200, 27, 0.27)",
+            "threshold2": null,
+            "threshold2Color": "rgba(234, 112, 112, 0.22)"
+          },
           "id": 12,
-          "datasource": null,
+          "legend": {
+            "avg": false,
+            "current": false,
+            "max": false,
+            "min": false,
+            "show": true,
+            "total": false,
+            "values": false
+          },
+          "lines": true,
+          "linewidth": 2,
+          "links": [],
+          "nullPointMode": "connected",
+          "percentage": false,
+          "pointradius": 5,
+          "points": false,
           "renderer": "flot",
+          "seriesOverrides": [],
+          "span": 6,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "alias": "Minor Faults",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "processes_minflt",
+              "query": "SELECT mean(value) FROM \"processes_minflt\" WHERE $timeFilter GROUP BY time($interval)",
+              "tags": []
+            },
+            {
+              "alias": "Major Faults",
+              "fields": [
+                {
+                  "func": "mean",
+                  "name": "value"
+                }
+              ],
+              "groupByTags": [],
+              "measurement": "processes_majflt",
+              "query": "SELECT mean(value) FROM \"processes_majflt\" WHERE $timeFilter GROUP BY time($interval)",
+              "tags": []
+            }
+          ],
+          "timeFrom": null,
+          "timeShift": null,
+          "title": "Page Faults",
+          "tooltip": {
+            "shared": true,
+            "value_type": "cumulative"
+          },
+          "type": "graph",
           "x-axis": true,
           "y-axis": true,
           "y_formats": [
             "short",
             "short"
-          ],
-          "grid": {
-            "leftLogBase": 1,
-            "leftMax": null,
-            "rightMax": null,
-            "leftMin": null,
-            "rightMin": null,
-            "rightLogBase": 1,
-            "threshold1": null,
-            "threshold2": null,
-            "threshold1Color": "rgba(216, 200, 27, 0.27)",
-            "threshold2Color": "rgba(234, 112, 112, 0.22)"
-          },
-          "lines": true,
-          "fill": 1,
-          "linewidth": 2,
-          "points": false,
-          "pointradius": 5,
-          "bars": false,
-          "stack": false,
-          "percentage": false,
-          "legend": {
-            "show": true,
-            "values": false,
-            "min": false,
-            "max": false,
-            "current": false,
-            "total": false,
-            "avg": false
-          },
-          "nullPointMode": "connected",
-          "steppedLine": false,
-          "tooltip": {
-            "value_type": "cumulative",
-            "shared": true
-          },
-          "timeFrom": null,
-          "timeShift": null,
-          "targets": [
-            {
-              "tags": [],
-              "groupByTags": [],
-              "fields": [
-                {
-                  "name": "value",
-                  "func": "mean"
-                }
-              ],
-              "measurement": "processes_minflt",
-              "query": "SELECT mean(value) FROM \"processes_minflt\" WHERE $timeFilter GROUP BY time($interval)",
-              "alias": "Minor Faults"
-            },
-            {
-              "tags": [],
-              "groupByTags": [],
-              "fields": [
-                {
-                  "name": "value",
-                  "func": "mean"
-                }
-              ],
-              "measurement": "processes_majflt",
-              "query": "SELECT mean(value) FROM \"processes_majflt\" WHERE $timeFilter GROUP BY time($interval)",
-              "alias": "Major Faults"
-            }
-          ],
-          "aliasColors": {},
-          "seriesOverrides": [],
-          "links": []
+          ]
         }
-      ]
+      ],
+      "title": "New row"
     },
     {
-      "title": "New row",
-      "height": "250px",
-      "editable": true,
       "collapse": false,
-      "panels": []
+      "editable": true,
+      "height": "250px",
+      "panels": [],
+      "title": "New row"
     }
   ],
   "nav": [
@@ -1102,6 +1102,6 @@
     "list": []
   },
   "schemaVersion": 6,
-  "version": 2,
+  "version": 0,
   "links": []
 }
