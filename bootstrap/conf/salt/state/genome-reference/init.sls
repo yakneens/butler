@@ -1,5 +1,5 @@
-{%- set ref_path = pillar['genome-reference.ref_path'] %}
-{%- set base_url = pillar['genome-reference.base_url'] %}
+{%- set ref_path = pillar['ref_path'] %}
+{%- set base_url = pillar['ref_base_url'] %}
 
 {{ ref_path }}:
   file.directory:

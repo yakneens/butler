@@ -10,4 +10,4 @@ reference_files:
   genome.fa.gz.64.pac: cbc647939a64ce1e5600f17e499db4f1
   genome.fa.gz.64.sa: 30b5f1a1811eb3036b44281b5f013c0e
  
-reference_location: /reference/genome.fa.gz
+reference_location: /reference/genome.fa
