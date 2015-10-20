@@ -26,7 +26,7 @@ samtools-install:
       
 /usr/bin/samtools:
   file.symlink:
-    - target: /opt/samtools/bin/samtools
+    - target: /opt/samtools/samtools
     - user: root
     - group: root
     - mode: 755

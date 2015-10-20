@@ -13,17 +13,10 @@ bcftools-make:
     - cwd: /opt/bcftools
     - watch: 
       - git: bcftools-clone
-      
-bcftools-install:
-  cmd.run:
-    - name: make install
-    - cwd: /opt/bcftools
-    - watch: 
-      - cmd: bcftools-make
-      
+            
 /usr/bin/bcftools:
   file.symlink:
-    - target: /opt/bcftools/bin/bcftools
+    - target: /opt/bcftools/bcftools
     - user: root
     - group: root
     - mode: 755
