@@ -1,4 +1,4 @@
-ncurses:
+ncurses-devel:
   pkg.installed: []
        
      
