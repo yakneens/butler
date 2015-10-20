@@ -3,7 +3,7 @@ htslib-clone:
   git.latest:
     - rev: 1.2
     - force_reset: True
-    - name: https://github.com/htslib/htslib.git
+    - name: https://github.com/samtools/htslib.git
     - target: /opt/htslib
     - submodules: True
     
