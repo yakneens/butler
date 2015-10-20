@@ -1,4 +1,3 @@
-     
 htslib-clone:
   git.latest:
     - rev: 1.2

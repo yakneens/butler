@@ -1,3 +1,6 @@
+ncurses:
+  pkg.installed: []
+       
      
 samtools-clone:
   git.latest:
