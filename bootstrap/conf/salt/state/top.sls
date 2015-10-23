@@ -15,7 +15,7 @@ base:
     - grafana 
   'G@roles:genotyper':
     - dnsmasq.gnos
-    - freebayes
+    - biotools.freebayes
   'G@roles:tracker':
     - airflow
     - postgres
