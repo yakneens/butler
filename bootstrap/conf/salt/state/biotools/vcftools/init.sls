@@ -13,14 +13,14 @@ vcftools-clone:
     
 vcftools-autogen:
   cmd.run:
-  - name: autogen.sh
+  - name: ./autogen.sh
   - cwd: /opt/vcftools
   - watch: 
     - git: vcftools-clone
     
 vcftools-conf:
   cmd.run:
-  - name: configure
+  - name: ./configure
   - cwd: /opt/vcftools
   - require:
     - cmd: vcftools-autogen
