@@ -1,3 +1,7 @@
+install_pgdg_repo:
+  cmd.run: 
+    - name: yum localinstall http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-2.noarch.rpm
+
 install_server:
   pkg.installed:
     - name: postgresql94-server.x86_64
