@@ -43,6 +43,12 @@ variable "bastion_user" {
 	default = "centos"
 }
 	
-variable "network_id" {
+variable "main_network_id" {
 	default = "829e5182-916f-49da-9d3c-5c8574bcbe8a"
-}	
+}
+
+variable "gnos_network_id" {
+	default = "099cc0b7-8809-4504-a72e-24565732dd45"
+}
+	
+
