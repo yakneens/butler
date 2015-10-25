@@ -10,7 +10,7 @@ initialize_db:
   cmd.run:
     - name: /usr/pgsql-9.4/bin/postgresql94-setup initdb
     - unless:
-      - ls: /var/lib/pgsql/9.4/data 
+      - ls: /var/lib/pgsql/9.4/data/base 
  
 enable_on_startup:
   cmd.run:
