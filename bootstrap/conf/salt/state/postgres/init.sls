@@ -9,6 +9,8 @@ install_server:
 initialize_db:
   cmd.run:
     - name: /usr/pgsql-9.4/bin/postgresql94-setup initdb
+    - unless:
+      - ls: /var/lib/pgsql/9.4/data 
  
 enable_on_startup:
   cmd.run:
@@ -21,6 +23,8 @@ enable_on_startup:
     - group: postgres
     - mode: 600
     - makedirs: True
+    - require:
+      - cmd: initialize_db
 
 /var/lib/pgsql/9.4/data/postgresql.conf:
   file.managed:
@@ -29,7 +33,9 @@ enable_on_startup:
     - group: postgres
     - mode: 600
     - makedirs: True
-
+    - require:
+      - cmd: initialize_db
+    
 start_server:    
   service.running:
     - name: postgresql-9.4
