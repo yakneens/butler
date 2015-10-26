@@ -1,6 +1,7 @@
 install_pgdg_repo:
-  cmd.run: 
-    - name: yum localinstall http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-2.noarch.rpm -y
+  pkg.installed: 
+    - name: pgdg
+    - sources: http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-2.noarch.rpm
 
 install_server:
   pkg.installed:
@@ -9,8 +10,7 @@ install_server:
 initialize_db:
   cmd.run:
     - name: /usr/pgsql-9.4/bin/postgresql94-setup initdb
-    - unless:
-      - ls: /var/lib/pgsql/9.4/data/base 
+
  
 enable_on_startup:
   cmd.run:
@@ -23,8 +23,7 @@ enable_on_startup:
     - group: postgres
     - mode: 600
     - makedirs: True
-    - require:
-      - cmd: initialize_db
+
 
 /var/lib/pgsql/9.4/data/postgresql.conf:
   file.managed:
@@ -33,8 +32,7 @@ enable_on_startup:
     - group: postgres
     - mode: 600
     - makedirs: True
-    - require:
-      - cmd: initialize_db
+
     
 start_server:    
   service.running:
