@@ -1,8 +1,7 @@
 install_pgdg_repo:
   pkg.installed: 
-    - name: pgdg
     - sources: 
-      - http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-2.noarch.rpm
+      - pgdg: http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-2.noarch.rpm
 
 install_server:
   pkg.installed:
