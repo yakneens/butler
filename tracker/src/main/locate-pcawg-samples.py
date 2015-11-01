@@ -11,15 +11,15 @@ Base = automap_base()
 engine = create_engine('postgresql://localhost:5432/germline_genotype_tracking')
 Base.prepare(engine, reflect=True)
 
-PCAWGSamples = Base.classes.pcawg_samples
-SampleLocations = Base.classes.sample_locations
+PCAWGSample = Base.classes.pcawg_samples
+SampleLocation = Base.classes.sample_locations
 
 session = Session(engine)
 
 #Create a dict mapping donor_index to sample_location
-sample_locations = {el.donor_index: el for el in session.query(SampleLocations)}
+sample_locations = {el.donor_index: el for el in session.query(SampleLocation)}
 
-for sample in session.query(PCAWGSamples):
+for sample in session.query(PCAWGSample):
     print "Processing Donor #: " + str(sample.index) + " Id: " + sample.submitter_donor_id
     
     #File location of the tumor BAM file
@@ -37,7 +37,7 @@ for sample in session.query(PCAWGSamples):
     
     #If sample_location for this donor does not yet exist, create it.
     if not this_sample_location:    
-        this_sample_location = SampleLocations()
+        this_sample_location = SampleLocation()
         this_sample_location.donor_index = sample.index
     
     is_found = False
@@ -58,4 +58,5 @@ for sample in session.query(PCAWGSamples):
         this_sample_location.last_updated = datetime.datetime.now()
         session.add(this_sample_location)
         session.commit()
- 
+        
+session.close() 
