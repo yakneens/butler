@@ -84,4 +84,28 @@ Now that Salt is set up you can run
 
 ```salt salt-master state.highstate```
 
-to finish configuring the Salt Master machine. 
+to finish configuring the Salt Master machine. If everything worked well you should see an output similar to this:
+
+```
+salt-master:
+  Name: unzip - Function: pkg.installed - Result: Clean
+  Name: /opt/consul/agent - Function: archive.extracted - Result: Clean
+  Name: /opt/consul/ui - Function: archive.extracted - Result: Clean
+  Name: /opt/consul/agent/consul - Function: file.managed - Result: Clean
+  Name: /usr/bin/consul - Function: file.symlink - Result: Clean
+  Name: /var/consul - Function: file.directory - Result: Clean
+  Name: /etc/opt/consul.d - Function: file.directory - Result: Clean
+  Name: /etc/opt/consul.d/ - Function: file.recurse - Result: Clean
+  Name: dnsmasq - Function: pkg.installed - Result: Clean
+  Name: /etc/dnsmasq.conf - Function: file.managed - Result: Clean
+  Name: /etc/dnsmasq.d/10-consul - Function: file.append - Result: Clean
+  Name: /etc/dnsmasq.d/10-proxy - Function: file.append - Result: Clean
+  Name: dnsmasq - Function: service.running - Result: Clean
+  Name: collectd - Function: pkg.installed - Result: Clean
+  Name: collectd-postgresql.x86_64 - Function: pkg.installed - Result: Clean
+  Name: collectd-java.x86_64 - Function: pkg.installed - Result: Clean
+  Name: collectd-generic-jmx.x86_64 - Function: pkg.installed - Result: Clean
+  Name: collectd-write_sensu.x86_64 - Function: pkg.installed - Result: Clean
+ 
+``` 
+
