@@ -63,6 +63,18 @@ A cluster is composed of a number of VMs, each of which fulfills a partiular fun
 The Salt Master machine facilitates coordination of configuration tasks that manage a computational cluster on the cloud.
 
 ### Provisioning
-* On the machine you're launching your infrastructure from navigate to `bootstrap/provision/terraform/salt-master
+* On the machine you're launching your infrastructure from navigate to `bootstrap/provision/terraform/salt-master`
 * Run ```terraform apply -var-file ../my_credentials.tfvars```
 * When the VM launches SSH onto it
+ 
+### Setting up Salt
+In order to make all of the salt states for this project available to the Salt Master you need to first clone this repository `git clone https://github.com/llevar/germline-regenotyper`in order to download the state definitions to that VM.
+The root of the Saltstack environment is at `/srv/`. Salt states are at `/srv/salt/` and pillars are at `/srv/pillar`, thus:
+
+```
+ln -s /home/centos/germline-regenotyper/bootstrap/conf/salt/state /srv/salt
+ln -s /home/centos/germline-regenotyper/bootstrap/conf/salt/pillar /srv/pillar
+```
+
+will set up the necessary directory structure (assuming you checked out to the home directory of the centos user)
+
