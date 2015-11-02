@@ -1,4 +1,4 @@
-# germline-regenotyper
+# Getting Started
 - Clone the repo
 - Install gradle or run ./gradlew from any submodule
 - Run ```gradle eclipse``` to generate eclipse project files
@@ -43,5 +43,10 @@ Navigate to the directory that contains the definition of the VMs you want to la
 
 ```terraform apply -var-file ../my_credentials.tfvars```
 
-Terraform will create a file called `terraform.tfstate` that describes the state of the infrastructure that has been launched. Notably, success or failure of launching various artefacts will be recorded here. If not all of the infrastructure is launched successfully, you can resolve the intervening issues
+Terraform will create a file called `terraform.tfstate` that describes the state of the infrastructure that has been launched. Notably, success or failure of launching various artefacts will be recorded here. If not all of the infrastructure is launched successfully, you can resolve the intervening issues and `apply` again - infrastructure will then be incrementally rebuilt i.e. only those machines that failed to stand up on the earlier try will be affected.
+
+### Destroy VMs
+
+```terraform destroy -var-file ../my_credentials.tfvars```
+
 
