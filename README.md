@@ -53,6 +53,16 @@ N.B. Make sure to remove the destroyed VM's public key from the Salt Master to a
 
 ```salt-key -d vm-name-prefix-*```
 
+on the Salt Master.
+
 # Cluster Configuration
 
-A cluster is composed of a number of VMs, each of which fulfills a partiular functional role: genotyper, tracker, merger, chunker, monitoring-server, etc. Configuration of these VMs is facilitated via [Saltstack](https://github.com/saltstack/salt). Saltstack uses a client-server model where a Salt Master machine can manage the configuration of a large fleet of Minion VMs.   
+A cluster is composed of a number of VMs, each of which fulfills a partiular functional role: genotyper, tracker, merger, chunker, monitoring-server, etc. Configuration of these VMs is facilitated via [Saltstack](https://github.com/saltstack/salt). Saltstack uses a client-server model where a Salt Master machine can manage the configuration of a large fleet of Minion VMs. Thus, *the first order of business when building out a cluster is to establish a Salt Master*.
+
+## Salt Master
+The Salt Master machine facilitates coordination of configuration tasks that manage a computational cluster on the cloud.
+
+### Provisioning
+* On the machine you're launching your infrastructure from navigate to `bootstrap/provision/terraform/salt-master
+* Run ```terraform apply -var-file ../my_credentials.tfvars```
+* When the VM launches SSH onto it
