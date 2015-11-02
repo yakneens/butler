@@ -67,14 +67,21 @@ The Salt Master machine facilitates coordination of configuration tasks that man
 * Run ```terraform apply -var-file ../my_credentials.tfvars```
 * When the VM launches SSH onto it
  
-### Setting up Salt
-In order to make all of the salt states for this project available to the Salt Master you need to first clone this repository `git clone https://github.com/llevar/germline-regenotyper`in order to download the state definitions to that VM.
-The root of the Saltstack environment is at `/srv/`. Salt states are at `/srv/salt/` and pillars are at `/srv/pillar`, thus:
+### Salt setup
+The project code should already be checked out for you by the provisioning script in 
+
+``` /home/centos/germline-regenotyper ```
+
+The root of the Saltstack environment is at `/srv/`. Salt states are at `/srv/salt/` and pillars are at `/srv/pillar`. Symlinks are automatically set up for you by the provisioning script.
 
 ```
 ln -s /home/centos/germline-regenotyper/bootstrap/conf/salt/state /srv/salt
 ln -s /home/centos/germline-regenotyper/bootstrap/conf/salt/pillar /srv/pillar
 ```
 
-will set up the necessary directory structure (assuming you checked out to the home directory of the centos user)
+### Fininishing Salt Master Configuration
+Now that Salt is set up you can run
 
+```salt salt-master state.highstate```
+
+to finish configuring the Salt Master machine. 
