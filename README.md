@@ -49,4 +49,10 @@ Terraform will create a file called `terraform.tfstate` that describes the state
 
 ```terraform destroy -var-file ../my_credentials.tfvars```
 
+N.B. Make sure to remove the destroyed VM's public key from the Salt Master to allow the VM to reconnect to the master when it is recreated again. You can use a command like
 
+```salt-key -d vm-name-prefix-*```
+
+# Cluster Configuration
+
+A cluster is composed of a number of VMs, each of which fulfills a partiular functional role: genotyper, tracker, merger, chunker, monitoring-server, etc. Configuration of these VMs is facilitated via [Saltstack](https://github.com/saltstack/salt). Saltstack uses a client-server model where a Salt Master machine can manage the configuration of a large fleet of Minion VMs.   
