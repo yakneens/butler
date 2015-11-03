@@ -3,7 +3,7 @@ base:
     - consul
     - dnsmasq
     - collectd
-    - hostfile
+#    - hostfile
   'G@roles:consul-bootstrap':
     - consul.bootstrap
   'G@roles:consul-server':
@@ -15,7 +15,7 @@ base:
     - grafana 
   'G@roles:genotyper':
     - dnsmasq.gnos
-    - freebayes
+    - biotools.freebayes
   'G@roles:tracker':
     - airflow
     - postgres

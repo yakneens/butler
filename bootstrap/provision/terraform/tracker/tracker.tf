@@ -12,7 +12,10 @@ resource "openstack_compute_instance_v2" "tracker" {
 	security_groups = ["internal"]
 	name = "tracker"
 	network = {
-		uuid = "${var.network_id}"
+		uuid = "${var.main_network_id}"
+	}
+	network = {
+		uuid = "${var.gnos_network_id}"
 	}
 	connection {
 		user = "${var.user}"

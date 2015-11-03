@@ -8,11 +8,14 @@ provider "openstack" {
 
 resource "openstack_compute_instance_v2" "salt_master" {
   	image_id = "${var.image_id}"
-	flavor_name = "m1.medium"
+	flavor_name = "s1.capacious"
 	security_groups = ["internal"]
 	name = "salt-master"
 	network = {
-		uuid = "${var.network_id}"
+		uuid = "${var.main_network_id}"
+	}
+	network = {
+		uuid = "${var.gnos_network_id}"
 	}
 	connection {
 		user = "${var.user}"
@@ -54,19 +57,19 @@ resource "openstack_compute_instance_v2" "salt_master" {
         	destination = "/home/centos/master"
     	}
 	provisioner "remote-exec" {
-	›	inline = [
+	inline = [
 			"sudo service salt-master stop",
 			"sudo service salt-minion stop",
 			"sudo mv /home/centos/master /etc/salt/master",       
 			"echo 'master: ${self.access_ip_v4}' | sudo tee -a /etc/salt/minion",
 			"echo 'id: salt-master' | sudo tee -a /etc/salt/minion",
-			"echo 'roles: [salt-master, consul-bootstrap, monitoring-server, glusterfs-master]' | sudo tee -a /etc/salt/grains",
+			"echo 'roles: [salt-master, consul-bootstrap, monitoring-server]' | sudo tee -a /etc/salt/grains",
 			"sudo service salt-master start",
 			"sudo hostname salt-master",
 			"git clone https://github.com/llevar/germline-regenotyper",
 			"git checkout develop",
-			"ln -s /root/germline-regenotyper/bootstrap/conf/salt/state /srv/salt",
-			"ln -s /root/germline-regenotyper/bootstrap/conf/salt/pillar /srv/pillar",
+			"sudo ln -s /home/centos/germline-regenotyper/bootstrap/conf/salt/state /srv/salt",
+			"sudo ln -s /home/centos/germline-regenotyper/bootstrap/conf/salt/pillar /srv/pillar",
 			"sudo service salt-minion start"
 			    ]
         }
