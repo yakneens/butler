@@ -19,12 +19,13 @@ default_args = {
 
 
 donor_index = "23"
+sample_id = "f82d213f-bc96-5b1d-e040-11ac0c486880"
 
 dag = DAG("freebayes-regenotype", default_args=default_args)
 
 t1 = BashOperator(
     task_id = "reserve_sample",
-    bash_command = "python /tmp/update-sample-status.py " + donor_index + " 1",
+    bash_command = "python /tmp/update-sample-status.py " + donor_index + " "  + sample_id + "1",
     dag = dag)
 
 
