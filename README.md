@@ -1,3 +1,6 @@
+#Solution Architecture
+![Solution Architecture](docs/diagrams/High Level Architecture.jpg)
+
 # Getting Started
 - Clone the repo
 - Install gradle or run ./gradlew from any submodule
@@ -153,9 +156,7 @@ base:
 
 ## Monitoring
 This project uses [Collectd](https://github.com/collectd/collectd) for collecting metrics, the metrics are then shipped to an [InfluxDB](https://github.com/influxdb/influxdb) time series database, and are visualized using [Grafana](https://github.com/grafana/grafana) real-time dashboards.
-
 ![Monitoring](docs/diagrams/Monitoring.jpg)
-
 ### Monitoring Server
 The `monitoring-server` role currently deploys an InfluxDB instance and Grafana onto a host. This role is at present assigned to the Salt Master.
 
