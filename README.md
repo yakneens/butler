@@ -151,5 +151,26 @@ base:
     - gluster
 ```
 
+## Monitoring
+This project uses [Collectd](https://github.com/collectd/collectd) for collecting metrics, the metrics are then shipped to an [InfluxDB](https://github.com/influxdb/influxdb) time series database, and are visualized using [Grafana](https://github.com/grafana/grafana) real-time dashboards.
 
+### Monitoring Server
+The `monitoring-server` role currently deploys an InfluxDB instance and Grafana onto a host. This role is at present assigned to the Salt Master.
 
+### Monitoring Clients
+Metrics collection is facilitated by assigning the `collectd` state to all VMs in the cluster via the `top.sls` file. Configuration of various Collectd plugins is contained in the [collectd.conf](bootstrap/conf/salt/state/collectd/collectd.conf) file. All vital host metrics are collected:
+
+* Load (Blended score)
+* CPU
+* RAM
+* Disk I/O
+* Disk Space
+* Network I/O
+* Database Metrics
+* Process-specific metrics
+
+### Influx DB
+The Influx DB admin UI is published on http://localhost:8083 of the Monitoring Server. Currently only the local interface is listened to.
+
+### Grafana
+The Grafana dashboard website is published on http://localhost:3000 of the Monitoring Server. Currently only the local interface is listened to.
