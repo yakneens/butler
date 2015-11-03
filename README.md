@@ -154,6 +154,8 @@ base:
 ## Monitoring
 This project uses [Collectd](https://github.com/collectd/collectd) for collecting metrics, the metrics are then shipped to an [InfluxDB](https://github.com/influxdb/influxdb) time series database, and are visualized using [Grafana](https://github.com/grafana/grafana) real-time dashboards.
 
+![Monitoring](https://drive.google.com/file/d/0BzW5Bc7xnxuNTGphSmwzZzc1RHc/view?usp=sharing)
+
 ### Monitoring Server
 The `monitoring-server` role currently deploys an InfluxDB instance and Grafana onto a host. This role is at present assigned to the Salt Master.
 
