@@ -376,7 +376,7 @@ auto_accept: True
 # the output will be shortened to a single line.  If set to 'mixed', the output
 # will be terse unless a state failed, in which case that output will be full.
 # If set to 'changes', the output will be full unless the state didn't change.
-#state_output: full
+state_output: mixed
 
 # Automatically aggregate all states that have support for mod_aggregate by
 # setting to True. Or pass a list of state module names to automatically
