@@ -109,3 +109,47 @@ salt-master:
  
 ``` 
 
+## Configuration via roles
+All Saltstack based configuration mapping in the cluster is accomplished via roles. Each machine in the cluster is assigned one or more Salt roles via the Saltstack grains mechanism. These are populated at VM launch through the Terraform configuration files
+
+[saltmaster.tf](bootstrap/conf/provision/terraform/salt-master/saltmaster.tf)
+```
+"echo 'roles: [salt-master, consul-bootstrap, monitoring-server]' | sudo tee -a /etc/salt/grains"
+```
+
+This gives the Salt Master VM `salt-master`, `consul-bootstrap`, and `monitoring-server` roles. The `top.sls` file then maps roles to states using the [grain targeting method](https://docs.saltstack.com/en/develop/topics/targeting/index.html). When `state.highstate` command is run all of the states matching the roles that minion has are applied. 
+
+[top.sls](bootstrap/conf/salt/state/top.sls)
+
+```
+base:
+  '*':
+    - consul
+    - dnsmasq
+    - collectd
+#    - hostfile
+  'G@roles:consul-bootstrap':
+    - consul.bootstrap
+  'G@roles:consul-server':
+    - consul.server
+  'G@roles:consul-client':
+    - consul.client
+  'G@roles:monitoring-server':
+    - influxdb
+    - grafana 
+  'G@roles:genotyper':
+    - dnsmasq.gnos
+    - biotools.freebayes
+  'G@roles:tracker':
+    - airflow
+    - postgres
+    - run-tracking-db
+  'G@roles:glusterfs-server':
+    - gluster
+    - gluster.bricks
+  'G@roles:glusterfs-master':
+    - gluster
+```
+
+
+
