@@ -19,6 +19,7 @@ def set_in_progress(my_run):
         exit(1)
     else:
         my_run.run_status = 1
+        my_run.run_start_date = datetime.datetime.now()
         
 def set_finished(my_run):
     if my_run.run_status != 1:
@@ -26,6 +27,7 @@ def set_finished(my_run):
         exit(1)
     else:
         my_run.run_status = 2
+        my_run.run_end_date = datetime.datetime.now()
         
 def set_error(my_run):
     my_run.run_status = 3
@@ -58,10 +60,11 @@ if not my_run:
     my_run.run_status = 0
     my_run.donor_index = this_donor_index
     my_run.sample_id = this_sample_id
+    my_run.created_date = datetime.datetime.now()
     session.add(my_run)
 
 set_status[new_status](my_run)
-my_run.last_updated = datetime.datetime.now()
+my_run.last_updated_date = datetime.datetime.now()
 session.commit()
 session.close()
 
