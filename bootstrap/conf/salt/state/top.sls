@@ -20,6 +20,7 @@ base:
     - airflow
     - postgres
     - run-tracking-db
+    - rabbitmq
   'G@roles:glusterfs-server':
     - gluster
     - gluster.bricks
