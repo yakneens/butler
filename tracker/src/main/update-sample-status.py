@@ -34,7 +34,7 @@ set_status = {"0": set_ready, "1": set_in_progress, "2": set_finished, "3": set_
 
 #Connect to the database and reflect the schema into python objects
 Base = automap_base()
-engine = create_engine('postgresql://localhost:5432/germline_genotype_tracking')
+engine = create_engine('postgresql://run-tracking-db.service.consul:5432/germline_genotype_tracking')
 Base.prepare(engine, reflect=True)
 
 PCAWGSample = Base.classes.pcawg_samples
