@@ -2,7 +2,7 @@ import sys
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
-from sqlalchemy import _and
+from sqlalchemy import and_
 import os.path
 import datetime
 
