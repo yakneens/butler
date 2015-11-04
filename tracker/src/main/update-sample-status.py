@@ -42,7 +42,7 @@ GenotypingRun = Base.classes.genotyping_runs
 
 session = Session(engine)
 
-if len(sys.argv != 4):
+if len(sys.argv) != 4:
     print "Wrong number of args"
     exit(1)
     
