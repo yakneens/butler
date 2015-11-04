@@ -51,7 +51,7 @@ this_donor_index = sys.argv[1]
 this_sample_id = sys.argv[2]
 new_status = sys.argv[3]
 
-my_run = session.query(GenotypingRun).filter_by(and_(donor_index=this_donor_index, sample_id=this_sample_id)).first()
+my_run = session.query(GenotypingRun).filter(and_(GenotypingRun.donor_index==this_donor_index, GenotypingRun.sample_id==this_sample_id)).first()
 
 if not my_run:
     my_run = GenotypingRun()
