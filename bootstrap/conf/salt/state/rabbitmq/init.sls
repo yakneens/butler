@@ -7,7 +7,7 @@ install_rabbitmq:
     - sources: 
       - rabbitmq: https://www.rabbitmq.com/releases/rabbitmq-server/v3.5.6/rabbitmq-server-3.5.6-1.noarch.rpm
 
-enable_on_startup:
+enable_rabbitmq_on_startup:
   cmd.run:
     - name: chkconfig rabbitmq-server on
     
