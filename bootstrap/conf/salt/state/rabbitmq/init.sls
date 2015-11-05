@@ -16,6 +16,11 @@ start_rabbitmq:
   service.running:
     - name: rabbitmq-server
     
+rabbitmq_vhost:
+  rabbitmq_vhost.present:
+    - name: pcawg_vhost
+    - user: pcawg
+    
 rabbitmq_user:
   rabbitmq_user.present:
     - name: pcawg
@@ -25,9 +30,4 @@ rabbitmq_user:
         - '.*'
         - '.*'
         - '.*'  
-        
-rabbitmq_vhost:
-  rabbitmq_vhost.present:
-    - name: pcawg_vhost
-    - user: pcawg
   
