@@ -15,8 +15,6 @@ enable_rabbitmq_on_startup:
 start_rabbitmq:    
   service.running:
     - name: rabbitmq-server
-    - watch:
-      - file: /etc/rabbitmq/*conf*
     
 rabbitmq_user:
   rabbitmq_user.present:
