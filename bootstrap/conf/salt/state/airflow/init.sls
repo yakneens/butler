@@ -5,10 +5,14 @@ upgrade_pip:
 install_numpy:
   pip.installed: 
     - name: numpy
+    - upgrade: True
+    
   
 install_airflow:
   pip.installed: 
     - name: airflow
+    - upgrade: True
+    
     
 /root/airflow/airflow.cfg:
   file.managed:
