@@ -25,12 +25,18 @@ rabbitmq_user:
   rabbitmq_user.present:
     - name: pcawg
     - password: pcawg
+    - tags: 
+      - management
     - perms:
       - 'pcawg_vhost':
         - '.*'
         - '.*'
-        - '.*'  
-        
+        - '.*'
+          
+rabbitmq_management_plugin:
+  rabbitmq_plugin.enabled:
+    - name: rabbitmq_management
+            
 rabbitmq_consul_config:
   file.managed:
     - name: /etc/opt/consul.d/rabbitmq_consul.json
