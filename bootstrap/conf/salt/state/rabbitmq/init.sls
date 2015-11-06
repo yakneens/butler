@@ -34,7 +34,7 @@ rabbitmq_user:
 rabbitmq_consul_config:
   file.managed:
     - name: /etc/opt/consul.d/rabbitmq_consul.json
-    - source: salt://rabbitmq/config/rabbitmq_consul.json
+    - source: salt://rabbitmq/conf/rabbitmq_consul.json
     - user: root
     - group: root
     - mode: 644 
