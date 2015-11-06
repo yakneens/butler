@@ -17,10 +17,11 @@ base:
     - dnsmasq.gnos
     - biotools.freebayes
   'G@roles:tracker':
-    - airflow
     - postgres
     - run-tracking-db
     - rabbitmq
+    - celery
+    - airflow
   'G@roles:glusterfs-server':
     - gluster
     - gluster.bricks
