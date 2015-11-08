@@ -17,7 +17,7 @@ install_airflow:
 /root/airflow/airflow.cfg:
   file.managed:
     - source: salt://airflow/conf/airflow.cfg
-    - user: postgres
-    - group: postgres
+    - user: root
+    - group: root
     - mode: 600
     - makedirs: True
