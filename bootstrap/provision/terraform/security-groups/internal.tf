@@ -205,4 +205,11 @@ resource "openstack_compute_secgroup_v2" "internal" {
 		ip_protocol = "tcp"
 		self = "true"
 	}
+	#Celery
+	rule {
+		from_port = 5555
+		to_port = 5555
+		ip_protocol = "tcp"
+		self = "true"
+	}
 }
