@@ -5,6 +5,23 @@ from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 
+def lookup_sample_location(donor_index):
+    Base = automap_base()
+    engine = create_engine('postgresql://pcawg_admin:pcawg@run-tracking-db.service.consul:5432/germline_genotype_tracking')
+    Base.prepare(engine, reflect=True)
+    
+    SampleLocation = Base.classes.sample_locations
+    
+    session = Session(engine)
+
+    my_sample_location = session.query(SampleLocation).filter(SampleLocation.donor_index==donor_index).first()
+
+    if my_sample_location:
+        return my_sample_location.normal_sample_location
+    else:
+        print "Sample location could not be found for donor: " + str(donor_index)
+        exit(1)
+
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
@@ -64,20 +81,5 @@ for contig_name in contig_names:
     
 
 
-def lookup_sample_location(donor_index):
-    Base = automap_base()
-    engine = create_engine('postgresql://pcawg_admin:pcawg@run-tracking-db.service.consul:5432/germline_genotype_tracking')
-    Base.prepare(engine, reflect=True)
-    
-    SampleLocation = Base.classes.sample_locations
-    
-    session = Session(engine)
 
-    my_sample_location = session.query(SampleLocation).filter(SampleLocation.donor_index==donor_index).first()
-
-    if my_sample_location:
-        return my_sample_location.normal_sample_location
-    else:
-        print "Sample location could not be found for donor: " + str(donor_index)
-        exit(1)
 
