@@ -8,7 +8,7 @@ base_path = "/gnosdata/data/"
 
 #Connect to the database and reflect the schema into python objects
 Base = automap_base()
-engine = create_engine('postgresql://localhost:5432/germline_genotype_tracking')
+engine = create_engine('postgresql://pcawg_admin:pcawg@run-tracking-db.service.consul:5432/germline_genotype_tracking')
 Base.prepare(engine, reflect=True)
 
 PCAWGSample = Base.classes.pcawg_samples
