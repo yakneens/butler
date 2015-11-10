@@ -62,24 +62,39 @@ release_sample_task = BashOperator(
     dag = dag)
 
 for contig_name in contig_names:
-    sample_location = lookup_sample_location(donor_index) 
+    sample_location = lookup_sample_location(donor_index)
+    result_filename = "/tmp/" + sample_id + "_regenotype_" + contig_name + ".vcf"
     genotyping_task = BashOperator(
        task_id = "regenotype_" + contig_name,
        bash_command = "freebayes -r " + contig_name +\
                         " -f " + reference_location +\
                         " -@ " + variants_location +\
                         " -l " + sample_location +\
-                        " > /tmp/" + sample_id + "_regenotype_" + contig_name + ".vcf",
+                        " > " + result_filename,
        dag = dag)
     
     genotyping_task.set_upstream(reserve_sample_task)
     
-    data_copy_task = BashOperator(                                  
-        task_id = "copy_result_" + contig_name,
-        bash_command = 'mkdir -p ' + results_base_path + '/' + sample_id + '/ && cp /tmp/' + sample_id + '_regenotype_' + contig_name + '.vcf "$_"',
+    data_compress_task = BashOperator(                                  
+        task_id = "compress_result_" + contig_name,
+        bash_command = '/usr/local/bin/bgzip -c ' + result_filename + ' > ' + result_filename + '.gz',
         dag = dag)
     
-    data_copy_task.set_upstream(genotyping_task)
+    data_compress_task.set_upstream(genotyping_task)
+    
+    generate_tabix_task = BashOperator(                                  
+        task_id = "generate_tabix_" + contig_name,
+        bash_command = '/usr/local/bin/tabix -f -p vcf ' + result_filename + '.gz',
+        dag = dag)
+    
+    generate_tabix_task.set_upstream(data_compress_task)
+    
+    data_copy_task = BashOperator(                                  
+        task_id = "copy_result_" + contig_name,
+        bash_command = 'mkdir -p ' + results_base_path + '/' + sample_id + '/ && cp /tmp/' + sample_id + '_regenotype_' + contig_name + '.vcf.gz* "$_"',
+        dag = dag)
+    
+    data_copy_task.set_upstream(generate_tabix_task)
     
     release_sample_task.set_upstream(data_copy_task)
     
