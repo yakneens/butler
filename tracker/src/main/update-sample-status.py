@@ -67,4 +67,4 @@ set_status[new_status](my_run)
 my_run.last_updated_date = datetime.datetime.now()
 session.commit()
 session.close()
-
+engine.dispose()

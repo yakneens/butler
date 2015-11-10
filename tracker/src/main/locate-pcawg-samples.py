@@ -59,4 +59,5 @@ for sample in session.query(PCAWGSample):
         session.add(this_sample_location)
         session.commit()
         
-session.close() 
+session.close()
+engine.dispose() 

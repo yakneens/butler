@@ -21,7 +21,9 @@ def lookup_sample_location(donor_index):
     else:
         print "Sample location could not be found for donor: " + str(donor_index)
         exit(1)
-
+        
+    session.close()
+    engine.dispose()
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
