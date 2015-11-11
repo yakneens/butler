@@ -3,7 +3,6 @@ base:
     - consul
     - dnsmasq
     - collectd
-#    - hostfile
   'G@roles:consul-bootstrap':
     - consul.bootstrap
   'G@roles:consul-server':
@@ -16,16 +15,17 @@ base:
   'G@roles:genotyper':
     - dnsmasq.gnos
     - biotools.freebayes
+    - biotools.htslib
+    - biotools.samtools
+    - airflow
   'G@roles:tracker':
     - postgres
     - run-tracking-db
     - rabbitmq
     - celery
     - airflow
-  'G@roles:glusterfs-server':
-    - gluster
-    - gluster.bricks
-  'G@roles:glusterfs-master':
-    - gluster
+    - airflow.load-workflows
+    - airflow.server
+
 
     
