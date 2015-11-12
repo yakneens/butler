@@ -7,7 +7,7 @@ After=network-online.target
 EnvironmentFile=-/etc/sysconfig/airflow-webserver
 Environment=GOMAXPROCS=2
 Restart=on-failure
-ExecStart=airflow webserver
+ExecStart=/usr/bin/airflow webserver
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGINT
 

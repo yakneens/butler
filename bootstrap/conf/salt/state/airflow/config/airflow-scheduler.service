@@ -7,7 +7,7 @@ After=network-online.target
 EnvironmentFile=-/etc/sysconfig/airflow-scheduler
 Environment=GOMAXPROCS=2
 Restart=on-failure
-ExecStart=airflow scheduler
+ExecStart=/usr/bin/airflow scheduler
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGINT
 
