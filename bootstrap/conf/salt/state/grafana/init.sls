@@ -3,6 +3,13 @@ initscripts:
 
 fontconfig:
   pkg.installed: []
+  
+pcawg_sample_db:
+  postgres_database.present:
+    - name: grafana
+    - owner: pcawg_admin
+    - tablespace: germline_dbspace
+    - user: postgres
 
 grafana:
   pkg.installed:
