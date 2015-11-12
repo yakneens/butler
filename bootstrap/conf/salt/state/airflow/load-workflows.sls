@@ -13,6 +13,7 @@ germline-regenotyper-clone:
     - group: root
     - mode: 755
     - force: True
+    - makedirs: True
  
 /tmp/germline-regenotyper/scripts:
   file.symlink:
@@ -21,3 +22,4 @@ germline-regenotyper-clone:
     - group: root
     - mode: 755
     - force: True
+    - makedirs: True
