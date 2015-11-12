@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 
 def lookup_sample_location(donor_index):
     Base = automap_base()
-    engine = create_engine('postgresql://pcawg_admin:pcawg@run-tracking-db.service.consul:5432/germline_genotype_tracking')
+    engine = create_engine('postgresql://pcawg_admin:pcawg@postgresql.service.consul:5432/germline_genotype_tracking')
     Base.prepare(engine, reflect=True)
     
     SampleLocation = Base.classes.sample_locations
@@ -27,7 +27,7 @@ def lookup_sample_location(donor_index):
 
 def get_next_sample():    
     Base = automap_base()
-    engine = create_engine('postgresql://pcawg_admin:pcawg@run-tracking-db.service.consul:5432/germline_genotype_tracking')
+    engine = create_engine('postgresql://pcawg_admin:pcawg@postgresql.service.consul:5432/germline_genotype_tracking')
     Base.prepare(engine, reflect=True)
     
     PCAWGSample = Base.classes.pcawg_samples
