@@ -4,7 +4,7 @@ initscripts:
 fontconfig:
   pkg.installed: []
   
-pcawg_sample_db:
+grafana_db:
   postgres_database.present:
     - name: grafana
     - owner: pcawg_admin
