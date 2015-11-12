@@ -212,4 +212,12 @@ resource "openstack_compute_secgroup_v2" "internal" {
 		ip_protocol = "tcp"
 		self = "true"
 	}
+	#Statsd
+	rule {
+		from_port = 8125
+		to_port = 8125
+		ip_protocol = "tcp"
+		self = "true"
+	}
+	
 }
