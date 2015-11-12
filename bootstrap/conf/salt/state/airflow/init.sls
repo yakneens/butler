@@ -21,7 +21,7 @@ airflow_user:
     - empty_password: True
     
 /opt/airflow:
-  file.directory    
+  file.directory:    
     - user: airflow
     - group: airflow
     - dir_mode: 755
