@@ -7,7 +7,7 @@ After=network-online.target
 EnvironmentFile=-/etc/sysconfig/airflow-worker
 Environment=GOMAXPROCS=2
 Restart=on-failure
-ExecStart=airflow worker $OPTIONS
+ExecStart=airflow worker
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGINT
 User=airflow

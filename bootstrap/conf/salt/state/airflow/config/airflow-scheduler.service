@@ -4,10 +4,10 @@ Requires=network-online.target
 After=network-online.target
 
 [Service]
-EnvironmentFile=-/etc/sysconfig/consul
+EnvironmentFile=-/etc/sysconfig/airflow-scheduler
 Environment=GOMAXPROCS=2
 Restart=on-failure
-ExecStart=/opt/consul/agent/consul agent $OPTIONS -config-dir=/etc/opt/consul.d
+ExecStart=airflow scheduler
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGINT
 
