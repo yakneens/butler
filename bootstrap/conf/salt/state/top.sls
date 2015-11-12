@@ -18,6 +18,7 @@ base:
     - biotools.htslib
     - biotools.samtools
     - airflow
+    - airflow.load-workflows
   'G@roles:tracker':
     - postgres
     - run-tracking-db
