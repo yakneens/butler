@@ -21,6 +21,7 @@ base:
     - airflow.load-workflows
   'G@roles:tracker':
     - postgres
+    - grafana.createdb
     - run-tracking-db
     - rabbitmq
     - celery
