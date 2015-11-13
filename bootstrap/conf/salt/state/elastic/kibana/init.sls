@@ -1,4 +1,4 @@
-/opt/kibana/:
+/opt/:
   archive.extracted:
     - source: https://download.elastic.co/kibana/kibana/kibana-4.2.0-linux-x64.tar.gz
     - archive_format: tar
