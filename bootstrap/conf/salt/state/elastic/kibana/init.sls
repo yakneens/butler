@@ -12,6 +12,13 @@
     - group: root
     - mode: 744
 
+/etc/opt/kibana/kibana.yml:
+  file.managed:
+    - source: salt://elastic/kibana/config/kibana.yml
+    - user: root
+    - group: root
+    - mode: 744
+
 start_kibana:
   service.running:
     - name: kibana

@@ -3,9 +3,7 @@ Description=Kibana
 
 [Service]
 Type=simple
-Environment=CONFIG_PATH=/etc/opt/kibana/kibana.yml
-Environment=NODE_ENV=production
-ExecStart=/opt/kibana/kibana-4.2.0-linux-x64/bin/kibana -c $CONFIG_PATH
+ExecStart=/opt/kibana/kibana-4.2.0-linux-x64/bin/kibana -c /etc/opt/kibana/kibana.yml
 
 [Install]
 WantedBy=multi-user.target
