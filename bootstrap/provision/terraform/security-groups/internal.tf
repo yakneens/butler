@@ -219,5 +219,18 @@ resource "openstack_compute_secgroup_v2" "internal" {
 		ip_protocol = "tcp"
 		self = "true"
 	}
+	#Elasticsearch
+	rule {
+		from_port = 9200
+		to_port = 9200
+		ip_protocol = "tcp"
+		self = "true"
+	}
+	rule {
+		from_port = 9300
+		to_port = 9300
+		ip_protocol = "tcp"
+		self = "true"
+	}
 	
 }

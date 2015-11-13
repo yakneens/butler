@@ -7,3 +7,11 @@ elasticsearch_repo:
 install_elasticsearch:
   pkg.installed:
     - name: elasticsearch
+
+enable_on_boot_elasticsearch:
+  service.enabled:
+    - name: elasticsearch
+
+start_elasticsearch:    
+  service.running:
+    - name: elasticsearch

@@ -7,3 +7,11 @@ logstash_repo:
 install_logstash:
   pkg.installed:
     - name: logstash
+    
+enable_on_boot_logstash:
+  service.enabled:
+    - name: elasticsearch
+
+start_logstash:    
+  service.running:
+    - name: elasticsearch
