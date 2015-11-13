@@ -10,8 +10,8 @@ install_logstash:
     
 enable_on_boot_logstash:
   service.enabled:
-    - name: elasticsearch
+    - name: logstash
 
 start_logstash:    
   service.running:
-    - name: elasticsearch
+    - name: logstash
