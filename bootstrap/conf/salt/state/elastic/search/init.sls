@@ -32,3 +32,28 @@ enable_on_boot_elasticsearch:
 start_elasticsearch:    
   service.running:
     - name: elasticsearch
+
+/tmp/filebeat.template.json:
+  file.managed:
+    - source: salt://elastic/search/config/filebeat.template.json
+    - user: root
+    - group: root
+    - mode: 600
+    - makedirs: True
+
+load_filebeat_template:
+  cmd.run:
+    - name: curl -XPUT 'http://elasticsearch.service.consul:9200/_template/filebeat?pretty' -d@/tmp/filebeat.template.json  --noproxy elasticsearch.service.consul
+
+/tmp/packetbeat.template.json:
+  file.managed:
+    - source: salt://elastic/search/config/packetbeat.template.json
+    - user: root
+    - group: root
+    - mode: 600
+    - makedirs: True
+
+load_packetbeat_template:
+  cmd.run:
+    - name: curl -XPUT 'http://elasticsearch.service.consul:9200/_template/packetbeat' -d@/tmp/packetbeat.template.json --noproxy elasticsearch.service.consul
+
