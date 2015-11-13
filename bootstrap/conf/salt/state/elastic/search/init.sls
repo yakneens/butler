@@ -31,7 +31,7 @@ enable_on_boot_elasticsearch:
 
 install_marvel_plugin:
   cmd.run:
-    - name: /usr/share/elasticsearch/bin/plugin -i elasticsearch/marvel/latest
+    - name: /usr/share/elasticsearch/bin/plugin install elasticsearch/marvel/latest
 
 start_elasticsearch:    
   service.running:
