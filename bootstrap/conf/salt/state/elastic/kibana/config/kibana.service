@@ -5,7 +5,7 @@ Description=Kibana
 Type=simple
 Environment=CONFIG_PATH=/etc/opt/kibana/kibana.yml
 Environment=NODE_ENV=production
-ExecStart=/opt/kibana-4.2.0-linux-x64/node/bin/node /opt/kibana-4.2.0-linux-x64/src/bin/kibana.js
+ExecStart=/opt/kibana/kibana-4.2.0-linux-x64/node/bin/node /opt/kibana/kibana-4.2.0-linux-x64/src/bin/kibana.js
 
 [Install]
 WantedBy=multi-user.target
