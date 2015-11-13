@@ -28,8 +28,8 @@ install_beats_plugin:
 /etc/logstash/conf.d/config.json:
   file.managed:
     - source: salt://elastic/logstash/config/config.json
-    - user: root
-    - group: root
+    - user: logstash
+    - group: logstash
     - mode: 600
     - makedirs: True
 
