@@ -24,6 +24,14 @@ enable_on_boot_logstash:
 install_beats_plugin:
   cmd.run:
     - name: /opt/logstash/plugin install logstash-input-beats
+    
+/etc/logstash/conf.d/config.json:
+  file.managed:
+    - source: salt://elastic/logstash/config/config.json
+    - user: root
+    - group: root
+    - mode: 600
+    - makedirs: True
 
 start_logstash:    
   service.running:

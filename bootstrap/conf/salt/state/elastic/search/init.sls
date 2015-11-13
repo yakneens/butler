@@ -17,6 +17,14 @@ install_elasticsearch:
   pkg.installed:
     - name: elasticsearch
 
+/etc/elasticsearch/elasticsearch.yml:
+  file.managed:
+    - source: salt://elastic/search/config/elasticsearch.yml
+    - user: root
+    - group: root
+    - mode: 600
+    - makedirs: True
+
 enable_on_boot_elasticsearch:
   service.enabled:
     - name: elasticsearch
