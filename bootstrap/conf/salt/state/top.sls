@@ -20,7 +20,7 @@ base:
     - airflow
     - airflow.load-workflows
   'G@roles:tracker':
-    - logstash
+    - elastic
     - postgres
     - grafana.createdb
     - run-tracking-db
