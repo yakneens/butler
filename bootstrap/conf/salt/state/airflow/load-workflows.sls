@@ -9,8 +9,8 @@ germline-regenotyper-clone:
 /opt/airflow/dags:
   file.symlink:
     - target: /opt/germline-regenotyper/tracker/src/main/workflows
-    - user: root
-    - group: root
+    - user: airflow
+    - group: airflow
     - mode: 755
     - force: True
     - makedirs: True

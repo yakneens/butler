@@ -1,0 +1,11 @@
+[Unit]
+Description=Kibana
+
+[Service]
+Type=simple
+Environment=CONFIG_PATH=/etc/opt/kibana/kibana.yml
+Environment=NODE_ENV=production
+ExecStart=/opt/kibana/node/bin/node /opt/kibana/src/bin/kibana.js
+
+[Install]
+WantedBy=multi-user.target

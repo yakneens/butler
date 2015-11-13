@@ -232,5 +232,13 @@ resource "openstack_compute_secgroup_v2" "internal" {
 		ip_protocol = "tcp"
 		self = "true"
 	}
+	#Kibana
+	rule {
+		from_port = 5601
+		to_port = 5601
+		ip_protocol = "tcp"
+		self = "true"
+	}
+	
 	
 }

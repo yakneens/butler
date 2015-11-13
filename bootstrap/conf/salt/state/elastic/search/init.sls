@@ -29,9 +29,13 @@ enable_on_boot_elasticsearch:
   service.enabled:
     - name: elasticsearch
 
-install_marvel_plugin:
+install_license_plugin:
   cmd.run:
-    - name: /usr/share/elasticsearch/bin/plugin install elasticsearch/marvel/1.3.1
+    - name: /usr/share/elasticsearch/bin/plugin install license
+
+install_marvel_agent_plugin:
+  cmd.run:
+    - name: /usr/share/elasticsearch/bin/plugin install marvel-agent
 
 start_elasticsearch:    
   service.running:
