@@ -11,10 +11,6 @@ install_filebeat:
     - mode: 600
     - makedirs: True
     
-load_es_template:
-  cmd.run:
-    - name: curl -XPUT 'http://elasticsearch.service.consul:9200/_template/filebeat?pretty' -d@/etc/filebeat/filebeat.template.json
-
 enable_on_boot_filebeat:
   service.enabled:
     - name: filebeat
