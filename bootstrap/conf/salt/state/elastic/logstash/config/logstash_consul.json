@@ -1,0 +1,1 @@
+{"service": {"name": "Logstash", "tags": ["logstash"], "port": 5044}}

@@ -1,0 +1,16 @@
+[Unit]
+Description=Airflow Worker
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+EnvironmentFile=-/etc/sysconfig/airflow-worker
+Environment=GOMAXPROCS=2
+Restart=on-failure
+ExecStart=/usr/bin/airflow worker
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGINT
+User=airflow
+
+[Install]
+WantedBy=multi-user.target

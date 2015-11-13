@@ -8,7 +8,7 @@ provider "openstack" {
 
 resource "openstack_compute_instance_v2" "genotyper" {
   	image_id = "${var.image_id}"
-	flavor_name = "m1.germline16"
+	flavor_name = "s1.massive"
 	security_groups = ["internal"]
 	name = "${concat("genotyper-", count.index)}"
 	network = {

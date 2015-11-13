@@ -1,0 +1,9 @@
+[Unit]
+Description=Kibana
+
+[Service]
+Type=simple
+ExecStart=/opt/kibana/kibana-4.2.0-linux-x64/bin/kibana -c /etc/opt/kibana/kibana.yml
+
+[Install]
+WantedBy=multi-user.target

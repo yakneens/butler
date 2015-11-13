@@ -1,0 +1,15 @@
+[Unit]
+Description=Airflow Flower
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+EnvironmentFile=-/etc/sysconfig/airflow-flower
+Environment=GOMAXPROCS=2
+Restart=on-failure
+ExecStart=/usr/bin/airflow flower
+ExecReload=/bin/kill -HUP $MAINPID
+KillSignal=SIGINT
+
+[Install]
+WantedBy=multi-user.target

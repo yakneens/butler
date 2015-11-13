@@ -42,4 +42,13 @@ start_server:
 
 postgres_devel:
   pkg.installed:
-    - name: postgresql-devel  
+    - name: postgresql-devel
+    
+run_tracking_db_consul_config:
+  file.managed:
+    - name: /etc/opt/consul.d/postgres_consul.json
+    - source: salt://postgres/config/postgres_consul.json
+    - user: root
+    - group: root
+    - mode: 644 
+    - makedirs: True  
