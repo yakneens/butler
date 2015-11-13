@@ -12,7 +12,8 @@ filebeat:
       # For each file found under this path, a harvester is started.
       # Make sure not file is defined twice as this can lead to unexpected behaviour.
       paths:
-        - /var/log/*
+        - /var/log/messages
+        - /var/log/*.log
         - /var/lib/pgsql/9.4/data/pg_log/*.log
       # - c:\programdata\elasticsearch\logs\*
 
@@ -127,7 +128,7 @@ filebeat:
   # Name of the registry file. Per default it is put in the current working
   # directory. In case the working directory is changed after when running
   # filebeat again, indexing starts from the beginning again.
-  #registry_file: .filebeat
+  registry_file: /tmp/.filebeat
 
   # Full Path to directory with additional prospector configuration files. Each file must end with .yml
   # These config files must have the full filebeat config part inside, but only
@@ -351,7 +352,7 @@ logging:
 
   # Write all logging output to files. Beats automatically rotate files if configurable
   # limit is reached.
-  #to_files: false
+  to_files: true
 
   # Enable debug output for selected components.
   #selectors: []
@@ -361,14 +362,14 @@ logging:
 
   files:
     # The directory where the log files will written to.
-    #path: /var/log/mybeat
+    path: /var/log/filebeat
 
     # The name of the files where the logs are written to.
-    #name: mybeat
+    name: filebeat
 
     # Configure log file size limit. If limit is reached, log file will be
     # automatically rotated
     rotateeverybytes: 10485760 # = 10MB
 
     # Number of rotated log files to keep. Oldest files will be deleted first.
-    #keepfiles: 7
+    keepfiles: 7

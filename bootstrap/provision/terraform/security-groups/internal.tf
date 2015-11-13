@@ -232,6 +232,13 @@ resource "openstack_compute_secgroup_v2" "internal" {
 		ip_protocol = "tcp"
 		self = "true"
 	}
+	#Logstash
+	rule {
+		from_port = 5044
+		to_port = 5044
+		ip_protocol = "tcp"
+		self = "true"
+	}
 	#Kibana
 	rule {
 		from_port = 5601

@@ -25,6 +25,10 @@ install_beats_plugin:
   cmd.run:
     - name: /opt/logstash/bin/plugin install logstash-input-beats
     
+update_beats_plugin:
+  cmd.run:
+    - name: /opt/logstash/bin/plugin update logstash-input-beats
+    
 /etc/logstash/conf.d/config.json:
   file.managed:
     - source: salt://elastic/logstash/config/config.json
