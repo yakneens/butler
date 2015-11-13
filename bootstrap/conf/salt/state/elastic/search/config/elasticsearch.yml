@@ -51,7 +51,7 @@
 #
 # Set the bind adress to a specific IP (IPv4 or IPv6):
 #
- network.host: _[eth0]_
+network.host: _[eth0]_
 #
 # Set a custom port for HTTP:
 #
