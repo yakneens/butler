@@ -21,8 +21,8 @@ install_elasticsearch:
   file.managed:
     - source: salt://elastic/search/config/elasticsearch.yml
     - user: root
-    - group: root
-    - mode: 600
+    - group: elasticsearch
+    - mode: 750
     - makedirs: True
 
 enable_on_boot_elasticsearch:
