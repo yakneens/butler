@@ -28,6 +28,14 @@ airflow_user:
     - file_mode: 644
     - makedirs: True 
 
+/var/log/airflow:
+  file.directory:    
+    - user: airflow
+    - group: airflow
+    - dir_mode: 755
+    - file_mode: 644
+    - makedirs: True 
+
 /etc/opt/airflow/airflow.cfg:
   file.managed:
     - source: salt://airflow/config/airflow.cfg
