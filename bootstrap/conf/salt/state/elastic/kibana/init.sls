@@ -11,6 +11,7 @@
     - user: root
     - group: root
     - mode: 744
+    - makedirs: True
 
 /etc/opt/kibana/kibana.yml:
   file.managed:
@@ -18,6 +19,7 @@
     - user: root
     - group: root
     - mode: 744
+    - makedirs: True
 
 start_kibana:
   service.running:
