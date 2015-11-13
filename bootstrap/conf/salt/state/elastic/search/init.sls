@@ -1,3 +1,12 @@
+logstash_consul_config:
+  file.managed:
+    - name: /etc/opt/consul.d/elasticsearch_consul.json
+    - source: salt://elastic/search/config/elasticsearch_consul.json
+    - user: root
+    - group: root
+    - mode: 644 
+    - makedirs: True 
+    
 elasticsearch_repo:
   pkgrepo.managed:
     - humanname: Logstash YUM Repo

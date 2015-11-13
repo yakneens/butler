@@ -1,3 +1,12 @@
+logstash_consul_config:
+  file.managed:
+    - name: /etc/opt/consul.d/logstash_consul.json
+    - source: salt://elastic/logstash/config/logstash_consul.json
+    - user: root
+    - group: root
+    - mode: 644 
+    - makedirs: True 
+
 logstash_repo:
   pkgrepo.managed:
     - humanname: Logstash YUM Repo
@@ -12,6 +21,12 @@ enable_on_boot_logstash:
   service.enabled:
     - name: logstash
 
+install_beats_plugin:
+  cmd.run:
+    - name: /opt/logstash/plugin install logstash-input-beats
+
 start_logstash:    
   service.running:
     - name: logstash
+    
+    
