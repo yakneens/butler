@@ -5,4 +5,4 @@ install_libpcap:
 install_packetbeat:
   pkg.installed:
     - sources:
-      - filebeat: https://download.elastic.co/beats/packetbeat/packetbeat-1.0.0-rc1-x86_64.rpm
+      - packetbeat: https://download.elastic.co/beats/packetbeat/packetbeat-1.0.0-rc1-x86_64.rpm
