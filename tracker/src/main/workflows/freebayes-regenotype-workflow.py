@@ -60,7 +60,7 @@ def set_error():
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'start_date': datetime(2015, 11, 9),
+#    'start_date': datetime(2015, 11, 9),
     'email': ['airflow@airflow.com'],
     'email_on_failure': False,
     'email_on_retry': False,
@@ -94,6 +94,8 @@ reserve_sample_task = BashOperator(
     task_id = "reserve_sample",
     bash_command = "python  /tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')[0] }} {{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')[1] }} 1",
     dag = dag)
+
+reserve_sample_task.set_upstream(get_sample_assignment_task)
 
 release_sample_task = BashOperator(
     task_id = "release_sample",
