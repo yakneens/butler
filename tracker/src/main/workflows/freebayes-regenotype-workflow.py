@@ -104,7 +104,7 @@ release_sample_task = BashOperator(
     dag = dag)
 
 for contig_name in contig_names:
-    sample_location = lookup_sample_location({{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')[0] }})
+    sample_location = lookup_sample_location("{{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')[0] }}")
     result_filename = "/tmp/{{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')[1] }}_regenotype_" + contig_name + ".vcf"
     genotyping_task = BashOperator(
        task_id = "regenotype_" + contig_name,
