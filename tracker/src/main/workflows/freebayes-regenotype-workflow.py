@@ -70,9 +70,11 @@ def get_next_sample():
 def set_error():
    os.system("/tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='get_sample_assignment')[0] }} {{ task_instance.xcom_pull(task_ids='get_sample_assignment')[1] }} 3")         
 
-def run_freebayes(contig_name):
-    donor_index = "{{ task_instance.xcom_pull(task_ids='get_sample_assignment')[0]}}"
-    sample_id = "{{ task_instance.xcom_pull(task_ids='get_sample_assignment')[1]}}"
+def run_freebayes(**kwargs):
+    contig_name = kwargs["contig_name"]
+    ti = kwargs["ti"]
+    donor_index = ti.xcom_pull(task_ids='get_sample_assignment')[0]
+    sample_id = ti.xcom_pull(task_ids='get_sample_assignment')[1]
     sample_location = lookup_sample_location(donor_index)
     result_filename = "/tmp/" + sample_id + "_regenotype_" + contig_name + ".vcf"
     freebayes_command = "freebayes -r " + contig_name +\
