@@ -39,7 +39,7 @@ def get_next_sample():
     
     next_sample = session.query(PCAWGSample).\
         join(SampleLocation, PCAWGSample.index == SampleLocation.donor_index).\
-        outerjoin(PCAWGSample.index == GenotypingRun.donor_index).\
+        outerjoin(GenotypingRun,PCAWGSample.index == GenotypingRun.donor_index).\
         filter(\
                and_(SampleLocation.normal_sample_location != None, \
                     or_(GenotypingRun.run_status == None, GenotypingRun.run_status != 1)\

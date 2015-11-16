@@ -49,6 +49,6 @@ airflow_user:
     - source: salt://airflow/config/set_airflow_env.sh
     - user: root
     - group: root
-    - mode: 600
+    - mode: 700
     - makedirs: True
 
