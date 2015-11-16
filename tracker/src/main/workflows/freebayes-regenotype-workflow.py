@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
+from sqlalchemy import or_, and_
 
 def lookup_sample_location(donor_index):
     Base = automap_base()
