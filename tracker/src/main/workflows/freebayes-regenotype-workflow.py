@@ -79,6 +79,7 @@ def run_freebayes(contig_name):
                         " -l " + sample_location +\
                         " > " + result_filename
     os.system(freebayes_command)
+    return result_filename
        
 default_args = {
     'owner': 'airflow',
@@ -100,7 +101,7 @@ dag = DAG("freebayes-regenotype", default_args=default_args)
 
 get_sample_assignment_task = PythonOperator(
     task_id = "get_sample_assignment",
-    python_callable = get_next_sample(),
+    python_callable = get_next_sample,
     dag = dag)
 
 reserve_sample_task = BashOperator(
@@ -119,20 +120,21 @@ for contig_name in contig_names:
     genotyping_task = PythonOperator(
        task_id = "regenotype_" + contig_name,
        python_callable = run_freebayes(contig_name),
+       op_kwargs={"contig_name": contig_name},
        dag = dag)
     
     genotyping_task.set_upstream(reserve_sample_task)
     
     data_compress_task = BashOperator(                                  
         task_id = "compress_result_" + contig_name,
-        bash_command = '/usr/local/bin/bgzip -c ' + result_filename + ' > ' + result_filename + '.gz',
+        bash_command = "/usr/local/bin/bgzip -c {{ task_instance.xcom_pull(task_ids='regenotype_" + contig_name + "') }} > {{ task_instance.xcom_pull(task_ids='regenotype_" + contig_name + "') }}.gz",
         dag = dag)
     
     data_compress_task.set_upstream(genotyping_task)
     
     generate_tabix_task = BashOperator(                                  
         task_id = "generate_tabix_" + contig_name,
-        bash_command = '/usr/local/bin/tabix -f -p vcf ' + result_filename + '.gz',
+        bash_command = "/usr/local/bin/tabix -f -p vcf {{ task_instance.xcom_pull(task_ids='regenotype_" + contig_name + "') }}.gz",
         dag = dag)
     
     generate_tabix_task.set_upstream(data_compress_task)
