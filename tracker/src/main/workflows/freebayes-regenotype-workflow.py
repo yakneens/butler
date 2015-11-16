@@ -120,7 +120,7 @@ release_sample_task = BashOperator(
 for contig_name in contig_names:
     genotyping_task = PythonOperator(
        task_id = "regenotype_" + contig_name,
-       python_callable = run_freebayes(contig_name),
+       python_callable = run_freebayes,
        op_kwargs={"contig_name": contig_name},
        dag = dag)
     
