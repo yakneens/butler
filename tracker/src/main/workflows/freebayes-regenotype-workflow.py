@@ -68,10 +68,10 @@ def get_next_sample():
         exit(1)
 
 def set_error():
-   os.system("/tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')[0] }} {{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')[1] }} 3")         
+   os.system("/tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='get_sample_assignment')[0] }} {{ task_instance.xcom_pull(task_ids='get_sample_assignment')[1] }} 3")         
 
 def run_freebayes(contig_name):
-    selected_sample = {{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')}}
+    selected_sample = {{ task_instance.xcom_pull(task_ids='get_sample_assignment')}}
     sample_location = lookup_sample_location(selected_sample[0])
     result_filename = "/tmp/" + selected_sample[1] + "_regenotype_" + contig_name + ".vcf"
     freebayes_command = "freebayes -r " + contig_name +\
@@ -107,14 +107,14 @@ get_sample_assignment_task = PythonOperator(
 
 reserve_sample_task = BashOperator(
     task_id = "reserve_sample",
-    bash_command = "python  /tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')[0] }} {{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')[1] }} 1",
+    bash_command = "python  /tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='get_sample_assignment')[0] }} {{ task_instance.xcom_pull(task_ids='get_sample_assignment')[1] }} 1",
     dag = dag)
 
 reserve_sample_task.set_upstream(get_sample_assignment_task)
 
 release_sample_task = BashOperator(
     task_id = "release_sample",
-    bash_command = "python /tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')[0] }} {{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')[1] }} 2",
+    bash_command = "python /tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='get_sample_assignment')[0] }} {{ task_instance.xcom_pull(task_ids='get_sample_assignment')[1] }} 2",
     dag = dag)
 
 for contig_name in contig_names:
@@ -142,7 +142,7 @@ for contig_name in contig_names:
     
     data_copy_task = BashOperator(                                  
         task_id = "copy_result_" + contig_name,
-        bash_command = 'mkdir -p ' + results_base_path + '/{{ task_instance.xcom_pull(task_ids="get_sample_assignment_task")[1] }}/ && cp /tmp/{{ task_instance.xcom_pull(task_ids="get_sample_assignment_task")[0] }}_regenotype_' + contig_name + '.vcf.gz* "$_"',
+        bash_command = 'mkdir -p ' + results_base_path + '/{{ task_instance.xcom_pull(task_ids="get_sample_assignment")[1] }}/ && cp /tmp/{{ task_instance.xcom_pull(task_ids="get_sample_assignment")[0] }}_regenotype_' + contig_name + '.vcf.gz* "$_"',
         dag = dag)
     
     data_copy_task.set_upstream(generate_tabix_task)
