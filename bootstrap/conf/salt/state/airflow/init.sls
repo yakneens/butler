@@ -49,7 +49,7 @@ airflow_user:
     - source: salt://airflow/config/airflow
     - user: root
     - group: root
-    - mode: 700
+    - mode: 600
     - makedirs: True
         
 /etc/profile.d/set_airflow_env.sh:
