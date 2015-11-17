@@ -125,6 +125,7 @@ for contig_name in contig_names:
        task_id = "regenotype_" + contig_name,
        python_callable = run_freebayes,
        op_kwargs={"contig_name": contig_name},
+       provide_context=True,
        dag = dag)
     
     genotyping_task.set_upstream(reserve_sample_task)
