@@ -246,6 +246,13 @@ resource "openstack_compute_secgroup_v2" "internal" {
 		ip_protocol = "tcp"
 		self = "true"
 	}
+	#Airflow
+	rule {
+		from_port = 8793
+		to_port = 8793
+		ip_protocol = "tcp"
+		self = "true"
+	}
 	
 	
 }
