@@ -6,12 +6,9 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 from sqlalchemy import or_, and_
 import os
-# Commenting out full list of contigs for now leaving only 1-22, X, Y
-#contig_names = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y","MT","GL000207.1","GL000226.1","GL000229.1","GL000231.1","GL000210.1","GL000239.1","GL000235.1","GL000201.1","GL000247.1","GL000245.1","GL000197.1","GL000203.1","GL000246.1","GL000249.1","GL000196.1","GL000248.1","GL000244.1","GL000238.1","GL000202.1","GL000234.1","GL000232.1","GL000206.1","GL000240.1","GL000236.1","GL000241.1","GL000243.1","GL000242.1","GL000230.1","GL000237.1","GL000233.1","GL000204.1","GL000198.1","GL000208.1","GL000191.1","GL000227.1","GL000228.1","GL000214.1","GL000221.1","GL000209.1","GL000218.1","GL000220.1","GL000213.1","GL000211.1","GL000199.1","GL000217.1","GL000216.1","GL000215.1","GL000205.1","GL000219.1","GL000224.1","GL000223.1","GL000195.1","GL000212.1","GL000222.1","GL000200.1","GL000193.1","GL000194.1","GL000225.1","GL000192.1","NC_007605","hs37d5"]
+
 contig_names = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"]
 
-#donor_index = "23"
-#sample_id = "f87f8019-db9f-46d0-9e39-d16a37646815"
 reference_location = "/reference/genome.fa"
 variants_location = "/shared/data/samples/vcf/ALL.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.snv.multibreak.vcf.gz"
 results_base_path = "/shared/data/results/regenotype"
@@ -76,7 +73,10 @@ def run_freebayes(**kwargs):
     donor_index = ti.xcom_pull(task_ids='get_sample_assignment')[0]
     sample_id = ti.xcom_pull(task_ids='get_sample_assignment')[1]
     sample_location = lookup_sample_location(donor_index)
-    result_filename = "/tmp/" + sample_id + "_regenotype_" + contig_name + ".vcf"
+    result_path_prefix = "/shared/data/results/in_progress/" + sample_id
+    if (not os.path.isdir(result_path_prefix)):
+        os.makedirs(result_path_prefix)
+    result_filename = result_path_prefix + "/" + sample_id + "_regenotype_" + contig_name + ".vcf"
     freebayes_command = "freebayes -r " + contig_name +\
                         " -f " + reference_location +\
                         " -@ " + variants_location +\
@@ -88,7 +88,7 @@ def run_freebayes(**kwargs):
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'start_date': datetime(2015, 11, 9),
+    'start_date': datetime.date.today() + datetime.timedelta(days=1),
     'email': ['airflow@airflow.com'],
     'email_on_failure': False,
     'email_on_retry': False,
