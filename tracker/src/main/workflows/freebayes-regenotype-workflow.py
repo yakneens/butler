@@ -65,14 +65,20 @@ def get_next_sample():
         print "Could not find next sample"
         exit(1)
 
+def reserve_sample():
+    (donor_index, sample_id) = get_next_sample()
+    os.system("python  /tmp/germline-regenotyper/scripts/update-sample-status.py " + donor_id + " " + sample_id + "1")
+    return (donor_index, sample_id)
+    
+
 def set_error():
-   os.system("/tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='get_sample_assignment')[0] }} {{ task_instance.xcom_pull(task_ids='get_sample_assignment')[1] }} 3")         
+   os.system("/tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='reserve_sample')[0] }} {{ task_instance.xcom_pull(task_ids='reserve_sample')[1] }} 3")         
 
 def run_freebayes(**kwargs):
     contig_name = kwargs["contig_name"]
     ti = kwargs["ti"]
-    donor_index = ti.xcom_pull(task_ids='get_sample_assignment')[0]
-    sample_id = ti.xcom_pull(task_ids='get_sample_assignment')[1]
+    donor_index = ti.xcom_pull(task_ids='reserve_sample')[0]
+    sample_id = ti.xcom_pull(task_ids='reserve_sample')[1]
     sample_location = lookup_sample_location(donor_index)
     result_path_prefix = "/shared/data/results/in_progress/" + sample_id
     if (not os.path.isdir(result_path_prefix)):
@@ -84,8 +90,23 @@ def run_freebayes(**kwargs):
                         " -l " + sample_location +\
                         " > " + result_filename
     os.system(freebayes_command)
-    return result_filename
-       
+    
+    generate_tabix(compress_sample(result_filename))
+    copy_result(donor_index, sample_id)
+
+def compress_sample(result_filename):
+    compressed_filename = result_filename + ".gz"
+    os.system("/usr/local/bin/bgzip -c " + result_filename + " > " + compressed_filename)
+    return compressed_filename
+      
+def generate_tabix(compressed_filename):
+    os.system("/usr/local/bin/tabix -f -p vcf " + compressed_filename)
+         
+    
+def copy_result(donor_index, sample_id): 
+    os.system('mkdir -p ' + results_base_path + '/' + sample_id + '/ && cp /tmp/' + sample_id + '_regenotype_' + contig_name + '.vcf.gz* "$_"')
+        
+        
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
@@ -95,30 +116,19 @@ default_args = {
     'email_on_retry': False,
     'retries': 1,
     'retry_delay': timedelta(minutes=5),
-    # 'queue': 'bash_queue',
-    # 'pool': 'backfill',
-    # 'priority_weight': 10,
-    # 'end_date': datetime(2016, 1, 1),
 }
 
 dag = DAG("freebayes-regenotype", default_args=default_args)
 
 
-get_sample_assignment_task = PythonOperator(
-    task_id = "get_sample_assignment",
-    python_callable = get_next_sample,
-    dag = dag)
-
-reserve_sample_task = BashOperator(
+reserve_sample_task = PythonOperator(
     task_id = "reserve_sample",
-    bash_command = "python  /tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='get_sample_assignment')[0] }} {{ task_instance.xcom_pull(task_ids='get_sample_assignment')[1] }} 1",
+    python_callable = reserve_sample,
     dag = dag)
-
-reserve_sample_task.set_upstream(get_sample_assignment_task)
 
 release_sample_task = BashOperator(
     task_id = "release_sample",
-    bash_command = "python /tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='get_sample_assignment')[0] }} {{ task_instance.xcom_pull(task_ids='get_sample_assignment')[1] }} 2",
+    bash_command = "python /tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='reserve_sample')[0] }} {{ task_instance.xcom_pull(task_ids='reserve_sample')[1] }} 2",
     dag = dag)
 
 for contig_name in contig_names:
@@ -131,28 +141,7 @@ for contig_name in contig_names:
     
     genotyping_task.set_upstream(reserve_sample_task)
     
-    data_compress_task = BashOperator(                                  
-        task_id = "compress_result_" + contig_name,
-        bash_command = "/usr/local/bin/bgzip -c {{ task_instance.xcom_pull(task_ids='regenotype_" + contig_name + "') }} > {{ task_instance.xcom_pull(task_ids='regenotype_" + contig_name + "') }}.gz",
-        dag = dag)
-    
-    data_compress_task.set_upstream(genotyping_task)
-    
-    generate_tabix_task = BashOperator(                                  
-        task_id = "generate_tabix_" + contig_name,
-        bash_command = "/usr/local/bin/tabix -f -p vcf {{ task_instance.xcom_pull(task_ids='regenotype_" + contig_name + "') }}.gz",
-        dag = dag)
-    
-    generate_tabix_task.set_upstream(data_compress_task)
-    
-    data_copy_task = BashOperator(                                  
-        task_id = "copy_result_" + contig_name,
-        bash_command = 'mkdir -p ' + results_base_path + '/{{ task_instance.xcom_pull(task_ids="get_sample_assignment")[1] }}/ && cp /tmp/{{ task_instance.xcom_pull(task_ids="get_sample_assignment")[0] }}_regenotype_' + contig_name + '.vcf.gz* "$_"',
-        dag = dag)
-    
-    data_copy_task.set_upstream(generate_tabix_task)
-    
-    release_sample_task.set_upstream(data_copy_task)
+    release_sample_task.set_upstream(genotyping_task)
     
 
 
