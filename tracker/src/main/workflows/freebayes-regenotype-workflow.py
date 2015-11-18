@@ -75,8 +75,7 @@ def run_freebayes(**kwargs):
     sample_id = ti.xcom_pull(task_ids='get_sample_assignment')[1]
     sample_location = lookup_sample_location(donor_index)
     result_path_prefix = "/shared/data/results/in_progress/" + sample_id
-    if (not os.path.isdir(result_path_prefix)):
-        os.makedirs(result_path_prefix)
+    
     result_filename = result_path_prefix + "/" + sample_id + "_regenotype_" + contig_name + ".vcf"
     freebayes_command = "freebayes -r " + contig_name +\
                         " -f " + reference_location +\
