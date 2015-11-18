@@ -67,7 +67,7 @@ def get_next_sample():
 
 def reserve_sample():
     (donor_index, sample_id) = get_next_sample()
-    os.system("python  /tmp/germline-regenotyper/scripts/update-sample-status.py " + donor_index + " " + sample_id + "1")
+    os.system("python  /tmp/germline-regenotyper/scripts/update-sample-status.py " + str(donor_index) + " " + sample_id + "1")
     return (donor_index, sample_id)
     
 
