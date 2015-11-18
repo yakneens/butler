@@ -13,7 +13,7 @@ filebeat:
       # Make sure not file is defined twice as this can lead to unexpected behaviour.
       paths:
         - /var/log/messages
-        - /var/log/airflow/*.log
+        - /var/log/airflow/*/*/*.log
         - /var/log/*.log
         - /var/lib/pgsql/9.4/data/pg_log/*.log
       # - c:\programdata\elasticsearch\logs\*
