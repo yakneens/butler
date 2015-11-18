@@ -88,7 +88,7 @@ def run_freebayes(**kwargs):
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'start_date': datetime(2020, 11, 9),
+    'start_date': datetime.datetime(2020, 11, 9),
     'email': ['airflow@airflow.com'],
     'email_on_failure': False,
     'email_on_retry': False,
