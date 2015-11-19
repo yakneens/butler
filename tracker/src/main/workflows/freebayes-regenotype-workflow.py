@@ -60,15 +60,17 @@ def get_next_sample():
     engine.dispose()
 
     if next_sample != None:
-        return (next_sample.index, next_sample.normal_wgs_alignment_gnos_id)
+        return (next_sample.index, next_sample.normal_wgs_alignment_gnos_id, next_sample.sample_location)
     else:
         print "Could not find next sample"
         exit(1)
 
 def reserve_sample():
-    (donor_index, sample_id) = get_next_sample()
+    (donor_index, sample_id, sample_location) = get_next_sample()
+    print "Before status update"
     os.system("python /tmp/germline-regenotyper/scripts/update-sample-status.py " + str(donor_index) + " " + sample_id + "1")
-    return (donor_index, sample_id)
+    print "After status update"
+    return (donor_index, sample_id, sample_location)
     
 
 def set_error():
@@ -79,8 +81,8 @@ def run_freebayes(**kwargs):
     ti = kwargs["ti"]
     donor_index = ti.xcom_pull(task_ids='reserve_sample')[0]
     sample_id = ti.xcom_pull(task_ids='reserve_sample')[1]
-    sample_location = lookup_sample_location(donor_index)
-    result_path_prefix = "/shared/data/results/in_progress/" + sample_id
+    sample_location = ti.xcom_pull(task_ids='reserve_sample')[2]
+    result_path_prefix = "/tmp/" + sample_id
     if (not os.path.isdir(result_path_prefix)):
         os.makedirs(result_path_prefix)
     result_filename = result_path_prefix + "/" + sample_id + "_regenotype_" + contig_name + ".vcf"
