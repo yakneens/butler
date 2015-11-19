@@ -110,7 +110,7 @@ def get_next_sample():
         my_run = GenotypingRun()
         my_run.run_status = 0
         my_run.donor_index = donor_index
-        my_run.sample_id = _sample_id
+        my_run.sample_id = sample_id
         my_run.created_date = datetime.datetime.now()
         session.add(my_run)
     else:
