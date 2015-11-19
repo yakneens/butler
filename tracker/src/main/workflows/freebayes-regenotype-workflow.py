@@ -101,8 +101,8 @@ def get_next_sample():
     
     my_run_id = next_sample.run_id    
     donor_index = next_sample.index
-    sample_id = normal_wgs_alignment_gnos_id
-    sample_location = normal_sample_location
+    sample_id = next_sample.normal_wgs_alignment_gnos_id
+    sample_location = next_sample.normal_sample_location
     
     my_run = session.query(GenotypingRun).get(my_run_id)
     
