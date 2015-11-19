@@ -104,15 +104,17 @@ def get_next_sample():
     sample_id = next_sample.normal_wgs_alignment_gnos_id
     sample_location = next_sample.normal_sample_location
     
-    my_run = session.query(GenotypingRun).get(my_run_id)
+    my_run = None
     
-    if not my_run:
+    if not my_run_id:
         my_run = GenotypingRun()
         my_run.run_status = 0
         my_run.donor_index = donor_index
         my_run.sample_id = _sample_id
         my_run.created_date = datetime.datetime.now()
         session.add(my_run)
+    else:
+        my_run = session.query(GenotypingRun).get(my_run_id)
     
     set_status[1](my_run)
     my_run.last_updated_date = datetime.datetime.now()
