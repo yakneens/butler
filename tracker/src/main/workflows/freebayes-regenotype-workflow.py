@@ -116,7 +116,7 @@ def get_next_sample():
     else:
         my_run = session.query(GenotypingRun).get(my_run_id)
     
-    set_status[1](my_run)
+    set_status["1"](my_run)
     my_run.last_updated_date = datetime.datetime.now()
     
     session.commit()
