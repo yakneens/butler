@@ -60,7 +60,7 @@ def get_next_sample():
     engine.dispose()
 
     if next_sample != None:
-        return (next_sample.index, next_sample.normal_wgs_alignment_gnos_id, next_sample.sample_location)
+        return (next_sample.index, next_sample.normal_wgs_alignment_gnos_id, next_sample.normal_sample_location)
     else:
         print "Could not find next sample"
         exit(1)
