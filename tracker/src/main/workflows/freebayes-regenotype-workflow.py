@@ -47,7 +47,7 @@ def get_next_sample():
     
     session = Session(engine)
     
-    next_sample = session.query(PCAWGSample).\
+    next_sample = session.query(PCAWGSample.index, PCAWGSample.normal_wgs_alignment_gnos_id, SampleLocation.normal_sample_location).\
         join(SampleLocation, PCAWGSample.index == SampleLocation.donor_index).\
         outerjoin(GenotypingRun,PCAWGSample.index == GenotypingRun.donor_index).\
         filter(\
