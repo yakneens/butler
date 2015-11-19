@@ -7,15 +7,18 @@ from sqlalchemy import create_engine
 from sqlalchemy import or_, and_
 import datetime
 import os
-
+import uuid
 
 contig_names = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"]
 
 reference_location = "/reference/genome.fa"
 variants_location = "/shared/data/samples/vcf/ALL.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.snv.multibreak.vcf.gz"
 results_base_path = "/shared/data/results/regenotype"
+my_uuid = uuid.uuid4()
 
 
+def get_unique_task_name(task_name):
+    return task_name + "_" + str(my_uuid)
 
 def lookup_sample_location(donor_index):
     Base = automap_base()
@@ -75,14 +78,14 @@ def reserve_sample():
     
 
 def set_error():
-   os.system("/tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='reserve_sample')[0] }} {{ task_instance.xcom_pull(task_ids='reserve_sample')[1] }} 3")         
+   os.system("/tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='" + get_unique_task_name('reserve_sample') + "')[0] }} {{ task_instance.xcom_pull(task_ids='" + get_unique_task_name('reserve_sample') + "')[1] }} 3")         
 
 def run_freebayes(**kwargs):
     contig_name = kwargs["contig_name"]
     ti = kwargs["ti"]
-    donor_index = ti.xcom_pull(task_ids='reserve_sample')[0]
-    sample_id = ti.xcom_pull(task_ids='reserve_sample')[1]
-    sample_location = ti.xcom_pull(task_ids='reserve_sample')[2]
+    donor_index = ti.xcom_pull(task_ids=get_unique_task_name('reserve_sample'))[0]
+    sample_id = ti.xcom_pull(task_ids=get_unique_task_name('reserve_sample'))[1]
+    sample_location = ti.xcom_pull(task_ids=get_unique_task_name('reserve_sample'))[2]
     result_path_prefix = "/tmp/" + sample_id
     if (not os.path.isdir(result_path_prefix)):
         os.makedirs(result_path_prefix)
@@ -125,18 +128,18 @@ dag = DAG("freebayes-regenotype", default_args=default_args,schedule_interval=No
 
 
 reserve_sample_task = PythonOperator(
-    task_id = "reserve_sample",
+    task_id = get_unique_task_name('reserve_sample'),
     python_callable = reserve_sample,
     dag = dag)
 
 release_sample_task = BashOperator(
-    task_id = "release_sample",
-    bash_command = "python /tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='reserve_sample')[0] }} {{ task_instance.xcom_pull(task_ids='reserve_sample')[1] }} 2",
+    task_id = get_unique_task_name('release_sample'),
+    bash_command = "python /tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='" + get_unique_task_name('reserve_sample') + "')[0] }} {{ task_instance.xcom_pull(task_ids='" + get_unique_task_name('reserve_sample') + "')[1] }} 2",
     dag = dag)
 
 for contig_name in contig_names:
     genotyping_task = PythonOperator(
-       task_id = "regenotype_" + contig_name,
+       task_id = get_unique_task_name("regenotype_" + contig_name),
        python_callable = run_freebayes,
        op_kwargs={"contig_name": contig_name},
        provide_context=True,
