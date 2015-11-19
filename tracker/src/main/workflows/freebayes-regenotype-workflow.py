@@ -8,6 +8,7 @@ from sqlalchemy import or_, and_
 import datetime
 import os
 
+
 contig_names = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"]
 
 reference_location = "/reference/genome.fa"
@@ -68,7 +69,7 @@ def get_next_sample():
 def reserve_sample():
     (donor_index, sample_id, sample_location) = get_next_sample()
     print "Before status update"
-    os.system("python /tmp/germline-regenotyper/scripts/update-sample-status.py " + str(donor_index) + " " + sample_id + "1")
+    os.system("python /tmp/germline-regenotyper/scripts/update-sample-status.py " + str(donor_index) + " " + sample_id + " 1")
     print "After status update"
     return (donor_index, sample_id, sample_location)
     
