@@ -169,7 +169,8 @@ def generate_tabix(compressed_filename):
          
     
 def copy_result(donor_index, sample_id): 
-    os.system('mkdir -p ' + results_base_path + '/' + sample_id + '/ && cp /tmp/' + sample_id + '_regenotype_' + contig_name + '.vcf.gz* "$_"')
+    os.system("mkdir -p " + results_base_path + "/" + sample_id)
+    os.system("cp /tmp/" + sample_id + "_regenotype_" + contig_name + ".vcf.gz* " + results_base_path + "/" + sample_id + "/")
         
         
 default_args = {
