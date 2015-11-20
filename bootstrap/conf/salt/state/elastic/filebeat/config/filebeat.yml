@@ -6,7 +6,7 @@ filebeat:
   prospectors:
     -
       paths:
-        - /var/log/airflow/*/*/*.log
+        - /var/log/airflow/*/*/*
       document_type: airflow
     - 
       paths:
