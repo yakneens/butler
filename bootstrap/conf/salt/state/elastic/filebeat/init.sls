@@ -17,4 +17,6 @@ enable_on_boot_filebeat:
     
 start_filebeat:
   service.running:
-    - name: filebeat    
+    - name: filebeat
+    - watch:
+      - file: /etc/filebeat/filebeat.yml     
