@@ -7,7 +7,32 @@ from sqlalchemy import create_engine
 from sqlalchemy import or_, and_
 import datetime
 import os
+import logging
+from logging.config import dictConfig
 
+logging_config = dict(
+    version = 1,
+    disable_existing_loggers = False,
+    formatters = {
+        'f': {'format':
+              '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'}
+        },
+    handlers = {
+        'h': {'class': 'logging.RotatingFileHandler',
+              'formatter': 'f',
+              'level': logging.DEBUG,
+              'maxBytes': 100000000,
+              'backupCount': 10,
+              'filename': '/tmp/freebayes-regenotype-workflow.log'}
+        },
+    loggers = {
+        'root': {'handlers': ['h'],
+                 'level': logging.DEBUG}
+        }
+)
+
+dictConfig(logging_config)
+logger = logging.getLogger()
 
 contig_names = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"]
 
@@ -18,13 +43,17 @@ results_base_path = "/shared/data/results/regenotype"
 def set_ready(my_run):
     if my_run.run_status == 1:
         print "Cannot put a run that's In Progress into a Ready status"
+        
+        logger.error("Attempting to put an In Progress run into Ready state, runID: %d", my_run.run_id)
+        
         exit(1)
     else:
         my_run.run_status = 0
         
 def set_in_progress(my_run):
     if my_run.run_status != 0:
-        print "Wrong run status" + str(my_run.run_status) + "Only a Ready run can be put In Progress"
+        
+        logger.error("Wrong run status - %d, Only a Ready run can be put In Progress, runID: %d", my_run.run_status, my_run.run_id)
         exit(1)
     else:
         my_run.run_status = 1
@@ -32,7 +61,8 @@ def set_in_progress(my_run):
         
 def set_finished(my_run):
     if my_run.run_status != 1:
-        print "Wrong run status" + str(my_run.run_status) + "Only an In Progress run can be Finished"
+        
+        logger.error("Wrong run status - %d, Only an In Progress run can be Finished, runID: %d", my_run.run_status, my_run.run_id)
         exit(1)
     else:
         my_run.run_status = 2
@@ -54,10 +84,6 @@ def update_run_status(donor_index, sample_id, run_status):
     
     session = Session(engine)
     
-    if len(sys.argv) != 4:
-        print "Wrong number of args"
-        exit(1)
-        
     this_donor_index = donor_index
     this_sample_id = sample_id
     new_status = run_status
@@ -70,10 +96,15 @@ def update_run_status(donor_index, sample_id, run_status):
         my_run.donor_index = this_donor_index
         my_run.sample_id = this_sample_id
         my_run.created_date = datetime.datetime.now()
+        
+        logger.info("No Genotyping Run found for donor %d. Creating new Genotyping Run", my_run.donor_index)
+        
         session.add(my_run)
     
     set_status[new_status](my_run)
     my_run.last_updated_date = datetime.datetime.now()
+    
+    logger.info("Setting run status for donor %d to %d", my_run.donor_index, new_status)
     
     session.commit()
     session.close()
@@ -90,6 +121,9 @@ def get_next_sample():
     
     session = Session(engine)
     
+    
+    logger.debug("Getting next available sample")
+    
     next_sample = session.query(PCAWGSample.index, PCAWGSample.normal_wgs_alignment_gnos_id, SampleLocation.normal_sample_location, GenotypingRun.run_id).\
         join(SampleLocation, PCAWGSample.index == SampleLocation.donor_index).\
         outerjoin(GenotypingRun,PCAWGSample.index == GenotypingRun.donor_index).\
@@ -104,6 +138,9 @@ def get_next_sample():
     sample_id = next_sample.normal_wgs_alignment_gnos_id
     sample_location = next_sample.normal_sample_location
     
+    logger.info("Got the next available sample Donor Index: %d, Sample ID: %s, Sample Location: %s, Genotyping Run: %d.", donor_index, sample_id, sample_location, my_run_id)
+    
+    
     my_run = None
     
     if not my_run_id:
@@ -112,12 +149,18 @@ def get_next_sample():
         my_run.donor_index = donor_index
         my_run.sample_id = sample_id
         my_run.created_date = datetime.datetime.now()
+        
+        logger.info("No Genotyping Run found for donor %d. Creating new Genotyping Run", my_run.donor_index)
+        
+        
         session.add(my_run)
     else:
         my_run = session.query(GenotypingRun).get(my_run_id)
     
     set_status["1"](my_run)
     my_run.last_updated_date = datetime.datetime.now()
+    
+    logger.info("Setting run status for donor %d to In Progress", my_run.donor_index)
     
     session.commit()
     session.close()
@@ -126,7 +169,7 @@ def get_next_sample():
     if next_sample != None:
         return (donor_index, sample_id, sample_location)
     else:
-        print "Could not find next sample"
+        logger.error("Could not find the next sample")
         exit(1)
 
 def reserve_sample():
@@ -134,44 +177,70 @@ def reserve_sample():
     
 
 def set_error():
+   logger.info("Setting error state for run.")
    os.system("/tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='reserve_sample')[0] }} {{ task_instance.xcom_pull(task_ids='reserve_sample')[1] }} 3")         
 
 def run_freebayes(**kwargs):
     contig_name = kwargs["contig_name"]
     ti = kwargs["ti"]
+    
     donor_index = ti.xcom_pull(task_ids='reserve_sample')[0]
     sample_id = ti.xcom_pull(task_ids='reserve_sample')[1]
     sample_location = ti.xcom_pull(task_ids='reserve_sample')[2]
+    logger.info("Got sample assignment from the sample reservation task: %d %s %s", donor_index, sample_id, sample_location)
+    
     
     result_path_prefix = "/tmp/" + sample_id
+    
     if (not os.path.isdir(result_path_prefix)):
+        logger.info("Results directory %s not present, creating.", result_path_prefix)
         os.makedirs(result_path_prefix)
     
     result_filename = result_path_prefix + "/" + sample_id + "_regenotype_" + contig_name + ".vcf"
+    
     
     freebayes_command = "freebayes -r " + contig_name +\
                         " -f " + reference_location +\
                         " -@ " + variants_location +\
                         " -l " + sample_location +\
                         " > " + result_filename
+    
+    logger.info("About to invoke freebayes with command %s.", freebayes_command)
     os.system(freebayes_command)
+    logger.info("Freebayes finished.")
     
     generate_tabix(compress_sample(result_filename))
     copy_result(donor_index, sample_id)
 
 def compress_sample(result_filename):
+    logger.info("About to compress sample %s.", result_filename)
+    
     compressed_filename = result_filename + ".gz"
     os.system("/usr/local/bin/bgzip -c " + result_filename + " > " + compressed_filename)
+    
+    logger.info("Sample compression finished")
+    
     return compressed_filename
       
 def generate_tabix(compressed_filename):
+    logger.info("About to generate tabix for %s.", compressed_filename)
+    
     os.system("/usr/local/bin/tabix -f -p vcf " + compressed_filename)
+    
+    logger.info("Tabix generation finished")
+    
          
     
 def copy_result(donor_index, sample_id): 
     os.system("mkdir -p " + results_base_path + "/" + sample_id)
-    os.system("cp /tmp/" + sample_id + "_regenotype_" + contig_name + ".vcf.gz* " + results_base_path + "/" + sample_id + "/")
-        
+    
+    copy_command = "cp /tmp/" + sample_id + "_regenotype_" + contig_name + ".vcf.gz* " + results_base_path + "/" + sample_id + "/"
+    logger.info("About to copy results for %d %s to shared storage. Using command '%s'", donor_index, sample_id, copy_command)
+    
+    os.system(copy_command)
+
+    logger.info("Results copy finished")
+    
         
 default_args = {
     'owner': 'airflow',
