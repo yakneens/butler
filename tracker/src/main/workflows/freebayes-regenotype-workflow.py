@@ -19,7 +19,7 @@ logging_config = dict(
               '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'}
         },
     handlers = {
-        'h': {'class': 'logging.RotatingFileHandler',
+        'h': {'class': 'logging.handlers.RotatingFileHandler',
               'formatter': 'f',
               'level': logging.DEBUG,
               'maxBytes': 100000000,
