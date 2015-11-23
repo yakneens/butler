@@ -9,6 +9,7 @@ import datetime
 import os
 import logging
 from logging.config import dictConfig
+from logging.handlers import RotatingFileHandler
 
 logging_config = dict(
     version = 1,
