@@ -214,19 +214,23 @@ def run_freebayes(**kwargs):
     copy_result(donor_index, sample_id, contig_name)
 
 def compress_sample(result_filename):
-    logger.info("About to compress sample %s.", result_filename)
-    
     compressed_filename = result_filename + ".gz"
-    os.system("/usr/local/bin/bgzip -c " + result_filename + " > " + compressed_filename)
+    compression_command = "/usr/local/bin/bgzip -c " + result_filename + " > " + compressed_filename
+    
+    logger.info("About to compress sample %s. Using command: %s.", result_filename, compression_command)
+    
+    os.system(compression_command)
     
     logger.info("Sample compression finished")
     
     return compressed_filename
       
 def generate_tabix(compressed_filename):
-    logger.info("About to generate tabix for %s.", compressed_filename)
+    tabix_command = "/usr/local/bin/tabix -f -p vcf " + compressed_filename
     
-    os.system("/usr/local/bin/tabix -f -p vcf " + compressed_filename)
+    logger.info("About to generate tabix for %s. Using command: %s.", compressed_filename, tabix_command)
+    
+    os.system(tabix_command)
     
     logger.info("Tabix generation finished")
     
@@ -235,7 +239,7 @@ def generate_tabix(compressed_filename):
 def copy_result(donor_index, sample_id, contig_name): 
     os.system("mkdir -p " + results_base_path + "/" + sample_id)
     
-    copy_command = "cp /tmp/" + sample_id + "_regenotype_" + contig_name + ".vcf.gz* " + results_base_path + "/" + sample_id + "/"
+    copy_command = "cp /tmp/" + sample_id + "/" + sample_id + "_regenotype_" + contig_name + ".vcf.gz* " + results_base_path + "/" + sample_id + "/"
     logger.info("About to copy results for %d %s to shared storage. Using command '%s'", donor_index, sample_id, copy_command)
     
     os.system(copy_command)
