@@ -211,7 +211,7 @@ def run_freebayes(**kwargs):
     logger.info("Freebayes finished.")
     
     generate_tabix(compress_sample(result_filename))
-    copy_result(donor_index, sample_id)
+    copy_result(donor_index, sample_id, contig_name)
 
 def compress_sample(result_filename):
     logger.info("About to compress sample %s.", result_filename)
@@ -232,7 +232,7 @@ def generate_tabix(compressed_filename):
     
          
     
-def copy_result(donor_index, sample_id): 
+def copy_result(donor_index, sample_id, contig_name): 
     os.system("mkdir -p " + results_base_path + "/" + sample_id)
     
     copy_command = "cp /tmp/" + sample_id + "_regenotype_" + contig_name + ".vcf.gz* " + results_base_path + "/" + sample_id + "/"
