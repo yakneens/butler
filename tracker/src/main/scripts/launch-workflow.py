@@ -12,7 +12,7 @@ num_runs = int(sys.argv[2])
 
 for this_run in range(num_runs):
     
-    run_uuid = uuid.uuid4()
+    run_uuid = str(uuid.uuid4())
     
     launch_command = "airflow trigger_dag -r " + run_uuid + " " + workflow_name
     print("Launching workflow with command: " + launch_command)
