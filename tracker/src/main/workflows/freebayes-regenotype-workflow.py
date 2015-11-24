@@ -126,8 +126,6 @@ def get_next_sample():
     
     logger.debug("Getting next available sample")
     
-    session.begin()
-    
     next_sample = session.query(PCAWGSample.index, PCAWGSample.normal_wgs_alignment_gnos_id, SampleLocation.normal_sample_location, GenotypingRun.run_id).\
         join(SampleLocation, PCAWGSample.index == SampleLocation.donor_index).\
         outerjoin(GenotypingRun,PCAWGSample.index == GenotypingRun.donor_index).\

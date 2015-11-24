@@ -17,6 +17,6 @@ for this_run in range(num_runs):
     launch_command = "airflow trigger_dag -r " + run_uuid + " " + workflow_name
     print("Launching workflow with command: " + launch_command)
     os.system(launch_command)
-    print("Workflow %s launched.", run_uuid)
+    print("Workflow " + run_uuid + " launched.")
     sleep(1)
     
