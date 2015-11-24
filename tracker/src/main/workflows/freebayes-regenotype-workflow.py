@@ -10,6 +10,7 @@ import os
 import logging
 from logging.config import dictConfig
 from logging.handlers import RotatingFileHandler
+from subprocess import call
 
 logging_config = dict(
     version = 1,
@@ -207,9 +208,16 @@ def run_freebayes(**kwargs):
                         " > " + result_filename
     
     logger.info("About to invoke freebayes with command %s.", freebayes_command)
-    os.system(freebayes_command)
-    logger.info("Freebayes finished.")
-    
+    #os.system(freebayes_command)
+    try:
+        retcode = call(freebayes_command)
+        if retcode < 0:
+            logger.error("Freebayes terminated by signal %d.", retcode)
+        else:
+            logger.info("Freebayes terminated normally.")
+    except OSError as e:
+        logger.error("Freebayes execution failed %s.", e)
+        
     generate_tabix(compress_sample(result_filename))
     copy_result(donor_index, sample_id, contig_name)
 
@@ -218,10 +226,16 @@ def compress_sample(result_filename):
     compression_command = "/usr/local/bin/bgzip -c " + result_filename + " > " + compressed_filename
     
     logger.info("About to compress sample %s. Using command: %s.", result_filename, compression_command)
+    #os.system(compression_command)
+    try:
+        retcode = call(compression_command)
+        if retcode < 0:
+            logger.error("Compression terminated by signal %d.", retcode)
+        else:
+            logger.info("Compression terminated normally.")
+    except OSError as e:
+        logger.error("Compression failed %s.", e)
     
-    os.system(compression_command)
-    
-    logger.info("Sample compression finished")
     
     return compressed_filename
       
@@ -230,22 +244,42 @@ def generate_tabix(compressed_filename):
     
     logger.info("About to generate tabix for %s. Using command: %s.", compressed_filename, tabix_command)
     
-    os.system(tabix_command)
+    #os.system(tabix_command)
+    try:
+        retcode = call(tabix_command)
+        if retcode < 0:
+            logger.error("Tabix generation terminated by signal %d.", retcode)
+        else:
+            logger.info("Tabix generation terminated normally.")
+    except OSError as e:
+        logger.error("Tabix generation failed %s.", e)
     
-    logger.info("Tabix generation finished")
     
          
     
 def copy_result(donor_index, sample_id, contig_name): 
-    os.system("mkdir -p " + results_base_path + "/" + sample_id)
+    results_directory_command = "mkdir -p " + results_base_path + "/" + sample_id
+    #os.system(results_directory_command)
+    try:
+        retcode = call(results_directory_command)
+        if retcode < 0:
+            logger.error("Results directory creation terminated by signal %d.", retcode)
+    except OSError as e:
+        logger.error("Results directory creation failed %s.", e)
     
     copy_command = "cp /tmp/" + sample_id + "/" + sample_id + "_regenotype_" + contig_name + ".vcf.gz* " + results_base_path + "/" + sample_id + "/"
     logger.info("About to copy results for %d %s to shared storage. Using command '%s'", donor_index, sample_id, copy_command)
     
-    os.system(copy_command)
-
-    logger.info("Results copy finished")
-    
+    #os.system(copy_command)
+    try:
+        retcode = call(copy_command)
+        if retcode < 0:
+            logger.error("Results copying terminated by signal %d.", retcode)
+        else:
+            logger.info("Results copying terminated normally.")
+    except OSError as e:
+        logger.error("Results copying failed %s.", e)
+     
         
 default_args = {
     'owner': 'airflow',
