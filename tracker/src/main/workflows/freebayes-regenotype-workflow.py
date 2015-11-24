@@ -130,7 +130,7 @@ def get_next_sample():
         outerjoin(GenotypingRun,PCAWGSample.index == GenotypingRun.donor_index).\
         filter(\
                and_(SampleLocation.normal_sample_location != None, \
-                    or_(GenotypingRun.run_status == None, GenotypingRun.run_status != 1, GenotypingRun.run_status != 2)\
+                    or_(GenotypingRun.run_status == None, and_(GenotypingRun.run_status != 1, GenotypingRun.run_status != 2))\
         )).\
         first()
     
