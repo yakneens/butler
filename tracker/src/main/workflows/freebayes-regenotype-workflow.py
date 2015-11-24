@@ -220,6 +220,7 @@ def run_freebayes(**kwargs):
             logger.info("Freebayes terminated normally.")
     except OSError as e:
         logger.error("Freebayes execution failed %s.", e)
+        exit(1)
         
     generate_tabix(compress_sample(result_filename))
     copy_result(donor_index, sample_id, contig_name)
@@ -238,6 +239,7 @@ def compress_sample(result_filename):
             logger.info("Compression terminated normally.")
     except OSError as e:
         logger.error("Compression failed %s.", e)
+        exit(1)
     
     
     return compressed_filename
@@ -256,6 +258,7 @@ def generate_tabix(compressed_filename):
             logger.info("Tabix generation terminated normally.")
     except OSError as e:
         logger.error("Tabix generation failed %s.", e)
+        exit(1)
     
     
          
@@ -269,6 +272,7 @@ def copy_result(donor_index, sample_id, contig_name):
             logger.error("Results directory creation terminated by signal %d.", retcode)
     except OSError as e:
         logger.error("Results directory creation failed %s.", e)
+        exit(1)
     
     copy_command = "cp /tmp/" + sample_id + "/" + sample_id + "_regenotype_" + contig_name + ".vcf.gz* " + results_base_path + "/" + sample_id + "/"
     logger.info("About to copy results for %d %s to shared storage. Using command '%s'", donor_index, sample_id, copy_command)
@@ -282,6 +286,7 @@ def copy_result(donor_index, sample_id, contig_name):
             logger.info("Results copying terminated normally.")
     except OSError as e:
         logger.error("Results copying failed %s.", e)
+        exit(1)
      
         
 default_args = {
