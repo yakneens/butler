@@ -201,7 +201,7 @@ def run_freebayes(**kwargs):
     result_filename = result_path_prefix + "/" + sample_id + "_regenotype_" + contig_name + ".vcf"
     
     
-    freebayes_command = "freebayes -r " + contig_name +\
+    freebayes_command = "/bin/freebayes -r " + contig_name +\
                         " -f " + reference_location +\
                         " -@ " + variants_location +\
                         " -l " + sample_location +\
