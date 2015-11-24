@@ -8,7 +8,7 @@ if len(sys.argv) != 3:
     exit(1)
     
 workflow_name = sys.argv[1]
-num_runs = sys.argv[2]
+num_runs = int(sys.argv[2])
 
 for this_run in range(num_runs):
     
