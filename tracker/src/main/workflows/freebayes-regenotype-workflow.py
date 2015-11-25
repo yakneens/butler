@@ -210,7 +210,7 @@ def run_freebayes(**kwargs):
     logger.info("About to invoke freebayes with command %s.", freebayes_command)
     #os.system(freebayes_command)
     try:
-        retcode = call(freebayes_command)
+        retcode = call(freebayes_command, shell=True)
         if retcode < 0:
             logger.error("Freebayes terminated by signal %d.", retcode)
         else:
@@ -229,7 +229,7 @@ def compress_sample(result_filename):
     logger.info("About to compress sample %s. Using command: %s.", result_filename, compression_command)
     #os.system(compression_command)
     try:
-        retcode = call(compression_command)
+        retcode = call(compression_command, shell=True)
         if retcode < 0:
             logger.error("Compression terminated by signal %d.", retcode)
         else:
@@ -248,7 +248,7 @@ def generate_tabix(compressed_filename):
     
     #os.system(tabix_command)
     try:
-        retcode = call(tabix_command)
+        retcode = call(tabix_command, shell=True)
         if retcode < 0:
             logger.error("Tabix generation terminated by signal %d.", retcode)
         else:
@@ -264,7 +264,7 @@ def copy_result(donor_index, sample_id, contig_name):
     results_directory_command = "mkdir -p " + results_base_path + "/" + sample_id
     #os.system(results_directory_command)
     try:
-        retcode = call(results_directory_command)
+        retcode = call(results_directory_command, shell=True)
         if retcode < 0:
             logger.error("Results directory creation terminated by signal %d.", retcode)
     except OSError as e:
@@ -276,7 +276,7 @@ def copy_result(donor_index, sample_id, contig_name):
     
     #os.system(copy_command)
     try:
-        retcode = call(copy_command)
+        retcode = call(copy_command, shell=True)
         if retcode < 0:
             logger.error("Results copying terminated by signal %d.", retcode)
         else:
