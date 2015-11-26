@@ -40,7 +40,7 @@ collectd_config:
       - pkg: collectd
       
 collectd_log:
-  file.exists:
+  file.managed:
     - name: /var/log/collectd.log
     - user: root
     - group: root
