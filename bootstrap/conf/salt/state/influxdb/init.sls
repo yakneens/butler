@@ -7,6 +7,13 @@ influxdb:
       - pkg: influxdb
     - watch:
       - file: /etc/opt/influxdb/influxdb.conf
+      
+influxdb_user:
+  user.present:
+    - name: influxdb
+    - home: /home/influxdb
+    - gid_from_name: True
+    - empty_password: True
   
 /var/lib/.influxdb:
   file.directory:

@@ -18,5 +18,5 @@ for this_run in range(num_runs):
     print("Launching workflow with command: " + launch_command)
     os.system(launch_command)
     print("Workflow " + run_uuid + " launched.")
-    sleep(1)
+    sleep(3)
     
