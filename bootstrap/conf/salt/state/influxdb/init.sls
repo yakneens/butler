@@ -6,7 +6,7 @@ influxdb:
     - require:
       - pkg: influxdb
     - watch:
-      - file: /etc/opt/influxdb/influxdb.conf
+      - file: /etc/influxdb/influxdb.conf
       
 influxdb_user:
   user.present:
