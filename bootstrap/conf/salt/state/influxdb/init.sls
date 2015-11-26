@@ -1,7 +1,7 @@
 influxdb:
   pkg.installed:
     - sources:
-      - influxdb: http://influxdb.s3.amazonaws.com/influxdb-0.9.4.2-1.x86_64.rpm
+      - influxdb: http://influxdb.s3.amazonaws.com/influxdb-0.9.5.1-1.x86_64.rpm
   service.running:
     - require:
       - pkg: influxdb
