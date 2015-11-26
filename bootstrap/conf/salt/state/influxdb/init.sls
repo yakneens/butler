@@ -46,7 +46,7 @@ influxdb_user:
     - dir_mode: 755
     - file_mode: 644    
     
-/etc/opt/influxdb/influxdb.conf:
+/etc/influxdb/influxdb.conf:
   file.managed:
     - source: salt://influxdb/config/influxdb.conf
     - user: influxdb
