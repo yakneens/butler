@@ -272,7 +272,7 @@ def copy_result(donor_index, sample_id, contig_name):
         exit(1)
     
     move_command = "mv /tmp/" + sample_id + "/" + sample_id + "_regenotype_" + contig_name + ".vcf.gz* " + results_base_path + "/" + sample_id + "/"
-    logger.info("About to move results for %d %s to shared storage. Using command '%s'", donor_index, sample_id, copy_command)
+    logger.info("About to move results for %d %s to shared storage. Using command '%s'", donor_index, sample_id, move_command)
     
     #os.system(copy_command)
     try:
