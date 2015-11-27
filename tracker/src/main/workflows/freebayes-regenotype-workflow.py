@@ -271,18 +271,18 @@ def copy_result(donor_index, sample_id, contig_name):
         logger.error("Results directory creation failed %s.", e)
         exit(1)
     
-    copy_command = "cp /tmp/" + sample_id + "/" + sample_id + "_regenotype_" + contig_name + ".vcf.gz* " + results_base_path + "/" + sample_id + "/"
-    logger.info("About to copy results for %d %s to shared storage. Using command '%s'", donor_index, sample_id, copy_command)
+    move_command = "mv /tmp/" + sample_id + "/" + sample_id + "_regenotype_" + contig_name + ".vcf.gz* " + results_base_path + "/" + sample_id + "/"
+    logger.info("About to move results for %d %s to shared storage. Using command '%s'", donor_index, sample_id, copy_command)
     
     #os.system(copy_command)
     try:
-        retcode = call(copy_command, shell=True)
+        retcode = call(move_command, shell=True)
         if retcode < 0:
-            logger.error("Results copying terminated by signal %d.", retcode)
+            logger.error("Results moving terminated by signal %d.", retcode)
         else:
-            logger.info("Results copying terminated normally.")
+            logger.info("Results moving terminated normally.")
     except OSError as e:
-        logger.error("Results copying failed %s.", e)
+        logger.error("Results moving failed %s.", e)
         exit(1)
      
         
