@@ -192,7 +192,7 @@ def run_freebayes(**kwargs):
     logger.info("Got sample assignment from the sample reservation task: %d %s %s", donor_index, sample_id, sample_location)
     
     
-    result_path_prefix = "/tmp/" + sample_id
+    result_path_prefix = "/tmp/freebayes-regenotype/" + sample_id
     
     if (not os.path.isdir(result_path_prefix)):
         logger.info("Results directory %s not present, creating.", result_path_prefix)
