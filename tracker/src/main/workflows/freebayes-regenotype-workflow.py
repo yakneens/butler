@@ -224,7 +224,7 @@ def run_freebayes(**kwargs):
 
 def compress_sample(result_filename):
     compressed_filename = result_filename + ".gz"
-    compression_command = "/usr/local/bin/bgzip -c " + result_filename + " > " + compressed_filename
+    compression_command = "/usr/local/bin/bgzip " + result_filename
     
     logger.info("About to compress sample %s. Using command: %s.", result_filename, compression_command)
     #os.system(compression_command)
@@ -271,7 +271,7 @@ def copy_result(donor_index, sample_id, contig_name):
         logger.error("Results directory creation failed %s.", e)
         exit(1)
     
-    move_command = "rsync -a -v --remove-source-files /tmp/" + sample_id + "/" + sample_id + "_regenotype_" + contig_name + ".vcf.gz* " + results_base_path + "/" + sample_id + "/"
+    move_command = "rsync -a -v --remove-source-files /tmp/freebayes-regenotype/" + sample_id + "/" + sample_id + "_regenotype_" + contig_name + ".vcf.gz* " + results_base_path + "/" + sample_id + "/"
     logger.info("About to move results for %d %s to shared storage. Using command '%s'", donor_index, sample_id, move_command)
     
     #os.system(copy_command)
