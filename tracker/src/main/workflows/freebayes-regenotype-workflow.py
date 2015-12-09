@@ -303,11 +303,13 @@ dag = DAG("freebayes-regenotype", default_args=default_args,schedule_interval=No
 reserve_sample_task = PythonOperator(
     task_id = "reserve_sample",
     python_callable = reserve_sample,
+    priority_weight = 10,
     dag = dag)
 
 release_sample_task = BashOperator(
     task_id = "release_sample",
     bash_command = "python /tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='reserve_sample')[0] }} {{ task_instance.xcom_pull(task_ids='reserve_sample')[1] }} 2",
+    priority_weight = 50,
     dag = dag)
 
 for contig_name in contig_names:
@@ -316,6 +318,7 @@ for contig_name in contig_names:
        python_callable = run_freebayes,
        op_kwargs={"contig_name": contig_name},
        provide_context=True,
+       priority_weight = 20,
        dag = dag)
     
     genotyping_task.set_upstream(reserve_sample_task)
