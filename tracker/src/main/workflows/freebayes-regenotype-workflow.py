@@ -36,10 +36,34 @@ logging_config = dict(
 dictConfig(logging_config)
 logger = logging.getLogger()
 
-contig_names = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"]
+contig_names = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22"]
 
 reference_location = "/reference/genome.fa"
 variants_location = "/shared/data/samples/vcf/ALL.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.snv.multibreak.vcf.gz"
+variants_location = {
+                     "1" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr1.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "2" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr2.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "3" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr3.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "4" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr4.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "5" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr5.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "6" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr6.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "7" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr7.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "8" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr8.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "9" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr9.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "10" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr10.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "11" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr11.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "12" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr12.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "13" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr13.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "14" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr14.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "15" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr15.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "16" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr16.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "17" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr17.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "18" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr18.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "19" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr19.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "20" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr20.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "21" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr21.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "22" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr22.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     }
 results_base_path = "/shared/data/results/regenotype"
 
 def set_ready(my_run):
@@ -203,7 +227,7 @@ def run_freebayes(**kwargs):
     
     freebayes_command = "/bin/freebayes -r " + contig_name +\
                         " -f " + reference_location +\
-                        " -@ " + variants_location +\
+                        " -@ " + variants_location[contig_name] +\
                         " -l " + sample_location +\
                         " > " + result_filename
     
