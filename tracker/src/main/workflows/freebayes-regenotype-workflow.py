@@ -321,7 +321,7 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
 }
 
-dag = DAG("freebayes-regenotype", default_args=default_args,schedule_interval=None,concurrency=1000,max_active_runs=1000)
+dag = DAG("freebayes-regenotype", default_args=default_args,schedule_interval=None,concurrency=10000,max_active_runs=2000)
 
 
 reserve_sample_task = PythonOperator(
