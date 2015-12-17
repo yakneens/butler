@@ -4,8 +4,8 @@ Requires=network-online.target
 After=network-online.target
 
 [Service]
-EnvironmentFile=-/etc/sysconfig/airflow-scheduler
-Environment=GOMAXPROCS=2
+EnvironmentFile=/etc/sysconfig/airflow
+Environment=
 Restart=on-failure
 ExecStart=/usr/bin/airflow scheduler
 ExecReload=/bin/kill -HUP $MAINPID

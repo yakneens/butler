@@ -38,6 +38,14 @@ collectd_config:
     - makedirs: True
     - require:
       - pkg: collectd
+      
+collectd_log:
+  file.managed:
+    - name: /var/log/collectd.log
+    - user: root
+    - group: root
+    - mode: 666
+
 
 
 collectd_types_db:

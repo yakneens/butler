@@ -1,0 +1,2 @@
+AIRFLOW_HOME=/opt/airflow/
+AIRFLOW_CONFIG=/etc/opt/airflow/airflow.cfg

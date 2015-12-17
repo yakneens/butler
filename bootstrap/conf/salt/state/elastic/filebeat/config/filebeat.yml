@@ -4,6 +4,18 @@
 filebeat:
   # List of prospectors to fetch data.
   prospectors:
+    -
+      paths:
+        - /var/log/airflow/*/*
+      document_type: airflow
+    - 
+      paths:
+        - /var/log/messages
+      document_type: syslog
+    -
+      paths:
+        - /var/lib/pgsql/9.4/data/pg_log/*.log
+      document_type: postgres  
     # Each - is a prospector. Below are the prospector specific configurations
     -
       # Paths that should be crawled and fetched. Glob based paths.
@@ -12,9 +24,9 @@ filebeat:
       # For each file found under this path, a harvester is started.
       # Make sure not file is defined twice as this can lead to unexpected behaviour.
       paths:
-        - /var/log/messages
         - /var/log/*.log
-        - /var/lib/pgsql/9.4/data/pg_log/*.log
+      
+      
       # - c:\programdata\elasticsearch\logs\*
 
       # Configure the file encoding for reading files with international characters
@@ -51,7 +63,7 @@ filebeat:
       # Type to be published in the 'type' field. For Elasticsearch output,
       # the type defines the document type these entries should be stored
       # in. Default: log
-      #document_type: log
+      document_type: log
 
       # Scan frequency in seconds.
       # How often these files should be checked for changes. In case it is set

@@ -4,24 +4,135 @@ from datetime import datetime, timedelta
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
+from sqlalchemy import or_, and_
+import datetime
+import os
+import logging
+from logging.config import dictConfig
+from logging.handlers import RotatingFileHandler
+from subprocess import call
 
-def lookup_sample_location(donor_index):
+logging_config = dict(
+    version = 1,
+    disable_existing_loggers = False,
+    formatters = {
+        'f': {'format':
+              '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'}
+        },
+    handlers = {
+        'h': {'class': 'logging.handlers.RotatingFileHandler',
+              'formatter': 'f',
+              'level': logging.DEBUG,
+              'maxBytes': 100000000,
+              'backupCount': 10,
+              'filename': '/tmp/freebayes-regenotype-workflow.log'}
+        },
+    loggers = {
+        'root': {'handlers': ['h'],
+                 'level': logging.DEBUG}
+        }
+)
+
+dictConfig(logging_config)
+logger = logging.getLogger()
+
+contig_names = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22"]
+
+reference_location = "/reference/genome.fa"
+variants_location = "/shared/data/samples/vcf/ALL.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.snv.multibreak.vcf.gz"
+variants_location = {
+                     "1" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr1.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "2" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr2.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "3" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr3.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "4" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr4.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "5" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr5.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "6" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr6.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "7" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr7.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "8" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr8.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "9" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr9.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "10" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr10.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "11" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr11.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "12" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr12.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "13" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr13.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "14" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr14.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "15" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr15.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "16" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr16.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "17" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr17.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "18" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr18.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "19" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr19.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "20" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr20.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "21" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr21.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     "22" : "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr22.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz", \
+                     }
+results_base_path = "/shared/data/results/regenotype"
+
+def set_ready(my_run):
+    if my_run.run_status == 1:
+        print "Cannot put a run that's In Progress into a Ready status"
+        
+        logger.error("Attempting to put an In Progress run into Ready state, runID: %d", my_run.run_id)
+        
+        exit(1)
+    else:
+        my_run.run_status = 0
+        
+def set_in_progress(my_run):
+    if my_run.run_status != 0:
+        
+        logger.error("Wrong run status - %d, Only a Ready run can be put In Progress, runID: %d", my_run.run_status, my_run.run_id)
+        exit(1)
+    else:
+        my_run.run_status = 1
+        my_run.run_start_date = datetime.datetime.now()
+        
+def set_finished(my_run):
+    if my_run.run_status != 1:
+        
+        logger.error("Wrong run status - %d, Only an In Progress run can be Finished, runID: %d", my_run.run_status, my_run.run_id)
+        exit(1)
+    else:
+        my_run.run_status = 2
+        my_run.run_end_date = datetime.datetime.now()
+        
+def set_error(my_run):
+    my_run.run_status = 3
+
+set_status = {"0": set_ready, "1": set_in_progress, "2": set_finished, "3": set_error}
+
+def update_run_status(donor_index, sample_id, run_status):
     Base = automap_base()
     engine = create_engine('postgresql://pcawg_admin:pcawg@postgresql.service.consul:5432/germline_genotype_tracking')
     Base.prepare(engine, reflect=True)
     
+    PCAWGSample = Base.classes.pcawg_samples
     SampleLocation = Base.classes.sample_locations
+    GenotypingRun = Base.classes.genotyping_runs
     
     session = Session(engine)
-
-    my_sample_location = session.query(SampleLocation).filter(SampleLocation.donor_index==donor_index).first()
-
-    if my_sample_location:
-        return my_sample_location.normal_sample_location
-    else:
-        print "Sample location could not be found for donor: " + str(donor_index)
-        exit(1)
+    
+    this_donor_index = donor_index
+    this_sample_id = sample_id
+    new_status = run_status
+    
+    my_run = session.query(GenotypingRun).filter(and_(GenotypingRun.donor_index==this_donor_index, GenotypingRun.sample_id==this_sample_id)).first()
+    
+    if not my_run:
+        my_run = GenotypingRun()
+        my_run.run_status = 0
+        my_run.donor_index = this_donor_index
+        my_run.sample_id = this_sample_id
+        my_run.created_date = datetime.datetime.now()
         
+        logger.info("No Genotyping Run found for donor %d. Creating new Genotyping Run", my_run.donor_index)
+        
+        session.add(my_run)
+    
+    set_status[new_status](my_run)
+    my_run.last_updated_date = datetime.datetime.now()
+    
+    logger.info("Setting run status for donor %d to %d", my_run.donor_index, new_status)
+    
+    session.commit()
     session.close()
     engine.dispose()
 
@@ -36,108 +147,204 @@ def get_next_sample():
     
     session = Session(engine)
     
-    next_sample = session.query(PCAWGSample).\
+    
+    logger.debug("Getting next available sample")
+    
+    next_sample = session.query(PCAWGSample.index, PCAWGSample.normal_wgs_alignment_gnos_id, SampleLocation.normal_sample_location, GenotypingRun.run_id).\
         join(SampleLocation, PCAWGSample.index == SampleLocation.donor_index).\
-        outerjoin(PCAWGSample.index == GenotypingRun.donor_index).\
+        outerjoin(GenotypingRun,PCAWGSample.index == GenotypingRun.donor_index).\
         filter(\
                and_(SampleLocation.normal_sample_location != None, \
-                    or_(GenotypingRun.run_status == None, GenotypingRun.run_status != 1)\
+                    or_(GenotypingRun.run_status == None, and_(GenotypingRun.run_status != 1, GenotypingRun.run_status != 2))\
         )).\
         first()
     
+    my_run_id = next_sample.run_id    
+    donor_index = next_sample.index
+    sample_id = next_sample.normal_wgs_alignment_gnos_id
+    sample_location = next_sample.normal_sample_location
+    
+    logger.info("Got the next available sample Donor Index: %d, Sample ID: %s, Sample Location: %s, Genotyping Run: %d.", donor_index, sample_id, sample_location, my_run_id)
+    
+    
+    my_run = None
+    
+    if not my_run_id:
+        my_run = GenotypingRun()
+        my_run.run_status = 0
+        my_run.donor_index = donor_index
+        my_run.sample_id = sample_id
+        my_run.created_date = datetime.datetime.now()
+        
+        logger.info("No Genotyping Run found for donor %d. Creating new Genotyping Run", my_run.donor_index)
+        
+        
+        session.add(my_run)
+    else:
+        my_run = session.query(GenotypingRun).get(my_run_id)
+    
+    set_status["1"](my_run)
+    my_run.last_updated_date = datetime.datetime.now()
+    
+    logger.info("Setting run status for donor %d to In Progress", my_run.donor_index)
+    
+    session.commit()
     session.close()
     engine.dispose()
 
     if next_sample != None:
-        return (next_sample.index, next_sample.normal_wgs_alignment_gnos_id)
+        return (donor_index, sample_id, sample_location)
     else:
-        print "Could not find next sample"
+        logger.error("Could not find the next sample")
         exit(1)
 
-def set_error():
-   os.system("/tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')[0] }} {{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')[1] }} 3")         
+def reserve_sample():
+    return get_next_sample()
     
+
+def set_error():
+   logger.info("Setting error state for run.")
+   os.system("/tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='reserve_sample')[0] }} {{ task_instance.xcom_pull(task_ids='reserve_sample')[1] }} 3")         
+
+def run_freebayes(**kwargs):
+    contig_name = kwargs["contig_name"]
+    ti = kwargs["ti"]
+    
+    donor_index = ti.xcom_pull(task_ids='reserve_sample')[0]
+    sample_id = ti.xcom_pull(task_ids='reserve_sample')[1]
+    sample_location = ti.xcom_pull(task_ids='reserve_sample')[2]
+    logger.info("Got sample assignment from the sample reservation task: %d %s %s", donor_index, sample_id, sample_location)
+    
+    
+    result_path_prefix = "/tmp/freebayes-regenotype/" + sample_id
+    
+    if (not os.path.isdir(result_path_prefix)):
+        logger.info("Results directory %s not present, creating.", result_path_prefix)
+        os.makedirs(result_path_prefix)
+    
+    result_filename = result_path_prefix + "/" + sample_id + "_regenotype_" + contig_name + ".vcf"
+    
+    
+    freebayes_command = "/bin/freebayes -r " + contig_name +\
+                        " -f " + reference_location +\
+                        " -@ " + variants_location[contig_name] +\
+                        " -l " + sample_location +\
+                        " > " + result_filename
+    
+    logger.info("About to invoke freebayes with command %s.", freebayes_command)
+    #os.system(freebayes_command)
+    try:
+        retcode = call(freebayes_command, shell=True)
+        if retcode < 0:
+            logger.error("Freebayes terminated by signal %d.", retcode)
+        else:
+            logger.info("Freebayes terminated normally.")
+    except OSError as e:
+        logger.error("Freebayes execution failed %s.", e)
+        exit(1)
+        
+    generate_tabix(compress_sample(result_filename))
+    copy_result(donor_index, sample_id, contig_name)
+
+def compress_sample(result_filename):
+    compressed_filename = result_filename + ".gz"
+    compression_command = "/usr/local/bin/bgzip " + result_filename
+    
+    logger.info("About to compress sample %s. Using command: %s.", result_filename, compression_command)
+    #os.system(compression_command)
+    try:
+        retcode = call(compression_command, shell=True)
+        if retcode < 0:
+            logger.error("Compression terminated by signal %d.", retcode)
+        else:
+            logger.info("Compression terminated normally.")
+    except OSError as e:
+        logger.error("Compression failed %s.", e)
+        exit(1)
+    
+    
+    return compressed_filename
+      
+def generate_tabix(compressed_filename):
+    tabix_command = "/usr/local/bin/tabix -f -p vcf " + compressed_filename
+    
+    logger.info("About to generate tabix for %s. Using command: %s.", compressed_filename, tabix_command)
+    
+    #os.system(tabix_command)
+    try:
+        retcode = call(tabix_command, shell=True)
+        if retcode < 0:
+            logger.error("Tabix generation terminated by signal %d.", retcode)
+        else:
+            logger.info("Tabix generation terminated normally.")
+    except OSError as e:
+        logger.error("Tabix generation failed %s.", e)
+        exit(1)
+    
+    
+         
+    
+def copy_result(donor_index, sample_id, contig_name): 
+    results_directory_command = "mkdir -p " + results_base_path + "/" + sample_id
+    #os.system(results_directory_command)
+    try:
+        retcode = call(results_directory_command, shell=True)
+        if retcode < 0:
+            logger.error("Results directory creation terminated by signal %d.", retcode)
+    except OSError as e:
+        logger.error("Results directory creation failed %s.", e)
+        exit(1)
+    
+    move_command = "rsync -a -v --remove-source-files /tmp/freebayes-regenotype/" + sample_id + "/" + sample_id + "_regenotype_" + contig_name + ".vcf.gz* " + results_base_path + "/" + sample_id + "/"
+    logger.info("About to move results for %d %s to shared storage. Using command '%s'", donor_index, sample_id, move_command)
+    
+    #os.system(copy_command)
+    try:
+        retcode = call(move_command, shell=True)
+        if retcode < 0:
+            logger.error("Results moving terminated by signal %d.", retcode)
+        else:
+            logger.info("Results moving terminated normally.")
+    except OSError as e:
+        logger.error("Results moving failed %s.", e)
+        exit(1)
+     
+        
 default_args = {
     'owner': 'airflow',
     'depends_on_past': False,
-    'start_date': datetime(2015, 11, 9),
+    'start_date': datetime.datetime(2020,01,01),
     'email': ['airflow@airflow.com'],
     'email_on_failure': False,
     'email_on_retry': False,
     'retries': 1,
     'retry_delay': timedelta(minutes=5),
-    # 'queue': 'bash_queue',
-    # 'pool': 'backfill',
-    # 'priority_weight': 10,
-    # 'end_date': datetime(2016, 1, 1),
 }
 
-# Commenting out full list of contigs for now leaving only 1-22, X, Y
-#contig_names = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y","MT","GL000207.1","GL000226.1","GL000229.1","GL000231.1","GL000210.1","GL000239.1","GL000235.1","GL000201.1","GL000247.1","GL000245.1","GL000197.1","GL000203.1","GL000246.1","GL000249.1","GL000196.1","GL000248.1","GL000244.1","GL000238.1","GL000202.1","GL000234.1","GL000232.1","GL000206.1","GL000240.1","GL000236.1","GL000241.1","GL000243.1","GL000242.1","GL000230.1","GL000237.1","GL000233.1","GL000204.1","GL000198.1","GL000208.1","GL000191.1","GL000227.1","GL000228.1","GL000214.1","GL000221.1","GL000209.1","GL000218.1","GL000220.1","GL000213.1","GL000211.1","GL000199.1","GL000217.1","GL000216.1","GL000215.1","GL000205.1","GL000219.1","GL000224.1","GL000223.1","GL000195.1","GL000212.1","GL000222.1","GL000200.1","GL000193.1","GL000194.1","GL000225.1","GL000192.1","NC_007605","hs37d5"]
-contig_names = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"]
-
-#donor_index = "23"
-#sample_id = "f87f8019-db9f-46d0-9e39-d16a37646815"
-reference_location = "/reference/genome.fa"
-variants_location = "/shared/data/samples/vcf/ALL.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.snv.multibreak.vcf.gz"
-results_base_path = "/shared/data/results/regenotype"
-
-dag = DAG("freebayes-regenotype", default_args=default_args)
+dag = DAG("freebayes-regenotype", default_args=default_args,schedule_interval=None,concurrency=10000,max_active_runs=2000)
 
 
-get_sample_assignment_task = PythonOperator(
-    task_id = "get_sample_assignment",
-    python_callable = get_next_sample(),
-    dag = dag)
-
-reserve_sample_task = BashOperator(
+reserve_sample_task = PythonOperator(
     task_id = "reserve_sample",
-    bash_command = "python  /tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')[0] }} {{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')[1] }} 1",
+    python_callable = reserve_sample,
+    priority_weight = 10,
     dag = dag)
 
 release_sample_task = BashOperator(
     task_id = "release_sample",
-    bash_command = "python /tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')[0] }} {{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')[1] }} 2",
+    bash_command = "python /tmp/germline-regenotyper/scripts/update-sample-status.py {{ task_instance.xcom_pull(task_ids='reserve_sample')[0] }} {{ task_instance.xcom_pull(task_ids='reserve_sample')[1] }} 2",
+    priority_weight = 50,
     dag = dag)
 
 for contig_name in contig_names:
-    sample_location = lookup_sample_location({{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')[0] }})
-    result_filename = "/tmp/{{ task_instance.xcom_pull(task_ids='get_sample_assignment_task')[1] }}_regenotype_" + contig_name + ".vcf"
-    genotyping_task = BashOperator(
+    genotyping_task = PythonOperator(
        task_id = "regenotype_" + contig_name,
-       bash_command = "freebayes -r " + contig_name +\
-                        " -f " + reference_location +\
-                        " -@ " + variants_location +\
-                        " -l " + sample_location +\
-                        " > " + result_filename,
+       python_callable = run_freebayes,
+       op_kwargs={"contig_name": contig_name},
+       provide_context=True,
+       priority_weight = 20,
        dag = dag)
     
     genotyping_task.set_upstream(reserve_sample_task)
     
-    data_compress_task = BashOperator(                                  
-        task_id = "compress_result_" + contig_name,
-        bash_command = '/usr/local/bin/bgzip -c ' + result_filename + ' > ' + result_filename + '.gz',
-        dag = dag)
-    
-    data_compress_task.set_upstream(genotyping_task)
-    
-    generate_tabix_task = BashOperator(                                  
-        task_id = "generate_tabix_" + contig_name,
-        bash_command = '/usr/local/bin/tabix -f -p vcf ' + result_filename + '.gz',
-        dag = dag)
-    
-    generate_tabix_task.set_upstream(data_compress_task)
-    
-    data_copy_task = BashOperator(                                  
-        task_id = "copy_result_" + contig_name,
-        bash_command = 'mkdir -p ' + results_base_path + '/{{ task_instance.xcom_pull(task_ids="get_sample_assignment_task")[1] }}/ && cp /tmp/{{ task_instance.xcom_pull(task_ids="get_sample_assignment_task")[0] }}_regenotype_' + contig_name + '.vcf.gz* "$_"',
-        dag = dag)
-    
-    data_copy_task.set_upstream(generate_tabix_task)
-    
-    release_sample_task.set_upstream(data_copy_task)
-    
-
-
-
-
+    release_sample_task.set_upstream(genotyping_task)

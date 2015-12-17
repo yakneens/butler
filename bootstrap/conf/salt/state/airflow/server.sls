@@ -8,8 +8,6 @@
 airflow-webserver:
   service.running:
     - enable: True
-    - watch:
-      - file: /etc/opt/airflow/airflow.cfg
 
 /usr/lib/systemd/system/airflow-scheduler.service:
   file.managed:
@@ -21,8 +19,6 @@ airflow-webserver:
 airflow-scheduler:
   service.running:
     - enable: True
-    - watch:
-      - file: /etc/opt/airflow/airflow.cfg
       
 /usr/lib/systemd/system/airflow-flower.service:
   file.managed:

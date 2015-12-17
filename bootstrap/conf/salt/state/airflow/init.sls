@@ -44,11 +44,19 @@ airflow_user:
     - mode: 600
     - makedirs: True
     
+/etc/sysconfig/airflow:
+  file.managed:
+    - source: salt://airflow/config/airflow
+    - user: root
+    - group: root
+    - mode: 600
+    - makedirs: True
+        
 /etc/profile.d/set_airflow_env.sh:
   file.managed:
     - source: salt://airflow/config/set_airflow_env.sh
     - user: root
     - group: root
-    - mode: 600
+    - mode: 700
     - makedirs: True
 

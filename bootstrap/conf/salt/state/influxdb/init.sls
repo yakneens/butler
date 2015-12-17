@@ -1,12 +1,19 @@
 influxdb:
   pkg.installed:
     - sources:
-      - influxdb: http://influxdb.s3.amazonaws.com/influxdb-0.9.4.2-1.x86_64.rpm
+      - influxdb: http://influxdb.s3.amazonaws.com/influxdb-0.9.5.1-1.x86_64.rpm
   service.running:
     - require:
       - pkg: influxdb
     - watch:
-      - file: /etc/opt/influxdb/influxdb.conf
+      - file: /etc/influxdb/influxdb.conf
+      
+influxdb_user:
+  user.present:
+    - name: influxdb
+    - home: /home/influxdb
+    - gid_from_name: True
+    - empty_password: True
   
 /var/lib/.influxdb:
   file.directory:
@@ -39,7 +46,7 @@ influxdb:
     - dir_mode: 755
     - file_mode: 644    
     
-/etc/opt/influxdb/influxdb.conf:
+/etc/influxdb/influxdb.conf:
   file.managed:
     - source: salt://influxdb/config/influxdb.conf
     - user: influxdb
