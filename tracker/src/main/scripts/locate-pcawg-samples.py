@@ -5,6 +5,7 @@ import os.path
 import datetime
 
 base_path = "/gnosdata/data/"
+base_path_tcga = "/gnosdata/tcga/"
 
 #Connect to the database and reflect the schema into python objects
 Base = automap_base()
@@ -26,11 +27,13 @@ for sample in session.query(PCAWGSample):
     tumor_directory = sample.tumor_wgs_alignment_gnos_id
     tumor_filename = sample.tumor_wgs_alignment_bam_file_name
     tumor_full_path = base_path + tumor_directory + "/" + tumor_filename
+    tumor_full_path_tcga = base_path_tcga + tumor_directory + "/" + tumor_filename
     
     #File location of the normal BAM file
     normal_directory = sample.normal_wgs_alignment_gnos_id
     normal_filename = sample.normal_wgs_alignment_bam_file_name
     normal_full_path = base_path + normal_directory + "/" + normal_filename
+    normal_full_path_tcga = base_path_tcga + normal_directory + "/" + normal_filename
     
     #If a sample_location record for this donor already exists, work with it
     this_sample_location = sample_locations.get(sample.index)
@@ -51,7 +54,17 @@ for sample in session.query(PCAWGSample):
     if os.path.isfile(tumor_full_path):
         this_sample_location.tumor_sample_location = tumor_full_path
         is_found = True
+        
+    #If file path to the normal BAM file exists in the TCGA directory, record it
+    if os.path.isfile(normal_full_path_tcga):
+        this_sample_location.normal_sample_location = normal_full_path_tcga
+        is_found = True
     
+    #If file path to the tumor BAM file exists in the TCGA directory, record it
+    if os.path.isfile(tumor_full_path_tcga):
+        this_sample_location.tumor_sample_location = tumor_full_path_tcga
+        is_found = True
+        
     #If at least one file path (tumor or normal) exists, persist the sample_locaion record
     if is_found:
         print "BAM files found for Donor: " + sample.submitter_donor_id

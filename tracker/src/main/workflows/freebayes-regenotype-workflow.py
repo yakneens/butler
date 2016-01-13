@@ -72,7 +72,7 @@ def set_ready(my_run):
         
         logger.error("Attempting to put an In Progress run into Ready state, runID: %d", my_run.run_id)
         
-        exit(1)
+        raise Exception()
     else:
         my_run.run_status = 0
         
@@ -80,7 +80,7 @@ def set_in_progress(my_run):
     if my_run.run_status != 0:
         
         logger.error("Wrong run status - %d, Only a Ready run can be put In Progress, runID: %d", my_run.run_status, my_run.run_id)
-        exit(1)
+        raise Exception()
     else:
         my_run.run_status = 1
         my_run.run_start_date = datetime.datetime.now()
@@ -89,7 +89,7 @@ def set_finished(my_run):
     if my_run.run_status != 1:
         
         logger.error("Wrong run status - %d, Only an In Progress run can be Finished, runID: %d", my_run.run_status, my_run.run_id)
-        exit(1)
+        raise Exception()
     else:
         my_run.run_status = 2
         my_run.run_end_date = datetime.datetime.now()
@@ -196,7 +196,8 @@ def get_next_sample():
         return (donor_index, sample_id, sample_location)
     else:
         logger.error("Could not find the next sample")
-        exit(1)
+        raise Exception()
+    
 
 def reserve_sample():
     return get_next_sample()
@@ -235,13 +236,14 @@ def run_freebayes(**kwargs):
     #os.system(freebayes_command)
     try:
         retcode = call(freebayes_command, shell=True)
-        if retcode < 0:
+        if retcode == 1:
             logger.error("Freebayes terminated by signal %d.", retcode)
+            raise Exception("Freebayes terminated by signal" + retcode)
         else:
             logger.info("Freebayes terminated normally.")
     except OSError as e:
         logger.error("Freebayes execution failed %s.", e)
-        exit(1)
+        raise
         
     generate_tabix(compress_sample(result_filename))
     copy_result(donor_index, sample_id, contig_name)
@@ -254,13 +256,14 @@ def compress_sample(result_filename):
     #os.system(compression_command)
     try:
         retcode = call(compression_command, shell=True)
-        if retcode < 0:
+        if retcode == 1:
             logger.error("Compression terminated by signal %d.", retcode)
+            raise Exception("Compression terminated by signal" + retcode)
         else:
             logger.info("Compression terminated normally.")
     except OSError as e:
         logger.error("Compression failed %s.", e)
-        exit(1)
+        raise
     
     
     return compressed_filename
@@ -273,13 +276,14 @@ def generate_tabix(compressed_filename):
     #os.system(tabix_command)
     try:
         retcode = call(tabix_command, shell=True)
-        if retcode < 0:
+        if retcode == 1:
             logger.error("Tabix generation terminated by signal %d.", retcode)
+            raise Exception("Tabix generation terminated by signal" + retcode)
         else:
             logger.info("Tabix generation terminated normally.")
     except OSError as e:
         logger.error("Tabix generation failed %s.", e)
-        exit(1)
+        raise
     
     
          
@@ -289,11 +293,12 @@ def copy_result(donor_index, sample_id, contig_name):
     #os.system(results_directory_command)
     try:
         retcode = call(results_directory_command, shell=True)
-        if retcode < 0:
+        if retcode == 1:
             logger.error("Results directory creation terminated by signal %d.", retcode)
+            raise Exception("Results directory creation terminated by signal" + retcode)
     except OSError as e:
         logger.error("Results directory creation failed %s.", e)
-        exit(1)
+        raise
     
     move_command = "rsync -a -v --remove-source-files /tmp/freebayes-regenotype/" + sample_id + "/" + sample_id + "_regenotype_" + contig_name + ".vcf.gz* " + results_base_path + "/" + sample_id + "/"
     logger.info("About to move results for %d %s to shared storage. Using command '%s'", donor_index, sample_id, move_command)
@@ -301,13 +306,14 @@ def copy_result(donor_index, sample_id, contig_name):
     #os.system(copy_command)
     try:
         retcode = call(move_command, shell=True)
-        if retcode < 0:
+        if retcode == 1:
             logger.error("Results moving terminated by signal %d.", retcode)
+            raise Exception("Results moving terminated by signal" + retcode)
         else:
             logger.info("Results moving terminated normally.")
     except OSError as e:
         logger.error("Results moving failed %s.", e)
-        exit(1)
+        raise
      
         
 default_args = {
