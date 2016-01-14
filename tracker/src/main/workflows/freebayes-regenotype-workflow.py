@@ -236,9 +236,9 @@ def run_freebayes(**kwargs):
     #os.system(freebayes_command)
     try:
         retcode = call(freebayes_command, shell=True)
-        if retcode == 1:
+        if retcode != 0:
             logger.error("Freebayes terminated by signal %d.", retcode)
-            raise Exception("Freebayes terminated by signal" + retcode)
+            raise Exception("Freebayes terminated by signal" + str(retcode))
         else:
             logger.info("Freebayes terminated normally.")
     except OSError as e:
@@ -256,9 +256,9 @@ def compress_sample(result_filename):
     #os.system(compression_command)
     try:
         retcode = call(compression_command, shell=True)
-        if retcode == 1:
+        if retcode != 0:
             logger.error("Compression terminated by signal %d.", retcode)
-            raise Exception("Compression terminated by signal" + retcode)
+            raise Exception("Compression terminated by signal" + str(retcode))
         else:
             logger.info("Compression terminated normally.")
     except OSError as e:
@@ -276,9 +276,9 @@ def generate_tabix(compressed_filename):
     #os.system(tabix_command)
     try:
         retcode = call(tabix_command, shell=True)
-        if retcode == 1:
+        if retcode != 0:
             logger.error("Tabix generation terminated by signal %d.", retcode)
-            raise Exception("Tabix generation terminated by signal" + retcode)
+            raise Exception("Tabix generation terminated by signal" + str(retcode))
         else:
             logger.info("Tabix generation terminated normally.")
     except OSError as e:
@@ -293,9 +293,9 @@ def copy_result(donor_index, sample_id, contig_name):
     #os.system(results_directory_command)
     try:
         retcode = call(results_directory_command, shell=True)
-        if retcode == 1:
+        if retcode != 0:
             logger.error("Results directory creation terminated by signal %d.", retcode)
-            raise Exception("Results directory creation terminated by signal" + retcode)
+            raise Exception("Results directory creation terminated by signal" + str(retcode))
     except OSError as e:
         logger.error("Results directory creation failed %s.", e)
         raise
@@ -306,9 +306,9 @@ def copy_result(donor_index, sample_id, contig_name):
     #os.system(copy_command)
     try:
         retcode = call(move_command, shell=True)
-        if retcode == 1:
+        if retcode != 0:
             logger.error("Results moving terminated by signal %d.", retcode)
-            raise Exception("Results moving terminated by signal" + retcode)
+            raise Exception("Results moving terminated by signal" + str(retcode))
         else:
             logger.info("Results moving terminated normally.")
     except OSError as e:
