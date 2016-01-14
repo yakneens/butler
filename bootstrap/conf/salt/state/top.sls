@@ -24,17 +24,24 @@ base:
     - airflow.load-workflows
     - airflow.worker
   'G@roles:tracker':
-    - elastic.search
-    - elastic.logstash
-    - elastic.kibana
-    - postgres
-    - grafana.createdb
-    - run-tracking-db
-    - rabbitmq
-    - celery
     - airflow
     - airflow.load-workflows
     - airflow.server
+  'G@roles:db-server':
+    - postgres
+    - grafana.createdb
+    - run-tracking-db
+  'G@roles:job-queue':
+    - rabbitmq
+  'G@roles:elasticsearch':
+    - elastic.search
+    - elastic.logstash
+    - elastic.kibana
+    - celery
+    
+  
+    
+    
 
 
     
