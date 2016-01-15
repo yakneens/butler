@@ -9,8 +9,11 @@ import json
 import configuration
 import datetime
 
+
+DB_URL = os.environ['DB_URL']
 Base = automap_base()
-engine = create_engine('postgresql://pcawg_admin:pcawg@postgresql.service.consul:5432/germline_genotype_tracking')
+#engine = create_engine('postgresql://pcawg_admin:pcawg@postgresql.service.consul:5432/germline_genotype_tracking')
+engine = create_engine(DB_URL)
 Base.prepare(engine, reflect=True)
 Configuration = Base.classes.configuration
 Analysis = Base.classes.analysis
