@@ -47,15 +47,15 @@ def create_configuration_from_file(config_file_path, id_from_filename = True):
             config_id = str(uuid.uuid4())
             
         my_file = open(config_file_path, 'r')
-        print "TEXT: " + my_file.read()
+        
         my_config = my_file.read()
-        print "My file path is :" + config_file_path
-        print "My config is " + str(my_config)
+        
         return create_configuration(config_id, my_config)
          
 def set_default_configuration_for_workflow(workflow_id, config_id):
     session = Session(engine)
-    
+    session.expire_on_commit = False
+            
     my_mapping = session.query(Workflow.workflow_id).filter(Workflow.workflow_id == workflow_id).first()
     
     if my_mapping != None:
@@ -67,7 +67,8 @@ def set_default_configuration_for_workflow(workflow_id, config_id):
         
 def get_effective_configuration(analysis_run_id):
     session = Session(engine)
-    
+    session.expire_on_commit = False
+            
     my_configs = session.query(AnalysisRun.run_id, Configuration.config, Configuration.config, Configuration.config).\
         join(Analysis, AnalysisRun.analysis_id == Analysis.analysis_id).\
         join(Workflow, AnalysisRun.workflow_id == Workflow.workflow_id).\

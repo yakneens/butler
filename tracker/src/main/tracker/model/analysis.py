@@ -27,7 +27,8 @@ RUN_STATUS_ERROR = 3
 
 def create_analysis(analysis_name, start_date, config_id):
     session = Session(engine)
-    
+    session.expire_on_commit = False
+            
     my_analysis = Analysis()
     my_analysis.analysis_name = analysis_name
     my_analysis.start_date = start_date
@@ -41,7 +42,8 @@ def create_analysis(analysis_name, start_date, config_id):
 
 def set_configuration_for_analysis(analysis_id, config_id):
     session = Session(engine)
-    
+    session.expire_on_commit = False
+            
     my_analysis = session.query(Analysis).filter(Analysis.analysis_id == analysis_id).first()
     
     my_analysis.config_id = config_id
@@ -51,7 +53,8 @@ def set_configuration_for_analysis(analysis_id, config_id):
     
 def create_analysis_run(analysis_id, config_id, workflow_id):
     session = Session(engine)
-    
+    session.expire_on_commit = False
+            
     my_analysis_run = AnalysisRun()
     my_analysis_run.analysis_id = analysis_id
     my_analysis_run.workflow_id = workflow_id
@@ -66,7 +69,8 @@ def create_analysis_run(analysis_id, config_id, workflow_id):
 
 def set_configuration_for_analysis_run(analysis_run_id, config_id):
     session = Session(engine)
-    
+    session.expire_on_commit = False
+            
     my_analysis_run = session.query(AnalysisRun).filter(AnalysisRun.analysis_run_id == analysis_run_id).first()
     
     my_analysis_run.config_id = config_id
