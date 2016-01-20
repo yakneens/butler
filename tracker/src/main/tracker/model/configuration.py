@@ -7,8 +7,10 @@ import os
 import uuid
 import json
 
+DB_URL = os.environ['DB_URL']
 Base = automap_base()
-engine = create_engine('postgresql://pcawg_admin:pcawg@postgresql.service.consul:5432/germline_genotype_tracking')
+#engine = create_engine('postgresql://pcawg_admin:pcawg@postgresql.service.consul:5432/germline_genotype_tracking')
+engine = create_engine(DB_URL)
 Base.prepare(engine, reflect=True)
 Configuration = Base.classes.configuration
 Workflow = Base.classes.workflow
@@ -19,6 +21,7 @@ def create_configuration(config_id, config):
     if is_uuid(config_id):
         if is_json(config):
             session = Session(engine)
+            session.expire_on_commit = False
             
             my_config = Configuration()
             my_config.config_id = config_id
@@ -43,10 +46,12 @@ def create_configuration_from_file(config_file_path, id_from_filename = True):
         else:
             config_id = str(uuid.uuid4())
             
-        f = open(config_file_path, 'r')
-        config = f.read()
-        
-        return create_configuration(config_id, config)
+        my_file = open(config_file_path, 'r')
+        print "TEXT: " + my_file.read()
+        my_config = my_file.read()
+        print "My file path is :" + config_file_path
+        print "My config is " + str(my_config)
+        return create_configuration(config_id, my_config)
          
 def set_default_configuration_for_workflow(workflow_id, config_id):
     session = Session(engine)
@@ -63,13 +68,12 @@ def set_default_configuration_for_workflow(workflow_id, config_id):
 def get_effective_configuration(analysis_run_id):
     session = Session(engine)
     
-    my_configs = session.query(AnalysisRun.run_id, Configuration config, Configuration.config, Configuration.config).\
+    my_configs = session.query(AnalysisRun.run_id, Configuration.config, Configuration.config, Configuration.config).\
         join(Analysis, AnalysisRun.analysis_id == Analysis.analysis_id).\
         join(Workflow, AnalysisRun.workflow_id == Workflow.workflow_id).\
         outerjoin(Configuration, AnalysisRun.config_id == Configuration.config_id).\
         outerjoin(Configuration, Analysis.config_id == Configuration.config_id).\
-        outerjoin(Configuration, Workflow.config_id == Configuration.config_id).\ 
-        first()
+        outerjoin(Configuration, Workflow.config_id == Configuration.config_id).first()
         
     return merge_configurations(run_config, analysis_config, workflow_config)
 
@@ -86,9 +90,8 @@ def is_json(my_object):
 
 def is_uuid(my_object):
     try:
-        my_uuid = UUID(my_object, version=4)
+        my_uuid = uuid.UUID(my_object, version=4)
     except ValueError:
         return False
-    
-    return my_uuid.hex == my_object 
+    return str(my_uuid) == my_object 
     
