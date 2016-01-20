@@ -15,8 +15,7 @@ Base = automap_base()
 #engine = create_engine('postgresql://pcawg_admin:pcawg@postgresql.service.consul:5432/germline_genotype_tracking')
 engine = create_engine(DB_URL)
 Base.prepare(engine, reflect=True)
-Configuration = Base.classes.configuration
-Analysis = Base.classes.analysis
+
 AnalysisRun = Base.classes.analysis_run
 
 RUN_STATUS_READY = 0
@@ -24,35 +23,6 @@ RUN_STATUS_IN_PROGRESS = 1
 RUN_STATUS_COMPLETED = 2
 RUN_STATUS_ERROR = 3
 
-
-def create_analysis(analysis_name, start_date, config_id):
-    session = Session(engine)
-    session.expire_on_commit = False
-            
-    my_analysis = Analysis()
-    my_analysis.analysis_name = analysis_name
-    my_analysis.start_date = start_date
-    my_analysis.config_id = config_id
-    
-    session.add(my_analysis)
-    session.commit()
-    session.close()
-    
-    return my_analysis
-
-def set_configuration_for_analysis(analysis_id, config_id):
-    session = Session(engine)
-    session.expire_on_commit = False
-            
-    my_analysis = session.query(Analysis).filter(Analysis.analysis_id == analysis_id).first()
-    
-    my_analysis.config_id = config_id
-    
-    session.commit()
-    session.close()
-    
-    return my_analysis
-    
 def create_analysis_run(analysis_id, config_id, workflow_id):
     session = Session(engine)
     session.expire_on_commit = False
