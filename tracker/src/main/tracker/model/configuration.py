@@ -29,7 +29,6 @@ def create_configuration(config_id, config):
             
             session.add(my_config)
             session.commit()
-            session.close()
         else:
             raise ValueError("Configuration object not in json format.")
     else:
@@ -61,7 +60,6 @@ def set_default_configuration_for_workflow(workflow_id, config_id):
     if my_mapping != None:
         my_mapping.config_id = config_id
         session.commit()
-        session.close()
     else:
         raise ValueError("No Workflow exists for workflow ID: " + str(workflow_id))
         

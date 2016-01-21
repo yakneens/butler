@@ -31,12 +31,15 @@ def create_analysis_run(analysis_id, config_id, workflow_id):
     my_analysis_run.analysis_id = analysis_id
     my_analysis_run.workflow_id = workflow_id
     my_analysis_run.config_id = config_id
-    my_analysis_run.created_date = datetime.datetime.now()
     my_analysis_run.run_status = RUN_STATUS_READY
+    
+    now = datetime.datetime.now()
+    my_analysis_run.last_updated_date = now 
+    my_analysis_run.created_date = now
+    
     
     session.add(my_analysis_run)
     session.commit()
-    session.close()
     
     return my_analysis_run
 
@@ -48,8 +51,10 @@ def set_configuration_for_analysis_run(analysis_run_id, config_id):
     
     my_analysis_run.config_id = config_id
     
+    now = datetime.datetime.now()
+    my_analysis_run.last_updated_date = now 
+    
     session.commit()
-    session.close()
     
     return my_analysis_run
 
@@ -61,7 +66,15 @@ def set_ready(my_run):
         
         raise ValueError("Attempting to put an In Progress run into Ready state, runID: %d", my_run.analysis_run_id)
     else:
+        
+        session = Session.object_session(my_run)
+        
         my_run.run_status = RUN_STATUS_READY
+        now = datetime.datetime.now()
+        my_run.last_updated_date = now
+        
+        session.commit() 
+    
         
 def set_in_progress(my_run):
     if my_run.run_status != RUN_STATUS_READY:
@@ -69,8 +82,15 @@ def set_in_progress(my_run):
         logger.error("Wrong run status - %d, Only a Ready run can be put In Progress, runID: %d", my_run.run_status, my_run.analysis_run_id)
         raise ValueError("Wrong run status - %d, Only a Ready run can be put In Progress, runID: %d", my_run.run_status, my_run.analysis_run_id)
     else:
+        session = Session.object_session(my_run)
+        
         my_run.run_status = RUN_STATUS_IN_PROGRESS
-        my_run.run_start_date = datetime.datetime.now()
+        now = datetime.datetime.now()
+        my_run.last_updated_date = now
+        my_run.run_start_date = now
+        
+        session.commit()
+        
         
 def set_completed(my_run):
     if my_run.run_status != RUN_STATUS_IN_PROGRESS:
@@ -78,8 +98,25 @@ def set_completed(my_run):
         logger.error("Wrong run status - %d, Only an In Progress run can be Finished, runID: %d", my_run.run_status, my_run.analysis_run_id)
         raise ValueError("Wrong run status - %d, Only an In Progress run can be Finished, runID: %d", my_run.run_status, my_run.analysis_run_id)
     else:
+        
+        session = Session.object_session(my_run)
+        
         my_run.run_status = RUN_STATUS_COMPLETED
-        my_run.run_end_date = datetime.datetime.now()
+        
+        now = datetime.datetime.now()
+        my_run.last_updated_date = now
+        my_run.run_end_date = now
+        
+        session.commit()
         
 def set_error(my_run):
+    
+    session = Session.object_session(my_run)
+        
     my_run.run_status = RUN_STATUS_ERROR
+    
+    now = datetime.datetime.now()
+    my_run.last_updated_date = now
+    
+    session.commit()
+        

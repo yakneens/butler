@@ -28,7 +28,6 @@ def create_workflow(workflow_name, workflow_version, config_id):
     
     session.add(my_workflow)
     session.commit()
-    session.close()
     
     return my_workflow
 
@@ -41,6 +40,7 @@ def set_configuration_for_workflow(workflow_id, config_id):
     my_workflow.config_id = config_id
     
     session.commit()
-    session.close()
     
     return my_workflow
+
+
