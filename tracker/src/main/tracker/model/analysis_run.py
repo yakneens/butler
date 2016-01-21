@@ -32,12 +32,13 @@ def create_analysis_run(analysis_id, config_id, workflow_id):
     my_analysis_run.workflow_id = workflow_id
     my_analysis_run.config_id = config_id
     my_analysis_run.created_date = datetime.datetime.now()
+    my_analysis_run.run_status = RUN_STATUS_READY
     
     session.add(my_analysis_run)
     session.commit()
     session.close()
     
-    return my_analysis
+    return my_analysis_run
 
 def set_configuration_for_analysis_run(analysis_run_id, config_id):
     session = Session(engine)
@@ -49,6 +50,8 @@ def set_configuration_for_analysis_run(analysis_run_id, config_id):
     
     session.commit()
     session.close()
+    
+    return my_analysis_run
 
 def set_ready(my_run):
     if my_run.run_status == RUN_STATUS_IN_PROGRESS:

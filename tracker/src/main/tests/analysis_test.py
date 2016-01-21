@@ -14,8 +14,7 @@ def test_create_analysis():
     my_config = create_configuration(config_id, config)
     
     analysis_name = "My analysis"
-    start_date = datetime.datetime.now(
-                                       )
+    start_date = datetime.datetime.now()
     my_analysis = create_analysis(analysis_name, start_date, config_id)
     
     assert my_analysis != None
@@ -25,8 +24,7 @@ def test_create_analysis():
     
 def test_set_config_for_analysis():
     analysis_name = "My analysis"
-    start_date = datetime.datetime.now(
-                                       )
+    start_date = datetime.datetime.now()
     my_analysis = create_analysis(analysis_name, start_date, None)
     
     config_id = str(uuid.uuid4())
@@ -36,4 +34,3 @@ def test_set_config_for_analysis():
     my_analysis = set_configuration_for_analysis(my_analysis.analysis_id, my_config.config_id)
     
     assert my_analysis.config_id == config_id
-    
