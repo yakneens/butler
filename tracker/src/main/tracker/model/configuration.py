@@ -1,14 +1,21 @@
+# -*- coding: utf-8 -*-
+"""
+The configuration module contains functions related to the management of Configuration objects.
+"""
+
+import os
+import uuid
+import json
+import datetime
+
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 from jsonmerge import merge
-import os
-import uuid
-import json
+
 
 DB_URL = os.environ['DB_URL']
 Base = automap_base()
-#engine = create_engine('postgresql://pcawg_admin:pcawg@postgresql.service.consul:5432/germline_genotype_tracking')
 engine = create_engine(DB_URL)
 Base.prepare(engine, reflect=True)
 Configuration = Base.classes.configuration
@@ -16,73 +23,159 @@ Workflow = Base.classes.workflow
 Analysis = Base.classes.analysis
 AnalysisRun = Base.classes.analysis_run
 
+
 def create_configuration(config_id, config):
+    """
+    Create a Configuration and store in the database.
+
+    Args:
+        config_id (uuid): Id to use for this configuration.
+        config (str): String representation of the JSON configuration.
+
+
+    Returns:
+        my_config (Configuration): The newly created configuration.
+
+    Raises:
+        ValueError: If the configuration object is not in json format.
+        If the configuration ID is not a valid UUID.
+    """
     if is_uuid(config_id):
         if is_json(config):
             session = Session(engine)
             session.expire_on_commit = False
-            
+
             my_config = Configuration()
             my_config.config_id = config_id
             my_config.config = config
-            
+
+            now = datetime.datetime.now()
+            my_config.last_updated_date = now
+            my_config.created_date = now
+
             session.add(my_config)
             session.commit()
         else:
             raise ValueError("Configuration object not in json format.")
     else:
         raise ValueError("Configuration ID not a uuid")
-    
+
     return my_config
-    
-def create_configuration_from_file(config_file_path, id_from_filename = True):
+
+
+def create_configuration_from_file(config_file_path, id_from_filename=True):
+    """
+    Create a Configuration from a file and store in the database.
+
+    Args:
+        config_file_path (str): Path to the JSON configuration file.
+        id_from_filename (bool): True if config_id for the new configuration should be
+                                harvested from the filename.
+                                If set to False a new ID will be generated.
+
+    Returns:
+        my_config (Configuration): The newly created configuration.
+
+    Raises:
+        ValueError: If the configuration object is not in json format.
+                    If the configuration ID is not a valid UUID.
+    """
     if os.path.isfile(config_file_path):
-        
+
         if id_from_filename:
             filename = os.path.basename(config_file_path)
             config_id = filename.split(".")[0]
         else:
             config_id = str(uuid.uuid4())
-            
+
         my_file = open(config_file_path, 'r')
-        
+
         my_config = my_file.read()
-        
+
         return create_configuration(config_id, my_config)
 
-        
+
 def get_effective_configuration(analysis_run_id):
+    """
+    Given an analysis run return its effective configuration.
+    The effective configuration consists of a merged set of
+    workflow, analysis, and analysis_run configurations
+
+    Args:
+        analysis_run_id (int): Id to use for analysis run lookup.
+
+    Returns:
+        my_config (str): The effective configuration of this analysis run.
+
+    """
     session = Session(engine)
     session.expire_on_commit = False
-            
-    my_configs = session.query(AnalysisRun.run_id, Configuration.config.label("run_config"), Configuration.config.label("analysis_config"), Configuration.config.label("workflow_config")).\
+
+    my_configs = session.query(AnalysisRun.run_id, Configuration.config.label("run_config"), \
+    Configuration.config.label("analysis_config"), Configuration.config.label("workflow_config")).\
         join(Analysis, AnalysisRun.analysis_id == Analysis.analysis_id).\
         join(Workflow, AnalysisRun.workflow_id == Workflow.workflow_id).\
         outerjoin(Configuration, AnalysisRun.config_id == Configuration.config_id).\
         outerjoin(Configuration, Analysis.config_id == Configuration.config_id).\
-        outerjoin(Configuration, Workflow.config_id == Configuration.config_id).first()
-        
-    return merge_configurations([my_configs.workflow_config, my_configs.analysis_config, my_configs.run_config])
+        outerjoin(Configuration, Workflow.config_id == Configuration.config_id).\
+        filter(AnalysisRun.run_id == analysis_run_id).first()
+    config_list = [my_configs.workflow_config, my_configs.analysis_config, my_configs.run_config]
+    return merge_configurations(config_list)
+
 
 def merge_configurations(config_list):
+    """
+    Merge a list of JSON formatted configurations into a single object.
+    Objects earlier on in the list supersede later objects.
+
+
+    Args:
+        config_list ([Configuration]): List of configurations to merge.
+
+    Returns:
+        current_config (json): The merged configuration.
+
+    """
     current_config = "{}"
     for config in config_list:
         current_config = merge(current_config, config)
-        
-    return current_config   
+
+    return current_config
+
 
 def is_json(my_object):
+    """
+    Determine whether an object passed as parameter is in JSON format.
+
+    Args:
+        my_object (str): Object to validate.
+
+    Returns:
+        is_json (bool): True when my_object can be parsed as json, False otherwise.
+
+    """
     try:
         json.loads(my_object)
     except ValueError:
         return False
-    
+
     return True
 
+
 def is_uuid(my_object):
+    """
+    Determine whether a string passed in as a parameter is a UUID.
+
+    Args:
+        my_object (str): String representation of the UUID.
+
+
+    Returns:
+        is_uuid (bool): True if my_object can be parsed as a UUID, False otherwise.
+
+    """
     try:
         my_uuid = uuid.UUID(my_object, version=4)
     except ValueError:
         return False
-    return str(my_uuid) == my_object 
-    
+    return str(my_uuid) == my_object

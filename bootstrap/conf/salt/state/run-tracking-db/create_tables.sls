@@ -6,12 +6,12 @@ create_sample_locations_table:
 create_config_table:
   cmd.run:
     - user: postgres
-    - name: psql -d germline_genotype_tracking -c "CREATE TABLE configuration(config_id uuid PRIMARY KEY, config jsonb)"
+    - name: psql -d germline_genotype_tracking -c "CREATE TABLE configuration(config_id uuid PRIMARY KEY, config jsonb, created_date timestamp, last_updated_date timestamp)"
 
 create_analysis_table:
   cmd.run:
     - user: postgres
-    - name: psql -d germline_genotype_tracking -c "CREATE TABLE analysis (analysis_id serial PRIMARY KEY, config_id uuid REFERENCES configuration(config_id), analysis_name varchar(255), start_date timestamp)"
+    - name: psql -d germline_genotype_tracking -c "CREATE TABLE analysis (analysis_id serial PRIMARY KEY, config_id uuid REFERENCES configuration(config_id), analysis_name varchar(255), start_date timestamp, created_date timestamp, last_updated_date timestamp)"
 
 
 create_runs_table:
@@ -22,4 +22,4 @@ create_runs_table:
 create_workflow_default_config_table:
   cmd.run:
     - user: postgres
-    - name: psql -d germline_genotype_tracking -c "CREATE TABLE workflow(workflow_id serial PRIMARY KEY, workflow_name varchar(255), workflow_version varchar(255), config_id uuid REFERENCES configuration(config_id))"
+    - name: psql -d germline_genotype_tracking -c "CREATE TABLE workflow(workflow_id serial PRIMARY KEY, workflow_name varchar(255), workflow_version varchar(255), config_id uuid REFERENCES configuration(config_id), created_date timestamp, last_updated_date timestamp)"
