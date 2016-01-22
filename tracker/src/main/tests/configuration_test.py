@@ -2,6 +2,9 @@ import uuid
 import json
 import pytest
 from tracker.model.configuration import *
+from tracker.model.workflow import *
+from tracker.model.analysis import *
+from tracker.model.analysis_run import *
 import tracker
 
 
@@ -50,19 +53,61 @@ def test_create_config_from_file(tmpdir, id_from_filename):
     ([{"val_1": {}}, {"val_1": {"sub_val_1": 2}}], {"val_1": {"sub_val_1": 2}}),
     ([{"val_1": {"sub_val_1": 1}}, {"val_1": {"sub_val_1": 2}}], {"val_1": {"sub_val_1": 2}}),
     ([{"val_1": {"sub_val_1": 1}}, {"val_1": {"sub_val_2": 2}}], {"val_1": {"sub_val_1": 1, "sub_val_2": 2}}),
-    ([{"val_1": {"sub_val_1": 1, "sub_val_2": 1}}, {"val_1": {"sub_val_2": 2, "sub_val_3": 2}}], {"val_1": {"sub_val_1": 1, "sub_val_2": 2, "sub_val_3": 2}}),
-    
+    ([{"val_1": {"sub_val_1": 1, "sub_val_2": 1}},\
+      {"val_1": {"sub_val_2": 2, "sub_val_3": 2}}],\
+     {"val_1": {"sub_val_1": 1, "sub_val_2": 2, "sub_val_3": 2}}),
+    ([{"val_1": 1}, {"val_1": 2}, {}], {"val_1": 2}),
+    ([{"val_1": 1}, {}, {"val_1": 3}], {"val_1": 3}),
+    ([{"val_1": 1}, {"val_1": 2}, {"val_1": 3}], {"val_1": 3}),
+    ([{"val_1": 1, "val_2": 1, "val_3": 1}, {"val_2": 2, "val_3": 2}, {"val_3": 3}],\
+      {"val_1": 1, "val_2": 2, "val_3": 3}),
+    ([{"val_1": [1,1,1]}, {"val_1": [2,2]}, {"val_1": [3]}], {"val_1": [3]}),
+    ([{"val_1": {"sub_val_1": 1, "sub_val_2": 1}, "val_2": 1},\
+      {"val_1": {"sub_val_2": 2, "sub_val_3": 2}},\
+      {"val_1": {"sub_val_1": 3, "sub_val_2": 3, "sub_val_3": 3}}],\
+     {"val_1": {"sub_val_1": 3, "sub_val_2": 3, "sub_val_3": 3}, "val_2": 1}),
 ])    
 def test_merge_configurations(config_list, config_final):
-    #config_1 = {"baseval_1": "1", "baseval_2": "1", "baseval_3": "1", "baseval_4": [1], "baseval_5": {"sub_base_1": "1", "sub_base_2": "1"}}
-    #config_2 = {"baseval_2": "2", "baseval_3": "2"}
-    #config_3 = {"baseval_3": "3", "baseval_4": [3,3,3], "baseval_5": {"sub_base_1": "3"}}
-    #config_final = {"baseval_1": "1", "baseval_2": "2", "baseval_3": "3", "baseval_4": [3,3,3], "baseval_5": {"sub_base_1": "3", "sub_base_2": "1"}}
-    
-    #config_list = [config_1, config_2, config_3]
-
     merged_result = merge_configurations(config_list)
     
     assert merged_result == config_final
+
+@pytest.mark.parametrize("config_list, config_final", [
+    ([{"val_1": 1}, {"val_1": 2}, {}], {"val_1": 2}),
+    ([{"val_1": 1}, {}, {"val_1": 3}], {"val_1": 3}),
+    ([{"val_1": 1}, {"val_1": 2}, {"val_1": 3}], {"val_1": 3}),
+    ([{"val_1": 1, "val_2": 1, "val_3": 1}, {"val_2": 2, "val_3": 2}, {"val_3": 3}],\
+      {"val_1": 1, "val_2": 2, "val_3": 3}),
+    ([{"val_1": [1,1,1]}, {"val_1": [2,2]}, {"val_1": [3]}], {"val_1": [3]}),
+    ([{"val_1": {"sub_val_1": 1, "sub_val_2": 1}, "val_2": 1},\
+      {"val_1": {"sub_val_2": 2, "sub_val_3": 2}},\
+      {"val_1": {"sub_val_1": 3, "sub_val_2": 3, "sub_val_3": 3}}],\
+     {"val_1": {"sub_val_1": 3, "sub_val_2": 3, "sub_val_3": 3}, "val_2": 1}),
+]) 
+def test_get_effective_configuration(config_list, config_final):
+    
+    config_id = str(uuid.uuid4())
+    create_configuration(config_id, json.dumps(config_list[0]))
+
+    workflow_name = "My workflow"
+    workflow_version = "1.0"
+    my_workflow = create_workflow(workflow_name, workflow_version, config_id)
+    
+    config_id = str(uuid.uuid4())
+    create_configuration(config_id, json.dumps(config_list[1]))
+
+    analysis_name = "My analysis"
+    start_date = datetime.datetime.now()
+    my_analysis = create_analysis(
+        analysis_name, start_date, config_id)
+    
+    config_id = str(uuid.uuid4())
+    create_configuration(config_id, json.dumps(config_list[2]))
+    my_analysis_run = create_analysis_run(
+        my_analysis.analysis_id, config_id, my_workflow.workflow_id)
+    
+    my_result = get_effective_configuration(my_analysis_run.analysis_run_id)
+    
+    assert my_result == config_final
     
     

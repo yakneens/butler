@@ -10,6 +10,7 @@ import datetime
 
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
+from sqlalchemy.orm import aliased
 from sqlalchemy import create_engine
 from jsonmerge import merge
 
@@ -110,16 +111,19 @@ def get_effective_configuration(analysis_run_id):
     """
     session = Session(engine)
     session.expire_on_commit = False
+    
+    config_2 = aliased(Configuration)
+    config_3 = aliased(Configuration)
 
-    my_configs = session.query(AnalysisRun.run_id, Configuration.config.label("run_config"), \
+    my_configs = session.query(AnalysisRun.analysis_run_id, Configuration.config.label("run_config"), \
     Configuration.config.label("analysis_config"), Configuration.config.label("workflow_config")).\
         join(Analysis, AnalysisRun.analysis_id == Analysis.analysis_id).\
         join(Workflow, AnalysisRun.workflow_id == Workflow.workflow_id).\
         outerjoin(Configuration, AnalysisRun.config_id == Configuration.config_id).\
-        outerjoin(Configuration, Analysis.config_id == Configuration.config_id).\
-        outerjoin(Configuration, Workflow.config_id == Configuration.config_id).\
-        filter(AnalysisRun.run_id == analysis_run_id).first()
-    config_list = [my_configs.workflow_config, my_configs.analysis_config, my_configs.run_config]
+        outerjoin(config_2, Analysis.config_id == config_2.config_id).\
+        outerjoin(config_3, Workflow.config_id == config_3.config_id).\
+        filter(AnalysisRun.analysis_run_id == analysis_run_id).first()
+    config_list = [json.loads(my_configs.workflow_config), json.loads(my_configs.analysis_config), json.loads(my_configs.run_config)]
     return merge_configurations(config_list)
 
 

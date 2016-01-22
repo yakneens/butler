@@ -17,7 +17,7 @@ create_analysis_table:
 create_runs_table:
   cmd.run:
     - user: postgres
-    - name: psql -d germline_genotype_tracking -c "CREATE TABLE analysis_run (analysis_run_id serial PRIMARY KEY, analysis_id serial REFERENCES analysis(analysis_id), run_status integer NOT NULL, workflow_id serial REFERENCES workflow(workflow_id), created_date timestamp, run_start_date timestamp, run_end_date timestamp, last_updated_date timestamp, run_error_code integer)"
+    - name: psql -d germline_genotype_tracking -c "CREATE TABLE analysis_run (analysis_run_id serial PRIMARY KEY, analysis_id serial REFERENCES analysis(analysis_id), config_id uuid REFERENCES configuration(config_id), run_status integer NOT NULL, workflow_id serial REFERENCES workflow(workflow_id), created_date timestamp, run_start_date timestamp, run_end_date timestamp, last_updated_date timestamp, run_error_code integer)"
 
 create_workflow_default_config_table:
   cmd.run:
