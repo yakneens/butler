@@ -27,6 +27,7 @@ base:
     - airflow
     - airflow.load-workflows
     - airflow.server
+    - jsonmerge
   'G@roles:db-server':
     - postgres
     - grafana.createdb

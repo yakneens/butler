@@ -8,7 +8,6 @@ import tracker.model.analysis_run
 import uuid
 import json
 import os
-import py.path
 import datetime
 
 def create_analysis_run():

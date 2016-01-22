@@ -1,4 +1,3 @@
-import sys
 import os
 import uuid
 from time import sleep

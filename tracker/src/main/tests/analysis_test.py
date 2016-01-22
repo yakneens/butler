@@ -1,11 +1,6 @@
-import pytest
-
 from tracker.model.configuration import *
 from tracker.model.analysis import *
 import uuid
-import json
-import os
-import py.path
 import datetime
 
 def test_create_analysis():
@@ -15,7 +10,7 @@ def test_create_analysis():
     
     analysis_name = "My analysis"
     start_date = datetime.datetime.now()
-    my_analysis = create_analysis(analysis_name, start_date, config_id)
+    my_analysis = create_analysis(analysis_name, start_date, my_config.config_id)
     
     assert my_analysis != None
     assert my_analysis.config_id == config_id

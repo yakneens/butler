@@ -1,12 +1,7 @@
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
-from sqlalchemy import or_, and_
-import sys
 import os
-import uuid
-import json
-import configuration
 import datetime
 
 
@@ -62,8 +57,6 @@ def set_ready(my_run):
     if my_run.run_status == RUN_STATUS_IN_PROGRESS:
         print "Cannot put a run that's In Progress into a Ready status"
         
-        logger.error("Attempting to put an In Progress run into Ready state, runID: %d", my_run.analysis_run_id)
-        
         raise ValueError("Attempting to put an In Progress run into Ready state, runID: %d", my_run.analysis_run_id)
     else:
         
@@ -79,7 +72,6 @@ def set_ready(my_run):
 def set_in_progress(my_run):
     if my_run.run_status != RUN_STATUS_READY:
         
-        logger.error("Wrong run status - %d, Only a Ready run can be put In Progress, runID: %d", my_run.run_status, my_run.analysis_run_id)
         raise ValueError("Wrong run status - %d, Only a Ready run can be put In Progress, runID: %d", my_run.run_status, my_run.analysis_run_id)
     else:
         session = Session.object_session(my_run)
@@ -95,7 +87,6 @@ def set_in_progress(my_run):
 def set_completed(my_run):
     if my_run.run_status != RUN_STATUS_IN_PROGRESS:
         
-        logger.error("Wrong run status - %d, Only an In Progress run can be Finished, runID: %d", my_run.run_status, my_run.analysis_run_id)
         raise ValueError("Wrong run status - %d, Only an In Progress run can be Finished, runID: %d", my_run.run_status, my_run.analysis_run_id)
     else:
         

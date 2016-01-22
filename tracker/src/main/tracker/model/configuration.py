@@ -1,8 +1,7 @@
 from sqlalchemy.ext.automap import automap_base
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
-from sqlalchemy import or_, and_
-import sys
+from jsonmerge import merge
 import os
 import uuid
 import json
@@ -50,38 +49,31 @@ def create_configuration_from_file(config_file_path, id_from_filename = True):
         my_config = my_file.read()
         
         return create_configuration(config_id, my_config)
-         
-def set_default_configuration_for_workflow(workflow_id, config_id):
-    session = Session(engine)
-    session.expire_on_commit = False
-            
-    my_mapping = session.query(Workflow.workflow_id).filter(Workflow.workflow_id == workflow_id).first()
-    
-    if my_mapping != None:
-        my_mapping.config_id = config_id
-        session.commit()
-    else:
-        raise ValueError("No Workflow exists for workflow ID: " + str(workflow_id))
+
         
 def get_effective_configuration(analysis_run_id):
     session = Session(engine)
     session.expire_on_commit = False
             
-    my_configs = session.query(AnalysisRun.run_id, Configuration.config, Configuration.config, Configuration.config).\
+    my_configs = session.query(AnalysisRun.run_id, Configuration.config.label("run_config"), Configuration.config.label("analysis_config"), Configuration.config.label("workflow_config")).\
         join(Analysis, AnalysisRun.analysis_id == Analysis.analysis_id).\
         join(Workflow, AnalysisRun.workflow_id == Workflow.workflow_id).\
         outerjoin(Configuration, AnalysisRun.config_id == Configuration.config_id).\
         outerjoin(Configuration, Analysis.config_id == Configuration.config_id).\
         outerjoin(Configuration, Workflow.config_id == Configuration.config_id).first()
         
-    return merge_configurations(run_config, analysis_config, workflow_config)
+    return merge_configurations([my_configs.workflow_config, my_configs.analysis_config, my_configs.run_config])
 
-def merge_configurations(run_config, analysis_config, workflow_config):
-    return run_config   
+def merge_configurations(config_list):
+    current_config = "{}"
+    for config in config_list:
+        current_config = merge(current_config, config)
+        
+    return current_config   
 
 def is_json(my_object):
     try:
-        json_object = json.loads(my_object)
+        json.loads(my_object)
     except ValueError:
         return False
     

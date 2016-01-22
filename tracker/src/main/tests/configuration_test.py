@@ -4,7 +4,6 @@ from tracker.model.configuration import *
 import uuid
 import json
 import os
-import py.path
 
 def test_create_config():
     config_id = str(uuid.uuid4())
