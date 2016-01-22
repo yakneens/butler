@@ -136,7 +136,7 @@ def merge_configurations(config_list):
         current_config (json): The merged configuration.
 
     """
-    current_config = "{}"
+    current_config = {}
     for config in config_list:
         current_config = merge(current_config, config)
 
