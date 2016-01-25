@@ -17,7 +17,7 @@ from jsonmerge import merge
 
 DB_URL = os.environ['DB_URL']
 Base = automap_base()
-engine = create_engine(DB_URL)
+engine = create_engine(DB_URL,echo=True )
 Base.prepare(engine, reflect=True)
 Configuration = Base.classes.configuration
 Workflow = Base.classes.workflow
@@ -112,16 +112,17 @@ def get_effective_configuration(analysis_run_id):
     session = Session(engine)
     session.expire_on_commit = False
     
-    config_2 = aliased(Configuration)
-    config_3 = aliased(Configuration)
+    run_config = aliased(Configuration)
+    analysis_config = aliased(Configuration)
+    workflow_config = aliased(Configuration)
 
-    my_configs = session.query(AnalysisRun.analysis_run_id, Configuration.config.label("run_config"), \
-    Configuration.config.label("analysis_config"), Configuration.config.label("workflow_config")).\
+    my_configs = session.query(AnalysisRun.analysis_run_id, run_config.config.label("run_config"), \
+    analysis_config.config.label("analysis_config"), workflow_config.config.label("workflow_config")).\
         join(Analysis, AnalysisRun.analysis_id == Analysis.analysis_id).\
         join(Workflow, AnalysisRun.workflow_id == Workflow.workflow_id).\
-        outerjoin(Configuration, AnalysisRun.config_id == Configuration.config_id).\
-        outerjoin(config_2, Analysis.config_id == config_2.config_id).\
-        outerjoin(config_3, Workflow.config_id == config_3.config_id).\
+        outerjoin(run_config, AnalysisRun.config_id == run_config.config_id).\
+        outerjoin(analysis_config, Analysis.config_id == analysis_config.config_id).\
+        outerjoin(workflow_config, Workflow.config_id == workflow_config.config_id).\
         filter(AnalysisRun.analysis_run_id == analysis_run_id).first()
     config_list = [json.loads(my_configs.workflow_config), json.loads(my_configs.analysis_config), json.loads(my_configs.run_config)]
     return merge_configurations(config_list)
