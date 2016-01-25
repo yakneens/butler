@@ -109,5 +109,31 @@ def test_get_effective_configuration(config_list, config_final):
     my_result = get_effective_configuration(my_analysis_run.analysis_run_id)
     
     assert my_result == config_final
+
+@pytest.mark.parametrize("string_to_test", [
+  pytest.mark.xfail(("")),
+  ("2d162bdf-aa56-46ff-81ba-ea9de850bbeb"),
+  pytest.mark.xfail(("2d162bdfaa5646ff81baea9de850bbeb")),  
+  pytest.mark.xfail(('xd162bdfaa5646ff81baea9de850bbeb')),
+])    
+def test_is_uuid(string_to_test):
+    assert is_uuid(string_to_test) == True
     
+@pytest.mark.parametrize("string_to_test", [
+  pytest.mark.xfail(("")),
+  ("{}"),
+  ('{"key": "val"}'),
+  ('{"val_1": []}'),
+  ('{"val_1": [1,1]}'),
+  ('{"val_1": {"sub_val_1": 1}}'),
+  ('{"val_1": {"sub_val_1": 1, "sub_val_2": 1}, "val_2": 1}'),
+  pytest.mark.xfail(('{"key": val')),
+  pytest.mark.xfail(('{"key": val}')),
+  pytest.mark.xfail(('{"key" val}')),
+  pytest.mark.xfail(('{"key: val}')),
+  pytest.mark.xfail(('{"key: val, "key_2": val}')),
+  pytest.mark.xfail(('{key: val}')),
+])    
+def test_is_json(string_to_test):
+    assert is_json(string_to_test) == True
     
