@@ -17,7 +17,7 @@ from jsonmerge import merge
 
 DB_URL = os.environ['DB_URL']
 Base = automap_base()
-engine = create_engine(DB_URL,echo=True )
+engine = create_engine(DB_URL,echo=False)
 Base.prepare(engine, reflect=True)
 Configuration = Base.classes.configuration
 Workflow = Base.classes.workflow

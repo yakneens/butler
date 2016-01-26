@@ -8,32 +8,13 @@ from sqlalchemy import or_, and_
 import datetime
 import os
 import logging
+
+import tracker.model
+
 from logging.config import dictConfig
 from logging.handlers import RotatingFileHandler
 from subprocess import call
 
-logging_config = dict(
-    version=1,
-    disable_existing_loggers=False,
-    formatters={
-        'f': {'format':
-              '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'}
-    },
-    handlers={
-        'h': {'class': 'logging.handlers.RotatingFileHandler',
-              'formatter': 'f',
-              'level': logging.DEBUG,
-              'maxBytes': 100000000,
-              'backupCount': 10,
-              'filename': '/tmp/freebayes-regenotype-workflow.log'}
-    },
-    loggers={
-        'root': {'handlers': ['h'],
-                 'level': logging.DEBUG}
-    }
-)
-
-dictConfig(logging_config)
 logger = logging.getLogger()
 
 contig_names = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
