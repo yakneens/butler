@@ -8,21 +8,15 @@ import uuid
 import json
 import datetime
 
-from sqlalchemy.ext.automap import automap_base
-from sqlalchemy.orm import Session
-from sqlalchemy.orm import aliased
-from sqlalchemy import create_engine
 from jsonmerge import merge
 
+from sqlalchemy.orm import aliased
+from tracker.util import connection
 
-DB_URL = os.environ['DB_URL']
-Base = automap_base()
-engine = create_engine(DB_URL,echo=False)
-Base.prepare(engine, reflect=True)
-Configuration = Base.classes.configuration
-Workflow = Base.classes.workflow
-Analysis = Base.classes.analysis
-AnalysisRun = Base.classes.analysis_run
+Configuration = connection.Base.classes.configuration
+Workflow = connection.Base.classes.workflow
+Analysis = connection.Base.classes.analysis
+AnalysisRun = connection.Base.classes.analysis_run
 
 
 def create_configuration(config_id, config):
@@ -43,8 +37,7 @@ def create_configuration(config_id, config):
     """
     if is_uuid(config_id):
         if is_json(config):
-            session = Session(engine)
-            session.expire_on_commit = False
+            session = connection.Session()
 
             my_config = Configuration()
             my_config.config_id = config_id
@@ -109,9 +102,8 @@ def get_effective_configuration(analysis_run_id):
         my_config (str): The effective configuration of this analysis run.
 
     """
-    session = Session(engine)
-    session.expire_on_commit = False
-    
+    session = connection.Session()
+
     run_config = aliased(Configuration)
     analysis_config = aliased(Configuration)
     workflow_config = aliased(Configuration)

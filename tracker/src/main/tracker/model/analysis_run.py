@@ -5,17 +5,9 @@ The analysis_run module contains functions related to the management of Analysis
 import os
 import datetime
 
-from sqlalchemy.ext.automap import automap_base
-from sqlalchemy.orm import Session
-from sqlalchemy import create_engine
+from tracker.util import connection
 
-
-DB_URL = os.environ['DB_URL']
-Base = automap_base()
-engine = create_engine(DB_URL)
-Base.prepare(engine, reflect=True)
-
-AnalysisRun = Base.classes.analysis_run
+AnalysisRun = connection.Base.classes.analysis_run
 
 RUN_STATUS_READY = 0
 RUN_STATUS_IN_PROGRESS = 1
@@ -36,9 +28,8 @@ def create_analysis_run(analysis_id, config_id, workflow_id):
     Returns:
         my_analysis_run (AnalysisRun): The newly created analysis run.
     """
-    session = Session(engine)
-    session.expire_on_commit = False
-
+    session = connection.Session()
+    
     my_analysis_run = AnalysisRun()
     my_analysis_run.analysis_id = analysis_id
     my_analysis_run.workflow_id = workflow_id
@@ -66,9 +57,8 @@ def set_configuration_for_analysis_run(analysis_run_id, config_id):
     Returns:
         my_analysis_run (AnalysisRun): The updated analysis run.
     """
-    session = Session(engine)
-    session.expire_on_commit = False
-
+    session = connection.Session()
+    
     my_analysis_run = session.query(AnalysisRun).filter(
         AnalysisRun.analysis_run_id == analysis_run_id).first()
 
@@ -101,12 +91,13 @@ def set_ready(my_run):
             my_run.analysis_run_id)
     else:
 
-        session = Session.object_session(my_run)
+        session = connection.Session()
 
         my_run.run_status = RUN_STATUS_READY
         now = datetime.datetime.now()
         my_run.last_updated_date = now
-
+        
+        session.add(my_run)
         session.commit()
 
 
@@ -126,13 +117,14 @@ def set_in_progress(my_run):
         raise ValueError("Wrong run status - %d, Only a Ready run can be put In Progress, runID: %d",
                          my_run.run_status, my_run.analysis_run_id)
     else:
-        session = Session.object_session(my_run)
+        session = connection.Session()
 
         my_run.run_status = RUN_STATUS_IN_PROGRESS
         now = datetime.datetime.now()
         my_run.last_updated_date = now
         my_run.run_start_date = now
 
+        session.add(my_run)
         session.commit()
 
 
@@ -153,7 +145,7 @@ def set_completed(my_run):
                          my_run.run_status, my_run.analysis_run_id)
     else:
 
-        session = Session.object_session(my_run)
+        session = connection.Session()
 
         my_run.run_status = RUN_STATUS_COMPLETED
 
@@ -161,6 +153,7 @@ def set_completed(my_run):
         my_run.last_updated_date = now
         my_run.run_end_date = now
 
+        session.add(my_run)
         session.commit()
 
 
@@ -171,11 +164,12 @@ def set_error(my_run):
     Args:
         my_run (AnalysisRun): AnalysisRun object to update
     """
-    session = Session.object_session(my_run)
+    session = connection.Session()
 
     my_run.run_status = RUN_STATUS_ERROR
 
     now = datetime.datetime.now()
     my_run.last_updated_date = now
 
+    session.add(my_run)
     session.commit()

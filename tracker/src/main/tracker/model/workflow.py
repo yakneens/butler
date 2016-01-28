@@ -5,15 +5,10 @@ The workflow module contains functions related to the management of Workflow obj
 import os
 import datetime
 
-from sqlalchemy.ext.automap import automap_base
-from sqlalchemy.orm import Session
-from sqlalchemy import create_engine
+from tracker.util import connection
 
-DB_URL = os.environ['DB_URL']
-Base = automap_base()
-engine = create_engine(DB_URL)
-Base.prepare(engine, reflect=True)
-Workflow = Base.classes.workflow
+
+Workflow = connection.Base.classes.workflow
 
 
 def create_workflow(workflow_name, workflow_version, config_id):
@@ -30,8 +25,8 @@ def create_workflow(workflow_name, workflow_version, config_id):
         my_workflow (Workflow): The newly created workflow.
 
     """
-    session = Session(engine)
-    session.expire_on_commit = False
+    session = connection.Session()
+
 
     my_workflow = Workflow()
     my_workflow.workflow_name = workflow_name
@@ -59,8 +54,7 @@ def set_configuration_for_workflow(workflow_id, config_id):
     Returns:
         my_workflow (Workflow): The updated workflow.
     """
-    session = Session(engine)
-    session.expire_on_commit = False
+    session = connection.Session()
 
     my_workflow = session.query(Workflow).filter(
         Workflow.workflow_id == workflow_id).first()

@@ -2,19 +2,16 @@
 """
 The analysis module contains functions related to the management of Analysis objects.
 """
-import os
+#import os
 import datetime
 
-from sqlalchemy.ext.automap import automap_base
-from sqlalchemy.orm import Session
-from sqlalchemy import create_engine
+#from sqlalchemy.ext.automap import automap_base
+#from sqlalchemy.orm import Session
+#from sqlalchemy import create_engine
 
+from tracker.util import connection
 
-DB_URL = os.environ['DB_URL']
-Base = automap_base()
-engine = create_engine(DB_URL)
-Base.prepare(engine, reflect=True)
-Analysis = Base.classes.analysis
+Analysis = connection.Base.classes.analysis
 
 
 def create_analysis(analysis_name, start_date, config_id):
@@ -29,9 +26,8 @@ def create_analysis(analysis_name, start_date, config_id):
     Returns:
         my_analysis (Analysis): The newly created analysis.
     """
-    session = Session(engine)
-    session.expire_on_commit = False
-
+    
+    session = connection.Session()
     my_analysis = Analysis()
     my_analysis.analysis_name = analysis_name
     my_analysis.start_date = start_date
@@ -58,9 +54,8 @@ def set_configuration_for_analysis(analysis_id, config_id):
     Returns:
         my_analysis (Analysis): The updated analysis.
     """
-    session = Session(engine)
-    session.expire_on_commit = False
-
+    session = connection.Session()
+    
     my_analysis = session.query(Analysis).filter(
         Analysis.analysis_id == analysis_id).first()
 
