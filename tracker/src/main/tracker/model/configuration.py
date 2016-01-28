@@ -57,15 +57,15 @@ def create_configuration(config_id, config):
     return my_config
 
 
-def create_configuration_from_file(config_file_path, id_from_filename=True):
+def create_configuration_from_file(config_file_path, id_from_filename=False):
     """
     Create a Configuration from a file and store in the database.
 
     Args:
         config_file_path (str): Path to the JSON configuration file.
-        id_from_filename (bool): True if config_id for the new configuration should be
-                                harvested from the filename.
-                                If set to False a new ID will be generated.
+        id_from_filename (bool): False if config_id for the new configuration should be
+                                generated internally.
+                                If set to True the ID will be harvested from the configuration file name.
 
     Returns:
         my_config (Configuration): The newly created configuration.
