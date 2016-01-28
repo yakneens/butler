@@ -11,6 +11,7 @@ from tracker.model.analysis import *
 from tracker.model.workflow import * 
 import tracker.model
 
+
 def set_up_dag_run(context, dag_run_obj):
     dag_run_obj.payload = { "config": context["config"] }
     dag_run_obj.run_id = str(uuid4())
@@ -72,7 +73,9 @@ def create_workflow_command(args):
     
     current_config_id = make_config_from_args(args)
     
-    create_workflow(workflow_name, workflow_version, current_config_id) 
+    my_workflow = create_workflow(workflow_name, workflow_version, current_config_id)
+    
+    print "Created workflow with ID: " + str(my_workflow.workflow_id) 
 
 def update_config_command(args):
     workflow_id = args.workflow_id
@@ -99,22 +102,27 @@ def create_analysis_command(args):
     
     current_config = create_configuration_from_file(config_file_location, id_from_filename)
     
-    create_analysis(analysis_name, analysis_start_date, current_config.config_id)
+    my_analysis = create_analysis(analysis_name, analysis_start_date, current_config.config_id)
+    
+    print "Created analysis with ID: " + str(my_analysis.analysis_id)
 
 def launch_workflow_command(args):
     
     config_location = args.config_location
     analysis_id = args.analysis_id
     workflow_id = args.workflow_id
+    
+    my_workflow = get_workflow_by_id(workflow_id)
+    
     id_from_filename = args.id_from_filename
     
     if not os.path.isdir(config_location):
         raise ValueError("config_location must be a path to a directory")
     
     my_dag_run = TriggerDagRunOperator(
-                dag_id="test-dag", 
+                dag_id=my_workflow.workflow_name, 
                 python_callable=set_up_dag_run,
-                task_id="run_my_test",
+                task_id="run_my_workflow",
                 owner="airflow")
     
             

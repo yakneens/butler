@@ -67,3 +67,11 @@ def set_configuration_for_workflow(workflow_id, config_id):
     session.commit()
 
     return my_workflow
+
+def get_workflow_by_id(workflow_id):
+    session = connection.Session()
+    
+    my_workflow = session.query(Workflow).filter(
+        Workflow.workflow_id == workflow_id).first()
+        
+    return my_workflow
