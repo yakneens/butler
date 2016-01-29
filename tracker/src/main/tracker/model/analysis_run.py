@@ -10,9 +10,10 @@ from tracker.util import connection
 AnalysisRun = connection.Base.classes.analysis_run
 
 RUN_STATUS_READY = 0
-RUN_STATUS_IN_PROGRESS = 1
-RUN_STATUS_COMPLETED = 2
-RUN_STATUS_ERROR = 3
+RUN_STATUS_SCHEDULED = 1
+RUN_STATUS_IN_PROGRESS = 2
+RUN_STATUS_COMPLETED = 3
+RUN_STATUS_ERROR = 4
 
 
 def create_analysis_run(analysis_id, config_id, workflow_id):
@@ -72,6 +73,23 @@ def set_configuration_for_analysis_run(analysis_run_id, config_id):
     return my_analysis_run
 
 
+def get_analysis_run_by_id(analysis_run_id):
+    """
+    Get the analysis run with ID analysis_run_id.
+
+    Args:
+        analysis_run_id (id): ID of analysis run
+    
+    Returns:
+        my_analysis_run (AnalysisRun): The analysis run that has id analysis_run_id.
+    """
+    session = connection.Session()
+    
+    my_analysis_run = session.query(AnalysisRun).filter(
+        AnalysisRun.analysis_run_id == analysis_run_id).first()
+
+    return my_analysis_run
+
 def set_ready(my_run):
     """
     Set the status of a given analysis run to RUN_STATUS_READY.
@@ -84,11 +102,10 @@ def set_ready(my_run):
         ValueError: If the analysis run is not in the correct state.
     """
     if my_run.run_status == RUN_STATUS_IN_PROGRESS:
-        print "Cannot put a run that's In Progress into a Ready status"
+        msg = "Attempting to put an In Progress run into Ready state, runID: {}".format(my_run.analysis_run_id)
+        print msg
 
-        raise ValueError(
-            "Attempting to put an In Progress run into Ready state, runID: %d", \
-            my_run.analysis_run_id)
+        raise ValueError(msg)
     else:
 
         session = connection.Session()
@@ -100,10 +117,9 @@ def set_ready(my_run):
         session.add(my_run)
         session.commit()
 
-
-def set_in_progress(my_run):
+def set_scheduled(my_run):
     """
-    Set the status of a given analysis run to RUN_STATUS_IN_PROGRESS.
+    Set the status of a given analysis run to RUN_STATUS_SCHEDULED.
     Only possible if the current status is RUN_STATUS_READY.
 
     Args:
@@ -113,9 +129,37 @@ def set_in_progress(my_run):
         ValueError: If the analysis run is not in the correct state.
     """
     if my_run.run_status != RUN_STATUS_READY:
+        msg = "Wrong run status - {}, Only a Ready run can be Scheduled, runID: {}".format(my_run.run_status, my_run.analysis_run_id)
+        print msg
 
-        raise ValueError("Wrong run status - %d, Only a Ready run can be put In Progress, runID: %d",
-                         my_run.run_status, my_run.analysis_run_id)
+        raise ValueError(msg)
+    else:
+
+        session = connection.Session()
+
+        my_run.run_status = RUN_STATUS_READY
+        now = datetime.datetime.now()
+        my_run.last_updated_date = now
+        
+        session.add(my_run)
+        session.commit()
+
+def set_in_progress(my_run):
+    """
+    Set the status of a given analysis run to RUN_STATUS_IN_PROGRESS.
+    Only possible if the current status is RUN_STATUS_SCHEDULED.
+
+    Args:
+        my_run (AnalysisRun): AnalysisRun object to update
+
+    Raises:
+        ValueError: If the analysis run is not in the correct state.
+    """
+    if my_run.run_status != RUN_STATUS_SCHEDULED:
+        msg = "Wrong run status - {}, Only a Scheduled run can be put In Progress, runID: {}".format(my_run.run_status, my_run.analysis_run_id)
+        print msg
+
+        raise ValueError(msg)
     else:
         session = connection.Session()
 
@@ -141,8 +185,8 @@ def set_completed(my_run):
     """
     if my_run.run_status != RUN_STATUS_IN_PROGRESS:
 
-        raise ValueError("Wrong run status - %d, Only an In Progress run can be Finished, runID: %d",
-                         my_run.run_status, my_run.analysis_run_id)
+        raise ValueError("Wrong run status - {}, Only an In Progress run can be Finished, runID: {}".\
+                         format(my_run.run_status, my_run.analysis_run_id))
     else:
 
         session = connection.Session()
