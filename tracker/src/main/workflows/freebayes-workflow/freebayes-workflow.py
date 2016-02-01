@@ -36,6 +36,28 @@ def validate_sample(**kwargs):
     
     if not os.path.isfile(sample_location):
         raise ValueError("Invalid sample location or wrong permissions at {}".format(sampl_location))
+    
+def schedule_freebayes_jobs(**kwargs):
+    config = get_config(kwargs)
+    
+    contig_names = config["contig_names"]
+    
+    my_dag = kwargs["dag"]
+    complete_analysis_run_task = kwargs["complete_analysis_run_task"]
+    
+    
+    for contig_name in contig_names:
+        freebayes_task = PythonOperator(
+            task_id="freebayes_" + contig_name,
+            python_callable=run_freebayes,
+            op_kwargs={"contig_name": contig_name},
+            provide_context=True,
+            dag=my_dag)
+    
+        freebayes_task.set_upstream(self)
+    
+        complete_analysis_run_task.set_upstream(genotyping_task)
+
 
 
 def call_command(command, command_name):
@@ -161,15 +183,14 @@ complete_analysis_run_task = PythonOperator(
     provide_context=True,
     dag=dag)
 
+schedule_freebayes_jobs_task = PythonOperator(
+    task_id="schedule_freebayes_jobs",
+    python_callable=schedule_freebayes_jobs,
+    op_kwargs={"complete_analysis_run_task": complete_analysis_run_task},
+    provide_context=True,
+    dag=dag)
 
-for contig_name in contig_names:
-    freebayes_task = PythonOperator(
-        task_id="freebayes_" + contig_name,
-        python_callable=run_freebayes,
-        op_kwargs={"contig_name": contig_name},
-        provide_context=True,
-        dag=dag)
+schedule_freebayes_jobs_task.set_upstream(validate_sample_task)
 
-    freebayes_task.set_upstream(validate_sample_task)
 
-    complete_analysis_run_task.set_upstream(genotyping_task)
+
