@@ -4,6 +4,7 @@ The analysis_run module contains functions related to the management of Analysis
 """
 import os
 import datetime
+import logging
 
 from tracker.util import connection
 
@@ -15,6 +16,7 @@ RUN_STATUS_IN_PROGRESS = 2
 RUN_STATUS_COMPLETED = 3
 RUN_STATUS_ERROR = 4
 
+logger = logging.getLogger()
 
 def create_analysis_run(analysis_id, config_id, workflow_id):
     """
@@ -137,7 +139,7 @@ def set_scheduled(my_run):
 
         session = connection.Session()
 
-        my_run.run_status = RUN_STATUS_READY
+        my_run.run_status = RUN_STATUS_SCHEDULED
         now = datetime.datetime.now()
         my_run.last_updated_date = now
         

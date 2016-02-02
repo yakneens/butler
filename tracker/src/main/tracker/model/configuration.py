@@ -139,6 +139,14 @@ def merge_configurations(config_list):
 
     return current_config
 
+def update_configuration(config_id, new_config):
+    session = connection.Session()
+    
+    my_config = session.query(Configuration).filter(Configuration.config_id == config_id).first()
+    updated_config = merge_configurations([my_config, new_config])
+    session.add(updated_config)
+    session.commit()
+    
 
 def is_json(my_object):
     """

@@ -3,8 +3,8 @@
                 "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22"],
 	"reference_location": "/reference/genome.fa",
 	"bgzip": {
-		"path: "/usr/local/bin/gzip",
-		"flags: ""
+		"path": "/usr/local/bin/gzip",
+		"flags": ""
 	},
 	"tabix": {
 		"path": "/usr/local/bin/tabix",

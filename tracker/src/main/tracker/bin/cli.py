@@ -12,6 +12,7 @@ from tracker.model.workflow import *
 import tracker.model
 
 
+
 def set_up_dag_run(context, dag_run_obj):
     dag_run_obj.payload = { "config": context["config"] }
     dag_run_obj.run_id = str(uuid4())
@@ -25,7 +26,7 @@ def parse_args():
     
     
     common_args_parser = argparse.ArgumentParser(add_help=False, conflict_handler='resolve')
-    common_args_parser.add_argument("-f", "--id_from_filename", dest="id_from_filename", help="Flag indicating that config ID should be taken from config file name.", action="store_true", default="False")
+    common_args_parser.add_argument("-f", "--id_from_filename", dest="id_from_filename", help="Flag indicating that config ID should be taken from config file name.", action="store_true")
     
     create_workflow_parser = sub_parsers.add_parser("create-workflow", parents=[common_args_parser], conflict_handler='resolve')
     create_workflow_parser.add_argument("-n", "--workflow_name", help="Name of the workflow to create", dest="workflow_name", required=True)
@@ -42,7 +43,7 @@ def parse_args():
     create_analysis_parser = sub_parsers.add_parser("create-analysis", parents=[common_args_parser], conflict_handler='resolve')
     create_analysis_parser.add_argument("-n", "--analysis_name", help="Name of the analysis to create", dest="analysis_name", required=True)
     create_analysis_parser.add_argument("-d", "--analysis_start_date", help="Starting date of the analysis", dest="analysis_start_date", required=False)
-    create_workflow_parser.add_argument("-c", "--config_file_location", help="Path to a config file for this analysis.", dest="config_file_location", required=True)
+    create_analysis_parser.add_argument("-c", "--config_file_location", help="Path to a config file for this analysis.", dest="config_file_location", required=True)
     create_analysis_parser.set_defaults(func=create_analysis_command)
     
     update_config_parser = sub_parsers.add_parser("update-config", parents=[common_args_parser], conflict_handler='resolve')
@@ -133,8 +134,11 @@ def launch_workflow_command(args):
             current_config = create_configuration_from_file(os.path.join(root,config_file), id_from_filename)
             
             current_analysis_run = create_analysis_run(analysis_id, current_config.config_id, workflow_id)
+            set_scheduled(current_analysis_run)
             
             effective_config = get_effective_configuration(current_analysis_run.analysis_run_id)
+            
+            effective_config["analysis_run_id"] = current_analysis_run.analysis_run_id
             
             my_dag_run.execute({"config": effective_config})
             

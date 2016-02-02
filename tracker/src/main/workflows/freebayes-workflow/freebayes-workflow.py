@@ -10,6 +10,7 @@ from tracker.model.analysis_run import *
 
 
 
+
 def get_config(kwargs):
     return kwargs["dag_run"].conf["config"]
 
@@ -20,12 +21,21 @@ def get_sample(kwargs):
 def start_analysis_run(**kwargs):
     
     config = get_config(kwargs)
-    sample = get_sample(kwargs)
-
+    
     analysis_run_id = config["analysis_run_id"]
     
     analysis_run = get_analysis_run_by_id(analysis_run_id)
     set_in_progress(analysis_run)
+    
+    
+def complete_analysis_run(**kwargs):
+    
+    config = get_config(kwargs)
+    analysis_run_id = config["analysis_run_id"]
+    
+    analysis_run = get_analysis_run_by_id(analysis_run_id)
+    
+    set_completed(analysis_run)
 
 def validate_sample(**kwargs):
     my_sample = get_sample(kwargs)
@@ -35,7 +45,7 @@ def validate_sample(**kwargs):
     logger.info("Trying to locate sample at %s", sample_location)
     
     if not os.path.isfile(sample_location):
-        raise ValueError("Invalid sample location or wrong permissions at {}".format(sampl_location))
+        raise ValueError("Invalid sample location or wrong permissions at {}".format(sample_location))
     
 def schedule_freebayes_jobs(**kwargs):
     config = get_config(kwargs)
