@@ -4,11 +4,13 @@ from datetime import datetime, timedelta
 
 import os
 import logging
+from subprocess import call
 
 import tracker.model
 from tracker.model.analysis_run import *
 
-
+contig_names = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
+                "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22"]
 
 
 def get_config(kwargs):
@@ -47,34 +49,12 @@ def validate_sample(**kwargs):
     if not os.path.isfile(sample_location):
         raise ValueError("Invalid sample location or wrong permissions at {}".format(sample_location))
     
-def schedule_freebayes_jobs(**kwargs):
-    config = get_config(kwargs)
-    
-    contig_names = config["contig_names"]
-    
-    my_dag = kwargs["dag"]
-    complete_analysis_run_task = kwargs["complete_analysis_run_task"]
-    schedule_freebayes_jobs_task = kwargs["task"]
-    
-    for contig_name in contig_names:
-        freebayes_task = PythonOperator(
-            task_id="freebayes_" + contig_name,
-            python_callable=run_freebayes,
-            op_kwargs={"contig_name": contig_name},
-            provide_context=True,
-            dag=my_dag)
-    
-        freebayes_task.set_upstream(schedule_freebayes_jobs_task)
-    
-        complete_analysis_run_task.set_upstream(freebayes_task)
-
-
 
 def call_command(command, command_name):
     logger.info("About to invoke {} with command {}.".format(command_name, command))
     
     try:
-        retcode = call(freebayes_command, shell=True)
+        retcode = call(command, shell=True)
         if retcode != 0:
             msg = "{} terminated by signal {}.".format(command_name, retcode)
             logger.error(msg)
@@ -91,36 +71,41 @@ def run_freebayes(**kwargs):
     sample = get_sample(kwargs)
     
     contig_name = kwargs["contig_name"]
+    contig_whitelist = config["contig_whitelist"]
     
-    sample_id = sample["sample_id"]
-    sample_location = sample["sample_location"]
     
-    result_path_prefix = config["results_local_path"] + sample_id
-
-    if (not os.path.isdir(result_path_prefix)):
-        logger.info("Results directory {} not present, creating.".format(result_path_prefix))
-        os.makedirs(result_path_prefix)
-
-    result_filename =  "{}/{}_{}.vcf".format(result_path_prefix, sample_id, contig_name)
+    if not contig_whitelist or contig_name in contig_whitelist:
+    
+        sample_id = sample["sample_id"]
+        sample_location = sample["sample_location"]
         
-    freebayes_path = config["freebayes"]["path"]
-    reference_location = config["reference_location"]
-    variants_location = config["variants_location"]
+        result_path_prefix = config["results_local_path"] + sample_id
     
-    freebayes_command = "{} -r {} -f {} -@ {} -l {} > {}".\
-        format(freebayes_path, \
-             contig_name, \
-             reference_location, \
-             variants_location[contig_name], \
-             sample_location, \
-             result_filename)
+        if (not os.path.isdir(result_path_prefix)):
+            logger.info("Results directory {} not present, creating.".format(result_path_prefix))
+            os.makedirs(result_path_prefix)
+    
+        result_filename =  "{}/{}_{}.vcf".format(result_path_prefix, sample_id, contig_name)
+            
+        freebayes_path = config["freebayes"]["path"]
+        reference_location = config["reference_location"]
+        variants_location = config["variants_location"]
         
-    call_command(freebayes_command, "freebayes")
-
-    compressed_sample_filename = compress_sample(result_filename, config)
-    generate_tabix(compressed_sample_filename, config)
-    copy_result(compressed_sample_filename, sample_id, config)
-
+        freebayes_command = "{} -r {} -f {} -@ {} -l {} > {}".\
+            format(freebayes_path, \
+                 contig_name, \
+                 reference_location, \
+                 variants_location[contig_name], \
+                 sample_location, \
+                 result_filename)
+            
+        call_command(freebayes_command, "freebayes")
+    
+        compressed_sample_filename = compress_sample(result_filename, config)
+        generate_tabix(compressed_sample_filename, config)
+        copy_result(compressed_sample_filename, sample_id, config)
+    else:
+        logger.info("Contig {} is not in the contig whitelist, skipping.".format(contig_name))
 
 
 def compress_sample(result_filename, config):
@@ -192,15 +177,17 @@ complete_analysis_run_task = PythonOperator(
     python_callable=complete_analysis_run,
     provide_context=True,
     dag=dag)
+    
+for contig_name in contig_names:
+    freebayes_task = PythonOperator(
+        task_id="freebayes_" + contig_name,
+        python_callable=run_freebayes,
+        op_kwargs={"contig_name": contig_name},
+        provide_context=True,
+        dag=dag)
 
-schedule_freebayes_jobs_task = PythonOperator(
-    task_id="schedule_freebayes_jobs",
-    python_callable=schedule_freebayes_jobs,
-    op_kwargs={"complete_analysis_run_task": complete_analysis_run_task},
-    provide_context=True,
-    dag=dag)
+    freebayes_task.set_upstream(validate_sample_task)
 
-schedule_freebayes_jobs_task.set_upstream(validate_sample_task)
-
+    complete_analysis_run_task.set_upstream(freebayes_task)
 
 
