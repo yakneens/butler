@@ -54,7 +54,7 @@ def schedule_freebayes_jobs(**kwargs):
     
     my_dag = kwargs["dag"]
     complete_analysis_run_task = kwargs["complete_analysis_run_task"]
-    
+    schedule_freebayes_jobs_task = kwargs["task"]
     
     for contig_name in contig_names:
         freebayes_task = PythonOperator(
@@ -64,7 +64,7 @@ def schedule_freebayes_jobs(**kwargs):
             provide_context=True,
             dag=my_dag)
     
-        freebayes_task.set_upstream(self)
+        freebayes_task.set_upstream(schedule_freebayes_jobs_task)
     
         complete_analysis_run_task.set_upstream(genotyping_task)
 
