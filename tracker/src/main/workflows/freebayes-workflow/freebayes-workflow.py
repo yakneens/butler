@@ -71,7 +71,7 @@ def run_freebayes(**kwargs):
     sample = get_sample(kwargs)
     
     contig_name = kwargs["contig_name"]
-    contig_whitelist = config["contig_whitelist"]
+    contig_whitelist = config.get("contig_whitelist")
     
     
     if not contig_whitelist or contig_name in contig_whitelist:
