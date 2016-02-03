@@ -66,7 +66,7 @@ def schedule_freebayes_jobs(**kwargs):
     
         freebayes_task.set_upstream(schedule_freebayes_jobs_task)
     
-        complete_analysis_run_task.set_upstream(genotyping_task)
+        complete_analysis_run_task.set_upstream(freebayes_task)
 
 
 
