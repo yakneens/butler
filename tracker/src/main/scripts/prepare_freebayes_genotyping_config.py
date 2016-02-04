@@ -22,7 +22,7 @@ def parse_args():
     
     create_configs_parser = sub_parsers.add_parser("create-configs", conflict_handler='resolve')
     create_configs_parser.add_argument("-a", "--analysis_id", help="ID of the analysis to run.", dest="analysis_id", required=True)
-    create_configs_parser.add_argument("-n", "--num_runs", help="Number of runs to create configurations for.", dest="num_runs", required=True)
+    create_configs_parser.add_argument("-n", "--num_runs", help="Number of runs to create configurations for.", dest="num_runs", required=True, type=int)
     create_configs_parser.add_argument("-t", "--tissue_type", help="Tumor or normal tissue", dest="tissue_type", choices = ["tumor", "normal"], required=True)
     create_configs_parser.add_argument("-c", "--config_location", help="Path to a directory where the generated config files will be stored.", dest="config_location", required=True)
     create_configs_parser.set_defaults(func=create_configs_command)
@@ -31,12 +31,7 @@ def parse_args():
     
     return my_args
 
-def create_configs_command(args):
-
-    analysis_id = args.analysis_id
-    num_runs = args.num_runs
-    tissue_type = args.tissue_type
-    config_location = args.config_location
+def get_available_samples(analysis_id, tissue_type, num_runs):
     
     PCAWGSample = connection.Base.classes.pcawg_samples
     SampleLocation = connection.Base.classes.sample_locations
@@ -53,19 +48,6 @@ def create_configs_command(args):
         sample_id = PCAWGSample.tumor_wgs_alignment_gnos_id
         sample_location = SampleLocation.tumor_sample_location
     
-    # There is a bug in this query. If two analysis runs exist for the same sample one in error and one running
-    # That sample will be scheduled again.        
-    #available_samples = session.query(PCAWGSample.index.label("index"), sample_id.label("sample_id"), sample_location.label("sample_location"), AnalysisRun.analysis_run_id.label("analysis_run_id")).\
-    #    join(SampleLocation, PCAWGSample.index == SampleLocation.donor_index).\
-    #    outerjoin(Analysis, analysis_id == Analysis.analysis_id).\
-    #    outerjoin(AnalysisRun, AnalysisRun.analysis_id == analysis_id).\
-    #    outerjoin(Configuration, and_(Configuration.config_id == AnalysisRun.config_id, Configuration.config[("sample"," sample_id")].astext == sample_id)).\
-    #    filter(
-    #    and_(sample_location != None,
-    #         or_(AnalysisRun.run_status == None, AnalysisRun.run_status == tracker.model.analysis_run.RUN_STATUS_ERROR)
-    #         )).\
-    #    limit(num_runs)
-    
     current_runs = session.query(Configuration.config[("sample"," sample_id")].astext).\
         join(AnalysisRun, AnalysisRun.config_id == Configuration.config_id).\
         join(Analysis, Analysis.analysis_id == AnalysisRun.analysis_id).\
@@ -78,16 +60,20 @@ def create_configs_command(args):
         
     session.commit()
     
-    num_available_samples = available_samples.count()
+    return available_samples, int(available_samples.count())
+
+def write_config_to_file(config, config_location):
     
-    if num_available_samples < num_runs:
-        print "Only found {} available samples to run. Will create {} run configurations.".format(str(num_available_samples), str(num_available_samples))
-        num_runs = num_available_samples
+    run_uuid = str(uuid.uuid4())
     
+    my_file = open("{}/{}.json".format(config_location, run_uuid), "w")
+    json.dump(config, my_file)
+    my_file.close()
+
+def generate_config_objects(available_samples, num_runs, config_location):
     for this_run in range(num_runs):
     
-        run_uuid = str(uuid.uuid4())
-    
+        
         this_config_data = {"sample": {
                                 "donor_index": available_samples[this_run].index,
                                 "sample_id": available_samples[this_run].sample_id,
@@ -95,12 +81,27 @@ def create_configs_command(args):
                                 }
                             }
         
-        if (not os.path.isdir(config_location)):
-            os.makedirs(config_location)
+        yield this_config_data
         
-        my_file = open("{}/{}.josn".format(config_location, run_uuid), "w")
-        json.dump(this_config_data, my_file)
-        my_file.close()
+
+def create_configs_command(args):
+
+    analysis_id = args.analysis_id
+    num_runs = args.num_runs
+    tissue_type = args.tissue_type
+    config_location = args.config_location
+    
+    available_samples, num_available_samples = get_available_samples(analysis_id, tissue_type, num_runs)
+    
+    if num_available_samples < num_runs:
+        print "Only found {} available samples to run. Will create {} run configurations.".format(str(num_available_samples), str(num_available_samples))
+        num_runs = num_available_samples
+    
+    if (not os.path.isdir(config_location)):
+        os.makedirs(config_location)
+        
+    for config in generate_config_objects(available_samples, num_runs, config_location):
+        write_config_to_file(config, config_location)
     
 if __name__ == '__main__':
     args = parse_args()
