@@ -116,7 +116,7 @@ def get_effective_configuration(analysis_run_id):
         outerjoin(analysis_config, Analysis.config_id == analysis_config.config_id).\
         outerjoin(workflow_config, Workflow.config_id == workflow_config.config_id).\
         filter(AnalysisRun.analysis_run_id == analysis_run_id).first()
-    config_list = [json.loads(my_configs.workflow_config), json.loads(my_configs.analysis_config), json.loads(my_configs.run_config)]
+    config_list = [my_configs.workflow_config, my_configs.analysis_config, my_configs.run_config]
     return merge_configurations(config_list)
 
 

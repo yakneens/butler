@@ -17,7 +17,7 @@ def test_create_config():
 
     assert my_config != None
     assert my_config.config_id == config_id
-    assert my_config.config == config
+    assert my_config.config == json.loads(config)
 
 
 @pytest.mark.parametrize("id_from_filename", [('True'), ('False')])
@@ -38,7 +38,7 @@ def test_create_config_from_file(tmpdir, id_from_filename):
         config_file_path, id_from_filename)
 
     assert my_config != None
-    assert my_config.config == config
+    assert my_config.config == json.loads(config)
     
 @pytest.mark.parametrize("config_list, config_final", [
     ([{}], {}), 

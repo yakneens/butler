@@ -50,6 +50,7 @@ def test_set_config_for_analysis_run():
 
 @pytest.mark.parametrize("start_state", [
     (RUN_STATUS_READY),
+    (RUN_STATUS_SCHEDULED),
     pytest.mark.xfail((RUN_STATUS_IN_PROGRESS)),
     (RUN_STATUS_COMPLETED),
     (RUN_STATUS_ERROR)
@@ -61,9 +62,23 @@ def test_set_run_ready(start_state):
 
     set_ready(my_analysis_run)
 
-
 @pytest.mark.parametrize("start_state", [
     (RUN_STATUS_READY),
+    pytest.mark.xfail((RUN_STATUS_IN_PROGRESS)),
+    pytest.mark.xfail((RUN_STATUS_COMPLETED)),
+    pytest.mark.xfail((RUN_STATUS_ERROR))
+])
+def test_set_scheduled(start_state):
+
+    my_analysis_run = create_analysis_run()
+    my_analysis_run.run_status = start_state
+
+    set_scheduled(my_analysis_run)
+
+
+@pytest.mark.parametrize("start_state", [
+    pytest.mark.xfail((RUN_STATUS_READY)),
+    (RUN_STATUS_SCHEDULED),
     pytest.mark.xfail((RUN_STATUS_IN_PROGRESS)),
     pytest.mark.xfail((RUN_STATUS_COMPLETED)),
     pytest.mark.xfail((RUN_STATUS_ERROR))
@@ -78,6 +93,7 @@ def test_set_in_progress(start_state):
 
 @pytest.mark.parametrize("start_state", [
     pytest.mark.xfail((RUN_STATUS_READY)),
+    pytest.mark.xfail((RUN_STATUS_SCHEDULED)),
     (RUN_STATUS_IN_PROGRESS),
     pytest.mark.xfail((RUN_STATUS_COMPLETED)),
     pytest.mark.xfail((RUN_STATUS_ERROR))
@@ -92,6 +108,7 @@ def test_set_completed(start_state):
 
 @pytest.mark.parametrize("start_state", [
     (RUN_STATUS_READY),
+    (RUN_STATUS_SCHEDULED),
     (RUN_STATUS_IN_PROGRESS),
     (RUN_STATUS_COMPLETED),
     (RUN_STATUS_ERROR)
