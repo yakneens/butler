@@ -38,25 +38,13 @@ def create_configs_command(args):
     tissue_type = args.tissue_type
     config_location = args.config_location
     
-    Base = automap_base()
-    engine = create_engine('postgresql://pcawg_admin:pcawg@postgresql.service.consul:5432/germline_genotype_tracking', echo=True)
-    Base.prepare(engine, reflect=True)
+    PCAWGSample = connection.Base.classes.pcawg_samples
+    SampleLocation = connection.Base.classes.sample_locations
+    Analysis = connection.Base.classes.analysis
+    AnalysisRun = connection.Base.classes.analysis_run
+    Configuration = connection.Base.classes.configuration
     
-    PCAWGSample = Base.classes.pcawg_samples
-    SampleLocation = Base.classes.sample_locations
-    Analysis = Base.classes.analysis
-    AnalysisRun = Base.classes.analysis_run
-    Configuration = Base.classes.configuration
-    
-    session = Session(engine)
-    
-    #PCAWGSample = connection.Base.classes.pcawg_samples
-    #SampleLocation = connection.Base.classes.sample_locations
-    #Analysis = connection.Base.classes.analysis
-    #AnalysisRun = connection.Base.classes.analysis_run
-    #Configuration = connection.Base.classes.configuration
-    
-    #session = connection.Session()
+    session = connection.Session()
     
     if tissue_type == "normal":
         sample_id = PCAWGSample.normal_wgs_alignment_gnos_id
@@ -67,7 +55,7 @@ def create_configs_command(args):
     
     # There is a bug in this query. If two analysis runs exist for the same sample one in error and one running
     # That sample will be scheduled again.        
-    available_samples = session.query(PCAWGSample.index, sample_id, sample_location, AnalysisRun.analysis_run_id).\
+    available_samples = session.query(PCAWGSample.index.label("index"), sample_id.label("sample_id"), sample_location.label("sample_location"), AnalysisRun.analysis_run_id.label("analysis_run_id")).\
         join(SampleLocation, PCAWGSample.index == SampleLocation.donor_index).\
         outerjoin(Analysis, analysis_id == Analysis.analysis_id).\
         outerjoin(AnalysisRun, AnalysisRun.analysis_id == analysis_id).\
