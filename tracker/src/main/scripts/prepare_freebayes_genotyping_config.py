@@ -68,7 +68,7 @@ def create_configs_command(args):
         
     session.commit()
     
-    num_available_samples = len(available_samples)
+    num_available_samples = available_samples.count()
     
     if num_available_samples < num_runs:
         print "Only found {} available samples to run. Will create {} run configurations.".format(str(num_available_samples), str(num_available_samples))
