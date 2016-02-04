@@ -7,6 +7,7 @@ import datetime
 import logging
 
 from tracker.util import connection
+from sqlalchemy import and_
 
 AnalysisRun = connection.Base.classes.analysis_run
 
@@ -16,7 +17,33 @@ RUN_STATUS_IN_PROGRESS = 2
 RUN_STATUS_COMPLETED = 3
 RUN_STATUS_ERROR = 4
 
+RUN_STATUS_READY_STRING = "ready"
+RUN_STATUS_SCHEDULED_STRING = "scheduled"
+RUN_STATUS_IN_PROGRESS_STRING = "in-progress"
+RUN_STATUS_COMPLETED_STRING = "completed"
+RUN_STATUS_ERROR_STRING = "error"
+
+run_status_list = [RUN_STATUS_READY_STRING, 
+                   RUN_STATUS_SCHEDULED_STRING, 
+                   RUN_STATUS_IN_PROGRESS_STRING, 
+                   RUN_STATUS_COMPLETED_STRING, 
+                   RUN_STATUS_ERROR_STRING]
+run_status_dict = {RUN_STATUS_READY_STRING: RUN_STATUS_READY, 
+                   RUN_STATUS_SCHEDULED_STRING: RUN_STATUS_SCHEDULED, 
+                   RUN_STATUS_IN_PROGRESS_STRING: RUN_STATUS_IN_PROGRESS, 
+                   RUN_STATUS_COMPLETED_STRING:RUN_STATUS_COMPLETED, 
+                   RUN_STATUS_ERROR_STRING:RUN_STATUS_ERROR_STRING}
+
 logger = logging.getLogger()
+
+
+def get_run_status_from_string(run_status_string):
+    run_status = run_status_dict.get(run_status_string)
+    if run_status != None:
+        return run_status
+    else:
+        raise ValueError("Invalid run status string - {}".format(run_status_string))
+
 
 def create_analysis_run(analysis_id, config_id, workflow_id):
     """
@@ -45,7 +72,8 @@ def create_analysis_run(analysis_id, config_id, workflow_id):
 
     session.add(my_analysis_run)
     session.commit()
-
+    session.close()
+    
     return my_analysis_run
 
 
@@ -71,7 +99,8 @@ def set_configuration_for_analysis_run(analysis_run_id, config_id):
     my_analysis_run.last_updated_date = now
 
     session.commit()
-
+    session.close()
+    
     return my_analysis_run
 
 
@@ -90,6 +119,7 @@ def get_analysis_run_by_id(analysis_run_id):
     my_analysis_run = session.query(AnalysisRun).filter(
         AnalysisRun.analysis_run_id == analysis_run_id).first()
 
+    session.close()
     return my_analysis_run
 
 def set_ready(my_run):
@@ -118,6 +148,7 @@ def set_ready(my_run):
         
         session.add(my_run)
         session.commit()
+        session.close()
 
 def set_scheduled(my_run):
     """
@@ -145,6 +176,7 @@ def set_scheduled(my_run):
         
         session.add(my_run)
         session.commit()
+        session.close()
 
 def set_in_progress(my_run):
     """
@@ -172,6 +204,7 @@ def set_in_progress(my_run):
 
         session.add(my_run)
         session.commit()
+        session.close()
 
 
 def set_completed(my_run):
@@ -201,6 +234,7 @@ def set_completed(my_run):
 
         session.add(my_run)
         session.commit()
+        session.close()
 
 
 def set_error(my_run):
@@ -219,3 +253,11 @@ def set_error(my_run):
 
     session.add(my_run)
     session.commit()
+    session.close()
+
+def get_number_of_runs_with_status(analysis_id, run_status):
+    session = connection.Session()
+    num_runs = session.query(AnalysisRun).filter(and_(AnalysisRun.analysis_id == analysis_id, AnalysisRun.run_status == run_status)).count()
+    session.close()
+
+    return num_runs

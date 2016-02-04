@@ -53,6 +53,11 @@ def parse_args():
     update_config_parser.add_argument("-c", "--config_file_location", help="Path to a config file.", dest="config_file_location", required=True)
     update_config_parser.set_defaults(func=update_config_command)
     
+    get_number_of_runs_parser = sub_parsers.add_parser("get-run-count")
+    get_number_of_runs_parser.add_argument("-a", "--analysis_id", help="ID of the analysis to look up runs for", dest="analysis_id", required=True)
+    get_number_of_runs_parser.add_argument("-s", "--run_status", help="Status of the analysis runs to look up", dest="run_status", choices=tracker.model.analysis_run.run_status_list, required=False)
+    get_number_of_runs_parser.set_defaults(func=get_number_of_runs_command)
+    
     my_args = my_parser.parse_args()
     
     return my_args
@@ -141,6 +146,13 @@ def launch_workflow_command(args):
             effective_config["analysis_run_id"] = current_analysis_run.analysis_run_id
             
             my_dag_run.execute({"config": effective_config})
+
+
+def get_number_of_runs_command(args):
+    analysis_id = args.analysis_id
+    run_status = get_run_status_from_string(args.run_status)
+    num_runs = get_number_of_runs_with_status(analysis_id, run_status)
+    print "There are {} analysis runs for analysis {}, with status {}".format(num_runs, analysis_id, args.run_status)
             
 if __name__ == '__main__':
     args = parse_args()
