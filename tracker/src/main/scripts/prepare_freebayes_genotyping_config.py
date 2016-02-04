@@ -38,11 +38,11 @@ def create_configs_command(args):
     tissue_type = args.tissue_type
     config_location = args.config_location
     
-    PCAWGSample = conection.Base.classes.pcawg_samples
-    SampleLocation = conection.Base.classes.sample_locations
-    Analysis = conection.Base.classes.analysis
-    AnalysisRun = conection.Base.classes.aalysis_run
-    Configuration = conection.Base.classes.configuration
+    PCAWGSample = connection.Base.classes.pcawg_samples
+    SampleLocation = connection.Base.classes.sample_locations
+    Analysis = connection.Base.classes.analysis
+    AnalysisRun = connection.Base.classes.aalysis_run
+    Configuration = connection.Base.classes.configuration
     
     session = connection.Session()
     
