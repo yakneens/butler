@@ -59,7 +59,7 @@ def create_configs_command(args):
         join(SampleLocation, PCAWGSample.index == SampleLocation.donor_index).\
         join(Analysis, analysis_id == Analysis.analysis_id).\
         outerjoin(AnalysisRun, AnalysisRun.analysis_id == analysis_id).\
-        join(Configuration, and_(Configuration.config_id == AnalysisRun.config_id, Configuration.config[("sample"," sample_id")] == sample_id)).\
+        outerjoin(Configuration, and_(Configuration.config_id == AnalysisRun.config_id, Configuration.config[("sample"," sample_id")].astext == sample_id)).\
         filter(
         and_(sample_location != None,
              or_(AnalysisRun.run_status == None, AnalysisRun.run_status == tracker.model.analysis_run.RUN_STATUS_ERROR)
