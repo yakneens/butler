@@ -39,7 +39,7 @@ def create_analysis(analysis_name, start_date, config_id):
 
     session.add(my_analysis)
     session.commit()
-
+    session.close()
     return my_analysis
 
 
@@ -65,5 +65,6 @@ def set_configuration_for_analysis(analysis_id, config_id):
     my_analysis.last_updated_date = now
 
     session.commit()
-
+    session.close()
+    
     return my_analysis

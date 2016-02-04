@@ -58,7 +58,8 @@ def get_available_samples(analysis_id, tissue_type, num_runs):
         filter(and_(sample_location != None, sample_id.notin_(current_runs))).\
         limit(num_runs)
         
-    session.commit()
+    session.close()
+    
     
     return available_samples, int(available_samples.count())
 

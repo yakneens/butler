@@ -49,6 +49,8 @@ def create_configuration(config_id, config):
 
             session.add(my_config)
             session.commit()
+            session.close()
+    
         else:
             raise ValueError("Configuration object not in json format.")
     else:
@@ -117,6 +119,9 @@ def get_effective_configuration(analysis_run_id):
         outerjoin(workflow_config, Workflow.config_id == workflow_config.config_id).\
         filter(AnalysisRun.analysis_run_id == analysis_run_id).first()
     config_list = [my_configs.workflow_config, my_configs.analysis_config, my_configs.run_config]
+    
+    session.close()
+    
     return merge_configurations(config_list)
 
 
@@ -146,6 +151,7 @@ def update_configuration(config_id, new_config):
     updated_config = merge_configurations([my_config, new_config])
     session.add(updated_config)
     session.commit()
+    session.close()
     
 
 def is_json(my_object):
