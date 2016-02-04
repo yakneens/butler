@@ -38,13 +38,25 @@ def create_configs_command(args):
     tissue_type = args.tissue_type
     config_location = args.config_location
     
-    PCAWGSample = connection.Base.classes.pcawg_samples
-    SampleLocation = connection.Base.classes.sample_locations
-    Analysis = connection.Base.classes.analysis
-    AnalysisRun = connection.Base.classes.analysis_run
-    Configuration = connection.Base.classes.configuration
+    Base = automap_base()
+    engine = create_engine('postgresql://pcawg_admin:pcawg@postgresql.service.consul:5432/germline_genotype_tracking', echo=True)
+    Base.prepare(engine, reflect=True)
     
-    session = connection.Session()
+    PCAWGSample = Base.classes.pcawg_samples
+    SampleLocation = Base.classes.sample_locations
+    Analysis = Base.classes.analysis
+    AnalysisRun = Base.classes.analysis_run
+    Configuration = Base.classes.configuration
+    
+    session = Session(engine)
+    
+    #PCAWGSample = connection.Base.classes.pcawg_samples
+    #SampleLocation = connection.Base.classes.sample_locations
+    #Analysis = connection.Base.classes.analysis
+    #AnalysisRun = connection.Base.classes.analysis_run
+    #Configuration = connection.Base.classes.configuration
+    
+    #session = connection.Session()
     
     if tissue_type == "normal":
         sample_id = PCAWGSample.normal_wgs_alignment_gnos_id
