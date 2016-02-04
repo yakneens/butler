@@ -41,7 +41,7 @@ def create_configs_command(args):
     PCAWGSample = connection.Base.classes.pcawg_samples
     SampleLocation = connection.Base.classes.sample_locations
     Analysis = connection.Base.classes.analysis
-    AnalysisRun = connection.Base.classes.aalysis_run
+    AnalysisRun = connection.Base.classes.analysis_run
     Configuration = connection.Base.classes.configuration
     
     session = connection.Session()
