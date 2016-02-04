@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
 from sqlalchemy.orm.scoping import scoped_session
 
-DB_URL = os.environ['DB_URL']
+DB_URL = os.environ.get('DB_URL')
 
 if not DB_URL:
     raise ValueError("DB_URL not present in the environment")

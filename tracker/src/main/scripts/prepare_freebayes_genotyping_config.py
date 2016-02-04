@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import sys
 import os
 import uuid
@@ -30,10 +31,6 @@ def parse_args():
     
     return my_args
 
-if __name__ == '__main__':
-    args = parse_args()
-    args.func(args)
-    
 def create_configs_command(args):
 
     analysis_id = args.analysis_id
@@ -94,6 +91,10 @@ def create_configs_command(args):
         my_file = open("{}/{}.josn".format(config_location, run_uuid), "w")
         json.dump(this_config_data, my_file)
         my_file.close()
+    
+if __name__ == '__main__':
+    args = parse_args()
+    args.func(args)
     
 
     
