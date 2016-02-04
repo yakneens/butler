@@ -41,7 +41,7 @@ def create_configuration(config_id, config):
 
             my_config = Configuration()
             my_config.config_id = config_id
-            my_config.config = config
+            my_config.config = json.loads(config)
 
             now = datetime.datetime.now()
             my_config.last_updated_date = now
