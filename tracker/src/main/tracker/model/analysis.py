@@ -40,6 +40,7 @@ def create_analysis(analysis_name, start_date, config_id):
     session.add(my_analysis)
     session.commit()
     session.close()
+    connection.engine.dispose()
     return my_analysis
 
 
@@ -66,5 +67,6 @@ def set_configuration_for_analysis(analysis_id, config_id):
 
     session.commit()
     session.close()
+    connection.engine.dispose()
     
     return my_analysis

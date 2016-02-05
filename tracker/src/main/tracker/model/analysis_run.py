@@ -73,7 +73,7 @@ def create_analysis_run(analysis_id, config_id, workflow_id):
     session.add(my_analysis_run)
     session.commit()
     session.close()
-    
+    connection.engine.dispose()
     return my_analysis_run
 
 
@@ -100,6 +100,7 @@ def set_configuration_for_analysis_run(analysis_run_id, config_id):
 
     session.commit()
     session.close()
+    connection.engine.dispose()
     
     return my_analysis_run
 
@@ -120,6 +121,7 @@ def get_analysis_run_by_id(analysis_run_id):
         AnalysisRun.analysis_run_id == analysis_run_id).first()
 
     session.close()
+    connection.engine.dispose()
     return my_analysis_run
 
 def set_ready(my_run):
@@ -149,7 +151,8 @@ def set_ready(my_run):
         session.add(my_run)
         session.commit()
         session.close()
-
+        connection.engine.dispose()
+    
 def set_scheduled(my_run):
     """
     Set the status of a given analysis run to RUN_STATUS_SCHEDULED.
@@ -177,6 +180,8 @@ def set_scheduled(my_run):
         session.add(my_run)
         session.commit()
         session.close()
+        connection.engine.dispose()
+    
 
 def set_in_progress(my_run):
     """
@@ -205,6 +210,8 @@ def set_in_progress(my_run):
         session.add(my_run)
         session.commit()
         session.close()
+        connection.engine.dispose()
+    
 
 
 def set_completed(my_run):
@@ -235,6 +242,8 @@ def set_completed(my_run):
         session.add(my_run)
         session.commit()
         session.close()
+        connection.engine.dispose()
+    
 
 
 def set_error(my_run):
@@ -254,10 +263,13 @@ def set_error(my_run):
     session.add(my_run)
     session.commit()
     session.close()
+    connection.engine.dispose()
+    
 
 def get_number_of_runs_with_status(analysis_id, run_status):
     session = connection.Session()
     num_runs = session.query(AnalysisRun).filter(and_(AnalysisRun.analysis_id == analysis_id, AnalysisRun.run_status == run_status)).count()
     session.close()
-
+    connection.engine.dispose()
+    
     return num_runs

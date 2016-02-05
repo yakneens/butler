@@ -67,6 +67,7 @@ def set_configuration_for_workflow(workflow_id, config_id):
 
     session.commit()
     session.close()
+    connection.engine.dispose()
     
     return my_workflow
 
@@ -76,5 +77,6 @@ def get_workflow_by_id(workflow_id):
     my_workflow = session.query(Workflow).filter(
         Workflow.workflow_id == workflow_id).first()
     session.close()
+    connection.engine.dispose()
         
     return my_workflow

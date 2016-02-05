@@ -50,6 +50,8 @@ def create_configuration(config_id, config):
             session.add(my_config)
             session.commit()
             session.close()
+            connection.engine.dispose()
+    
     
         else:
             raise ValueError("Configuration object not in json format.")
@@ -121,6 +123,7 @@ def get_effective_configuration(analysis_run_id):
     config_list = [my_configs.workflow_config, my_configs.analysis_config, my_configs.run_config]
     
     session.close()
+    connection.engine.dispose()
     
     return merge_configurations(config_list)
 
@@ -152,6 +155,7 @@ def update_configuration(config_id, new_config):
     session.add(updated_config)
     session.commit()
     session.close()
+    connection.engine.dispose()
     
 
 def is_json(my_object):
