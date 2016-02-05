@@ -11,7 +11,7 @@ if not DB_URL:
     raise ValueError("DB_URL not present in the environment")
 
 Base = automap_base()
-engine = create_engine(DB_URL)
+engine = create_engine(DB_URL, pool_size=8, max_overflow=2)
 Base.prepare(engine, reflect=True)
 
 session_factory  = sessionmaker(bind=engine, expire_on_commit=False)
