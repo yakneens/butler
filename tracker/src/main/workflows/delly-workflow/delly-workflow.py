@@ -64,7 +64,7 @@ default_args = {
     'retry_delay': timedelta(minutes=5),
 }
 
-dag = DAG("freebayes", default_args=default_args,
+dag = DAG("delly", default_args=default_args,
           schedule_interval=None, concurrency=10000, max_active_runs=2000)
 
 
