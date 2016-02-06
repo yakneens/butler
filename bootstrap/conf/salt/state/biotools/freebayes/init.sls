@@ -1,4 +1,4 @@
-pkgs:
+freebayes_pkgs:
   pkg.installed:
     - pkgs:
       - git
