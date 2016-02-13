@@ -98,6 +98,7 @@ class BaseJob(Base, LoggingMixin):
         session.merge(job)
         session.commit()
         session.close()
+        settings.engine.dispose()
         raise AirflowException("Job shut down externally.")
 
     def on_kill(self):
@@ -170,7 +171,7 @@ class BaseJob(Base, LoggingMixin):
         session.merge(self)
         session.commit()
         session.close()
-
+        settings.engine.dispose()
         if statsd:
             statsd.incr(self.__class__.__name__.lower()+'_end', 1, 1)
 
@@ -337,6 +338,7 @@ class SchedulerJob(BaseJob):
             session.commit()
             session.close()
         session.close()
+        settings.engine.dispose()
     def import_errors(self, dagbag):
         session = settings.Session()
         session.query(models.ImportError).delete()
@@ -345,6 +347,7 @@ class SchedulerJob(BaseJob):
                 filename=filename, stacktrace=stacktrace))
         session.commit()
         session.close()
+        settings.engine.dispose()
 
 
     def schedule_dag(self, dag):
@@ -416,8 +419,10 @@ class SchedulerJob(BaseJob):
                 session.add(next_run)
                 session.commit()
                 session.close()
+                settings.engine.dispose()
                 return next_run
         session.close()
+        settings.engine.dispose()
     def process_dag(self, dag, executor):
         """
         This method schedules a single DAG by looking at the latest
@@ -494,6 +499,7 @@ class SchedulerJob(BaseJob):
         session.commit()
 
         session.close()
+        settings.engine.dispose()
 
     @utils.provide_session
     def prioritize_queued(self, session, executor, dagbag):
@@ -578,6 +584,7 @@ class SchedulerJob(BaseJob):
 
                 session.commit()
         session.close()
+        settings.engine.dispose()
     def _execute(self):
         dag_id = self.dag_id
 
@@ -805,6 +812,7 @@ class BackfillJob(BaseJob):
 
         executor.end()
         session.close()
+        settings.engine.dispose()
         if failed:
             msg = (
                 "------------------------------------------\n"
