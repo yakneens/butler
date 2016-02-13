@@ -59,7 +59,7 @@ def get_available_samples(analysis_id, tissue_type, num_runs):
         limit(num_runs)
         
     session.close()
-    
+    connection.engine.dispose()
     
     return available_samples, int(available_samples.count())
 
