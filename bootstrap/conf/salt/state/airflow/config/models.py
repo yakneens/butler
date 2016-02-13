@@ -642,6 +642,7 @@ class TaskInstance(Base):
         if not main_session:
             session.commit()
             session.close()
+            settings.engine.dispose()
         return state
 
     def error(self, main_session=None):
@@ -675,6 +676,7 @@ class TaskInstance(Base):
         if not main_session:
             session.commit()
             session.close()
+            settings.engine.dispose()
 
     @property
     def key(self):
@@ -746,6 +748,7 @@ class TaskInstance(Base):
         if not main_session:
             session.commit()
             session.close()
+            settings.engine.dispose()
         return count == len(task._downstream_list)
 
     def are_dependencies_met(
@@ -846,6 +849,7 @@ class TaskInstance(Base):
         if not main_session:
             session.commit()
             session.close()
+            settings.engine.dispose()
         return False
 
     def __repr__(self):
@@ -948,6 +952,7 @@ class TaskInstance(Base):
                 session.merge(self)
                 session.commit()
                 session.close()
+                settings.engine.dispose()
                 logging.info("Queuing into pool {}".format(self.pool))
                 return
             if not test_mode:
