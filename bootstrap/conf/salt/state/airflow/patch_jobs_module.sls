@@ -14,3 +14,11 @@ patch_cli_module:
     - user: root
     - group: root
     - mode: 644
+    
+patch_models_module:
+  file.managed:
+    - source: salt://airflow/config/models.py
+    - name: /usr/lib/python2.7/site-packages/airflow/models.py
+    - user: root
+    - group: root
+    - mode: 644
