@@ -145,7 +145,7 @@ class BaseJob(Base, LoggingMixin):
         session.merge(job)
         session.commit()
         session.close()
-
+        settings.engine.dispose()
         self.heartbeat_callback()
         self.logger.debug('[heart] Boom.')
 
@@ -336,7 +336,7 @@ class SchedulerJob(BaseJob):
                     session.merge(sla)
             session.commit()
             session.close()
-
+        session.close()
     def import_errors(self, dagbag):
         session = settings.Session()
         session.query(models.ImportError).delete()
@@ -415,6 +415,7 @@ class SchedulerJob(BaseJob):
                 )
                 session.add(next_run)
                 session.commit()
+                session.close()
                 return next_run
         session.close()
     def process_dag(self, dag, executor):
