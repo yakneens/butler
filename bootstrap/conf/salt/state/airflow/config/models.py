@@ -1096,6 +1096,9 @@ class TaskInstance(Base):
         if not test_mode:
             session.merge(self)
         session.commit()
+        session.close()
+        settings.engine.dispose()
+            
         logging.error(str(error))
 
     @provide_session
@@ -1129,6 +1132,9 @@ class TaskInstance(Base):
             run_id = dag_run.run_id if dag_run else None
             session.expunge_all()
             session.commit()
+            session.close()
+            settings.engine.dispose()
+            
 
         if task.params:
             params.update(task.params)
