@@ -676,7 +676,7 @@ class TaskInstance(Base):
         if not main_session:
             session.commit()
             session.close()
-        settings.engine.dispose()
+    settings.engine.dispose()
 
     @property
     def key(self):
@@ -748,7 +748,7 @@ class TaskInstance(Base):
         if not main_session:
             session.commit()
             session.close()
-            settings.engine.dispose()
+        settings.engine.dispose()
         return count == len(task._downstream_list)
 
     def are_dependencies_met(
@@ -781,16 +781,19 @@ class TaskInstance(Base):
                 TI.state == State.SUCCESS,
             ).first()
             if not previous_ti:
+                settings.engine.dispose()
                 return False
 
             # Applying wait_for_downstream
             previous_ti.task = self.task
             if task.wait_for_downstream and not \
                     previous_ti.are_dependents_done(session):
+                settings.engine.dispose()
                 return False
 
         # Checking that all upstream dependencies have succeeded
         if not task._upstream_list or task.trigger_rule == TR.DUMMY:
+            settings.engine.dispose()
             return True
         else:
             upstream_task_ids = [t.task_id for t in task._upstream_list]
@@ -832,24 +835,29 @@ class TaskInstance(Base):
                     session.merge(self)
 
             if task.trigger_rule == TR.ONE_SUCCESS and successes > 0:
+                settings.engine.dispose()
                 return True
             elif (task.trigger_rule == TR.ONE_FAILED and
                   (failed + upstream_failed) > 0):
+                settings.engine.dispose()
                 return True
             elif (task.trigger_rule == TR.ALL_SUCCESS and
                   successes == len(task._upstream_list)):
+                settings.engine.dispose()
                 return True
             elif (task.trigger_rule == TR.ALL_FAILED and
                   failed + upstream_failed == len(task._upstream_list)):
+                settings.engine.dispose()
                 return True
             elif (task.trigger_rule == TR.ALL_DONE and
                   done == len(task._upstream_list)):
+                settings.engine.dispose()
                 return True
 
         if not main_session:
             session.commit()
             session.close()
-            settings.engine.dispose()
+        settings.engine.dispose()
         return False
 
     def __repr__(self):
