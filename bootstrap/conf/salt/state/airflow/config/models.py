@@ -642,7 +642,7 @@ class TaskInstance(Base):
         if not main_session:
             session.commit()
             session.close()
-            settings.engine.dispose()
+        settings.engine.dispose()
         return state
 
     def error(self, main_session=None):
@@ -676,7 +676,7 @@ class TaskInstance(Base):
         if not main_session:
             session.commit()
             session.close()
-            settings.engine.dispose()
+        settings.engine.dispose()
 
     @property
     def key(self):
