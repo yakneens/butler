@@ -22,3 +22,11 @@ patch_models_module:
     - user: root
     - group: root
     - mode: 644
+    
+patch_python_operator_module:
+  file.managed:
+    - source: salt://airflow/config/python_operator.py
+    - name: /usr/lib/python2.7/site-packages/airflow/operators/python_operator.py
+    - user: root
+    - group: root
+    - mode: 644
