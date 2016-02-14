@@ -781,6 +781,7 @@ class TaskInstance(Base):
                 TI.state == State.SUCCESS,
             ).first()
             if not previous_ti:
+                session.close()
                 settings.engine.dispose()
                 return False
 
@@ -788,11 +789,13 @@ class TaskInstance(Base):
             previous_ti.task = self.task
             if task.wait_for_downstream and not \
                     previous_ti.are_dependents_done(session):
+                session.close()
                 settings.engine.dispose()
                 return False
 
         # Checking that all upstream dependencies have succeeded
         if not task._upstream_list or task.trigger_rule == TR.DUMMY:
+            session.close()
             settings.engine.dispose()
             return True
         else:
@@ -835,22 +838,27 @@ class TaskInstance(Base):
                     session.merge(self)
 
             if task.trigger_rule == TR.ONE_SUCCESS and successes > 0:
+                session.close()
                 settings.engine.dispose()
                 return True
             elif (task.trigger_rule == TR.ONE_FAILED and
                   (failed + upstream_failed) > 0):
+                session.close()
                 settings.engine.dispose()
                 return True
             elif (task.trigger_rule == TR.ALL_SUCCESS and
                   successes == len(task._upstream_list)):
+                session.close()
                 settings.engine.dispose()
                 return True
             elif (task.trigger_rule == TR.ALL_FAILED and
                   failed + upstream_failed == len(task._upstream_list)):
+                session.close()
                 settings.engine.dispose()
                 return True
             elif (task.trigger_rule == TR.ALL_DONE and
                   done == len(task._upstream_list)):
+                session.close()
                 settings.engine.dispose()
                 return True
 
