@@ -15,6 +15,7 @@ install_celery_flower:
 postgres-devel:
   pkg.installed:
     - name: postgresql-devel
+    
 python-psycopg2:
   pkg.installed:
-    - name: psycopg2
+    - name: python-psycopg2
