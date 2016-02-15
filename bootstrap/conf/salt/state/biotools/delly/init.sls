@@ -9,6 +9,7 @@ delly_pkgs:
       - kernel-devel
       - gcc
       - zlib-devel
+      - boost-devel
       
 delly-clone:
   git.latest:
@@ -20,16 +21,13 @@ delly-make:
   cmd.run:
     - name: make all
     - cwd: /opt/delly
+    - env:
+      - BOOST_ROOT: /usr
+      - SEQTK_ROOT: /opt/htslib/
     - watch: 
       - git: delly-clone
       
-delly-install:
-  cmd.run:
-    - name: make install
-    - cwd: /opt/delly
-    - watch: 
-      - cmd: delly-make
-      
+
 /usr/bin/delly:
   file.symlink:
     - target: /opt/delly/src/delly
