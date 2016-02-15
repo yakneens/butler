@@ -16,6 +16,15 @@ delly-clone:
     - force_reset: True
     - name: git://github.com/tobiasrausch/delly.git
     - target: /opt/delly
+    
+delly-htslib-touch:
+  file.touch:
+    - name: /opt/delly/.htslib
+
+delly-boost-touch:
+  file.touch:
+    - name: /opt/delly/.boost
+
           
 delly-make:
   cmd.run:
