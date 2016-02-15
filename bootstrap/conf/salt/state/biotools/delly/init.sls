@@ -15,16 +15,6 @@ delly-clone:
     - force_reset: True
     - name: git://github.com/tobiasrausch/delly.git
     - target: /opt/delly
-    - submodules: True
-    
-delly-submodule-init:
-  module.run:
-    - name: git.submodule
-    - cwd: /opt/delly
-    - command: update
-    - opts: '--recursive --init'
-    - require_in:
-      - cmd: delly-make
           
 delly-make:
   cmd.run:
