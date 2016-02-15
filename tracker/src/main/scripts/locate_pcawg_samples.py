@@ -75,4 +75,3 @@ for sample in session.query(PCAWGSample):
         session.commit()
 
 session.close()
-

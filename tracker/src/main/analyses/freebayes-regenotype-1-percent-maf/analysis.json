@@ -23,6 +23,6 @@
 	    "21": "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr21.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz",
 	    "22": "/shared/data/samples/vcf/1000GP_maf_0.01/ALL.chr22.wgs.phase3_shapeit2_mvncall_integrated_v5b.20130502.sites.af_0.01.vcf.gz"
 	},
-	"results_base_path": "/shared/data/results/regenotype_1_percent_maf",
-	"results_local_path": "/tmp/regenotype_1_percent_maf"
+	"results_base_path": "/shared/data/results/regenotype_1_percent_maf/",
+	"results_local_path": "/tmp/regenotype_1_percent_maf/"
 }

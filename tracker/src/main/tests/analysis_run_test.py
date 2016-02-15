@@ -26,6 +26,18 @@ def create_analysis_run():
 
     return my_analysis_run
 
+@pytest.mark.parametrize("run_status_string,run_status_expected", [
+    (RUN_STATUS_READY_STRING, RUN_STATUS_READY),
+    (RUN_STATUS_SCHEDULED_STRING, RUN_STATUS_SCHEDULED),
+    (RUN_STATUS_IN_PROGRESS_STRING, RUN_STATUS_IN_PROGRESS),
+    (RUN_STATUS_COMPLETED_STRING, RUN_STATUS_COMPLETED),
+    (RUN_STATUS_ERROR_STRING, RUN_STATUS_ERROR)
+])
+def test_get_run_status_from_string(run_status_string, run_status_expected):
+
+    run_status = get_run_status_from_string(run_status_string)
+
+    assert run_status == run_status_expected
 
 def test_create_analysis_run():
 
@@ -46,6 +58,14 @@ def test_set_config_for_analysis_run():
         my_analysis_run.analysis_run_id, my_config.config_id)
 
     assert my_analysis_run.config_id == config_id
+
+def test_get_analysis_run_by_id():
+    my_analysis_run = create_analysis_run()
+    my_analysis_run_id = my_analysis_run.analysis_run_id
+    
+    new_analysis_run = get_analysis_run_by_id(my_analysis_run_id)
+    
+    assert my_analysis_run == new_analysis_run
 
 
 @pytest.mark.parametrize("start_state", [

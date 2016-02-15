@@ -51,8 +51,7 @@ def create_configuration(config_id, config):
             session.commit()
             session.close()
             connection.engine.dispose()
-    
-    
+
         else:
             raise ValueError("Configuration object not in json format.")
     else:
@@ -67,9 +66,10 @@ def create_configuration_from_file(config_file_path, id_from_filename=False):
 
     Args:
         config_file_path (str): Path to the JSON configuration file.
-        id_from_filename (bool): False if config_id for the new configuration should be
-                                generated internally.
-                                If set to True the ID will be harvested from the configuration file name.
+        id_from_filename (bool): 
+            False if config_id for the new configuration should be
+            generated internally.
+            If set to True the ID will be harvested from the configuration file name.
 
     Returns:
         my_config (Configuration): The newly created configuration.
@@ -112,19 +112,21 @@ def get_effective_configuration(analysis_run_id):
     analysis_config = aliased(Configuration)
     workflow_config = aliased(Configuration)
 
-    my_configs = session.query(AnalysisRun.analysis_run_id, run_config.config.label("run_config"), \
-    analysis_config.config.label("analysis_config"), workflow_config.config.label("workflow_config")).\
+    my_configs = session.query(AnalysisRun.analysis_run_id, run_config.config.label("run_config"),
+                               analysis_config.config.label("analysis_config"), 
+                               workflow_config.config.label("workflow_config")).\
         join(Analysis, AnalysisRun.analysis_id == Analysis.analysis_id).\
         join(Workflow, AnalysisRun.workflow_id == Workflow.workflow_id).\
         outerjoin(run_config, AnalysisRun.config_id == run_config.config_id).\
         outerjoin(analysis_config, Analysis.config_id == analysis_config.config_id).\
         outerjoin(workflow_config, Workflow.config_id == workflow_config.config_id).\
         filter(AnalysisRun.analysis_run_id == analysis_run_id).first()
-    config_list = [my_configs.workflow_config, my_configs.analysis_config, my_configs.run_config]
-    
+    config_list = [my_configs.workflow_config,
+                   my_configs.analysis_config, my_configs.run_config]
+
     session.close()
     connection.engine.dispose()
-    
+
     return merge_configurations(config_list)
 
 
@@ -147,16 +149,31 @@ def merge_configurations(config_list):
 
     return current_config
 
+
 def update_configuration(config_id, new_config):
+    """
+    Update the configuration with id config_id with values stored in new_config.
+
+    Args:
+        config_id (int): Id of configuration to update.
+        new_config (dict): A dictionary containing updated values.
+        
+    Returns:
+        updated_config(Configuration): the updated configuration.
+
+    """
     session = connection.Session()
-    
-    my_config = session.query(Configuration).filter(Configuration.config_id == config_id).first()
-    updated_config = merge_configurations([my_config, new_config])
-    session.add(updated_config)
+
+    my_config = session.query(Configuration).filter(
+        Configuration.config_id == config_id).first()
+    updated_config = merge_configurations([my_config.config, new_config])
+    my_config.config = updated_config
     session.commit()
     session.close()
     connection.engine.dispose()
     
+    return my_config
+
 
 def is_json(my_object):
     """
@@ -183,7 +200,6 @@ def is_uuid(my_object):
 
     Args:
         my_object (str): String representation of the UUID.
-
 
     Returns:
         is_uuid (bool): True if my_object can be parsed as a UUID, False otherwise.

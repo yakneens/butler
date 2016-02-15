@@ -15,5 +15,5 @@ Base = automap_base()
 engine = create_engine(DB_URL, poolclass=NullPool)
 Base.prepare(engine, reflect=True)
 
-session_factory  = sessionmaker(bind=engine, expire_on_commit=False)
+session_factory = sessionmaker(bind=engine, expire_on_commit=False)
 Session = scoped_session(session_factory)

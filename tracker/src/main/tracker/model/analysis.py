@@ -26,7 +26,7 @@ def create_analysis(analysis_name, start_date, config_id):
     Returns:
         my_analysis (Analysis): The newly created analysis.
     """
-    
+
     session = connection.Session()
     my_analysis = Analysis()
     my_analysis.analysis_name = analysis_name
@@ -56,7 +56,7 @@ def set_configuration_for_analysis(analysis_id, config_id):
         my_analysis (Analysis): The updated analysis.
     """
     session = connection.Session()
-    
+
     my_analysis = session.query(Analysis).filter(
         Analysis.analysis_id == analysis_id).first()
 
@@ -68,5 +68,5 @@ def set_configuration_for_analysis(analysis_id, config_id):
     session.commit()
     session.close()
     connection.engine.dispose()
-    
+
     return my_analysis

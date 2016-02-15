@@ -137,3 +137,23 @@ def test_is_uuid(string_to_test):
 def test_is_json(string_to_test):
     assert is_json(string_to_test) == True
     
+@pytest.mark.parametrize("config,new_config,final_config", [
+  ({}, {"key": "val"}, {"key": "val"}),
+  ({"key": "val"}, {"key": "new_val"}, {"key": "new_val"}),
+  ({"key": "val"}, {"key_2": "val_2"}, {"key": "val", "key_2": "val_2"}),
+  ({"key": ["val"]}, {"key": ["val_2", "val_3"]}, {"key": ["val_2", "val_3"]}),
+  ({"key": {"sub_key": "val"}}, {"key": {"sub_key": "new_val"}}, {"key": {"sub_key": "new_val"}}),
+  ({"key": {"sub_key": "val"}}, {"key": {"sub_key_2": "val_2", "sub_key_3": "val_3"}}, {"key": {"sub_key": "val","sub_key_2": "val_2", "sub_key_3": "val_3"}})
+])    
+def test_update_configuration(config, new_config, final_config):
+    config_id = str(uuid.uuid4())
+    config_str = json.dumps(config)
+    my_config = tracker.model.configuration.create_configuration(
+        config_id, config_str)
+    
+    updated_config = tracker.model.configuration.update_configuration(my_config.config_id, new_config)
+    
+    assert updated_config.config == final_config
+
+    
+    
