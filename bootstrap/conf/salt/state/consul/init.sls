@@ -4,14 +4,14 @@ unzip:
 agent:
   archive.extracted:
     - name: /opt/consul/agent
-    - source: https://dl.bintray.com/mitchellh/consul/0.5.2_linux_amd64.zip
-    - source_hash: md5=37000419d608fd34f0f2d97806cf7399
+    - source: https://releases.hashicorp.com/consul/0.6.3/consul_0.6.3_linux_amd64.zip
+    - source_hash: md5=a336895f0b2d9c4679524f0c9896e1ec
     - archive_format: zip
 ui:
   archive.extracted:
     - name: /opt/consul/ui
-    - source: https://dl.bintray.com/mitchellh/consul/0.5.2_web_ui.zip
-    - source_hash: md5=eb98ba602bc7e177333eb2e520881f4f
+    - source: https://releases.hashicorp.com/consul/0.6.3/consul_0.6.3_web_ui.zip
+    - source_hash: md5=f2b17fd7d9cf8dd00c4ab3aa674d33ca
     - archive_format: zip
 
 /opt/consul/agent/consul:
