@@ -1,0 +1,7 @@
+{
+	"variants_location": "/shared/data/samples/vcf/delly_deletion_sites/delly.germline.vcf.gz",
+	"results_base_path": "/shared/data/results/delly_germline_deletions/",
+	"results_local_path": "/tmp/delly_germline_deletions/",
+	"variants_type": "DEL"
+	
+}
