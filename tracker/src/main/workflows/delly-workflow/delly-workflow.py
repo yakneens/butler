@@ -9,7 +9,7 @@ from subprocess import call
 import tracker.model
 from tracker.model.analysis_run import *
 from tracker.util.workflow_common import *
-from util.workflow_common import uncompress_gzip_sample, compress_sample
+from tracker.util.workflow_common import uncompress_gzip_sample, compress_sample
 
 
 def run_delly(**kwargs):
