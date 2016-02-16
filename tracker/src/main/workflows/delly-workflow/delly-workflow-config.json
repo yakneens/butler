@@ -1,5 +1,9 @@
 {
 	"reference_location": "/reference/genome.fa",
+	"bgzip": {
+		"path": "/usr/local/bin/bgzip",
+		"flags": ""
+	},
 	"tabix": {
 		"path": "/usr/local/bin/tabix",
 		"flags": "-f -p vcf"
