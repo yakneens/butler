@@ -92,7 +92,7 @@ complete_analysis_run_task = PythonOperator(
     provide_context=True,
     dag=dag)
 
-for contig_name in CONTIG_NAMES:
+for contig_name in tracker.util.workflow_common.CONTIG_NAMES:
     freebayes_task = PythonOperator(
         task_id="freebayes_" + contig_name,
         python_callable=run_freebayes,
