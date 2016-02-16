@@ -6,11 +6,11 @@ provider "openstack" {
 }
 
 
-resource "openstack_compute_instance_v2" "chunker" {
+resource "openstack_compute_instance_v2" "job-queue" {
   	image_id = "${var.image_id}"
-	flavor_name = "m1.medium"
+	flavor_name = "s1.medium"
 	security_groups = ["internal"]
-	name = "chunker"
+	name = "job-queue"
 	network = {
 		uuid = "${var.network_id}"
 	}
@@ -41,13 +41,13 @@ resource "openstack_compute_instance_v2" "chunker" {
 	}
 	provisioner "remote-exec" {
 		inline = [
-			"sudo mv /home/centos/saltstack.repo /etc/yum.repos.d/saltstack.repo", 
+			"sudo mv /home/centos/saltstack.repo /etc/yum.repos.d/saltstack.repo",
 			"sudo yum install salt-minion -y",
 			"sudo service salt-minion stop",
 			"echo 'master: ${var.salt_master_ip}' | sudo tee  -a /etc/salt/minion",
-			"echo 'id: chunker' | sudo tee -a /etc/salt/minion",
-			"echo 'roles: [chunker, consul-server]' | sudo tee -a /etc/salt/grains",
-			"sudo hostname chunker",
+			"echo 'id: job-queue' | sudo tee -a /etc/salt/minion",
+			"echo 'roles: [job-queue, consul-client]' | sudo tee -a /etc/salt/grains",
+			"hostname job-queue",
 			"sudo service salt-minion start"
 		]
 	}

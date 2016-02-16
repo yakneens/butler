@@ -6,11 +6,11 @@ provider "openstack" {
 }
 
 
-resource "openstack_compute_instance_v2" "merger" {
+resource "openstack_compute_instance_v2" "db-server" {
   	image_id = "${var.image_id}"
-	flavor_name = "m1.medium"
+	flavor_name = "s1.huge"
 	security_groups = ["internal"]
-	name = "merger"
+	name = "db-server"
 	network = {
 		uuid = "${var.network_id}"
 	}
@@ -41,13 +41,13 @@ resource "openstack_compute_instance_v2" "merger" {
 	}
 	provisioner "remote-exec" {
 		inline = [
-			"sudo mv /home/centos/saltstack.repo /etc/yum.repos.d/saltstack.repo",
+			"sudo mv /home/centos/saltstack.repo /etc/yum.repos.d/saltstack.repo", 
 			"sudo yum install salt-minion -y",
 			"sudo service salt-minion stop",
 			"echo 'master: ${var.salt_master_ip}' | sudo tee  -a /etc/salt/minion",
-			"echo 'id: merger' | sudo tee -a /etc/salt/minion",
-			"echo 'roles: [merger, consul-client]' | sudo tee -a /etc/salt/grains",
-			"hostname merger",
+			"echo 'id: db-server' | sudo tee -a /etc/salt/minion",
+			"echo 'roles: [db-server, consul-client]' | sudo tee -a /etc/salt/grains",
+			"sudo hostname db-server",
 			"sudo service salt-minion start"
 		]
 	}

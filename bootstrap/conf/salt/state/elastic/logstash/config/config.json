@@ -3,7 +3,18 @@ input {
     port => 5044
   }
 }
-
+filter {
+  if [type] == "syslog" {
+    grok {
+      pattern => "%{SYSLOGBASE}"
+    }
+  } else if [type] == "postgres" {
+    grok {
+      pattern => "%{POSTGRESQL}"
+    }
+  }  
+    
+}
 output {
   elasticsearch {
     hosts => "elasticsearch.service.consul:9200"

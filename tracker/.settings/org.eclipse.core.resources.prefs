@@ -1,0 +1,5 @@
+eclipse.preferences.version=1
+encoding//src/main/tracker/model/analysis.py=utf-8
+encoding//src/main/tracker/model/analysis_run.py=utf-8
+encoding//src/main/tracker/model/configuration.py=utf-8
+encoding//src/main/tracker/model/workflow.py=utf-8
