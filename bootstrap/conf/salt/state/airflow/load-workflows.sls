@@ -1,6 +1,6 @@
 germline-regenotyper-clone:
   git.latest:
-    - rev: configurations
+    - rev: develop
     - force_reset: True
     - name: https://github.com/llevar/germline-regenotyper.git
     - target: /opt/germline-regenotyper
