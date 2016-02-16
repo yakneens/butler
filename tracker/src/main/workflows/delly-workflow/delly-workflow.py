@@ -19,7 +19,7 @@ def run_delly(**kwargs):
     sample_id = sample["sample_id"]
     sample_location = sample["sample_location"]
 
-    result_path_prefix = config["results_local_path"] + sample_id
+    result_path_prefix = config["results_local_path"] + "/" + sample_id
 
     if (not os.path.isdir(result_path_prefix)):
         logger.info(
