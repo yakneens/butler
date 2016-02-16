@@ -94,6 +94,13 @@ def compress_sample(result_filename, config):
 
     return compressed_filename
 
+def uncompress_gzip_sample(result_filename, config):
+    new_result_filename = os.path.splitext(result_filename)[0]
+    uncompress_command = "gzip -d {}".format(result_filename)
+    call_command(uncompress_command, "gzip")
+    
+    return new_result_filename
+
 
 def generate_tabix(compressed_filename, config):
 

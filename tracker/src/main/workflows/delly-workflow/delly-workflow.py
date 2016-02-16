@@ -9,6 +9,7 @@ from subprocess import call
 import tracker.model
 from tracker.model.analysis_run import *
 from tracker.util.workflow_common import *
+from util.workflow_common import uncompress_gzip_sample, compress_sample
 
 
 def run_delly(**kwargs):
@@ -46,6 +47,8 @@ def run_delly(**kwargs):
 
     call_command(delly_command, "delly")
 
+    uncompressed_result_filename = uncompress_gzip_sample(result_filename, config)
+    compress_sample(result_filename, config)
     generate_tabix(result_filename, config)
     copy_result(result_filename, sample_id, config)
 
