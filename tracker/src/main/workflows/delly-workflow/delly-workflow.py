@@ -35,15 +35,19 @@ def run_delly(**kwargs):
 
     result_filename = "{}/{}_{}.vcf.gz".format(
         result_path_prefix, sample_id, variants_type)
+    
+    log_filename = "{}/{}_{}.log".format(
+        result_path_prefix, sample_id, variants_type)
 
-    delly_command = "{} -t {} -g {} -v {} -o {} -x {} {}".\
+    delly_command = "{} -t {} -g {} -v {} -o {} -x {} {} > {}".\
         format(delly_path,
                variants_type,
                reference_location,
                variants_location,
                result_filename,
                exclude_template_path,
-               sample_location)
+               sample_location,
+               log_filename)
 
     call_command(delly_command, "delly")
 
