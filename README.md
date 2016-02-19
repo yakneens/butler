@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/github/llevar/germline-regenotyper/badge.svg?branch=master)](https://coveralls.io/github/llevar/germline-regenotyper?branch=master)
+
 #Solution Architecture
 ![Solution Architecture](docs/diagrams/High Level Architecture.jpg)
 
