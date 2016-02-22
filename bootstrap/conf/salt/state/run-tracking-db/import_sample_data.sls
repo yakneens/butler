@@ -16,9 +16,9 @@ python-psycopg2:
     - mode: 744
     - makedirs: True
 
-/data/germline_genotype_tracking/csv/pcawg_sample_list_october_2015.csv:
+/data/germline_genotype_tracking/csv/pcawg_summary.tsv:
   file.managed:
-    - source: salt://run-tracking-db/data/pcawg_sample_list_october_2015.csv
+    - source: salt://run-tracking-db/data/pcawg_summary.tsv
     - user: postgres
     - group: postgres
     - mode: 644
@@ -32,7 +32,7 @@ python-psycopg2:
     
 import_sample_data:
   cmd.run:
-    - name: python /tmp/import_sample_data.py /data/germline_genotype_tracking/csv/pcawg_sample_list_october_2015.csv
+    - name: python /tmp/import_sample_data.py /data/germline_genotype_tracking/csv/pcawg_summary.tsv
     - user: postgres
     
 add_sample_primary_key:
