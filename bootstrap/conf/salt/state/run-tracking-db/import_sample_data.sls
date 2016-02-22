@@ -34,6 +34,8 @@ import_sample_data:
   cmd.run:
     - name: python /tmp/import_sample_data.py /data/germline_genotype_tracking/csv/pcawg_summary.tsv
     - user: postgres
+    - env:
+      - DB_URL: postgresql://pcawg_admin:pcawg@postgresql.service.consul:5432/germline_genotype_tracking
     
 add_sample_primary_key:
   cmd.run:
