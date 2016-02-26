@@ -1,0 +1,8 @@
+{
+	"results_base_path": "/shared/data/results/discovery/",
+	"results_local_path": "/tmp/discovery/",
+	"freebayes": {
+		"mode": "discovery",
+		"flags": "--min-repeat-entropy 1 --report-genotype-likelihood-max"
+	}
+}

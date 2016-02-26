@@ -38,13 +38,30 @@ def run_freebayes(**kwargs):
         reference_location = config["reference_location"]
         variants_location = config["variants_location"]
 
-        freebayes_command = "{} -r {} -f {} -@ {} -l {} > {}".\
-            format(freebayes_path,
-                   contig_name,
-                   reference_location,
-                   variants_location[contig_name],
-                   sample_location,
-                   result_filename)
+        freebayes_mode = config["freebayes"]["mode"]
+        
+        freebayes_flags = config["freebayes"]["flags"]
+        if freebayes_flags == None:
+            freebayes_flags = ""
+        
+        if freebayes_mode == "discovery":
+            freebayes_command = "{} -f {} {} {} > {}".\
+                format(freebayes_path,
+                       reference_location,
+                       freebayes_flags,
+                       sample_location,
+                       result_filename)
+        elif freebayes_mode == "regenotyping":
+            freebayes_command = "{} -r {} -f {} -@ {} {} {} > {}".\
+                format(freebayes_path,
+                       contig_name,
+                       reference_location,
+                       variants_location[contig_name],
+                       freebayes_flags,
+                       sample_location,
+                       result_filename)
+        else:
+             raise ValueError("Unknown or missing freebayes_mode - {}".format(freebayes_mode))   
 
         call_command(freebayes_command, "freebayes")
 
