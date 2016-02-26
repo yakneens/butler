@@ -45,8 +45,9 @@ def run_freebayes(**kwargs):
             freebayes_flags = ""
         
         if freebayes_mode == "discovery":
-            freebayes_command = "{} -f {} {} {} > {}".\
+            freebayes_command = "{} -r {} -f {} {} {} > {}".\
                 format(freebayes_path,
+                       contig_name,
                        reference_location,
                        freebayes_flags,
                        sample_location,
