@@ -35,12 +35,11 @@ def run_freebayes(**kwargs):
             result_path_prefix, sample_id, contig_name)
 
         freebayes_path = config["freebayes"]["path"]
-        reference_location = config["reference_location"]
-        variants_location = config["variants_location"]
-
         freebayes_mode = config["freebayes"]["mode"]
-        
         freebayes_flags = config["freebayes"]["flags"]
+        
+        reference_location = config["reference_location"]
+        
         if freebayes_flags == None:
             freebayes_flags = ""
         
@@ -53,6 +52,8 @@ def run_freebayes(**kwargs):
                        sample_location,
                        result_filename)
         elif freebayes_mode == "regenotyping":
+            variants_location = config["variants_location"]
+
             freebayes_command = "{} -r {} -f {} -@ {} {} {} > {}".\
                 format(freebayes_path,
                        contig_name,
