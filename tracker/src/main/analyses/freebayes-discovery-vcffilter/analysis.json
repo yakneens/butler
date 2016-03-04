@@ -1,0 +1,10 @@
+{
+	"results_base_path": "/shared/data/results/discovery_filtered/",
+	"results_local_path": "/tmp/discovery_filtered/",
+	"vcffilter": {
+		"flags": "QUAL > 20 & DP > 3 & QUAL / AO > 2 & SAF > 1 & SAR > 1 & RPR > 1 & RPL > 1"
+	},
+	"vt": {
+		"command": "normalize"
+	}
+}
