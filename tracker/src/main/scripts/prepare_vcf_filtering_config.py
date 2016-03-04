@@ -50,16 +50,18 @@ def create_configs_command(args):
     for root, dirs, files in os.walk(sample_location):
         for filename in files:
             if filename.endswith(".gz"):
-                if num_runs != None and num_configs < num_runs:
+                if num_runs == None or num_configs < num_runs:
                     this_config_data = {
                                         "sample": {
-                                                   "sample_id": root.basename(),
+                                                   "sample_id": os.path.basename(root),
                                                    "path_prefix": root,
                                                    "filename": filename
                                                    }
                                         }
                     write_config_to_file(this_config_data, config_location)
                     num_configs = num_configs + 1
+                elif num_configs > num_runs:
+                    break
 
 
     if (not os.path.isdir(config_location)):
