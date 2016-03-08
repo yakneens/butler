@@ -1,4 +1,5 @@
 {
+	"reference_location": "/reference/genome.fa",
 	"vcffilter": {
 		"path": "/usr/bin/vcffilter",
 		"flags": ""
