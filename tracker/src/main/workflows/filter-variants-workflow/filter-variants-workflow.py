@@ -20,7 +20,7 @@ def filter_variants(**kwargs):
     sample_path_prefix = sample["path_prefix"]
     sample_filename = sample["filename"]
     
-    sample_location = "{}/{}".join(sample_path_prefix, sample_filename)
+    sample_location = "{}/{}".format(sample_path_prefix, sample_filename)
 
     result_path_prefix = config["results_local_path"] + "/" + sample_id
     
