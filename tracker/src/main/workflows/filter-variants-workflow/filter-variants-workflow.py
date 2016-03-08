@@ -81,14 +81,6 @@ start_analysis_run_task = PythonOperator(
     dag=dag)
 
 
-validate_sample_task = PythonOperator(
-    task_id="validate_sample",
-    python_callable=validate_sample,
-    provide_context=True,
-    dag=dag)
-
-validate_sample_task.set_upstream(start_analysis_run_task)
-
 
 filter_task = PythonOperator(
     task_id="filter_variants",
@@ -96,7 +88,7 @@ filter_task = PythonOperator(
     provide_context=True,
     dag=dag)
 
-filter_task.set_upstream(validate_sample_task)
+filter_task.set_upstream(start_analysis_run_task)
 
 complete_analysis_run_task = PythonOperator(
     task_id="complete_analysis_run",
