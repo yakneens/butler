@@ -60,12 +60,9 @@ def create_configs_command(args):
                                         }
                     write_config_to_file(this_config_data, config_location)
                     num_configs = num_configs + 1
-                elif num_configs > num_runs:
-                    break
+                elif num_configs >= num_runs:
+                    return
 
-
-    if (not os.path.isdir(config_location)):
-        os.makedirs(config_location)
 
     
 
