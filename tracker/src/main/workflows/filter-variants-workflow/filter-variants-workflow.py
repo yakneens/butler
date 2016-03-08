@@ -71,7 +71,7 @@ default_args = {
 }
 
 dag = DAG("filter-vcf", default_args=default_args,
-          schedule_interval=None, concurrency=10000, max_active_runs=2000)
+          schedule_interval=None, concurrency=20000, max_active_runs=20000)
 
 
 start_analysis_run_task = PythonOperator(
