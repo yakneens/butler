@@ -42,7 +42,7 @@ def filter_variants(**kwargs):
     reference_location = config["reference_location"]
     
     
-    filtering_command = 'zcat {} | {} -f "{}" | {} {} -r {} {} -o {}'.\
+    filtering_command = 'zcat {} | {} -f "{}" | {} {} -r {} {} - -o {}'.\
         format(sample_location,
                vcffilter_path,
                vcffilter_flags,
