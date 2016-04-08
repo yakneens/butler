@@ -14,7 +14,7 @@ base:
   'G@roles:monitoring-server':
     - influxdb
     - grafana 
-  'G@roles:genotyper':
+  'G@roles:worker':
     - dnsmasq.gnos
     - biotools.freebayes
     - biotools.htslib

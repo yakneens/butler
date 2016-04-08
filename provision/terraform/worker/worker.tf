@@ -5,12 +5,11 @@ provider "openstack" {
 	auth_url = "${var.auth_url}"
 }
 
-
-resource "openstack_compute_instance_v2" "genotyper" {
+resource "openstack_compute_instance_v2" "worker" {
   	image_id = "${var.image_id}"
 	flavor_name = "s1.massive"
 	security_groups = ["internal"]
-	name = "${concat("genotyper-", count.index)}"
+	name = "${concat("worker-", count.index)}"
 	network = {
 		uuid = "${var.main_network_id}"
 	}
@@ -49,9 +48,9 @@ resource "openstack_compute_instance_v2" "genotyper" {
 			"sudo yum install salt-minion -y",
 			"sudo service salt-minion stop",
 			"echo 'master: ${var.salt_master_ip}' | sudo tee  -a /etc/salt/minion",
-			"echo 'id: ${concat("genotyper-", count.index)}' | sudo tee -a /etc/salt/minion",
-			"echo 'roles: [genotyper, consul-client]' | sudo tee -a /etc/salt/grains",
-			"sudo hostname ${concat("genotyper-", count.index)}",
+			"echo 'id: ${concat("worker-", count.index)}' | sudo tee -a /etc/salt/minion",
+			"echo 'roles: [worker, consul-client]' | sudo tee -a /etc/salt/grains",
+			"sudo hostname ${concat("worker-", count.index)}",
 			"sudo service salt-minion start"
 		]
 	}
