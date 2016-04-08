@@ -16,9 +16,6 @@ base:
     - grafana 
   'G@roles:worker':
     - dnsmasq.gnos
-    - biotools.freebayes
-    - biotools.htslib
-    - biotools.samtools
     - celery
     - airflow
     - airflow.load-workflows
