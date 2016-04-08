@@ -1,50 +1,50 @@
 pcawg_admin_user:
   postgres_user.present:
-    - name: pcawg_admin
+    - name: butler_admin
     - createdb: True
     - superuser: True
-    - password: pcawg
+    - password: butler
     - user: postgres
 
 pcawg_user:
   postgres_user.present:
-    - name: pcawg
-    - password: pcawg
+    - name: butler
+    - password: butler
     - user: postgres
 
     
-/data/germline_genotype_tracking/db:
+/data/run_tracking/db:
   file.directory:
     - user: postgres
     - group: postgres
     - mode: 744
     - makedirs: True
     
-/data/germline_genotype_tracking/indexes:
+/data/run_tracking/indexes:
   file.directory:
     - user: postgres
     - group: postgres
     - mode: 744
     - makedirs: True
     
-pcawg_tablespace:
+run_tablespace:
   postgres_tablespace.present:
-     - name: germline_dbspace
-     - owner: pcawg_admin
-     - directory: /data/germline_genotype_tracking/db
+     - name: run_dbspace
+     - owner: butler_admin
+     - directory: /data/run_tracking/db
      - user: postgres
 
-pcawg_indexspace:
+butler_indexspace:
   postgres_tablespace.present:
-     - name: germline_indexspace
-     - owner: pcawg_admin
-     - directory: /data/germline_genotype_tracking/indexes
+     - name: run_indexspace
+     - owner: butler_admin
+     - directory: /data/run_tracking/indexes
      - user: postgres
 
-pcawg_sample_db:
+run_tracking_db:
   postgres_database.present:
-    - name: germline_genotype_tracking
-    - owner: pcawg_admin
-    - tablespace: germline_dbspace
+    - name: run_tracking
+    - owner: butler_admin
+    - tablespace: run_dbspace
     - user: postgres
     
