@@ -5,6 +5,7 @@ influxdb:
   service.running:
     - require:
       - pkg: influxdb
+      - user: influxdb
     - watch:
       - file: /etc/influxdb/influxdb.conf
       
