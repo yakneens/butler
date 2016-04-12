@@ -456,7 +456,7 @@ file_roots:
 # To use multiple backends list them in the order they are searched:
 fileserver_backend:
   - roots
-#  - git
+  - git
 #
 # Uncomment the line below if you do not want the file_server to follow
 # symlinks when walking the filesystem tree. This is set to True
@@ -497,7 +497,7 @@ gitfs_provider: gitpython
 # environments.
 # Note:  file:// repos will be treated as a remote, so refs you want used must
 # exist in that repo as *local* refs.
-#gitfs_remotes:
+gitfs_remotes:
 #  - git://github.com/saltstack/salt-states.git
 #  - file:///var/git/saltmaster
 #  - https://github.com/saltstack-formulas/salt-formula.git
@@ -507,6 +507,13 @@ gitfs_provider: gitpython
 #  - https://github.com/llevar/salt-consul
 #  - https://github.com/seegno/influxdb-formula
 #  - https://github.com/llevar/hadoop-formula
+  - git://github.com/llevar/butler.git
+    - root: configure/salt/
+    - mountpoint: salt://butler
+  - git://github.com/llevar/pcawg-germline.git
+    - root: configure/salt/
+    - mountpoint: salt://pcawg-germline
+  
 #
 # The gitfs_ssl_verify option specifies whether to ignore ssl certificate
 # errors when contacting the gitfs backend. You might want to set this to
@@ -532,9 +539,16 @@ pillar_roots:
   base:
     - /srv/pillar
 #
-#ext_pillar:
+ext_pillar:
 #  - hiera: /etc/hiera.yaml
 #  - cmd_yaml: cat /etc/salt/yaml
+  - git:
+    - butler_germline_split git://github.com/llevar/butler.git
+      - root: configure/salt/pillar
+      - env: base
+    - master git://github.com/llevar/pcawg_germline.git
+      - root: configuration/salt/pillar
+      - env: pcawg
 
 # The ext_pillar_first option allows for external pillar sources to populate
 # before file system pillar. This allows for targeting file system pillar from
