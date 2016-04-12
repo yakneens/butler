@@ -3,7 +3,7 @@
     - source: https://download.elastic.co/kibana/kibana/kibana-4.2.0-linux-x64.tar.gz
     - archive_format: tar
     - tar_options: z
-    - source_hash: md5=51a5c6fc955636b817ec99bf6ec86c90
+    - source_hash: sha1=ff3653824735edff3201761f584729b2d0cd0216
 
 /usr/lib/systemd/system/kibana.service:
   file.managed:
