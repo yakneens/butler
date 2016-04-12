@@ -157,8 +157,20 @@ base:
 ## Monitoring
 This project uses [Collectd](https://github.com/collectd/collectd) for collecting metrics, the metrics are then shipped to an [InfluxDB](https://github.com/influxdb/influxdb) time series database, and are visualized using [Grafana](https://github.com/grafana/grafana) real-time dashboards.
 ![Monitoring](docs/diagrams/Monitoring.jpg)
+
 ### Monitoring Server
 The `monitoring-server` role currently deploys an InfluxDB instance and Grafana onto a host. This role is at present assigned to the Salt Master.
+It is a good idea to have InfluxDB write to a persistent block store instead of an emphemeral disk, in order to preserve the data in case of VM crash.
+
+Assuming you have created a block storage volume called `metrics-storage` and attached it to the `monitoring-server` on `/dev/vdb`, you would then create a mount-point and mount this volume. Influxdb is set up to look for its files under `/var/lib/.influxdb` so you need to create symlink to your `metrics-storage` at that location
+
+```
+mkdir /metrics-storage
+mount /dev/vdb /metrics storage
+ln -s /metrics-storage/.influxdb /var/lib/.influxdb
+```
+
+If you are migrating the metrics storage between VMs you will need to delete and recreate the metda directory under `/var/lib/.influxdb/meta`
 
 ### Monitoring Clients
 Metrics collection is facilitated by assigning the `collectd` state to all VMs in the cluster via the `top.sls` file. Configuration of various Collectd plugins is contained in the [collectd.conf](bootstrap/conf/salt/state/collectd/collectd.conf) file. All vital host metrics are collected:
