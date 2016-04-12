@@ -408,9 +408,7 @@ state_output: mixed
 #     - /srv/salt/prod/services
 #     - /srv/salt/prod/states
 #
-file_roots:
-  base:
-    - /srv/salt
+
 
 # The hash_type is the hash to use when discovering the hash of a file on
 # the master server. The default is md5, but sha1, sha224, sha256, sha384
@@ -455,7 +453,6 @@ file_roots:
 #
 # To use multiple backends list them in the order they are searched:
 fileserver_backend:
-  - roots
   - git
 #
 # Uncomment the line below if you do not want the file_server to follow
@@ -498,22 +495,11 @@ gitfs_provider: gitpython
 # Note:  file:// repos will be treated as a remote, so refs you want used must
 # exist in that repo as *local* refs.
 gitfs_remotes:
-#  - git://github.com/saltstack/salt-states.git
-#  - file:///var/git/saltmaster
-#  - https://github.com/saltstack-formulas/salt-formula.git
-#  - https://github.com/saltstack-formulas/tomcat-formula
-#  - https://github.com/llevar/sun-java-formula
-#  - https://github.com/llevar/zookeeper-formula
-#  - https://github.com/llevar/salt-consul
-#  - https://github.com/seegno/influxdb-formula
-#  - https://github.com/llevar/hadoop-formula
-  - git://github.com/llevar/butler.git
+  - git://github.com/llevar/butler.git:
     - root: configure/salt/
-    - mountpoint: salt://butler
-  - git://github.com/llevar/pcawg-germline.git
-    - root: configure/salt/
-    - mountpoint: salt://pcawg-germline
-  
+    - base: butler_germline_split
+  - git://github.com/llevar/pcawg-germline.git:
+    - root: configuration/salt/
 #
 # The gitfs_ssl_verify option specifies whether to ignore ssl certificate
 # errors when contacting the gitfs backend. You might want to set this to
@@ -543,10 +529,10 @@ ext_pillar:
 #  - hiera: /etc/hiera.yaml
 #  - cmd_yaml: cat /etc/salt/yaml
   - git:
-    - butler_germline_split git://github.com/llevar/butler.git
+    - butler_germline_split git://github.com/llevar/butler.git:
       - root: configure/salt/pillar
       - env: base
-    - master git://github.com/llevar/pcawg_germline.git
+    - master git://github.com/llevar/pcawg_germline.git:
       - root: configuration/salt/pillar
       - env: pcawg
 
