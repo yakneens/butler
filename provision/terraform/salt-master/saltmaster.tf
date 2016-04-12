@@ -66,10 +66,6 @@ resource "openstack_compute_instance_v2" "salt_master" {
 			"echo 'roles: [salt-master, consul-bootstrap, monitoring-server]' | sudo tee -a /etc/salt/grains",
 			"sudo service salt-master start",
 			"sudo hostname salt-master",
-			"git clone https://github.com/llevar/germline-regenotyper",
-			"git checkout develop",
-			"sudo ln -s /home/centos/germline-regenotyper/bootstrap/conf/salt/state /srv/salt",
-			"sudo ln -s /home/centos/germline-regenotyper/bootstrap/conf/salt/pillar /srv/pillar",
 			"sudo service salt-minion start"
 			    ]
         }
