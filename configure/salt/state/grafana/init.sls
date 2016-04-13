@@ -7,7 +7,7 @@ fontconfig:
 grafana:
   pkg.installed:
     - sources:
-      - grafana: https://grafanarel.s3.amazonaws.com/builds/grafana-2.5.0-1.x86_64.rpm
+      - grafana: https://grafanarel.s3.amazonaws.com/builds/grafana-3.0.0-beta31460467884%C2%A7.x86_64.rpm
   service.running:
     - name: grafana-server
     - require:
