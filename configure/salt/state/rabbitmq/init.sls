@@ -5,7 +5,7 @@ install_erlang:
 install_rabbitmq:
   pkg.installed: 
     - sources: 
-      - rabbitmq: https://www.rabbitmq.com/releases/rabbitmq-server/v3.5.6/rabbitmq-server-3.5.6-1.noarch.rpm
+      - rabbitmq: http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.1/rabbitmq-server-3.6.1-1.noarch.rpm
 
 enable_rabbitmq_on_startup:
   cmd.run:
