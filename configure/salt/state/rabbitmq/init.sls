@@ -19,7 +19,7 @@ start_rabbitmq:
 rabbitmq_vhost:
   rabbitmq_vhost.present:
     - name: pcawg_vhost
-    - user: pcawg
+
     
 rabbitmq_user:
   rabbitmq_user.present:
