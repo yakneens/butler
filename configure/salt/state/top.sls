@@ -27,8 +27,8 @@ base:
     - jsonmerge
   'G@roles:db-server':
     - postgres
-    - grafana.createdb
     - run-tracking-db
+    - grafana.createdb
     - airflow.airflow-db
   'G@roles:job-queue':
     - rabbitmq
