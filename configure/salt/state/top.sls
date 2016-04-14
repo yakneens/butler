@@ -29,6 +29,7 @@ base:
     - postgres
     - grafana.createdb
     - run-tracking-db
+    - airflow.airflow-db
   'G@roles:job-queue':
     - rabbitmq
   'G@roles:elasticsearch':
