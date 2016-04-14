@@ -1,7 +1,7 @@
 grafana_db:
   postgres_database.present:
     - name: grafana
-    - owner: pcawg_admin
-    - tablespace: germline_dbspace
+    - owner: butler_admin
+    - tablespace: butler_dbspace
     - user: postgres
 
