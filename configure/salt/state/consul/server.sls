@@ -18,7 +18,7 @@ consul-server:
     - watch:
       - file: /etc/opt/consul.d/*
 {%- set servers = salt['mine.get']('roles:(consul-server|consul-bootstrap)', 'network.ip_addrs', 'grain_pcre').values() %}
-{%- set node_ip = salt['grains.get']('fqdn_ip4') %}
+{%- set node_ip = salt['grains.get']('ip4_interfaces')['eth0'] %}
 # Create a list of servers that can be used to join the cluster
 {%- set join_server = [] %}
 {%- for server in servers if server[0] != node_ip %}
