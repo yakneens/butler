@@ -19,7 +19,7 @@ grafana_tablespace:
      - directory: /data/grafana/db
      - user: postgres
 
-butler_indexspace:
+grafana_indexspace:
   postgres_tablespace.present:
      - name: grafana_indexspace
      - owner: butler_admin
