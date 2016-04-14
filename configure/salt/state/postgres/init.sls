@@ -1,22 +1,22 @@
 install_pgdg_repo:
   pkg.installed: 
     - sources: 
-      - pgdg: http://yum.postgresql.org/9.4/redhat/rhel-7-x86_64/pgdg-centos94-9.4-2.noarch.rpm
+      - pgdg: https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
 
 install_server:
   pkg.installed:
-    - name: postgresql94-server.x86_64
+    - name: postgresql95-server.x86_64
     
 initialize_db:
   cmd.run:
-    - name: /usr/pgsql-9.4/bin/postgresql94-setup initdb
+    - name: /usr/pgsql-9.5/bin/postgresql95-setup initdb
 
  
 enable_on_startup:
   cmd.run:
-    - name: chkconfig postgresql-9.4 on
+    - name: chkconfig postgresql-9.5 on
 
-/var/lib/pgsql/9.4/data/pg_hba.conf:
+/var/lib/pgsql/9.5/data/pg_hba.conf:
   file.managed:
     - source: salt://postgres/config/pg_hba.conf
     - user: postgres
@@ -25,7 +25,7 @@ enable_on_startup:
     - makedirs: True
 
 
-/var/lib/pgsql/9.4/data/postgresql.conf:
+/var/lib/pgsql/9.5/data/postgresql.conf:
   file.managed:
     - source: salt://postgres/config/postgresql.conf
     - user: postgres
@@ -36,9 +36,9 @@ enable_on_startup:
     
 start_server:    
   service.running:
-    - name: postgresql-9.4
+    - name: postgresql-9.5
     - watch:
-      - file: /var/lib/pgsql/9.4/data/*
+      - file: /var/lib/pgsql/9.5/data/*
 
 postgres_devel:
   pkg.installed:
