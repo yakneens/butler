@@ -1,7 +1,7 @@
 influxdb:
   pkg.installed:
     - sources:
-      - influxdb: https://s3.amazonaws.com/influxdb/influxdb-0.11.1-1.x86_64.rpm
+      - influxdb: http://get.influxdb.org/telegraf/telegraf-0.12.1-1.x86_64.rpm
   service.running:
     - require:
       - pkg: influxdb
