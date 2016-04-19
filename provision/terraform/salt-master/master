@@ -500,6 +500,7 @@ gitfs_remotes:
     - base: butler_germline_split
   - git://github.com/llevar/pcawg-germline.git:
     - root: configuration/salt/
+    - base: pcawg
 #
 # The gitfs_ssl_verify option specifies whether to ignore ssl certificate
 # errors when contacting the gitfs backend. You might want to set this to
