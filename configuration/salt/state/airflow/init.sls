@@ -60,10 +60,4 @@ airflow_user:
     - mode: 700
     - makedirs: True
 
-/usr/lib/python2.7/site-packages/airflow/settings.py:
-  file.managed:
-    - source: salt://airflow/config/settings.py
-    - user: root
-    - group: root
-    - mode: 600
 
