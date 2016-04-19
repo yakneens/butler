@@ -1,4 +1,4 @@
-pcawg_admin_user:
+butler_admin_user:
   postgres_user.present:
     - name: butler_admin
     - createdb: True
@@ -6,7 +6,7 @@ pcawg_admin_user:
     - password: butler
     - user: postgres
 
-pcawg_user:
+butler_user:
   postgres_user.present:
     - name: butler
     - password: butler
