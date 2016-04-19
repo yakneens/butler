@@ -496,7 +496,7 @@ gitfs_provider: gitpython
 # exist in that repo as *local* refs.
 gitfs_remotes:
   - git://github.com/llevar/butler.git:
-    - root: configure/salt/
+    - root: configuration/salt/
     - base: butler_germline_split
   - git://github.com/llevar/pcawg-germline.git:
     - root: configuration/salt/
