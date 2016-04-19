@@ -30,6 +30,7 @@ base:
     - run-tracking-db
     - grafana.createdb
     - airflow.airflow-db
+    - sample-tracking-db
   'G@roles:job-queue':
     - rabbitmq
   'G@roles:elasticsearch':
@@ -37,14 +38,14 @@ base:
     - elastic.logstash
     - elastic.kibana
     - celery
-pcawg:
   'G@roles:germline':
     - biotools.freebayes
     - biotools.htslib
     - biotools.samtools
     - biotools.delly
-  'G@roles:db-server':
-    - sample-tracking-db
+
+
+  
     
   
     
