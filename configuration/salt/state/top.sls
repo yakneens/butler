@@ -20,11 +20,13 @@ base:
     - airflow
     - airflow.load-workflows
     - airflow.worker
+    - butler    
   'G@roles:tracker':
     - airflow
     - airflow.load-workflows
     - airflow.server
     - jsonmerge
+    - butler
   'G@roles:db-server':
     - postgres
     - run-tracking-db
