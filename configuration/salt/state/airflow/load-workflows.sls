@@ -1,6 +1,6 @@
-germline-regenotyper-clone:
+pcawg-germline-clone:
   git.latest:
-    - rev: develop
+    - rev: master
     - force_reset: True
     - name: https://github.com/llevar/pcawg-germline.git
     - target: /opt/pcawg-germline
