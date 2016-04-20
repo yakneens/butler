@@ -49,7 +49,7 @@ resource "openstack_compute_instance_v2" "worker" {
 			"sudo service salt-minion stop",
 			"echo 'master: ${var.salt_master_ip}' | sudo tee  -a /etc/salt/minion",
 			"echo 'id: ${concat("worker-", count.index)}' | sudo tee -a /etc/salt/minion",
-			"echo 'roles: [worker, consul-client]' | sudo tee -a /etc/salt/grains",
+			"echo 'roles: [worker, germline, consul-client]' | sudo tee -a /etc/salt/grains",
 			"sudo hostname ${concat("worker-", count.index)}",
 			"sudo service salt-minion start"
 		]

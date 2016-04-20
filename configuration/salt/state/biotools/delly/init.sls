@@ -16,6 +16,14 @@ delly-clone:
     - force_reset: True
     - name: git://github.com/tobiasrausch/delly.git
     - target: /opt/delly
+    - submodules: True
+
+delly-submodule-init:
+  module.run:
+    - name: git.submodule
+    - cwd: /opt/delly
+    - command: update
+    - opts: '--recursive --init'
     
 delly-htslib-touch:
   file.touch:
