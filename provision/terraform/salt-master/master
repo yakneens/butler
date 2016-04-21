@@ -496,10 +496,10 @@ gitfs_provider: gitpython
 # exist in that repo as *local* refs.
 gitfs_remotes:
   - git://github.com/llevar/butler.git:
-    - root: configuration/salt/
+    - root: configuration/salt/state
     - base: butler_germline_split
   - git://github.com/llevar/pcawg-germline.git:
-    - root: configuration/salt/
+    - root: configuration/salt/state
     - base: pcawg
 #
 # The gitfs_ssl_verify option specifies whether to ignore ssl certificate
