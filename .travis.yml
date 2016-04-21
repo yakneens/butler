@@ -7,6 +7,6 @@ before_install:
 install:
   - pip install -e track/
 script:
-  - py.test track/tests/ß
+  - py.test track/tests/
 after_success:
   - coveralls
