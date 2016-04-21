@@ -1,3 +1,5 @@
+[![Code Health](https://landscape.io/github/llevar/butler/butler_germline_split/landscape.svg?style=flat)](https://landscape.io/github/llevar/butler/butler_germline_split)
+
 [![Coverage Status](https://coveralls.io/repos/github/llevar/germline-regenotyper/badge.svg?branch=master)](https://coveralls.io/github/llevar/germline-regenotyper?branch=master)
 
 #Solution Architecture
