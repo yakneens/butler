@@ -1,8 +1,8 @@
 import uuid
 import json
 import pytest
-from tracker.model.configuration import *
 from tracker.model.workflow import *
+from tracker.model.configuration import *
 from tracker.model.analysis import *
 from tracker.model.analysis_run import *
 import tracker

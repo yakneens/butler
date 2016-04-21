@@ -18,7 +18,7 @@ setup(
     description=("Tools for tracking genomic analysis runs"),
     license="Apache 2.0",
     keywords="genomic analysis run tracker",
-    url="http://github.com/llevar/germline-regenotyper",
+    url="http://github.com/llevar/butler",
     packages=['tracker', 'tests'],
     long_description=read('README.md'),
     classifiers=[
