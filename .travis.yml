@@ -5,7 +5,7 @@ before_install:
   - pip install pytest pytest-cov
   - pip install coveralls
 install:
-  - pip install -e track/
+  - pip install -r requirements.txt -e track/
 script:
   - py.test track/tests/
 after_success:
