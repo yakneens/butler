@@ -1,10 +1,7 @@
 #!/bin/bash
 
 sudo yum install epel-release -y
-wget https://repo.saltstack.com/yum/rhel7/SALTSTACK-GPG-KEY.pub
-rpm --import SALTSTACK-GPG-KEY.pub
-rm -f SALTSTACK-GPG-KEY.pub
-printf "[saltstack-repo]\nname=SaltStack repo for RHEL/CentOS $releasever\nbaseurl=https://repo.saltstack.com/yum/rhel$releasever\nenabled=1\ngpgcheck=1\ngpgkey=https://repo.saltstack.com/yum/rhel$releasever/SALTSTACK-GPG-KEY.pub\n" | tee /etc/yum.repos.d/saltstack.repo
+sudo yum install https://repo.saltstack.com/yum/redhat/salt-repo-2015.8-2.el7.noarch.rpm
 
 sudo yum -y update
 sudo yum install yum-plugin-priorities -y
