@@ -531,7 +531,7 @@ ext_pillar:
 #  - cmd_yaml: cat /etc/salt/yaml
   - git:
     - butler_germline_split git://github.com/llevar/butler.git:
-      - root: configure/salt/pillar
+      - root: configuration/salt/pillar
       - env: base
 #    - master git://github.com/llevar/pcawg_germline.git:
 #      - root: configuration/salt/pillar
