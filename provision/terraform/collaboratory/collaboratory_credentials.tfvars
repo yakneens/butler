@@ -1,0 +1,6 @@
+user_name = "iakhnin@embl.de"
+password = "dUIp-DlKCb"
+auth_url = "https://console.cancercollaboratory.org:5000/v2.0"
+key_file = "/Users/siakhnin/.ssh/sergei.pem"
+bastion_key_file = "/Users/siakhnin/.ssh/sergei.pem"
+bastion_host = "142.1.177.121"
