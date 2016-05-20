@@ -25,7 +25,7 @@ resource "openstack_compute_instance_v2" "worker" {
 	 	agent = "true"
 	 	
 	}
-	count = "10"
+	count = "50"
 	key_pair = "${var.key_pair}"
 	provisioner "remote-exec" {
 		inline = [

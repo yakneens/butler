@@ -170,7 +170,7 @@ def launch_workflow_command(args):
         raise ValueError("config_location must be a path to a directory")
 
     my_dag_run = TriggerDagRunOperator(
-        dag_id=my_workflow.workflow_name,
+        trigger_dag_id=my_workflow.workflow_name,
         python_callable=set_up_dag_run,
         task_id="run_my_workflow",
         owner="airflow")
