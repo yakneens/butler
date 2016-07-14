@@ -1,6 +1,6 @@
 butler-clone:
   git.latest:
-    - rev: butler_germline_split
+    - rev: master
     - force_reset: True
     - name: https://github.com/llevar/butler.git
     - target: /opt/butler
