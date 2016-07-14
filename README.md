@@ -161,8 +161,20 @@ base:
 ## Monitoring
 This project uses [Collectd](https://github.com/collectd/collectd) for collecting metrics, the metrics are then shipped to an [InfluxDB](https://github.com/influxdb/influxdb) time series database, and are visualized using [Grafana](https://github.com/grafana/grafana) real-time dashboards.
 ![Monitoring](docs/diagrams/Monitoring.jpg)
+
 ### Monitoring Server
 The `monitoring-server` role currently deploys an InfluxDB instance and Grafana onto a host. This role is at present assigned to the Salt Master.
+It is a good idea to have InfluxDB write to a persistent block store instead of an emphemeral disk, in order to preserve the data in case of VM crash.
+
+Assuming you have created a block storage volume called `metrics-storage` and attached it to the `monitoring-server` on `/dev/vdb`, you would then create a mount-point and mount this volume. Influxdb is set up to look for its files under `/var/lib/.influxdb` so you need to create a symlink to your `metrics-storage` at that location.
+
+```
+mkdir /metrics-storage
+mount /dev/vdb /metrics storage
+ln -s /metrics-storage/.influxdb /var/lib/.influxdb
+```
+
+If you are migrating the metrics storage between VMs you will need to delete and recreate the metda directory under `/var/lib/.influxdb/meta` otherwise you will get file permission errors when starting the influxdb service.
 
 ### Monitoring Clients
 Metrics collection is facilitated by assigning the `collectd` state to all VMs in the cluster via the `top.sls` file. Configuration of various Collectd plugins is contained in the [collectd.conf](bootstrap/conf/salt/state/collectd/collectd.conf) file. All vital host metrics are collected:
@@ -181,3 +193,22 @@ The Influx DB admin UI is published on http://localhost:8083 of the Monitoring S
 
 ### Grafana
 The Grafana dashboard website is published on http://localhost:3000 of the Monitoring Server. Currently only the local interface is listened to.
+
+## Service Discovery
+Machines in the cluster have different capabilities such as serving particular databases, providing admin UIs, or queues. It is important to be able to discover these services and refer to them by name rather than using machine IPs. This role is fulfilled by a tool called [Consul](https://github.com/hashicorp/consul). Consul runs a local DNS server and also provides some basic health checks for the services registered with it.
+
+All machines in the cluster are running a Consul service and are able to interrogate the services that are available within the cluster. There are three types of Consul services - bootstrap, server, and client.
+
+- Bootstrap mode is used to start a Consul cluster. The first server should use bootstrap mode. By default this is the `salt-master` but could be any other machine. It is controlled by giving that salt minion the `consul-bootstrap` role.
+- Server mode is used by all machines in the cluster to answer queries about capabilities/services within that cluster. More than one machine in the cluster should be a server for redundancy reasons. A server is declared via the `consul-server` salt role.
+- Client mode is used by the rest of the machines in the cluster. Clients know what services their machine hosts and know how to talk to servers to find out about other services in the cluster. A client is declared via the `cosul-client` role.
+
+Consul provides a CLI with a few commands such as `consul members` to get a list of members of the cluster and `consul join SERVER_IP` to join a cluster if a particular VM happens to drop out of the cluster for some reason. 
+
+If your VM is not able to talk to the database or see other services on the cluster it is probably because it has dropped out of the consul cluster and needs to be rejoined.
+
+If all of the consul servers drop out then the discovery mechanism stops functioning. You then needs to start at least one machine in bootstrap mode, then join the servers to the bootstrap machine, and then join the clients to any one of the servers in order to bring service discovery back into order.
+
+The Consul UI is published on http://localhost:8500/ui of the VMs that have the `consul-bootstrap` or `consul-server` roles.
+
+

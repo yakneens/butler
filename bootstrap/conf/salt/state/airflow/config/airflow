@@ -1,3 +1,0 @@
-AIRFLOW_HOME=/opt/airflow/
-AIRFLOW_CONFIG=/etc/opt/airflow/airflow.cfg
-DB_URL=postgresql://pcawg_admin:pcawg@postgresql.service.consul:5432/germline_genotype_tracking
