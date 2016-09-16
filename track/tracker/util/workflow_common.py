@@ -72,7 +72,7 @@ def call_command(command, command_name, cwd=None):
         "About to invoke {} with command {}.".format(command_name, command))
 
     try:
-        retcode = call(command, shell=True, cwd)
+        retcode = call(command, shell=True, cwd=cwd)
         if retcode != 0:
             msg = "{} terminated by signal {}.".format(command_name, retcode)
             logger.error(msg)
