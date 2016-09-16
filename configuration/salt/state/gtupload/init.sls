@@ -2,7 +2,7 @@ gtupload-clone:
   git.latest:
     - force_reset: True
     - name: git://github.com/llevar/gtupload-centos-binary.git
-    - target: /tmp/
+    - target: /tmp/gtupload-centos-binary
     - submodules: True
 
 gtupload-untar:
