@@ -2,7 +2,7 @@ gtupload-untar:
   archive.extracted:
     - name: /opt/gtupload
     - source: https://github.com/llevar/gtupload-centos-binary/blob/master/gtupload.tar.gz
-    - source_hash: md5=03427b20e4253c3e077375454354ceac
+    - source_hash: md5=1a06ba5c49ea76b7aa5871ecef157769
     - archive_format: tar
 
 /bin/gtupload:
