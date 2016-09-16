@@ -67,12 +67,12 @@ def validate_sample(**kwargs):
             "Invalid sample location or wrong permissions at {}".format(sample_location))
 
 
-def call_command(command, command_name):
+def call_command(command, command_name, cwd=None):
     logger.info(
         "About to invoke {} with command {}.".format(command_name, command))
 
     try:
-        retcode = call(command, shell=True)
+        retcode = call(command, shell=True, cwd)
         if retcode != 0:
             msg = "{} terminated by signal {}.".format(command_name, retcode)
             logger.error(msg)
