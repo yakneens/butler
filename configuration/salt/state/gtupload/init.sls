@@ -7,13 +7,13 @@ gtupload-clone:
 
 gtupload-untar:
   archive.extracted:
-    - name: /opt/
+    - name: /opt/gtupload/
     - source: /tmp/gtupload-centos-binary/gtupload.tar.gz
     - archive_format: tar
 
 /bin/gtupload:
   file.symlink:
-    - target: /opt/cghub/bin/gtupload
+    - target: /opt/gtupload/cghub/bin/gtupload
     - user: root
     - group: root
     - mode: 755
@@ -21,7 +21,7 @@ gtupload-untar:
     
 /bin/cgquery:
   file.symlink:
-    - target: /opt/cghub/bin/cgquery
+    - target: /opt/gtupload/cghub/bin/cgquery
     - user: root
     - group: root
     - mode: 755
@@ -29,7 +29,7 @@ gtupload-untar:
     
 /bin/cgsubmit:
   file.symlink:
-    - target: /opt/cghub/bin/cgsubmit
+    - target: /opt/gtupload/cghub/bin/cgsubmit
     - user: root
     - group: root
     - mode: 755
