@@ -1,8 +1,14 @@
+gtupload-clone:
+  git.latest:
+    - force_reset: True
+    - name: git://github.com/llevar/gtupload-centos-binary.git
+    - target: /tmp/
+    - submodules: True
+
 gtupload-untar:
   archive.extracted:
     - name: /opt/gtupload
-    - source: https://github.com/llevar/gtupload-centos-binary/blob/master/gtupload.tar.gz
-    - source_hash: sha256=feb95eb3a974223b1398004416db74a271069679c6ba54fce14a1c3cc6262ee1
+    - source: /tmp/gtupload-centos-binary/gtupload.tar.gz
     - archive_format: tar
 
 /bin/gtupload:
