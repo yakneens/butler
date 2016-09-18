@@ -692,7 +692,7 @@ class CLIFactory(object):
         'only_running': Arg(
             ("-r", "--only_running"), "Only running jobs", "store_true"),
         'only_retry': Arg(
-            ("-u", "--only_retry"), "Only up_for_retry jobs", "store_true"),
+            ("-ufr", "--only_retry"), "Only up_for_retry jobs", "store_true"),
         'only_upstream_failed': Arg(
             ("-usf", "--only_upstream_failed"), "Only upstream_failed_jobs", "store_true"),
         'downstream': Arg(
