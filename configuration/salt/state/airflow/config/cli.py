@@ -841,7 +841,7 @@ class CLIFactory(object):
             'args': (
                 'dag_id', 'task_regex', 'start_date', 'end_date', 'subdir',
                 'upstream', 'downstream', 'no_confirm', 'only_failed',
-                'only_running'),
+                'only_running', 'only_retry', 'only_upstream_failed'),
         }, {
             'func': pause,
             'help': "Pause a DAG",
