@@ -45,6 +45,8 @@ base:
     - biotools.htslib
     - biotools.samtools
     - biotools.delly
+  'G@roles:R':
+    - R  
 
 
   

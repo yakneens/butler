@@ -25,7 +25,7 @@ resource "openstack_compute_instance_v2" "worker" {
 	 	agent = "true"
 	 	
 	}
-	count = "112"
+	count = "176"
 	key_pair = "${var.key_pair}"
 	provisioner "remote-exec" {
 		inline = [
@@ -49,7 +49,7 @@ resource "openstack_compute_instance_v2" "worker" {
 			"sudo service salt-minion stop",
 			"echo 'master: ${var.salt_master_ip}' | sudo tee  -a /etc/salt/minion",
 			"echo 'id: ${concat("worker-", count.index)}' | sudo tee -a /etc/salt/minion",
-			"echo 'roles: [worker, germline, consul-client]' | sudo tee -a /etc/salt/grains",
+			"echo 'roles: [worker, germline, consul-client, R]' | sudo tee -a /etc/salt/grains",
 			"sudo hostname ${concat("worker-", count.index)}",
 			"sudo service salt-minion start"
 		]
