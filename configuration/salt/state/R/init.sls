@@ -4,7 +4,10 @@ install_R:
     
 install_bioc_dependencies:
   pkg.installed: 
-    - name: libcurl-devel libxml2-devel openssl-devel
+    - pkgs: 
+      - libcurl-devel 
+      - libxml2-devel 
+      - openssl-devel
     
     
 install_bioconductor:
