@@ -4,13 +4,14 @@ from datetime import datetime, timedelta
 
 import os
 import logging
-from subprocess import call
+from subprocess import call, check_output, STDOUT, CalledProcessError
+
 
 import tracker.model
 from tracker.model.analysis_run import *
 
 CONTIG_NAMES = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10",
-                "11", "12", "13", "14", "15", "16", "17", "18", "19", 
+                "11", "12", "13", "14", "15", "16", "17", "18", "19",
                 "20", "21", "22", "X", "Y"]
 
 
@@ -69,18 +70,13 @@ def validate_sample(**kwargs):
 
 def call_command(command, command_name, cwd=None):
     logger.info(
-        "About to invoke {} with command {}.".format(command_name, command))
-
+        "About to invoke {} with command {}.".format(command_name, command)) 
     try:
-        retcode = call(command, shell=True, cwd=cwd)
-        if retcode != 0:
-            msg = "{} terminated by signal {}.".format(command_name, retcode)
-            logger.error(msg)
-            raise Exception(msg)
-        else:
-            logger.info("{} terminated normally.".format(command_name))
-    except OSError as e:
-        logger.error("{} execution failed {}.".format(command_name, e))
+        output = check_output(command, shell=True, cwd=cwd, stderr=STDOUT)
+        logger.info(output)
+    except CalledProcessError as e:
+        logger.error(e.output)
+        logger.error("{} execution failed {}.".format(command_name, e.returncode))
         raise
 
 
@@ -95,11 +91,12 @@ def compress_sample(result_filename, config):
 
     return compressed_filename
 
+
 def uncompress_gzip_sample(result_filename, config):
     new_result_filename = os.path.splitext(result_filename)[0]
     uncompress_command = "gzip -d {}".format(result_filename)
     call_command(uncompress_command, "gzip")
-    
+
     return new_result_filename
 
 
