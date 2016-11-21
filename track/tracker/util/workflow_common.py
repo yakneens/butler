@@ -72,8 +72,8 @@ def call_command(command, command_name, cwd=None):
     logger.info(
         "About to invoke {} with command {}.".format(command_name, command)) 
     try:
-        output = check_output(command, shell=True, cwd=cwd, stderr=STDOUT)
-        logger.info(output)
+        my_output = check_output(command, shell=True, cwd=cwd, stderr=STDOUT)
+        logger.info(my_output)
     except CalledProcessError as e:
         logger.error("Program output is: " + e.output.decode("utf-8") )
         logger.error("{} execution failed {}.".format(command_name, e.returncode))
