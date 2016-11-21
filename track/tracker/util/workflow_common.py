@@ -75,7 +75,7 @@ def call_command(command, command_name, cwd=None):
         output = check_output(command, shell=True, cwd=cwd, stderr=STDOUT)
         logger.info(output)
     except CalledProcessError as e:
-        logger.error(e.output)
+        logger.error("Program output is: " + e.output.decode("utf-8") )
         logger.error("{} execution failed {}.".format(command_name, e.returncode))
         raise
 
