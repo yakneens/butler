@@ -20,7 +20,9 @@ base:
     - airflow
     - airflow.load-workflows
     - airflow.worker
-    - butler    
+    - butler
+    - cwltool
+    - docker    
   'G@roles:tracker':
     - airflow
     - airflow.load-workflows
