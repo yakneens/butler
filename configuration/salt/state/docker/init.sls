@@ -6,7 +6,7 @@ docker_repo:
     
 docker_package:
   pkg.installed:
-    - docker-engine
+    - name: docker-engine
     
 enable_on_boot_docker:
   service.enabled:
