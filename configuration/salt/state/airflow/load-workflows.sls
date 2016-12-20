@@ -6,7 +6,7 @@ pcawg-germline-clone:
     - target: /opt/pcawg-germline
     - submodules: True
     
-/opt/airflow/dags:
+/opt/airflow/dags/pcawg-germline:
   file.symlink:
     - target: /opt/pcawg-germline/workflows/
     - user: airflow
