@@ -1,8 +1,9 @@
 base:
   '*':
     - saltmine
-  'G@roles:genotyper':
     - genome-reference
+    - genome-reference.grch37d5_sanger_zipped
+  'G@roles:worker':
     - test-data
     - pcawg-data
   
