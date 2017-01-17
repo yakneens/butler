@@ -5,14 +5,14 @@ variable "password" {
 	default="CHANGE_ME"
 }
 variable "tenant_name" {
-	default="germline"
+	default="EMBL_Sergei"
 }
 variable "auth_url" {
 	
 }
 
 variable "key_pair" {
-	default="germline"
+	default="sergei"
 }
 
 
@@ -20,7 +20,7 @@ variable "salt_master_ip" {
 }
 
 variable "image_id" {
-	default = "a8779be9-58e9-4388-8127-a209daf967fd"
+	default = "4a7a039c-7121-463b-b41e-9a4fa9b8e586"
 }
 
 variable "user" {
@@ -40,13 +40,10 @@ variable "bastion_host" {
 }
 
 variable "bastion_user" {
-	default = "centos"
+	default = "ubuntu"
 }
 	
 variable "main_network_id" {
-	default = "829e5182-916f-49da-9d3c-5c8574bcbe8a"
+	default = "e3398a57-dbc6-4402-a796-bf910ccb9578"
 }
 
-variable "gnos_network_id" {
-	default = "099cc0b7-8809-4504-a72e-24565732dd45"
-}	
