@@ -16,3 +16,7 @@ start_docker_engine:
   service.running:
     - name: docker
  
+docker_airflow_user:
+  cmd.run:
+    - name: sudo usermod -aG docker airflow
+     
