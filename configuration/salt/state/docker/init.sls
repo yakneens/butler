@@ -18,5 +18,5 @@ start_docker_engine:
  
 docker_airflow_user:
   cmd.run:
-    - name: sudo usermod -aG docker airflow
+    - name: usermod -aG docker airflow
      
