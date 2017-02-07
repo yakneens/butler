@@ -313,7 +313,8 @@ def run(args, dag=None):
         elif remote_base and remote_base != 'None':
             logging.error(
                 'Unsupported remote log location: {}'.format(remote_base))
-    session.close()
+    if session:
+        session.close()
     settings.engine.dispose()
 
 def task_state(args):
