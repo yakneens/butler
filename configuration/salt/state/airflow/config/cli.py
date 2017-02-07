@@ -190,6 +190,7 @@ def set_is_paused(is_paused, args, dag=None):
 
 
 def run(args, dag=None):
+    session = settings.Session()
     db_utils.pessimistic_connection_handling()
     if dag:
         args.dag_id = dag.dag_id
