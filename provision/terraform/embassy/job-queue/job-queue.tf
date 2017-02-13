@@ -16,11 +16,11 @@ resource "openstack_compute_instance_v2" "job-queue" {
 	}
 	connection {
 		user = "${var.user}"
-	 	key_file = "${var.key_file}"
-	 	bastion_key_file = "${var.bastion_key_file}"
+	 	private_key = "${file(var.key_file)}"
+	 	bastion_private_key = "${file(var.bastion_key_file)}"
 	 	bastion_host = "${var.bastion_host}"
 	 	bastion_user = "${var.bastion_user}"
-	 	agent = "true"
+	 	agent = true
 	 	
 	}
 	key_pair = "${var.key_pair}"

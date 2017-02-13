@@ -9,7 +9,7 @@ resource "openstack_compute_instance_v2" "worker" {
   	image_id = "${var.image_id}"
 	flavor_name = "s1.massive"
 	security_groups = ["internal"]
-	name = "${concat("worker-", count.index)}"
+	name = "worker-${count.index}"
 	network = {
 		uuid = "${var.main_network_id}"
 	}
@@ -18,14 +18,15 @@ resource "openstack_compute_instance_v2" "worker" {
 	}
 	connection {
 		user = "${var.user}"
-	 	key_file = "${var.key_file}"
-	 	bastion_key_file = "${var.bastion_key_file}"
+	 	private_key = "${file(var.key_file)}"
+	 	bastion_private_key = "${file(var.bastion_key_file)}"
 	 	bastion_host = "${var.bastion_host}"
 	 	bastion_user = "${var.bastion_user}"
-	 	agent = "true"
+	 	agent = true
 	 	
 	}
-	count = "176"
+
+	count = "118"
 	key_pair = "${var.key_pair}"
 	provisioner "remote-exec" {
 		inline = [
@@ -48,9 +49,9 @@ resource "openstack_compute_instance_v2" "worker" {
 			"sudo yum install salt-minion -y",
 			"sudo service salt-minion stop",
 			"echo 'master: ${var.salt_master_ip}' | sudo tee  -a /etc/salt/minion",
-			"echo 'id: ${concat("worker-", count.index)}' | sudo tee -a /etc/salt/minion",
+			"echo 'id: worker-${count.index}' | sudo tee -a /etc/salt/minion",
 			"echo 'roles: [worker, germline, consul-client, R]' | sudo tee -a /etc/salt/grains",
-			"sudo hostname ${concat("worker-", count.index)}",
+			"sudo hostname worker-${count.index}",
 			"sudo service salt-minion start"
 		]
 	}
