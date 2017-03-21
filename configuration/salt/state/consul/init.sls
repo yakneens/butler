@@ -7,12 +7,14 @@ agent:
     - source: https://releases.hashicorp.com/consul/0.5.2/consul_0.5.2_linux_amd64.zip
     - source_hash: md5=37000419d608fd34f0f2d97806cf7399
     - archive_format: zip
+    - enforce_toplevel: False
 ui:
   archive.extracted:
     - name: /opt/consul/ui
     - source: https://releases.hashicorp.com/consul/0.5.2/consul_0.5.2_web_ui.zip
     - source_hash: md5=eb98ba602bc7e177333eb2e520881f4f
     - archive_format: zip
+    - enforce_toplevel: False
 
 /opt/consul/agent/consul:
   file.managed:
