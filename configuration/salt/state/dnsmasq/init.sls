@@ -21,3 +21,8 @@ dnsmasq:
   file.append:
     - text: "server=192.168.0.5"
     - makedirs: True
+
+/etc/resolv.conf:
+  file.prepend:
+    - text:
+      - nameserver 127.0.0.1
