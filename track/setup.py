@@ -1,5 +1,5 @@
 import os
-from setuptools import setup
+from setuptools import setup, find_packages
 
 # Utility function to read the README file.
 # Used for the long_description.  It's nice, because now 1) we have a top level
@@ -19,7 +19,7 @@ setup(
     license="Apache 2.0",
     keywords="genomic analysis run tracker",
     url="http://github.com/llevar/butler",
-    packages=['tracker', 'tests'],
+    packages=find_packages(),
     long_description=read('README.md'),
     classifiers=[
         "Development Status :: 3 - Alpha",
