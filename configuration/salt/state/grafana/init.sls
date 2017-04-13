@@ -5,16 +5,12 @@ fontconfig:
   pkg.installed: []
   
 grafana:
-<<<<<<< HEAD
-=======
   pkgrepo.managed:
     - humanname: Grafana YUM repo
     - baseurl: https://packagecloud.io/grafana/stable/el/6/x86_64
     - gpgkey: https://packagecloud.io/gpg.key https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana
->>>>>>> c41dd8f... correct repo location
   pkg.installed:
-    - sources:
-      - grafana: https://grafanarel.s3.amazonaws.com/builds/grafana-3.0.0-beta71462173753.x86_64.rpm
+    - name: grafana
   service.running:
     - name: grafana-server
     - require:
