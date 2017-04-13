@@ -1,13 +1,9 @@
-<<<<<<< HEAD
-upgrade_pip:
-=======
 prereqs_pip:
   pkg.installed:
     - pkgs: 
       - python-pip
       - gcc
       - python-devel
->>>>>>> dd7e07b... fix prereqs
   cmd.run:
     - name: pip install -U pip
   
