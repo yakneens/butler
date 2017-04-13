@@ -1,10 +1,7 @@
-<<<<<<< HEAD
-=======
 workflows_prereq:
   pkg.installed:
     - name : git
 
->>>>>>> f0d7f22... fix prereqs
 pcawg-germline-clone:
   git.latest:
     - rev: master
