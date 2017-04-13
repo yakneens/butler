@@ -14,6 +14,10 @@ collectd_java_plugin_install:
   file.symlink:
     - target: /usr/lib/jvm/jre/lib/amd64/server/libjvm.so
 
+collectd_rrdtool_plugin_install:
+  pkg.installed:
+    - name: collectd-rrdtool.x86_64
+
 collectd_jmx_plugin_install:
   pkg.installed:
     - name: collectd-generic-jmx.x86_64
