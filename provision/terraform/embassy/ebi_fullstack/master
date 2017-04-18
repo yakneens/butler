@@ -13,7 +13,7 @@ gitfs_provider: gitpython
 gitfs_remotes:
   - git://github.com/EMBL-EBI-TSI/butler.git:
     - root: configuration/salt/state
-    - base: master
+    - base: ebi_adjustments
 #  - git://github.com/llevar/pcawg-germline.git:
 #    - root: configuration/salt/state
 #    - base: pcawg
@@ -28,7 +28,7 @@ ext_pillar:
   - git:
     - master git://github.com/EMBL-EBI-TSI/butler.git:
       - root: configuration/salt/pillar
-      - env: base
+      - env: ebi_adjustments
 #    - master git://github.com/llevar/pcawg_germline.git:
 #      - root: configuration/salt/pillar
 #      - env: pcawg

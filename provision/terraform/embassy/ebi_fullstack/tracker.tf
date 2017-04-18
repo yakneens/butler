@@ -5,7 +5,7 @@ resource "openstack_compute_instance_v2" "tracker" {
   	image_id = "${var.image_id}"
 	flavor_name = "s1.medium"
 	security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}"]
-	name = "tracker"
+	name = "butler-tracker"
 	network = {
 		name = "${var.network_name}"
 	}

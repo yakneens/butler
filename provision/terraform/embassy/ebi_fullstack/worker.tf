@@ -5,7 +5,7 @@ resource "openstack_compute_instance_v2" "worker" {
   	image_id = "${var.image_id}"
 	flavor_name = "s1.massive"
 	security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}"]
-	name = "worker-${count.index}"
+	name = "butler-worker-${count.index}"
 	network = {
 		name = "${var.network_name}"
 	}

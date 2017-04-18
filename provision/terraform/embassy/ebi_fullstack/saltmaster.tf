@@ -4,7 +4,7 @@ resource "openstack_compute_instance_v2" "salt_master" {
 	security_groups = [
 		"${openstack_compute_secgroup_v2.allow-traffic.name}"
 	]
-	name = "salt-master"
+	name = "butler-salt-master"
 	network = {
 		name = "${var.network_name}"
 	}

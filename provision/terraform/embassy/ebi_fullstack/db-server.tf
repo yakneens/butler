@@ -5,7 +5,7 @@ resource "openstack_compute_instance_v2" "db-server" {
   	image_id = "${var.image_id}"
 	flavor_name = "s1.huge"
 	security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}"]
-	name = "db-server"
+	name = "butler-db-server"
 	network = {
 		name = "${var.network_name}"
 	}

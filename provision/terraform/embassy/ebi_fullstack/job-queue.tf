@@ -5,7 +5,7 @@ resource "openstack_compute_instance_v2" "job-queue" {
   	image_id = "${var.image_id}"
 	flavor_name = "s1.medium"
 	security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}"]
-	name = "job-queue"
+	name = "butler-job-queue"
 	network = {
 		name = "${var.network_name}"
 	}

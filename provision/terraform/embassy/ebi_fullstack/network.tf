@@ -3,8 +3,8 @@ resource "openstack_compute_floatingip_v2" "floatingip" {
 }
 
 resource "openstack_compute_secgroup_v2" "allow-traffic" {
-  name        = "butler-salt-master"
-  description = "Allow traffic to butler salt master"
+  name        = "butler-firewall"
+  description = "Allow traffic across butler instances"
 
   rule {
     ip_protocol = "icmp"
