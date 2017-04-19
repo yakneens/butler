@@ -28,7 +28,7 @@ ext_pillar:
   - git:
     - master git://github.com/EMBL-EBI-TSI/butler.git:
       - root: configuration/salt/pillar
-      - env: ebi_adjustments
+      - env: base
 #    - master git://github.com/llevar/pcawg_germline.git:
 #      - root: configuration/salt/pillar
 #      - env: pcawg
