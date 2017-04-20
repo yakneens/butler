@@ -34,6 +34,7 @@ base:
   'G@roles:db-server':
     - postgres
     - run-tracking-db
+    - run-tracking-db.create_tables
     - grafana.createdb
     - airflow.airflow-db
     - sample-tracking-db
