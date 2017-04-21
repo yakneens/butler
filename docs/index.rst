@@ -9,6 +9,8 @@ Welcome to Butler's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   
+   includeme
 
 
 
