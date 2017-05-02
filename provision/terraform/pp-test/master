@@ -17,7 +17,7 @@ gitfs_remotes:
     - base: master
   - git://github.com/llevar/butler.git:
     - root: configuration/salt/state
-    - base: master
+    - base: ebi_changes
 
 #
 pillar_roots:
