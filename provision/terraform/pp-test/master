@@ -11,12 +11,14 @@ fileserver_backend:
 gitfs_provider: gitpython
 
 gitfs_remotes:
+  - https://github.com/saltstack-formulas/rabbitmq-formula
+  - git://github.com/llevar/pcawg-germline.git:
+    - root: configuration/salt/state
+    - base: master
   - git://github.com/llevar/butler.git:
     - root: configuration/salt/state
     - base: master
-#  - git://github.com/llevar/pcawg-germline.git:
-#    - root: configuration/salt/state
-#    - base: pcawg
+
 #
 pillar_roots:
   base:
