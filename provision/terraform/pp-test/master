@@ -24,7 +24,7 @@ pillar_roots:
   base:
     - /srv/pillar
 
-topile_merging_strategy: same
+topfile_merging_strategy: same
 
 ext_pillar:
 #  - hiera: /etc/hiera.yaml
