@@ -5,11 +5,12 @@ provider "openstack" {
 	auth_url = "${var.auth_url}"
 }
 
-resource "openstack_compute_instance_v2" "worker" {
+
+resource "openstack_compute_instance_v2" "salt_master" {
   	image_id = "${var.image_id}"
-	flavor_name = "c1.germline-24core-96g"
+	flavor_name = "s1.capacious"
 	security_groups = ["internal"]
-	name = "worker-${count.index}"
+	name = "salt-master"
 	network = {
 		uuid = "${var.main_network_id}"
 	}
@@ -25,9 +26,8 @@ resource "openstack_compute_instance_v2" "worker" {
 	 	agent = true
 	 	
 	}
-
-	count = "39"
 	key_pair = "${var.key_pair}"
+	 	
 	provisioner "remote-exec" {
 		inline = [
 		    "sudo yum install epel-release -y",
@@ -45,15 +45,33 @@ resource "openstack_compute_instance_v2" "worker" {
 	}
 	provisioner "remote-exec" {
 		inline = [
-			"sudo mv /home/centos/saltstack.repo /etc/yum.repos.d/saltstack.repo",
+			"sudo mv /home/centos/saltstack.repo /etc/yum.repos.d/saltstack.repo",	 
+			"sudo yum install salt-master -y",
 			"sudo yum install salt-minion -y",
-			"sudo service salt-minion stop",
-			"echo 'master: ${var.salt_master_ip}' | sudo tee  -a /etc/salt/minion",
-			"echo 'id: worker-${count.index}' | sudo tee -a /etc/salt/minion",
-			"echo 'roles: [worker, germline, consul-client, R]' | sudo tee -a /etc/salt/grains",
-			"sudo hostname worker-${count.index}",
-			"sudo service salt-minion start"
+			"sudo yum install python-pip -y",
+			"sudo yum install GitPython -y"
 		]
 	}
+	provisioner "file" {
+        	source = "./master"
+        	destination = "/home/centos/master"
+    	}
+	provisioner "remote-exec" {
+	inline = [
+			"sudo service salt-master stop",
+			"sudo service salt-minion stop",
+			"sudo mv /home/centos/master /etc/salt/master",       
+			"echo 'master: ${self.access_ip_v4}' | sudo tee -a /etc/salt/minion",
+			"echo 'id: salt-master' | sudo tee -a /etc/salt/minion",
+			"echo 'roles: [salt-master, consul-bootstrap, monitoring-server]' | sudo tee -a /etc/salt/grains",
+			"sudo service salt-master start",
+			"sudo hostname salt-master",
+			"sudo service salt-minion start"
+			    ]
+        }
+	provisioner "local-exec" {
+		command = "export TF_VAR_salt_master_ip=${self.access_ip_v4}"
+	}
 }
+
 

@@ -1,0 +1,36 @@
+# auto accept minion keys (UNSAFE)
+auto_accept: True
+
+# set output to detailed on failure
+state_output: mixed
+
+#set remote states and pillars
+fileserver_backend:
+  - git
+
+gitfs_provider: gitpython
+
+gitfs_remotes:
+  - git://github.com/llevar/butler.git:
+    - root: configuration/salt/state
+    - base: master
+#  - git://github.com/llevar/pcawg-germline.git:
+#    - root: configuration/salt/state
+#    - base: pcawg
+#
+pillar_roots:
+  base:
+    - /srv/pillar
+
+topile_merging_strategy: same
+
+ext_pillar:
+#  - hiera: /etc/hiera.yaml
+#  - cmd_yaml: cat /etc/salt/yaml
+  - git:
+    - master git://github.com/llevar/butler.git:
+      - root: configuration/salt/pillar
+      - env: base
+#    - master git://github.com/llevar/pcawg_germline.git:
+#      - root: configuration/salt/pillar
+#      - env: pcawg

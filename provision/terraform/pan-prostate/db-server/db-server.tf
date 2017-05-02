@@ -5,16 +5,14 @@ provider "openstack" {
 	auth_url = "${var.auth_url}"
 }
 
-resource "openstack_compute_instance_v2" "worker" {
+
+resource "openstack_compute_instance_v2" "db-server" {
   	image_id = "${var.image_id}"
-	flavor_name = "c1.germline-24core-96g"
+	flavor_name = "s1.huge"
 	security_groups = ["internal"]
-	name = "worker-${count.index}"
+	name = "db-server"
 	network = {
-		uuid = "${var.main_network_id}"
-	}
-	network = {
-		uuid = "${var.gnos_network_id}"
+		uuid = "${var.network_id}"
 	}
 	connection {
 		user = "${var.user}"
@@ -25,8 +23,6 @@ resource "openstack_compute_instance_v2" "worker" {
 	 	agent = true
 	 	
 	}
-
-	count = "39"
 	key_pair = "${var.key_pair}"
 	provisioner "remote-exec" {
 		inline = [
@@ -45,13 +41,13 @@ resource "openstack_compute_instance_v2" "worker" {
 	}
 	provisioner "remote-exec" {
 		inline = [
-			"sudo mv /home/centos/saltstack.repo /etc/yum.repos.d/saltstack.repo",
+			"sudo mv /home/centos/saltstack.repo /etc/yum.repos.d/saltstack.repo", 
 			"sudo yum install salt-minion -y",
 			"sudo service salt-minion stop",
 			"echo 'master: ${var.salt_master_ip}' | sudo tee  -a /etc/salt/minion",
-			"echo 'id: worker-${count.index}' | sudo tee -a /etc/salt/minion",
-			"echo 'roles: [worker, germline, consul-client, R]' | sudo tee -a /etc/salt/grains",
-			"sudo hostname worker-${count.index}",
+			"echo 'id: db-server' | sudo tee -a /etc/salt/minion",
+			"echo 'roles: [db-server, consul-client]' | sudo tee -a /etc/salt/grains",
+			"sudo hostname db-server",
 			"sudo service salt-minion start"
 		]
 	}
