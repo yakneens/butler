@@ -25,12 +25,13 @@ pillar_roots:
     - /srv/pillar
 
 top_file_merging_strategy: same
+default_top: base
 
 ext_pillar:
 #  - hiera: /etc/hiera.yaml
 #  - cmd_yaml: cat /etc/salt/yaml
   - git:
-    - master git://github.com/llevar/butler.git:
+    - ebi_changes git://github.com/llevar/butler.git:
       - root: configuration/salt/pillar
       - env: base
 #    - master git://github.com/llevar/pcawg_germline.git:
