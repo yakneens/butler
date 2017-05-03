@@ -4,6 +4,7 @@ prereqs_pip:
       - python-pip
       - gcc
       - python-devel
+      - psycopg2
   cmd.run:
     - name: pip install -U pip
   
