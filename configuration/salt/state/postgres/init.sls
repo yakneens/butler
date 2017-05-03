@@ -13,7 +13,7 @@ check_db_init:
     - m_name: /var/lib/psql/9.5/data/ 
     
 initialize_db:
-  postgres_initdb:
+  postgres_initdb.present:
     - name: /var/lib/psql/9.5/data/ 
     - onfail: 
       - module: check_db_init
