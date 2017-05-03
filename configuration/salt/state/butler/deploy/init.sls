@@ -21,15 +21,15 @@ set_up_job_queue:
      - tgt_type: grain
      - highstate: True
 
-set_up_monitoring_server:
-   salt.state:
-     - tgt: 'roles:monitoring-server'
-     - tgt_type: grain
-     - highstate: True
-     
 set_up_tracker:
    salt.state:
      - tgt: 'roles:tracker'
+     - tgt_type: grain
+     - highstate: True
+
+set_up_monitoring_server:
+   salt.state:
+     - tgt: 'roles:monitoring-server'
      - tgt_type: grain
      - highstate: True
      
