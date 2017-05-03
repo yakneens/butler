@@ -24,9 +24,12 @@ consul-server:
 {% do join_server.append(server[0]) %}
 {%- endfor %}
 join-cluster:
-{%- for server in join_server %}
+
   cmd.run:
-    - name: consul join {{ server }}
+    - names: 
+{%- for server in join_server %}
+      - consul join {{ server }}
+{%- endfor %}
     - watch:
       - service: consul-client  
-{%- endfor %}
+
