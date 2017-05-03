@@ -21,7 +21,7 @@ base:
     - airflow
     - airflow.load-workflows
     - airflow.worker
-    - butler
+    - butler.tracker
     - cwltool
     - docker    
   'G@roles:tracker':
@@ -29,7 +29,7 @@ base:
     - airflow.load-workflows
     - airflow.server
     - jsonmerge
-    - butler
+    - butler.tracker
   'G@roles:db-server':
     - postgres
     - run-tracking-db
