@@ -6,6 +6,15 @@ install_pgdg_repo:
 install_server:
   pkg.installed:
     - name: postgresql95-server.x86_64
+    
+/usr/bin/postgresql95-setup:
+  file.symlink:
+    - target: /usr/pgsql-9.5/bin/postgresql95-setup
+    - user: postgres
+    - group: postgres
+    - mode: 755
+    - force: True
+    - makedirs: True
 
 check_db_init:
   module.run:
@@ -14,7 +23,8 @@ check_db_init:
     
 initialize_db:
   postgres_initdb.present:
-    - name: /var/lib/psql/9.5/data/ 
+    - name: /var/lib/psql/9.5/data/
+    - runas: postgres 
     - onfail: 
       - module: check_db_init
 
