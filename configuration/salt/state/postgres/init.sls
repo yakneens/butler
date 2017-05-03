@@ -7,9 +7,9 @@ install_server:
   pkg.installed:
     - name: postgresql95-server.x86_64
     
-/usr/bin/postgresql95-setup:
+/usr/bin/initdb:
   file.symlink:
-    - target: /usr/pgsql-9.5/bin/postgresql95-setup
+    - target: /usr/pgsql-9.5/bin/initdb
     - user: postgres
     - group: postgres
     - mode: 755
