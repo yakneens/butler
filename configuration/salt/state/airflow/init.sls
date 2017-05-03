@@ -1,12 +1,11 @@
 prereqs_pip:
-  pkg.installed:
+  pkg.latest:
     - pkgs: 
       - python-pip
       - gcc
       - python-devel
       - psycopg2
-  cmd.run:
-    - name: pip install -U pip
+
   
 install_numpy:
   pip.installed: 
