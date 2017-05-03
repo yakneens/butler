@@ -5,5 +5,6 @@
 	"data_dir": "/var/consul",
 	"log_level": "INFO",
 	"enable_syslog": true,
-	"ui_dir": "/opt/consul/ui/dist/"
+	"ui_dir": "/opt/consul/ui/dist/",
+	"bootstrap_expect": "1"
 }
