@@ -19,14 +19,14 @@ base:
     - dnsmasq.gnos
     - celery
     - airflow
-    - airflow.load-workflows
     - airflow.worker
+    - airflow.patch-airflow-db-conns
     - butler.tracker
     - cwltool
     - docker    
   'G@roles:tracker':
     - airflow
-    - airflow.load-workflows
+    - airflow.patch-airflow-db-conns
     - airflow.server
     - jsonmerge
     - butler.tracker
@@ -36,7 +36,6 @@ base:
     - run-tracking-db.create_tables
     - grafana.createdb
     - airflow.airflow-db
-    - sample-tracking-db
   'G@roles:job-queue':
     - rabbitmq
   'G@roles:elasticsearch':
