@@ -25,7 +25,7 @@ initialize_db:
   postgres_initdb.present:
     - name: /var/lib/psql/9.5/data/
     - runas: postgres 
-    - onfail: 
+    - require: 
       - module: check_db_init
 
 
