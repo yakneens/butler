@@ -24,11 +24,9 @@ consul-server:
 {% do join_server.append(server[0]) %}
 {%- endfor %}
 join-cluster:
-  module.run:
-    - name: consul.agent_join
-    - consul_url: http://127.0.0.1:8500
 {%- for server in join_server %}
-    - address: {{ server[0] }}
-{%- endfor %}
+  cmd.run:
+    - name: consul join {{ server }}
     - watch:
-      - service: consul-server   
+      - service: consul-client  
+{%- endfor %}
