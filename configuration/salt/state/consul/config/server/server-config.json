@@ -6,5 +6,5 @@
 	"log_level": "INFO",
 	"enable_syslog": true,
 	"ui_dir": "/opt/consul/ui/dist/",
-	"bootstrap_expect": "1"
+	"bootstrap_expect": 1
 }
