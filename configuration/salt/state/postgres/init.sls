@@ -7,28 +7,10 @@ install_server:
   pkg.installed:
     - name: postgresql95-server.x86_64
     
-/usr/bin/initdb:
-  file.symlink:
-    - target: /usr/pgsql-9.5/bin/initdb
-    - user: postgres
-    - group: postgres
-    - mode: 755
-    - force: True
-    - makedirs: True
-
-check_db_init:
-  module.run:
-    - name: postgres.datadir_exists
-    - m_name: /var/lib/psql/9.5/data/ 
-    
 initialize_db:
-  postgres_initdb.present:
-    - name: /var/lib/psql/9.5/data/
-    - runas: postgres 
-    - require: 
-      - module: check_db_init
-
-
+  cmd.run:
+    - name: /usr/pgsql-9.5/bin/postgresql95-setup initdb
+    - unless: stat /var/lib/psql/9.5/data/postgresql.conf
  
 enable_on_startup:
   cmd.run:
