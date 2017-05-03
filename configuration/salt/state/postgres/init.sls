@@ -6,11 +6,19 @@ install_pgdg_repo:
 install_server:
   pkg.installed:
     - name: postgresql95-server.x86_64
+
+check_db_init:
+  module.run:
+    - name: postgres.datadir_exists
+    - m_name: /var/lib/psql/9.5/data/ 
     
 initialize_db:
-  cmd.run:
-    - name: /usr/pgsql-9.5/bin/postgresql95-setup initdb
+  module.run:
+    - name: postgres.datadir_init
+    - m_name: /var/lib/psql/9.5/data/ 
     - unless: stat /var/lib/psql/9.5/data/postgresql.conf
+    - onfail: 
+      - module: check_db_init
 
  
 enable_on_startup:
