@@ -19,12 +19,14 @@ consul-server:
       - file: /etc/opt/consul.d/*
 {%- set servers = salt['mine.get']('roles:(consul-server|consul-bootstrap)', 'network.ip_addrs', 'grain_pcre').values() %}
 {%- set node_ip = salt['grains.get']('ip4_interfaces')['eth0'] %}
-join-cluster:
+{%- set join_server = [] %}
 {%- for server in servers if server[0] != node_ip %}
+{% do join_server.append(server[0]) %}
+{%- endfor %}
+join-cluster:
   module.run:
     - name: consul.agent_join
     - consul_url: http://127.0.0.1:8500
-    - address: {{ server }}
+    - address: {{ join_server[0] }}
     - watch:
-      - service: consul-client   
-{%- endfor %}  
+      - service: consul-server   
