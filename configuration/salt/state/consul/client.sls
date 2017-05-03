@@ -29,7 +29,7 @@ join-cluster:
     - name: consul.agent_join
     - consul_url: http://127.0.0.1:8500
 {%- for server in join_server %}
-    - address: {{ server[0] }}
+    - address: {{ server }}
 {%- endfor %}
     - watch:
       - service: consul-client   
