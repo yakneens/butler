@@ -30,7 +30,6 @@ base:
     - airflow.server
     - jsonmerge
     - butler
-    - genome-reference.grch37d5_sanger_zipped
   'G@roles:db-server':
     - postgres
     - run-tracking-db
@@ -45,11 +44,6 @@ base:
     - elastic.logstash
     - elastic.kibana
     - celery
-  'G@roles:germline':
-    - biotools.freebayes
-    - biotools.htslib
-    - biotools.samtools
-    - biotools.delly
   'G@roles:R':
     - R  
 
