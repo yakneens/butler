@@ -13,12 +13,11 @@ check_db_init:
     - m_name: /var/lib/psql/9.5/data/ 
     
 initialize_db:
-  module.run:
-    - name: postgres.datadir_init
-    - m_name: /var/lib/psql/9.5/data/ 
-    - unless: stat /var/lib/psql/9.5/data/postgresql.conf
+  postgres_initdb:
+    - name: /var/lib/psql/9.5/data/ 
     - onfail: 
       - module: check_db_init
+
 
  
 enable_on_startup:
