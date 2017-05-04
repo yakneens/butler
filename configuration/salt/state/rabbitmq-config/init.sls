@@ -8,7 +8,7 @@ enable_rabbitmq_on_startup:
 rabbitmq_consul_config:
   file.managed:
     - name: /etc/opt/consul.d/rabbitmq_consul.json
-    - source: salt://rabbitmq/conf/rabbitmq_consul.json
+    - source: salt://rabbitmq-config/conf/rabbitmq_consul.json
     - user: root
     - group: root
     - mode: 644 
