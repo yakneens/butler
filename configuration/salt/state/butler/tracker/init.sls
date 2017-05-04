@@ -8,5 +8,5 @@ butler-clone:
     
 install_butler_tracker:
   cmd.run:
-    - name: python setup.py install
+    - name: pip install -e .
     - cwd: /opt/butler/track/

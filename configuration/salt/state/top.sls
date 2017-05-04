@@ -20,7 +20,6 @@ base:
     - celery
     - airflow
     - airflow.worker
-    - airflow.patch-airflow-db-conns
     - butler.tracker
     - cwltool
     - docker    
