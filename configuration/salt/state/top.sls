@@ -38,7 +38,6 @@ base:
     - airflow.airflow-db
   'G@roles:job-queue':
     - rabbitmq
-    - rabbitmq-config
   'G@roles:elasticsearch':
     - elastic.search
     - elastic.logstash
