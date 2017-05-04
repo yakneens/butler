@@ -38,3 +38,11 @@ set_up_workers:
      - tgt: 'roles:worker'
      - tgt_type: grain
      - highstate: True
+     
+set_up_grafana:
+   salt.state:
+     - tgt: 'roles:monitoring-server'
+     - tgt_type: grain
+     - sls: 
+       - grafana
+     - highstate: True

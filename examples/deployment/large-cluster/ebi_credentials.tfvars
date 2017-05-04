@@ -1,0 +1,7 @@
+user_name = "iakhnin@embl.de"
+tenant_name = "Pan-Prostate"
+password = "sema1for"
+auth_url = "https://extcloud05.ebi.ac.uk:13000/v2.0"
+key_file = "/Users/siakhnin/.ssh/sergei.pem"
+bastion_key_file = "/Users/siakhnin/.ssh/sergei.pem"
+bastion_host = "193.62.52.116"

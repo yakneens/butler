@@ -1,7 +1,6 @@
 #!/bin/bash
 
 sudo yum install epel-release -y
-sudo yum install https://repo.saltstack.com/yum/redhat/salt-repo-2015.8-2.el7.noarch.rpm
 
 sudo yum -y update
 sudo yum install yum-plugin-priorities -y
