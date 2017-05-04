@@ -61,3 +61,6 @@ target/
 gradlew.bat
 
 terraform.tf*
+
+*credentials*
+*tfstate*
