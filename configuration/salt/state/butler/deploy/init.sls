@@ -3,12 +3,6 @@ set_up_salt_master:
     - tgt: 'salt-master'
     - highstate: True
 
-set_up_consul:
-  salt.state:
-    - tgt: 'roles:consul-bootstrap'
-    - tgt_type: grain
-    - highstate: True
-    
 set_up_db_server:
    salt.state:
      - tgt: 'roles:db-server'
