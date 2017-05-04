@@ -38,5 +38,5 @@ set_up_grafana:
      - tgt: 'roles:monitoring-server'
      - tgt_type: grain
      - sls: 
-       - grafana
+       - grafana.create_data_source
      - highstate: True
