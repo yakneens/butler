@@ -26,6 +26,7 @@ base:
   'G@roles:tracker':
     - celery
     - airflow
+    - airflow.init-db
     - airflow.server
     - jsonmerge
     - butler.tracker

@@ -1,3 +1,4 @@
+
 /usr/lib/systemd/system/airflow-webserver.service:
   file.managed:
     - source: salt://airflow/config/airflow-webserver.service
