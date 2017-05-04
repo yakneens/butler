@@ -24,6 +24,7 @@ base:
     - cwltool
     - docker    
   'G@roles:tracker':
+    - run-tracking-db.set_db_url
     - celery
     - airflow
     - airflow.init-db
