@@ -3,7 +3,7 @@ prereqs_pip:
     - pkgs: 
       - python2-pip
       - gcc
-      - python2-devel
+      - python-devel
       - python-psycopg2
 
   
