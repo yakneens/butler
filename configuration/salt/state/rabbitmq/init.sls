@@ -27,6 +27,7 @@ rabbitmq_user:
     - password: pcawg
     - tags: 
       - management
+      - administrator
     - perms:
       - 'pcawg_vhost':
         - '.*'
