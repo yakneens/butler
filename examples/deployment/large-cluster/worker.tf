@@ -18,7 +18,7 @@ resource "openstack_compute_instance_v2" "worker" {
 	 	agent = true
 	}
 
-	count = "2"
+	count = "1"
 	key_pair = "${var.key_pair}"
 
 	provisioner "file" {

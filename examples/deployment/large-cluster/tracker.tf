@@ -7,7 +7,13 @@ resource "openstack_compute_instance_v2" "tracker" {
 	security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "Pan-Prostate-Internal"]
 	name = "butler-tracker"
 	network = {
-		name = "${var.network_name}"
+		uuid = "${var.main_network_id}"
+	}
+	network = {
+		uuid = "${var.pan_prostate_network_id}"
+	}
+	network = {
+		uuid = "${var.gnos_network_id}"
 	}
 	connection {
 		user = "${var.user}"

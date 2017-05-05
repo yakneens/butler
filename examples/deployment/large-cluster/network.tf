@@ -30,5 +30,7 @@ resource "openstack_compute_secgroup_v2" "allow-traffic" {
     to_port     = 3000
     cidr        = "0.0.0.0/0"
   }
+  
+  
 
 }
