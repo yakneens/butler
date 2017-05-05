@@ -1,2 +1,2 @@
-ebi_credentials.tfvars
+*.tfvars
 .pydevproject

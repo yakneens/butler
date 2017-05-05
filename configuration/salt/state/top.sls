@@ -16,7 +16,6 @@ base:
     - influxdb
     - grafana 
   'G@roles:worker':
-    - dnsmasq.gnos
     - celery
     - airflow
     - airflow.worker

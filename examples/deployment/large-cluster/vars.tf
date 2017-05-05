@@ -30,7 +30,7 @@ variable "bastion_user" {
 }
 
 variable "image_id" {
-	default = "70ae9621-7840-488f-bff0-387e7f32d46d"
+	default = "7457dc57-9765-4293-ab1b-8e03d748485f"
 }
 
 variable "user" {
