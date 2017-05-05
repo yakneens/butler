@@ -7,5 +7,5 @@
 join-all-consul-members:
   cmd.run:
     - names: 
-      - consul join {%- for join_member in join_members %}{{ join_member }} {%- endfor %}
+      - consul join {%- for join_member in join_members %}{{ " " + join_member }} {%- endfor %}
   
