@@ -18,5 +18,7 @@ dnsmasq:
     - makedirs: True
     
 
-include:
-  - dnsmasq.local-name-server
+/etc/resolv.conf:
+  file.prepend:
+    - text:
+      - nameserver 127.0.0.1
