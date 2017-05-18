@@ -4,6 +4,8 @@ dnsmasq:
     - watch:
       - file: /etc/dnsmasq.conf
       - file: /etc/dnsmasq.d/*
+  reuire_in:
+    - sls: .local-name-server
         
 /etc/dnsmasq.conf:
   file.managed:
@@ -18,7 +20,5 @@ dnsmasq:
     - makedirs: True
     
 
-/etc/resolv.conf:
-  file.prepend:
-    - text:
-      - nameserver 127.0.0.1
+include:
+  - .local-name-server
