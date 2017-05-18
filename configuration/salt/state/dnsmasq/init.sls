@@ -4,7 +4,7 @@ dnsmasq:
     - watch:
       - file: /etc/dnsmasq.conf
       - file: /etc/dnsmasq.d/*
-  reuire_in:
+  require_in:
     - sls: .local-name-server
         
 /etc/dnsmasq.conf:
