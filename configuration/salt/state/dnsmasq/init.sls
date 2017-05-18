@@ -5,7 +5,7 @@ dnsmasq:
       - file: /etc/dnsmasq.conf
       - file: /etc/dnsmasq.d/*
   require_in:
-    - sls: .local-name-server
+    - dnsmasq.local-name-server
         
 /etc/dnsmasq.conf:
   file.managed:
