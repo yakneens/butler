@@ -21,4 +21,4 @@ dnsmasq:
     
 
 include:
-  - .local-name-server
+  - dnsmasq.local-name-server
