@@ -4,8 +4,6 @@ dnsmasq:
     - watch:
       - file: /etc/dnsmasq.conf
       - file: /etc/dnsmasq.d/*
-  require_in:
-    - dnsmasq.local-name-server
         
 /etc/dnsmasq.conf:
   file.managed:
