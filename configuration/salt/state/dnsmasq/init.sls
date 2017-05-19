@@ -22,7 +22,7 @@ dnsmasq:
   file.prepend:
     - text:
       - nameserver 127.0.0.1
-  file.append:
-    - text:
       - nameserver 8.8.8.8
+
+      
   
