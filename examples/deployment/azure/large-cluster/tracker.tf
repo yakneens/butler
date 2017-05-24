@@ -1,22 +1,21 @@
-resource "azurerm_network_interface" "salt_master_nic" {
-    name = "salt_master_nic"
+resource "azurerm_network_interface" "tracker_nic" {
+    name = "tracker_nic"
     location = "${var.region}"
     resource_group_name = "${azurerm_resource_group.butler_dev.name}"
-	depends_on = ["azurerm_virtual_machine.butler_jump"]
-    
 
     ip_configuration {
-        name = "saltmaster"
+        name = "tracker"
         subnet_id = "${azurerm_subnet.butler_subnet.id}"
         private_ip_address_allocation = "dynamic"
     }
 }
 
-resource "azurerm_virtual_machine" "salt_master" {
-    name = "salt_master"
+resource "azurerm_virtual_machine" "tracker" {
+	depends_on = ["azurerm_virtual_machine.salt_master"]
+    name = "tracker"
     location = "${var.region}"
     resource_group_name = "${azurerm_resource_group.butler_dev.name}"
-    network_interface_ids = ["${azurerm_network_interface.salt_master_nic.id}"]
+    network_interface_ids = ["${azurerm_network_interface.tracker_nic.id}"]
     vm_size = "Standard_A2"
     delete_os_disk_on_termination = true
 
@@ -28,14 +27,14 @@ resource "azurerm_virtual_machine" "salt_master" {
     }
 
     storage_os_disk {
-        name = "salt_master_disk"
-        vhd_uri = "${azurerm_storage_account.butler_storage.primary_blob_endpoint}${azurerm_storage_container.butler_storage_container.name}/salt_master_disk.vhd"
+        name = "tracker_disk"
+        vhd_uri = "${azurerm_storage_account.butler_storage.primary_blob_endpoint}${azurerm_storage_container.butler_storage_container.name}/tracker_disk.vhd"
         caching = "ReadWrite"
         create_option = "FromImage"
     }
 
     os_profile {
-        computer_name = "salt-master"
+        computer_name = "tracker"
         admin_username = "${var.username}"
         admin_password = "Butler!"
     }
@@ -59,14 +58,9 @@ resource "azurerm_virtual_machine" "salt_master" {
 	  bastion_private_key = "${file(var.private_key_path)}"
 	  bastion_host = "${azurerm_public_ip.jump_ip.ip_address}"
 	  bastion_user = "${var.username}"
-	  host = "${azurerm_network_interface.salt_master_nic.private_ip_address}"
+	  host = "${azurerm_network_interface.tracker_nic.private_ip_address}"
 	}
-    
     provisioner "file" {
-    	source = "./master"
-    	destination = "/home/butler/master"
-	}
-	provisioner "file" {
     	source = "../../../../provision/base-image/collectd_log_allow.te"
     	destination = "/tmp/collectd_log_allow.te"
 	}
@@ -84,33 +78,14 @@ resource "azurerm_virtual_machine" "salt_master" {
 		source = "./collectdlocal.pp"
 		destination = "/home/butler/collectdlocal.pp"
 	}
-	provisioner "file" {
+    provisioner "file" {
 	  source = "salt_setup.sh"
 	  destination = "/tmp/salt_setup.sh"
 	}
 	provisioner "remote-exec" {
 	  inline = [
 	    "chmod +x /tmp/salt_setup.sh",
-	    "/tmp/salt_setup.sh `sudo ifconfig eth0 | awk '/inet /{print $2}'` salt-master \"salt-master, consul-server, monitoring-server\""
+	    "/tmp/salt_setup.sh ${null_resource.masterip.triggers.address} tracker \"tracker, consul-server\""
 	  ]
 	}
-	provisioner "remote-exec" {
-	  inline = [
-		     "sudo yum install salt-master -y",
-		     "sudo yum install salt-minion -y",
-		     "sudo yum install python-pip -y",
-		     "sudo yum install GitPython -y",
-		     "sudo service salt-master stop",
-		     "sudo mv /home/butler/master /etc/salt/master",       
-		     "sudo service salt-master start",
-		     "sudo hostname salt-master",
-		     "sudo semodule -i collectdlocal.pp",
-	  ]
-	}
-}
-
-resource "null_resource" "masterip" {
-  triggers = {
-    address = "${azurerm_network_interface.salt_master_nic.private_ip_address}"
-  }
 }

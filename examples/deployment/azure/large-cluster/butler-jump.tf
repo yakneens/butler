@@ -46,7 +46,7 @@ resource "azurerm_virtual_machine" "butler_jump" {
 
     os_profile {
         computer_name = "butler-jump"
-        admin_username = "butler"
+        admin_username = "${var.username}"
         admin_password = "Butler!"
     }
 
@@ -54,7 +54,7 @@ resource "azurerm_virtual_machine" "butler_jump" {
         disable_password_authentication = true
 		ssh_keys {
 			path = "${var.key_path}"
-			key_data = "${var.key_data}"
+			key_data = "${file(var.public_key_path)}"
 		}
     }
 
