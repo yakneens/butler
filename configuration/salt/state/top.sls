@@ -10,8 +10,10 @@ base:
     - consul.bootstrap
   'G@roles:consul-server':
     - consul.server
+    - consul.join-all
   'G@roles:consul-client':
     - consul.client
+    - consul.join-all
   'G@roles:monitoring-server':
     - influxdb
     - grafana 
