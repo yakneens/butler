@@ -4,6 +4,7 @@
 {%- for member in members if members[0] != node_ip %}
 {% do join_members.append(member[0]) %}
 {%- endfor %}
+Context is: {{ show_full_context() }}
 join-all-consul-members:
   cmd.run:
     - names: 
