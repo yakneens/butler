@@ -1,10 +1,9 @@
 {%- set members = salt['mine.get']('roles:(consul-server|consul-client)', 'network.ip_addrs', 'grain_pcre').values() %}
 {%- set node_ip = salt['grains.get']('ip4_interfaces')['eth0'] %}
 {%- set join_members = [] %}
-{%- for member in members if members[0] != node_ip %}
+{%- for member in members if member[0] != node_ip %}
 {% do join_members.append(member[0]) %}
 {%- endfor %}
-Context is: {{ show_full_context() }}
 join-all-consul-members:
   cmd.run:
     - names: 
