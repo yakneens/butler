@@ -1,0 +1,22 @@
+{
+	"reference_location": "/reference/genome.fa",
+	"vcffilter": {
+		"path": "/usr/bin/vcffilter",
+		"flags": ""
+	},
+	"vt": {
+		"path": "/usr/bin/vt",
+		"flags": "-q"
+	},
+	"bgzip": {
+		"path": "/usr/local/bin/bgzip",
+		"flags": ""
+	},
+	"tabix": {
+		"path": "/usr/local/bin/tabix",
+		"flags": "-f -p vcf"
+	},
+	"rsync": {
+		"flags": "-a -v --remove-source-files"
+	}
+}

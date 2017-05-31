@@ -1,0 +1,18 @@
+{
+	"reference_location": "/reference/genome.fa",
+	"bgzip": {
+		"path": "/usr/local/bin/bgzip",
+		"flags": ""
+	},
+	"tabix": {
+		"path": "/usr/local/bin/tabix",
+		"flags": "-f -p vcf"
+	},
+	"rsync": {
+		"flags": "-a -v --remove-source-files"
+	},
+	"delly": {
+		"path": "/bin/delly",
+		"exclude_template_path": "/opt/delly/excludeTemplates/human.hg19.excl.tsv"
+	}
+}
