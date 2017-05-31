@@ -64,7 +64,7 @@ resource "azurerm_virtual_machine" "salt_master" {
     
     provisioner "file" {
     	source = "./master"
-    	destination = "/home/butler/master"
+    	destination = "/home/${var.username}/master"
 	}
 	provisioner "file" {
     	source = "../../../../provision/base-image/collectd_log_allow.te"
@@ -82,7 +82,20 @@ resource "azurerm_virtual_machine" "salt_master" {
 	}
 	provisioner "file" {
 		source = "./collectdlocal.pp"
-		destination = "/home/butler/collectdlocal.pp"
+		destination = "/home/${var.username}/collectdlocal.pp"
+	}
+	provisioner "remote-exec" {
+	  inline = [
+		     "sudo yum install salt-master -y",
+		     "sudo yum install salt-minion -y",
+		     "sudo yum install python-pip -y",
+		     "sudo yum install GitPython -y",
+		     "sudo service salt-master stop",
+		     "sudo mv /home/${var.username}/master /etc/salt/master",       
+		     "sudo service salt-master start",
+		     "sudo hostname salt-master",
+		     "sudo semodule -i collectdlocal.pp",
+	  ]
 	}
 	provisioner "file" {
 	  source = "salt_setup.sh"
@@ -94,19 +107,7 @@ resource "azurerm_virtual_machine" "salt_master" {
 	    "/tmp/salt_setup.sh `sudo ifconfig eth0 | awk '/inet /{print $2}'` salt-master \"salt-master, consul-server, monitoring-server\""
 	  ]
 	}
-	provisioner "remote-exec" {
-	  inline = [
-		     "sudo yum install salt-master -y",
-		     "sudo yum install salt-minion -y",
-		     "sudo yum install python-pip -y",
-		     "sudo yum install GitPython -y",
-		     "sudo service salt-master stop",
-		     "sudo mv /home/butler/master /etc/salt/master",       
-		     "sudo service salt-master start",
-		     "sudo hostname salt-master",
-		     "sudo semodule -i collectdlocal.pp",
-	  ]
-	}
+	
 }
 
 resource "null_resource" "masterip" {

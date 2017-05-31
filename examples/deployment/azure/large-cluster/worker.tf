@@ -78,7 +78,7 @@ resource "azurerm_virtual_machine" "worker" {
 	}
 	provisioner "file" {
 		source = "./collectdlocal.pp"
-		destination = "/home/butler/collectdlocal.pp"
+		destination = "/home/${var.username}/collectdlocal.pp"
 	}
     provisioner "file" {
 	  source = "salt_setup.sh"

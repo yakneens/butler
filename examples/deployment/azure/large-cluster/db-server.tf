@@ -77,7 +77,7 @@ resource "azurerm_virtual_machine" "db_server" {
 	}
 	provisioner "file" {
 		source = "./collectdlocal.pp"
-		destination = "/home/butler/collectdlocal.pp"
+		destination = "/home/${var.username}/collectdlocal.pp"
 	}
 	
     provisioner "file" {
