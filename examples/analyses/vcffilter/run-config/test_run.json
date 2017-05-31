@@ -1,0 +1,7 @@
+{
+	"sample": {
+		"sample_id": "test_sample",
+		"path_prefix": "/opt/butler/examples/data/vcf/",
+		"filename": "NA12878.low_qual.vcf"
+	}
+}
