@@ -1,0 +1,10 @@
+{
+	"results_base_path": "/tmp/filtered/",
+	"results_local_path": "/tmp/filtered/",
+	"vcffilter": {
+		"flags": "QUAL > 20"
+	},
+	"vt": {
+		"command": "normalize"
+	}
+}
