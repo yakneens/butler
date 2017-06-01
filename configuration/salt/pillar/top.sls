@@ -12,6 +12,6 @@ base:
   'G@roles:tracker':
     - run-tracking-db
     - airflow
-  'G@roles:monitoring-server'
+  'G@roles:monitoring-server':
     - grafana
 
