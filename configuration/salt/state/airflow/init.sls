@@ -25,7 +25,7 @@ airflow_user:
     - gid_from_name: True
     - empty_password: True
     
-/opt/airflow:
+{{ pillar['airflow_home'] }}:
   file.directory:    
     - user: airflow
     - group: airflow
@@ -41,13 +41,14 @@ airflow_user:
     - file_mode: 644
     - makedirs: True 
 
-/etc/opt/airflow/airflow.cfg:
+{{ pillar['airflow_config'] }}:
   file.managed:
     - source: salt://airflow/config/airflow.cfg
     - user: airflow
     - group: airflow
     - mode: 600
     - makedirs: True
+    - template: jinja
     
 /etc/sysconfig/airflow:
   file.managed:
