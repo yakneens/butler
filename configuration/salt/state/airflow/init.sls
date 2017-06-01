@@ -56,6 +56,7 @@ airflow_user:
     - group: root
     - mode: 600
     - makedirs: True
+    - template: jinja
         
 /etc/profile.d/set_airflow_env.sh:
   file.managed:
@@ -64,5 +65,6 @@ airflow_user:
     - group: root
     - mode: 700
     - makedirs: True
+    - template: jinja
 
 
