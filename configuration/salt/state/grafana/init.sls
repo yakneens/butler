@@ -43,7 +43,7 @@ grafana_consul_config:
     - dir_mode: 755
     - file_mode: 644
 
-{{ pillar['grafana_.dashboards'] }}/:
+{{ pillar['grafana.dashboards'] }}/:
   file.recurse:
     - source: salt://grafana/dashboards/
     - user: root
