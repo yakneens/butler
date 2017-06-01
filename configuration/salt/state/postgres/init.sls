@@ -32,6 +32,7 @@ enable_on_startup:
     - group: postgres
     - mode: 600
     - makedirs: True
+    - template: jinja
 
     
 start_server:    

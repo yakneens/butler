@@ -1,7 +1,7 @@
 influxdb:
   pkg.installed:
     - sources:
-      - influxdb: https://s3.amazonaws.com/influxdb/influxdb-0.12.1-1.x86_64.rpm
+      - influxdb: https://dl.influxdata.com/influxdb/releases/influxdb-1.2.4.x86_64.rpm
   service.running:
     - require:
       - pkg: influxdb
@@ -53,6 +53,7 @@ influxdb_user:
     - user: influxdb
     - group: influxdb
     - mode: 644
+    - template: jinja
 
 influxdb_consul_config:
   file.managed:

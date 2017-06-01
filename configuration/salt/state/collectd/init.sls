@@ -33,7 +33,7 @@ collectd_run:
       - pkg: collectd
     - watch:
       - file: /etc/collectd.conf
-      - file: /usr/share/collectd/types.db
+      - file: {{ pillar['collectd.typesdb'] }}
       
       
 collectd_config:
@@ -46,6 +46,7 @@ collectd_config:
     - makedirs: True
     - require:
       - pkg: collectd
+    - template: jinja
       
 collectd_log:
   file.managed:
@@ -58,7 +59,7 @@ collectd_log:
 
 collectd_types_db:
   file.managed:
-    - name: /usr/share/collectd/types.db
+    - name: {{ pillar['collectd.typesdb'] }}
     - source: salt://collectd/config/types.db
     - user: root
     - group: root

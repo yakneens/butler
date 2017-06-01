@@ -34,15 +34,16 @@ grafana_consul_config:
     - user: root
     - group: root
     - mode: 644
+    - template: jinja
     
-/var/lib/grafana/dashboards:
+{{ pillar['grafana.dashboards'] }}:
   file.directory:
     - user: root
     - group: root
     - dir_mode: 755
     - file_mode: 644
 
-/var/lib/grafana/dashboards/:
+{{ pillar['grafana_.dashboards'] }}/:
   file.recurse:
     - source: salt://grafana/dashboards/
     - user: root

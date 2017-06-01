@@ -19,13 +19,13 @@ start_rabbitmq:
     
 rabbitmq_vhost:
   rabbitmq_vhost.present:
-    - name: pcawg_vhost
+    - name: {{ pillar['rabbitmq.vhost'] }}
 
     
 rabbitmq_user:
   rabbitmq_user.present:
-    - name: pcawg
-    - password: pcawg
+    - name: {{ pillar['rabbitmq.user'] }}
+    - password: {{ pillar['rabbitmq.password'] }}
     - tags: 
       - management
       - administrator
@@ -42,4 +42,5 @@ rabbitmq_consul_config:
     - user: root
     - group: root
     - mode: 644 
-    - makedirs: True  
+    - makedirs: True
+    - template: jinja  

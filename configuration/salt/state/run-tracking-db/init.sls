@@ -1,15 +1,9 @@
 butler_admin_user:
   postgres_user.present:
-    - name: butler_admin
+    - name: {{ pillar['postgres.user'] }}
     - createdb: True
     - superuser: True
-    - password: butler
-    - user: postgres
-
-butler_user:
-  postgres_user.present:
-    - name: butler
-    - password: butler
+    - password: {{ pillar['postgres.password'] }}
     - user: postgres
 
     
@@ -30,21 +24,21 @@ butler_user:
 run_tablespace:
   postgres_tablespace.present:
      - name: run_dbspace
-     - owner: butler_admin
+     - owner: {{ pillar['postgres.user'] }}
      - directory: /data/run_tracking/db
      - user: postgres
 
 butler_indexspace:
   postgres_tablespace.present:
      - name: run_indexspace
-     - owner: butler_admin
+     - owner: {{ pillar['postgres.user'] }}
      - directory: /data/run_tracking/indexes
      - user: postgres
 
 run_tracking_db:
   postgres_database.present:
-    - name: run_tracking
-    - owner: butler_admin
+    - name: pillar['run_tracking_db_name']
+    - owner: {{ pillar['postgres.user'] }}
     - tablespace: run_dbspace
     - user: postgres
     

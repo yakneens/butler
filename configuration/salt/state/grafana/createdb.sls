@@ -15,21 +15,21 @@
 grafana_tablespace:
   postgres_tablespace.present:
      - name: grafana_dbspace
-     - owner: butler_admin
+     - owner: {{ pillar['postgres.user'] }}
      - directory: /data/grafana/db
      - user: postgres
 
 grafana_indexspace:
   postgres_tablespace.present:
      - name: grafana_indexspace
-     - owner: butler_admin
+     - owner: {{ pillar['postgres.user'] }}
      - directory: /data/grafana/indexes
      - user: postgres
 
 grafana_db:
   postgres_database.present:
-    - name: grafana
-    - owner: butler_admin
+    - name: {{ pillar['grafana.db_name'] }}
+    - owner: {{ pillar['postgres.user'] }}
     - tablespace: grafana_dbspace
     - user: postgres
 
