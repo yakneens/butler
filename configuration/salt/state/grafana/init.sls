@@ -5,9 +5,12 @@ fontconfig:
   pkg.installed: []
   
 grafana:
+  pkgrepo.managed:
+    - humanname: Grafana YUM repo
+    - baseurl: https://packagecloud.io/grafana/stable/el/6/x86_64
+    - gpgkey: https://packagecloud.io/gpg.key https://grafanarel.s3.amazonaws.com/RPM-GPG-KEY-grafana
   pkg.installed:
-    - sources:
-      - grafana: https://grafanarel.s3.amazonaws.com/builds/grafana-3.0.0-beta71462173753.x86_64.rpm
+    - name: grafana
   service.running:
     - name: grafana-server
     - require:
@@ -31,15 +34,16 @@ grafana_consul_config:
     - user: root
     - group: root
     - mode: 644
+    - template: jinja
     
-/var/lib/grafana/dashboards:
+{{ pillar['grafana.dashboards'] }}:
   file.directory:
     - user: root
     - group: root
     - dir_mode: 755
     - file_mode: 644
 
-/var/lib/grafana/dashboards/:
+{{ pillar['grafana.dashboards'] }}/:
   file.recurse:
     - source: salt://grafana/dashboards/
     - user: root
@@ -47,8 +51,5 @@ grafana_consul_config:
     - dir_mode: 755
     - file_mode: 644
 
-create_data_source:
-  cmd.run:
-    - name: curl --user admin:admin 'http://grafana.service.consul:3000/api/datasources' -X POST --data-binary '{"name":"metrics","type":"influxdb","Url":"http://influxdb.service.consul:8086","Access":"proxy","isDefault":true,"Database":"metrics","User":"root","Password":"root"}' -H Content-Type:application/json --noproxy grafana.service.consul
-    
+
  

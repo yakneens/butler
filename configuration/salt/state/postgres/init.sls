@@ -11,7 +11,6 @@ initialize_db:
   cmd.run:
     - name: /usr/pgsql-9.5/bin/postgresql95-setup initdb
     - unless: stat /var/lib/psql/9.5/data/postgresql.conf
-
  
 enable_on_startup:
   cmd.run:
@@ -33,6 +32,7 @@ enable_on_startup:
     - group: postgres
     - mode: 600
     - makedirs: True
+    - template: jinja
 
     
 start_server:    

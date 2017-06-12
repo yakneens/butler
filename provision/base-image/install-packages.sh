@@ -1,8 +1,7 @@
 #!/bin/bash
 
 sudo yum install epel-release -y
-sudo yum install https://repo.saltstack.com/yum/redhat/salt-repo-2015.8-2.el7.noarch.rpm
-
+sudo yum install https://repo.saltstack.com/yum/redhat/salt-repo-latest-2.el7.noarch.rpm -y
 sudo yum -y update
 sudo yum install yum-plugin-priorities -y
 
@@ -28,6 +27,6 @@ sudo  yum install collectd -y
 
 #Update local policy to allow collectd access to the log file. 
 #Need to place collectd_log_allow.te into /tmp on the host before running
-sudo checkmodule -M -m -o /tmp/collectd_log_allow.mod /tmp/collectd_log_allow.te
-sudo semodule_package -m /tmp/collectd_log_allow.mod -o /tmp/collectd_log_allow.pp
-sudo semodule -i /tmp/collectd_log_allow.pp
+#sudo checkmodule -M -m -o /tmp/collectd_log_allow.mod /tmp/collectd_log_allow.te
+#sudo semodule_package -m /tmp/collectd_log_allow.mod -o /tmp/collectd_log_allow.pp
+#sudo semodule -i /tmp/collectd_log_allow.pp

@@ -1,0 +1,7 @@
+{
+	"sample": {
+		"donor_index": 1,
+		"sample_id": "test_sample",
+		"sample_location": "/opt/butler/examples/data/CEUTrio.HiSeq.WGS.b37.NA12878.20.21.9999900.10001100.bam"
+	}
+}

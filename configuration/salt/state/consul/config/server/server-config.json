@@ -1,9 +1,10 @@
 {
 	"bootstrap": false,
 	"server": true,
-	"datacenter": "pcawg_germline_dc",
+	"datacenter": "butler_dc",
 	"data_dir": "/var/consul",
 	"log_level": "INFO",
 	"enable_syslog": true,
-	"ui_dir": "/opt/consul/ui/dist/"
+	"ui_dir": "/opt/consul/ui/dist/",
+	"bootstrap_expect": 2
 }

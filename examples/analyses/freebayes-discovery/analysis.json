@@ -1,0 +1,10 @@
+{
+	"results_base_path": "/tmp/discovery/",
+	"results_local_path": "/tmp/discovery/",
+	"freebayes": {
+		"mode": "discovery",
+		"flags": "--min-repeat-entropy 1 --report-genotype-likelihood-max"
+	},
+	"reference_location": "/opt/butler/examples/data/ref/human_g1k_v37.20.fasta"
+	
+}

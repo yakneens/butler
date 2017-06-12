@@ -5,38 +5,36 @@ install_erlang:
 install_rabbitmq:
   pkg.installed: 
     - sources: 
-      - rabbitmq: http://www.rabbitmq.com/releases/rabbitmq-server/v3.6.1/rabbitmq-server-3.6.1-1.noarch.rpm
-
-enable_rabbitmq_on_startup:
-  cmd.run:
-    - name: chkconfig rabbitmq-server on
+      - rabbitmq: https://www.rabbitmq.com/releases/rabbitmq-server/v3.6.9/rabbitmq-server-3.6.9-1.el7.noarch.rpm
     
+rabbitmq_management_plugin:
+  rabbitmq_plugin.enabled:
+    - name: rabbitmq_management
+            
     
 start_rabbitmq:    
   service.running:
     - name: rabbitmq-server
+    - enable: True
     
 rabbitmq_vhost:
   rabbitmq_vhost.present:
-    - name: pcawg_vhost
+    - name: {{ pillar['rabbitmq.vhost'] }}
 
     
 rabbitmq_user:
   rabbitmq_user.present:
-    - name: pcawg
-    - password: pcawg
+    - name: {{ pillar['rabbitmq.user'] }}
+    - password: {{ pillar['rabbitmq.password'] }}
     - tags: 
       - management
+      - administrator
     - perms:
       - 'pcawg_vhost':
         - '.*'
         - '.*'
         - '.*'
           
-rabbitmq_management_plugin:
-  rabbitmq_plugin.enabled:
-    - name: rabbitmq_management
-            
 rabbitmq_consul_config:
   file.managed:
     - name: /etc/opt/consul.d/rabbitmq_consul.json
@@ -44,4 +42,5 @@ rabbitmq_consul_config:
     - user: root
     - group: root
     - mode: 644 
-    - makedirs: True  
+    - makedirs: True
+    - template: jinja  

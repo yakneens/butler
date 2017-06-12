@@ -1,0 +1,14 @@
+{
+	"bcftools": {
+		"path": "/bin/bcftools",
+		"flags": "-Oz",
+		"operation": "view"
+	},
+	"tabix": {
+		"path": "/usr/local/bin/tabix",
+		"flags": "-f -p vcf"
+	},
+	"rsync": {
+		"flags": "-a -v --remove-source-files"
+	}
+}

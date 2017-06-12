@@ -10,6 +10,14 @@ collectd_java_plugin_install:
   pkg.installed:
     - name: collectd-java.x86_64
 
+/lib64/libjvm.so:
+  file.symlink:
+    - target: /usr/lib/jvm/jre/lib/amd64/server/libjvm.so
+
+collectd_rrdtool_plugin_install:
+  pkg.installed:
+    - name: collectd-rrdtool.x86_64
+
 collectd_jmx_plugin_install:
   pkg.installed:
     - name: collectd-generic-jmx.x86_64
@@ -25,7 +33,7 @@ collectd_run:
       - pkg: collectd
     - watch:
       - file: /etc/collectd.conf
-      - file: /usr/share/collectd/types.db
+      - file: {{ pillar['collectd.typesdb'] }}
       
       
 collectd_config:
@@ -38,6 +46,7 @@ collectd_config:
     - makedirs: True
     - require:
       - pkg: collectd
+    - template: jinja
       
 collectd_log:
   file.managed:
@@ -50,7 +59,7 @@ collectd_log:
 
 collectd_types_db:
   file.managed:
-    - name: /usr/share/collectd/types.db
+    - name: {{ pillar['collectd.typesdb'] }}
     - source: salt://collectd/config/types.db
     - user: root
     - group: root

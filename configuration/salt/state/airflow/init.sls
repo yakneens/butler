@@ -1,6 +1,11 @@
-upgrade_pip:
-  cmd.run:
-    - name: pip install -U pip
+prereqs_pip:
+  pkg.latest:
+    - pkgs: 
+      - python2-pip
+      - gcc
+      - python-devel
+      - python-psycopg2
+
   
 install_numpy:
   pip.installed: 
@@ -20,7 +25,7 @@ airflow_user:
     - gid_from_name: True
     - empty_password: True
     
-/opt/airflow:
+{{ pillar['airflow_home'] }}:
   file.directory:    
     - user: airflow
     - group: airflow
@@ -36,13 +41,14 @@ airflow_user:
     - file_mode: 644
     - makedirs: True 
 
-/etc/opt/airflow/airflow.cfg:
+{{ pillar['airflow_config'] }}:
   file.managed:
     - source: salt://airflow/config/airflow.cfg
     - user: airflow
     - group: airflow
     - mode: 600
     - makedirs: True
+    - template: jinja
     
 /etc/sysconfig/airflow:
   file.managed:
@@ -51,6 +57,7 @@ airflow_user:
     - group: root
     - mode: 600
     - makedirs: True
+    - template: jinja
         
 /etc/profile.d/set_airflow_env.sh:
   file.managed:
@@ -59,5 +66,6 @@ airflow_user:
     - group: root
     - mode: 700
     - makedirs: True
+    - template: jinja
 
 

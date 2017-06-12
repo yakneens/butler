@@ -10,33 +10,36 @@ base:
     - consul.bootstrap
   'G@roles:consul-server':
     - consul.server
+    - consul.join-all
   'G@roles:consul-client':
     - consul.client
+    - consul.join-all
   'G@roles:monitoring-server':
     - influxdb
     - grafana 
   'G@roles:worker':
-    - dnsmasq.gnos
     - celery
     - airflow
-    - airflow.load-workflows
     - airflow.worker
-    - butler
+    - butler.tracker
+    - butler.deploy.example-workflows
     - cwltool
     - docker    
   'G@roles:tracker':
+    - run-tracking-db.set_db_url
+    - celery
     - airflow
-    - airflow.load-workflows
+    - airflow.init-db
     - airflow.server
     - jsonmerge
-    - butler
-    - genome-reference.grch37d5_sanger_zipped
+    - butler.tracker
+    - butler.deploy.example-workflows
   'G@roles:db-server':
     - postgres
     - run-tracking-db
+    - run-tracking-db.create_tables
     - grafana.createdb
     - airflow.airflow-db
-    - sample-tracking-db
   'G@roles:job-queue':
     - rabbitmq
   'G@roles:elasticsearch':
@@ -44,11 +47,6 @@ base:
     - elastic.logstash
     - elastic.kibana
     - celery
-  'G@roles:germline':
-    - biotools.freebayes
-    - biotools.htslib
-    - biotools.samtools
-    - biotools.delly
   'G@roles:R':
     - R  
 
