@@ -60,7 +60,9 @@ target/
 .gradle/
 gradlew.bat
 
-terraform.tf*
 
+terraform.tf*
 *credentials*
 *tfstate*
+*.tfvars
+
