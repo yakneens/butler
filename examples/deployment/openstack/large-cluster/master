@@ -11,9 +11,6 @@ fileserver_backend:
 gitfs_provider: gitpython
 
 gitfs_remotes:
-  - git://github.com/llevar/pcawg-germline.git:
-    - root: configuration/salt/state
-    - base: master
   - git://github.com/llevar/butler.git:
     - root: configuration/salt/state
     - base: ebi_changes
@@ -33,6 +30,4 @@ ext_pillar:
     - ebi_changes git://github.com/llevar/butler.git:
       - root: configuration/salt/pillar
       - env: base
-#    - master git://github.com/llevar/pcawg_germline.git:
-#      - root: configuration/salt/pillar
-#      - env: pcawg
+
