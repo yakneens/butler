@@ -16,4 +16,4 @@ base:
     - grafana
   'G@roles:db-server':
     - grafana
-
+    - run-tracking-db
