@@ -30,7 +30,7 @@ rabbitmq_user:
       - management
       - administrator
     - perms:
-      - 'pcawg_vhost':
+      - '{{ pillar['rabbitmq.vhost'] }}':
         - '.*'
         - '.*'
         - '.*'
