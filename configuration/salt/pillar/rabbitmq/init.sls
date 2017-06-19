@@ -3,4 +3,4 @@ rabbitmq.user: butler
 rabbitmq.password: butler
 rabbitmq.host: rabbitmq.service.consul
 rabbitmq.port: 5672
-rabbitmq.amqp_url: amqp://{{ pillar.get('rabbitmq.user') }}:{{ pillar.get('rabbitmq.password') }}@{{ pillar.get('rabbitmq.host') }}:{{ pillar.get('rabbitmq.port') }}/{{ pillar.get('rabbitmq.vhost') }}
+rabbitmq.amqp_url: amqp://butler:butler@rabbitmq.service.consul:5672/butler_vhost
