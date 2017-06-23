@@ -1,0 +1,2 @@
+ignore-paths:
+  - configuration/salt/state/airflow
