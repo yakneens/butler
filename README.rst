@@ -19,9 +19,13 @@
 
 
 .. docs-include-start-marker
-#####################################################################
-Butler - A Framework for large-scale scientific analysis on the cloud
-#####################################################################
+
+ .. image:: images/butler_logo_with_text.png
+ 
+############################################################
+A Framework for large-scale scientific analysis on the cloud
+############################################################
+
 
 .. _Terraform: http://terraform.io
 .. _Saltstack: https://saltstack.com/
@@ -41,20 +45,21 @@ Butler - A Framework for large-scale scientific analysis on the cloud
 .. _Documentation: https://cran.r-project.org/
 .. _PCAWG: https://dcc.icgc.org/pcawg
 .. _EOSC: http://eoscpilot.eu/
+.. _source repository: https://github.com/llevar/butler
 
 ===============
 What is Butler?
 ===============
 
-Butler is a collection of tools whose goal is to aid researchers in carrying out scientific analyses on a multitude of cloud computing platforms. 
+Butler is a collection of tools whose goal is to aid researchers in carrying out scientific analyses on a multitude of cloud computing platforms (AWS, Openstack, Google Compute Platform, Azure, and others). 
 Butler is based on many other Open Source projects such as - `Apache Airflow`_, Terraform_, Saltstack_, Grafana_, InfluxDB_, PostgreSQL_, Celery_, Elasticsearch_, Consul_, and others. 
 
-Butler concerns itself with providing functionality in four broad areas:
+Butler aims to be a *comprehensive* toolkit for analysing scientific data on clouds. To achieve this goal it provides functionality in four broad areas:
 
-* Provisioning - Creation and teardown of clusters of Virtual Machines on various clouds.
-* Configuration Management - Installation and configuration of software on Virtual Machines.
-* Workflow Management - Definition and execution of distributed scientific workflows at scale.
-* Operations Management - A set of tools for maintaining operational control of the virtualized environment as it performs work.
+* **Provisioning** - Creation and teardown of clusters of Virtual Machines on various clouds.
+* **Configuration Management** - Installation and configuration of software on Virtual Machines.
+* **Workflow Management** - Definition and execution of distributed scientific workflows at scale.
+* **Operations Management** - A set of tools for maintaining operational control of the virtualized environment as it performs work.
 
 You can use Butler to create and execute workflows of arbitrary complexity using Python, or you can quickly wrap and execute tools that ship as Docker containers, or are described with the 
 Common Workflow Language (CWL_). Butler ships with a number of ready-made workflows that have been developed in the context of large-scale cancer genomics, including:
@@ -69,9 +74,9 @@ Common Workflow Language (CWL_). Butler ships with a number of ready-made workfl
 Who uses Butler?
 ================
 
-* The Pan Cancer Analysis of Whole Genomes Project (PCAWG_) has used Butler to run cancer genomics workflows on 2800+ high-coverage whole genome samples (725 TB of data) on Openstack.
-* The European Open Science Cloud (EOSC_) Pilot project is using Butler to run cancer genomics workflows on multiple platforms (Openstack, AWS).
-* The Pan Prostate Cancer Group is using Butler to run cancer genomics workflows on 2000+ whole genome prostate cancer samples on Openstack. 
+* The **Pan Cancer Analysis of Whole Genomes Project (PCAWG_)** - used Butler to run cancer genomics workflows on 2800+ high-coverage whole genome samples (725 TB of data) on Openstack.
+* The **European Open Science Cloud (EOSC_) Pilot** project - using Butler to run cancer genomics workflows on multiple platforms (Openstack, AWS).
+* The **Pan Prostate Cancer Group** - using Butler to run cancer genomics workflows on 2000+ whole genome prostate cancer samples on Openstack. 
 
 ===============
 Getting Started
@@ -79,10 +84,10 @@ Getting Started
 
 To get started with Butler you need the following:
 
-* A target cloud computing environment
-* Some data
-* An analysis you want to perform
-* This github repository
+* A target cloud computing environment.
+* Some data.
+* An analysis you want to perform (programs, scripts, etc.).
+* The Butler `source repository`_.
 
 The general sequence of steps you will use with Butler is as follows:
 
@@ -99,4 +104,7 @@ The general sequence of steps you will use with Butler is as follows:
 
 .. docs-include-end-marker
 
+==========
+Next Steps
+==========
 Head over to the Documentation_ to learn about how to use Butler for your project.
