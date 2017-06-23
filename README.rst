@@ -20,7 +20,7 @@
 
 .. docs-include-start-marker
 
- .. image:: images/butler_logo_with_text.png
+ .. image:: docs/images/butler_logo_with_text.png
  
 ############################################################
 A Framework for large-scale scientific analysis on the cloud
