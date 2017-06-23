@@ -17,7 +17,7 @@
 .. |coverage| image:: https://coveralls.io/repos/github/llevar/butler/badge.svg?branch=master
 	:target: https://coveralls.io/github/llevar/butler?branch=master
 
- .. image:: docs/images/butler_logo_with_text.png
+.. image:: docs/images/butler_logo_with_text.png
  
 .. docs-include-start-marker
 
