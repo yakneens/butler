@@ -18,6 +18,7 @@ Butler - A Framework for large-scale scientific analysis on the cloud
 .. _Delly: https://github.com/dellytools/delly
 .. _R: https://cran.r-project.org/
 
+|build-status| |docs|
 
 ===============
 What is Butler?
