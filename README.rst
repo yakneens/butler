@@ -27,7 +27,7 @@ Butler - A Framework for large-scale scientific analysis on the cloud
     :scale: 100%
     :target: https://travis-ci.org/rtfd/readthedocs.org
 
-.. |docs| image:: https://readthedocs.org/projects/docs/badge/?version=latest
+.. |docs| image:: https://readthedocs.org/projects/butler/badge/?version=latest
     :alt: Documentation Status
     :scale: 100%
     :target: http://butler.readthedocs.io/en/latest/?badge=latest
