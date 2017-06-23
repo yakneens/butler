@@ -31,6 +31,7 @@
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = ['sphinx.ext.autodoc',
+    'sphinx.ext.napoleon',
     'sphinx.ext.doctest',
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
@@ -92,6 +93,21 @@ todo_include_todos = True
 #
 html_theme = 'alabaster'
 
+html_theme_options = {
+    "extra_nav_links": {
+        u"\U0001F680" + " Github": "https://github.com/llevar/butler",
+    }
+}
+
+html_sidebars = {
+    '**': [
+        'about.html',
+        'navigation.html',
+        'relations.html',
+        'searchbox.html',
+    ]
+}
+
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
 # documentation.
@@ -103,6 +119,7 @@ html_theme = 'alabaster'
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+html_last_updated_fmt = '%b %d, %Y'
 
 # -- Options for HTMLHelp output ------------------------------------------
 
