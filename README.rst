@@ -18,7 +18,23 @@ Butler - A Framework for large-scale scientific analysis on the cloud
 .. _Delly: https://github.com/dellytools/delly
 .. _R: https://cran.r-project.org/
 
-|build-status| |docs|
+|health| |docs|
+
+
+
+.. |build-status| image:: https://img.shields.io/travis/rtfd/readthedocs.org.svg?style=flat
+    :alt: build status
+    :scale: 100%
+    :target: https://travis-ci.org/rtfd/readthedocs.org
+
+.. |docs| image:: https://readthedocs.org/projects/docs/badge/?version=latest
+    :alt: Documentation Status
+    :scale: 100%
+    :target: http://butler.readthedocs.io/en/latest/?badge=latest
+    
+.. |health| image:: https://landscape.io/github/llevar/butler/master/landscape.svg?style=flat
+   :target: https://landscape.io/github/llevar/butler/master
+   :alt: Code Health
 
 ===============
 What is Butler?
