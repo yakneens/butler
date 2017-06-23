@@ -4,8 +4,9 @@
    contain the root `toctree` directive.
 
 
-.. include:: ./intro.rst
-
+.. include:: ../README.rst
+	:start-after: docs-include-start-marker
+	:end-before: docs-include-end-marker
 
 Contents
 ==================================
