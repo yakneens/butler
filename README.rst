@@ -18,4 +18,4 @@
 	:target: https://coveralls.io/github/llevar/butler?branch=master
 
 
-.. include:: docs/intro.rst
+.. include:: ./docs/intro.rst
