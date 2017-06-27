@@ -43,7 +43,7 @@ A Framework for large-scale scientific analysis on the cloud
 .. _Pindel: http://gmt.genome.wustl.edu/packages/pindel/
 .. _Delly: https://github.com/dellytools/delly
 .. _R: https://cran.r-project.org/
-.. _Documentation: https://cran.r-project.org/
+.. _Documentation: butler.readthedocs.io
 .. _PCAWG: https://dcc.icgc.org/pcawg
 .. _EOSC: http://eoscpilot.eu/
 .. _source repository: https://github.com/llevar/butler
