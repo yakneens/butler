@@ -43,7 +43,7 @@ A Framework for large-scale scientific analysis on the cloud
 .. _Pindel: http://gmt.genome.wustl.edu/packages/pindel/
 .. _Delly: https://github.com/dellytools/delly
 .. _R: https://cran.r-project.org/
-.. _Documentation: butler.readthedocs.io
+.. _Documentation: http://butler.readthedocs.io
 .. _PCAWG: https://dcc.icgc.org/pcawg
 .. _EOSC: http://eoscpilot.eu/
 .. _source repository: https://github.com/llevar/butler
@@ -75,8 +75,8 @@ Common Workflow Language (CWL_). Butler ships with a number of ready-made workfl
 Who uses Butler?
 ================
 
-* The **Pan Cancer Analysis of Whole Genomes Project (PCAWG_)** - used Butler to run cancer genomics workflows on 2800+ high-coverage whole genome samples (725 TB of data) on Openstack.
-* The **European Open Science Cloud (EOSC_) Pilot** project - using Butler to run cancer genomics workflows on multiple platforms (Openstack, AWS).
+* The **Pan Cancer Analysis of Whole Genomes Project (`PCAWG`_)** - used Butler to run cancer genomics workflows on 2800+ high-coverage whole genome samples (725 TB of data) on Openstack.
+* The **European Open Science Cloud (`EOSC`_) Pilot** project - using Butler to run cancer genomics workflows on multiple platforms (Openstack, AWS).
 * The **Pan Prostate Cancer Group** - using Butler to run cancer genomics workflows on 2000+ whole genome prostate cancer samples on Openstack. 
 
 ===============
