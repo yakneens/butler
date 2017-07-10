@@ -498,4 +498,272 @@ the folder in a file named *init.sls*, as demonstrated in :numref:`airflow_sls` 
 .. _airflow_sls:
 .. figure:: images/salt_state_airflow.png  
 
-   Airflow state SLS structure 
+   Airflow state SLS file and folder structure
+   
+Several related states (such as those describing different installations of the same program) can be grouped together under the same 
+parent state. Then each sub-state is placed into its own *.sls* file under the main state's folder, with the name of the file giving 
+rise to that state's name. Figure :numref:`airflow_sls` provides an example of this scenario where in addition to the main 
+*airflow* state there are sub-states such as *airflow.server*, *airflow.worker*, *airflow.load-workflows* etc. 
+Note that sub-states are referenced via *name_of_parent_state.name_of_substate*.
+
+**A Salt Pillar** is a set of key-value pairs that are stored encrypted on a Minion and constitute look-up values that are relevant 
+for that Minion's configuration. Examples of Pillar values can be usernames and passwords, locations of certain files, etc. A State 
+definition can refer to Pillar values when configuring a system, and two identical VMs that differ only by their Pillar values will 
+be parametrized differently at configuration time. One example of this is setting up the same server in a QA environment vs. Production. 
+In QA the server may point to a test data directory with especially constructed data files, for testing purposes, whereas in Production 
+the server would point to the actual data directory with real samples.
+
+The Pillar are organized similar to States in a folder hierarchy of *.sls* files. Figure \ref{fig:salt_pillar_hierarchy}
+
+.. _salt_pillar_hierarchy:
+.. figure:: images/salt_pillar_hierarchy.png  
+
+   A set of Salt Pillar definitions
+
+
+:numref:`salt_pillar_test_data` shows an example Pillar definition where information related to finding test data is stored.
+
+.. _salt_pillar_test_data:
+.. code-block:: yaml
+	:caption:  Salt Pillar for specifying test data location.
+
+	test_data_sample_path: /shared/data/samples
+	
+	test_data_base_url: http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/phase3/data/
+	
+	test_samples:
+	  NA12874:
+	    -
+	      - NA12874.chrom11.ILLUMINA.bwa.CEU.low_coverage.20130415.bam
+	      - 88a7a346f0db1d3c14e0a300523d0243
+	    -
+	      - NA12874.chrom11.ILLUMINA.bwa.CEU.low_coverage.20130415.bam.bai
+	      - e61c0668bbaacdea2c66833f9e312bbb
+
+
+**Salt Grains** are bits of information Salt collects about Minion state or characteristics. They include things like:
+
+* Minion IP address
+* Amount of RAM on minions
+* Minion hostname
+* Minion network interfaces
+
+and others. The Grains can be used to introspect and pass on configuration values (like IP address) that are not known in advance. 
+One of the most important uses of Grains is the ability to assign roles to a Minion via the Grains mechanism. Since roles define 
+what states are eventually applied, adding or removing a role to a VM via Grains has a very significant side-effect. 
+
+**The Salt Mine** is a centralized repository of information about the state of all Minions that is stored on the Master. 
+Information is passed into the Mine from Grains and other sources. It can then be used inside state definitions to further customize 
+the system.  
+
+.. _salt_mine:
+.. code-block:: text
+	:caption:  Using Salt Mine to look up a server's IP Address.
+
+	consul-client:
+	  service.running:
+	    - enable: True
+	    - watch:
+	      - file: /etc/opt/consul.d/*    
+	{%- set servers = salt['mine.get']('roles:(consul-server|consul-bootstrap)', 'network.ip_addrs', 'grain_pcre').values() %}
+	{%- set node_ip = salt['grains.get']('ip4_interfaces')['eth0'] %}
+	# Create a list of servers that can be used to join the cluster
+	{%- set join_server = [] %}
+	{%- for server in servers if server[0] != node_ip %}
+	{% do join_server.append(server[0]) %}
+	{%- endfor %}
+	join-cluster:
+	  cmd.run:
+	    - name: consul join {{ join_server[0] }}
+	    - watch:
+	      - service: consul-client
+
+:numref:`salt_mine` demonstrates how the Jinja templating engine is used to look up the IP Address of servers in the cluster 
+that have the :code:`consul-server` or:code:`consul-bootstrap` role. Then this IP Address is used inside a State definition to join 
+a cluster of similar machines. Without the Mine, this particular Minion would not know who to ask for this IP Address, but because 
+the Mine is centralized on the Salt Master host this lookup is possible.
+
+**The Top File** is the mechanism used in Saltstack to specify what VMs will have what States applied to them. The Top File provides 
+a lot of flexibility in terms of how to accomplish this mapping. Mappings can be accomplished via hostname or any Grains values, and 
+it allows regular expressions. The most flexible and, thus preferred, method of mapping States to VMs is via Roles.
+
+.. _salt_top_file:
+.. code-block:: yaml
+	:caption:  Using Top File to map States to Roles.
+	
+	base:
+	  '*':
+	    - consul
+	    - dnsmasq
+	    - collectd
+	  'G@roles:monitoring-server':
+	    - influxdb
+	    - grafana 
+	  'G@roles:job-queue':
+	    - rabbitmq
+
+
+:numref:`salt_top_file` demonstrates how the State mapping to Roles is accomplished in a Top File. Based on this Top File 
+all VMs will get the :code:`consul, dnsmasq, and collectd` states. VMs with the :code:`monitoring-server` role will get 
+:code:`influxdb, and grafana`, and VMs with the :code:`job-queue` role will get the :code:`rabbitmq` State.
+
+Controlling Saltstack
+.....................
+
+Control over the cluster is exercised from the Salt Master. The user establishes a shell session on the Salt Master and issues 
+commands via the Saltstack CLI. Each command has the following syntax:
+
+:code:`"salt target_expression command_expression"` where:
+
+:code:`salt` is the name of the Salt CLI.
+
+:code:`target_expression` is an expression that determines what VMs to apply the command to. It can be a logical expression that 
+combines hostnames, grains, and regular expressions.
+
+:code:`command_expression` is an expression that determines what actual command to run on the targeted VMs. 
+The :code:`command_expression` can be as simple as running a shell command on the target VMs, or it can apply a particular named 
+state via the :code:`state.apply` command, or it can apply all matching states via the special :code:`state.highstate` command.
+
+For example, :code:`salt -G 'roles:worker' state.apply airflow.patch-airflow-db-conns` applies the :code:`airflow.patch-airflow-db-conns` 
+state to all VMs that have the :code:`worker` role.
+
+Saltstack Use in Butler
+'''''''''''''''''''''''
+
+Butler uses Saltstack extensively in order to install software on the cluster. This includes software that is required to run Butler 
+itself, as well as installing scientific algorithms required for running actual workflows on Worker VMs. As seen in Figure 
+:numref:`salt_states` the Saltstack configuration in Butler consists of a set of State and Pillar definitions along with the Top 
+Files that map these States and Pillar to various VMs in the cluster. These definitions are enough to configure a completely functional 
+Butler cluster from a single shell command.
+
+.. _salt_states:
+.. figure:: images/salt_states.png  
+
+   Salt States and Pillar used in Butler
+
+A typical Butler installation that can support a cluster of up to 1500 CPUs consists of four Control VMs in addition to the Worker VMs, 
+each has a separate Terraform profile. The Control VMs are:
+
+
+* **salt-master** - This machine is the configuration master node. Because this workload is typically only heavy during cluster setup, the same VM also acts as the Monitoring Server during regular operation.
+* **db-server** - This VM hosts all the databases that Butler uses.
+* **job-queue** - This VM hosts a Queue for distributed task processing.
+* **tracker** - This VM hosts all of the workflow engine components, as well as Analysis Tracking.
+
+
+All of the VMs in the cluster get the following basic configurations mapped in the Top File:
+
+.. code-block:: yaml
+
+	'*':
+	  - consul
+	  - dnsmasq
+	  - collectd
+	  - elastic.filebeat
+	  - elastic.packetbeat
+
+* **consul** - A framework used to Service Discovery which will be described in detail in Section :numref:`design_consul`
+* **dnsmasq** - A local DNS server, to enable name lookups.
+* **collectd** - A Metrics collection agent.
+* **elastic.filebeat** - A server log harvester.
+* **elastic.packetbeat** - A network event log harvester.
+
+Setting up the Salt Master
+..........................
+
+The first order of business when setting up a new Butler cluster is to bootstrap the Salt Master VM, as this VM is 
+responsible for configuring and installing the software of all the other machines, including itself.
+
+A Butler VM is typically provisioned from a base VM image, which has little more than the barebones OS, using Terraform. 
+In the case of the Salt Master, the salt-master daemon is installed via Terraform's :code:`remote-exec` provisioner. 
+Salt's :code:`highstate` command is then executed on the master itself in order to fully initialize it. At that point 
+the Salt Master is ready to configure other machines that are part of the cluster.
+
+As previously mentioned, because the load on the Salt Master is typically only high during initial cluster setup and 
+during short bursts during normal operation, the Salt Master VM typically has another Saltstack Role mapped to it - 
+that of the Monitoring Server. This role installs monitoring components that will be described in detail in Section :numref:`monitoring`
+
+Setting up Other Butler Control VMs
+...................................
+
+The DB Server VM has a db-server Role mapped to it. Because databases are resource intensive software that does not scale 
+horizontally, this VM does not have other roles within the cluster.
+
+.. code-block:: yaml
+
+	'G@roles:db-server':
+	  - postgres
+	  - run-tracking-db
+	  - grafana.createdb
+	  - airflow.airflow-db
+	  - sample-tracking-db
+	  
+The Top File mapping of States to the :code:`db-server` role ensures that the PostgreSQL DB Server is installed as well 
+as a number of databases that are used by Butler for tracking scientific analyses, workflow statuses, analysis samples, 
+and performance metrics.
+
+The Job Queue VM has a :code:`rabbitmq` state mapped to it in the Top File, to install the RabbitMQ queueing system.
+
+The Tracker VM correspondingly has a :code:`tracker` role and the following state mappings:
+
+.. code-block:: yaml
+
+	'G@roles:tracker':
+	  - airflow
+	  - airflow.load-workflows
+	  - airflow.server
+	  - jsonmerge
+	  - butler
+
+These states install and configure the Airflow Workflow engine, load available workflows, and check out and install the 
+Butler codebase from github. The codebase is needed to run the Butler CLI which is used to set up and manage Butler 
+analyses. Thus, most interactions the users have with Butler occur from the Tracker VM via the Butler CLI.
+
+Setting up Butler Workers
+.........................
+
+
+While Control VMs will be quite similar from one installation of Butler to the next, the Worker VMs will differ quite a 
+bit, depending on what types of analyses are anticipated to be performed. The base Worker VM has the :code:`worker` role 
+which simply allows such VMs to run workflows in principle by installing the necessary components of the workflow engine 
+and Butler Analysis Tracker.
+
+.. code-block:: yaml
+
+	'G@roles:worker':
+	  - dnsmasq.gnos
+	  - celery
+	  - airflow
+	  - airflow.load-workflows
+	  - airflow.worker
+	  - butler
+
+
+The actual scientific algorithms that are required for running particular analyses are installed onto Workers via additional 
+Roles and States. Because the initial Butler implementation is focused on bioinformatics workflows there already exist 
+predefined states for some common bioinformatics tools. An example of such a Role and States can be seen in the Top File 
+mapping below:
+
+.. code-block:: yaml
+
+	'G@roles:germline':
+	  - biotools.freebayes
+	  - biotools.htslib
+	  - biotools.samtools
+	  - biotools.delly
+
+Customizing Butler Configuration
+................................
+
+
+When Butler is used in different environments, configurations need to change, because of differences in OS, network, and 
+underlying analyses. In order to accomplish this, the users will typically need to create their own source code repository 
+that will coexist with the base Butler repository. Inside that repository will be custom definitions or workflows, analyses, 
+as well as configurations. Where it is possible to configure the system entirely via Pillar, the user should define these 
+custom Pillar settings in their repository, but when customizations to the States are required, the user should copy the 
+State definition from the base Butler repository into their own and customize as necessary. They should then make sure that 
+the customized states are available to Saltstack by downloading them to the Salt Master VM.
+
+When it comes to installing new scientific algorithms for the purposes of running workflows, the users should define any new 
+States and Roles as necessary, and then assign them to the Worker VMs prior to calling :code:`highstate` to ensure the software 
+get installed properly.  
