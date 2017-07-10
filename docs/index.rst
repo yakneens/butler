@@ -3,6 +3,16 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. highlight:: rst
+
+.. role:: python(code)
+    :language: python
+    
+.. role:: shell(code)
+    :language: shell
+    
+.. role:: sql(code)
+    :language: sql
 
 .. include:: ../README.rst
 	:start-after: docs-include-start-marker
