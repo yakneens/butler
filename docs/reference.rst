@@ -44,29 +44,29 @@ Since keeping the amount of new code that needed to be written to build Butler t
 of system design, a very substantial portion of the overall system 
 consists of 3rd party OSS frameworks that are integrated together to produce Butler. These include:
 
-===================  ===========================================  ============================
-Product              URL                                          Role
-===================  ===========================================  ============================
-Hashicorp Terraform  https://github.com/hashicorp/terraform       Cluster Lifecycle Management
-Hashicorp Consul     https://github.com/hashicorp/consul          Service Discovery and Service Health Checking
-Saltstack            https://github.com/saltstack/salt            Cluster Configuration Management
-Apache Airflow       https://github.com/apache/incubator-airflow  Workflow Management
-RabbitMQ             https://github.com/rabbitmq/rabbitmq-server  Queuing
-Celery               https://github.com/celery/celery             Task Scheduling
-Collectd             https://github.com/collectd/collectd         Metrics Collection
-InfluxData InfluxDB  https://github.com/influxdata/influxdb       Metrics Storage
-Grafana              https://github.com/grafana/grafana/          Metrics Dashboards
-Logstash             https://github.com/elastic/logstash          Log Harvesting
-Elasticsearch        https://github.com/elastic/elasticsearch     Log Indexing and Aggregation
-Kibana               https://github.com/elastic/kibana            Log Event Dashboards 
-===================  ===========================================  ============================
+.. csv-table:: Analysis DB table
+	:header: "Product", "URL", "Role"
+
+"Hashicorp Terraform", "https://github.com/hashicorp/terraform", "       Cluster Lifecycle Management"
+"Hashicorp Consul", "https://github.com/hashicorp/consul", "          Service Discovery and Service Health Checking"
+"Saltstack", "https://github.com/saltstack/salt", "            Cluster Configuration Management"
+"Apache Airflow",  https://github.com/apache/incubator-airflow", "  Workflow Management"
+"RabbitMQ", "https://github.com/rabbitmq/rabbitmq-server", "  Queuing"
+"Celery", "https://github.com/celery/celery", "             Task Scheduling"
+"Collectd", "https://github.com/collectd/collectd", "         Metrics Collection"
+"InfluxData InfluxDB", "https://github.com/influxdata/influxdb", "       Metrics Storage"
+"Grafana", "https://github.com/grafana/grafana/", "          Metrics Dashboards"
+"Logstash", "https://github.com/elastic/logstash", "          Log Harvesting"
+"Elasticsearch", "https://github.com/elastic/elasticsearch", "     Log Indexing and Aggregation"
+"Kibana", "https://github.com/elastic/kibana", "            Log Event Dashboards"
+
 
 These products were selected based on their ability to fulfill the specified requirements as well as their overall viability 
 as Open Source projects. 
 
 Service Orientation
 '''''''''''''''''''
-One of the key requirements for Butler is Scalability i.e. the desire to be able to scale the amount of resources utilized by 
+One of the key requirements for Butler is scalability i.e. the desire to be able to scale the amount of resources utilized by 
 the framework up and down arbitrarily according to analysis needs. Applications that are monolithic in nature suffer from 
 scalability issues due the large number of competing constraints within application components. To help alleviate this 
 concern we take a Service Oriented approach in the design of the system. Butler is composed of a number of loosely coupled 
