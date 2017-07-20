@@ -16,10 +16,10 @@ Installation Guide
 Butler installation proceeds through a series of stages each of which is described below and further expanded 
 in the :doc:`Reference Guide<reference>`. They are:
 
-* Cluster Provisioning/Deployment
-* Software Configuration
-* Workflow/Analysis Configuration
-* Workflow Test Execution
+* :ref:`Cluster Provisioning/Deployment<cluster_deployment_section>`
+* :ref:`Software Configuration<software_configuration_section>`
+* :ref:`Workflow/Analysis Configuration<workflow_configuration_section>`
+* :ref:`Workflow Test Execution<test_execution_section>`
 
 It is important to distinguish between test and production deployments of Butler. The key distinction between 
 these is that a test deployment is typically on a small scale and involves a minimum number of configurations
@@ -33,6 +33,8 @@ The Butler git repository contains a folder called *examples* which houses the f
 deployments of the system to a variety of cloud computing environments (Openstack, AWS, Azure), as well as some
 example workflows, analysis configurations, test data, and useful scripts. Adopting these to your own needs is
 often the easiest way to move forward.
+
+.. _cluster_deployment_section:
 
 Cluster Provisioning/Deployment
 -------------------------------
@@ -169,5 +171,83 @@ deployment sections below to launch your first Butler cluster.
 Deployment on OpenStack
 ```````````````````````
 
+We will be using the Terraform configuration files found at examples/deployment/openstack/large-cluster to deploy our Butler
+cluster on OpenStack. These values can be populated directly into the respective variables inside :shell:`vars.tf` file.
+Alternatively you can create a separate file with the extension :shell:`.tfvars` which contains a list of key/value pairs
+(:shell:`variable_name = variable_value`) that are used to assign values to these variables. Since this file is likely to contain 
+sensitive information it is a good idea to add it to your :shell:`.gitignore` so that you don't check it in by accident. 
+You can also supply variable values as environment variables with the form :shell:`TF_VAR_variable_name`.
+
+Variables you need to set:
+
+* :shell:`user_name` - Username for authentication with OpenStack API
+* :shell:`password` - Password for authentication with OpenStack API
+* :shell:`auth_url` - Openstack Auth URL (something like https://my_api_endpoints:13000/v2.0)
+* :shell:`tenant_name` - Name of your tenant on OpenStack
+* :shell:`main_network_id` - ID of the main network your hosts belong to (get this from OpenStack console).
+  If you have multiple networks you will need to configure them inside the individual :shell:`.tf` files or 
+  parametrize them out to :shell:`vars.tf`.
+* :shell:`key_pair` - Name of the keypair you have added to OpenStack. This public key will be put on the VMS you create
+  so that you can SSH to them.
+* :shell:`user` - Username that can be used to SSH to the VMs
+* :shell:`key_file` - Path on the local machine to the private SSH key you will use to connect to your VMs
+* :shell:`bastion_host` - IP of the bastion host (if you are using one, more on this below)
+* :shell:`bastion_user` - Username that can be used to SSH to the bastion host (if you are using a bastion)
+* :shell:`bastion_key_file` - Path to private key for login to the bastion host (if you are using a bastion)
+* :shell:`image_id` - ID of the base VM image that you will use to launch VMs (get this from OpenStack console).
+* :shell:`floatingip_pool` - Name of floating IP pool (if used)
+* :shell:`worker_count` - Number of workers to launch. Set this to a small number (like 1) for your first couple
+  of launches.
+* :shell:`main-security-group-id` - ID of the default security group used by your hosts (get this from OpenStack console).
+
+It is usually a good idea from a security standpoint to limit access to your VMs from the outside world. Thus, it is advisable
+to set up a separate VM (the bastion host) which will be the only host on your cluster with a public IP and have all the other
+hosts reside on a private subnet such that they can be tunneled into via the bastion host. You should further limit access by 
+restricting SSH access to the bastion to a whitelist of trusted IPs or subnets. To facilitate deployment in this scenario
+populate the bastion variables that have been described above.
+
+Each Butler VM that you deploy has a specific OpenStack VM flavor. If you have non-standard flavor names on your deployment or you wish to
+use non-default values then you can populate the following variables:
+
+* :shell:`salt-master-flavor`
+* :shell:`worker-flavor`
+* :shell:`db-server-flavor`
+* :shell:`job-queue-flavor`
+* :shell:`tracker-flavor`
+
+Once you have populated these variables with values you are ready for deployment. Run :shell:`terraform plan -var-file path_to_your_vars_file.tfvars`
+to see what actions Terraform is planning to take based on your configurations. If you are satisfied then you are ready to run
+:shell:`terraform apply -var-file path_to_your_vars_file.tfvars`. This will launch your Butler cluster into existence over the course
+of about 10-20 minutes depending on size. If all is well you will see a message at the end that your resources have been successfully created.
+You are now ready to move on to the Software Configuration stage of the deployment.
+
+When you are done with your cluster you can cleanly tear it down by running :shell:`terraform destroy -var-file path_to_your_vars_file.tfvars`
+
+Troubleshooting OpenStack Deployments
+'''''''''''''''''''''''''''''''''''''
+
+Terraform is pretty good about printing out information about error conditions that occur, thus, if you find yourself with repeated failures
+to deploy you should closely examine the program output to see if it contains the information for pinpointing the cause of the failure. Most often
+the errors revolve around misspellings of usernames, flavors, API endpoints and so on, or inappropriate SSH credentials. If you are not finding
+the default information provided to be sufficient you can enable debug output by setting the :shell:`TF_LOG=DEBUG` environment variable where you
+run terraform from. This will produce a lot of output but it can help figure out what the issue is. Additionally, because Terraform makes OpenStack
+API requests on your behalf, the errors it encounters are not always adequately represented in the output. You can enable OpenStack specific debug
+output by setting the :shell:`OS_DEBUG=1` environment variable which will allow you to inspect the individual OpenStack API calls that are being made
+and the responses that are being received. Once you are done debugging it is highly recommended to unset these variables.
+
  	
-   
+.. _software_configuration_section:
+
+Software Configuration
+----------------------
+
+.. _workflow_configuration_section:
+
+Workflow/Analysis Configuration
+-------------------------------
+
+.. _test_execution_section:
+
+Workflow Test Execution
+-----------------------
+
