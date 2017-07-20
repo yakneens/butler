@@ -3,8 +3,8 @@ resource "openstack_compute_instance_v2" "db-server" {
         depends_on = ["openstack_compute_instance_v2.salt-master"]
 
   	image_id = "${var.image_id}"
-	flavor_name = "s1.massive"
-	security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "Pan-Prostate-Internal"]
+	flavor_name = "${var.db-server-flavor}"
+	security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main-security-group-id}"]
 	name = "butler-db-server"
 	network = {
 		name = "${var.network_name}"

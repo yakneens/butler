@@ -1,7 +1,7 @@
 resource "openstack_compute_instance_v2" "salt-master" {
   	image_id = "${var.image_id}"
-	flavor_name = "s1.massive"
-	security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "Pan-Prostate-Internal"]
+	flavor_name = "${var.salt-master-flavor}"
+	security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main-security-group-id}"]
 	name = "butler-salt-master"
 	network = {
 		uuid = "${var.main_network_id}"

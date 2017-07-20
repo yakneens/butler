@@ -59,3 +59,31 @@ variable "gnos_network_id" {
 variable "floatingip_pool" {
 	default = "ext-net"
 }
+
+variable "worker_count" {
+	default="1"
+}
+
+variable "salt-master-flavor" {
+	default="s1.massive"
+}
+
+variable "worker-flavor" {
+	default="s1.massive"
+}
+
+variable "db-server-flavor" {
+	default="s1.massive"
+}
+
+variable "job-queue-flavor" {
+	default="s1.massive"
+}
+
+variable "tracker-flavor" {
+	default="s1.massive"
+}
+
+variable "main-security-group-id" {
+	default="Pan-Prostate-Internal"
+}

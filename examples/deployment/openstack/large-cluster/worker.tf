@@ -3,8 +3,8 @@ resource "openstack_compute_instance_v2" "worker" {
     depends_on = ["openstack_compute_instance_v2.salt-master"]
 
   	image_id = "${var.image_id}"
-	flavor_name = "s1.massive"
-	security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "Pan-Prostate-Internal"]
+	flavor_name = "${var.worker-flavor}"
+	security_groups = ["${openstack_compute_secgroup_v2.allow-traffic.name}", "${var.main-security-group-id}"]
 	name = "butler-worker-${count.index}"
 	network = {
 		uuid = "${var.main_network_id}"
@@ -24,7 +24,7 @@ resource "openstack_compute_instance_v2" "worker" {
 	 	agent = true
 	}
 
-	count = "1"
+	count = "${var.worker_count}"
 	key_pair = "${var.key_pair}"
 
 	provisioner "file" {
