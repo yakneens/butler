@@ -402,6 +402,8 @@ that determine what capabilities this VM will have in the cluster, and telling t
 two network security rules applied to them - opening port 22 for SSH communication between hosts, and opening ports 4505-4506 to 
 enable Saltstack communication.
 
+.. _cluster_configuration_management_section:
+
 Cluster Configuration Management
 ````````````````````````````````
 
@@ -674,7 +676,7 @@ All of the VMs in the cluster get the following basic configurations mapped in t
 	  - elastic.filebeat
 	  - elastic.packetbeat
 
-* **consul** - A framework used to Service Discovery which will be described in detail in Section :numref:`design_consul`
+* **consul** - A framework used for Service Discovery which will be described in detail in Section :numref:`design_consul`
 * **dnsmasq** - A local DNS server, to enable name lookups.
 * **collectd** - A Metrics collection agent.
 * **elastic.filebeat** - A server log harvester.

@@ -200,6 +200,13 @@ Variables you need to set:
   of launches.
 * :shell:`main-security-group-id` - ID of the default security group used by your hosts (get this from OpenStack console).
 
+N.B. Although Butler is theoretically OS-agnostic, all of the deployments to date have used **CentOS** as the platform. If you want
+Butler to work out of the box you should use CentOS as your base VM image. If you want to use another OS you should expect to
+have to make some modifications to the YAML Saltstack state definitions that are responsible for software deployment and configuration.
+Although these states are largely cross-platform about 10% have CentOS specific configurations that would need to be changed to
+successfully deploy on another platform.
+
+
 It is usually a good idea from a security standpoint to limit access to your VMs from the outside world. Thus, it is advisable
 to set up a separate VM (the bastion host) which will be the only host on your cluster with a public IP and have all the other
 hosts reside on a private subnet such that they can be tunneled into via the bastion host. You should further limit access by 
@@ -241,6 +248,258 @@ and the responses that are being received. Once you are done debugging it is hig
 Software Configuration
 ----------------------
 
+The software configuration requirements of Butler are fulfilled by the Saltstack (https://saltstack.com/) open source framework. Saltstack allows
+us to define a series of *states* which are YAML-formatted recipes for installing and configuring software. Sets of states can be mapped to a *role*
+which describes some useful function performed in a software system. Finally, roles can be assigned to individual VMs that will play those roles
+in a deployment. A centralized configuration server, the *salt-master*, keeps a record of all of the states and role assignments and communicates
+with all of the machines in the cluster to set up and configure software on them that is appropriate to their role. Detailed documentation on the 
+myriad features that Saltstack has can be found on their website (https://docs.saltstack.com/en/latest/). Butler-focused documentation is found in the
+:ref:`Configuration Management<cluster_configuration_management_section>` section of the Reference Guide. 
+
+In Butler we use Saltstack not only to configure components of Butler itself but also to deploy and configure software that is used by the actual
+workflow steps. All of the Butler-specific configurations are located in the *configuration/salt* folder of the source tree. 
+
+Each VM has what in Saltstack parlance is called a *highstate* that is the state where all of the software configurations that have been prescribed 
+have been successfully applied. In order to fully configure our system then we need to apply this *highstate* to all of our VMs. This can be done
+by manually running the necessary commands or by executing the Salt orchestrator that we have developed for this purpose.
+
+At this point you need to SSH to the salt-master and change the user to root. Then issue the following command at the shell:
+
+.. code-block:: shell
+	
+	salt-run state.orchestrate butler.deploy
+
+It can take up to 30 minutes for all of the necessary software to be installed. The results will be periodically dumped to standard out and standard error.
+These are typically color-coded where green means that everything went well and red means that there were some errors. If everything is well you
+should have a working Butler cluster on your hands at this point. You can run a few salt commands from the salt-master to make sure that the individual 
+components are up and working. Since your deployment can have hundreds of VMs Saltstack makes it very easy to interrogate them en-masse.
+
+N.B. Because the Salt setup can take a good long while it is recommended to run your commands inside a *screen* or *tmux* session to prevent network
+disconnects from interrupting the setup.
+
+.. _service_discovery_validation_section:
+
+**Service Discovery Validation and Troubleshooting**
+
+One of the key components that is required for Butler to work properly is Service Discovery i.e. various VMs need to know how to find each other on the
+network by service name rather than IP address. For this purpose we use a tool called Consul (https://www.consul.io/). All of the VMs participate in a
+Consul cluster and use it to discover the services, such as databases and queues, that are available. To see if Consul is properly set up you can run
+
+.. code-block:: shell
+
+	consul members
+	
+at the shell of any VM. You should see an output similar to :numref:`consul_members`. All of the VMs that you deployed should be on this list with 
+status *alive*.
+
+.. _consul_members:
+.. figure:: images/consul_members.png  
+
+   Output of consul members command.
+   
+If all of the VMs are present in the list you can test that the service name to IP address translation works by running
+
+.. code-block:: shell
+
+	ping postgresql.service.consul
+	ping rabbitmq.service.consul
+	ping influxdb.service.consul
+
+Each of these should come back with an IP address of some VM on your cluster. If this works, Consul should be working properly at this point and you
+can skip to the :ref:`next section<database_server_validation_section>`.
+
+If you do not see all of the machines in your cluster listed under :shell:`consul members` or the names of services are not being resolved properly
+you will need to troubleshoot Consul. Several things could be interfering with proper Consul operation:
+
+* The Consul service may not be running on all VMs.
+* Some VMs may not have been able to join, or dropped out of the Consul cluster.
+* Networking issues may prevent inter-VM communication.
+
+To see if the Consul service is operating properly you can check its status on all VMs. There are two brands of this service :shell:`consul-server`
+and :shell:`consul-client` that are assigned to various VMs via Saltstack roles (check an individual VM's roles by looking at /etc/salt/grains). There
+should be at least two servers in a cluster for Consul to operate properly. Check the status of all services by running the following commands at the
+shell of the salt-master:
+
+.. code-block:: shell
+
+	 salt -G 'roles:consul-server' cmd.run 'service consul-server status'
+	 salt -G 'roles:consul-client' cmd.run 'service consul-client status'
+	 
+Investigate the output of these commands to see if all of the services are running without errors, resolve the errors and restart the services as
+necessary.
+
+If not all VMs are in the Consul cluster you can attempt to join them all to the cluster automatically by running the appropriate salt state
+
+.. code-block:: shell
+
+	 salt 'salt-master' state.apply consul.join-all
+	 
+You can also join the cluster manually by logging on to any VM and running the following command at the shell:
+
+.. code-block:: shell
+
+	 consul join IP_ADDRESS
+	 
+where IP_ADDRESS is the IP address of any machine that is already in the cluster.
+
+Because of the breadth of possibilities of networking issues that can affect connectivity between VMs this guide cannot offer specific troubleshooting
+steps except mentioning that an easy test of connectivity would be to try to ping different VMs by IP address to try to see if there is a response.
+
+.. _database_server_validation_section:
+
+**Database Server Validation and Troubleshooting**
+
+The database server VM runs an instance of PostgreSQL server which operates a number of databases that are used by various Butler components. These are:
+
+* **airflow** - used by the workflow engine
+* **celery** - used by the task queue
+* **run_tracking** - used by the Butler analysis tracker
+* **grafana** - used by the monitoring dashboards
+
+The first thing to do is to validate that the PostgreSQL service is actually running. You can do this by running the following command at the salt-master
+shell:
+
+.. code-block:: shell
+
+	 salt 'db-server' cmd.run 'service postgresql-9.5 status'
+
+If the service is not running you will need to log onto the db-server VM and troubleshoot the PostgreSQL installation. They have excellent and comprehensive
+documentation (https://www.postgresql.org/docs/9.5/static/docguide.html).
+
+Once you know that the service is running you should test whether another VM can connect to it for SQL queries. Run the following command at the salt master
+shell:
+
+.. code-block:: shell
+
+ salt 'db-server' postgres.db_list host=postgresql.service.consul \
+ port=5432 user=butler_admin password=butler maintenance_db=postgres
+
+You should see a list of databases that includes all of the ones that were mentioned above (airflow, celery, grafana, run_tracking).
+If you do not see these or are not able to connect to the server you will need to troubleshoot this connection issue.
+
+One of the most common sources of connection issues is the permissions file :shell:`hba.conf`. This file is located at
+:shell:`/var/lib/pgsql/9.5/data/pg_hba.conf` on the db-server VM. This file controls who can connect to the database server using
+what methods. Consult the PostgreSQL documentation for allowable settings.
+
+If your database setup was not working properly after fixing it you will want to make sure that Salt actually brings the db-server
+into highstate. If you don't want re-run highstate on all of the VMs you can target the db-server individually by running:
+
+.. code-block:: shell
+
+	salt 'db-server' state.highstate
+
+
+.. _job_queue_validation_section:
+
+**Job Queue Validation and Troubleshooting**
+
+The job-queue VM runs an instance of RabbitMQ() which is a distributed queue that is used to hold workflow tasks and hand 
+them out to individual workers. To make sure that the queue is operational run the following command from the salt master 
+shell:
+
+.. code-block:: shell
+
+	salt 'job-queue' cmd.run 'service rabbitmq-server status'
+
+If the service is running, you can validate that the *butler* user and *butler_vhost* are present by running:
+
+.. code-block:: shell
+
+	salt 'job-queue' rabbitmq.list_users
+	salt 'job-queue' rabbitmq.list_vhosts
+	
+RabbitMQ additionally has a web interface that is published on port 15672 that you can use to interrogate the state of the queue.
+
+If you encounter issues please consult the RabbitMQ manual (https://www.rabbitmq.com/documentation.html).
+
+.. _workflow_engine_validation_section:
+
+**Workflow Engine Validation and Troubleshooting**
+
+The workflow engine used in Butler is Apache Airflow (https://airflow.incubator.apache.org/). 
+The server components of Airflow run on the tracker VM and include the Airflow Scheduler, Airflow Web UI, and Airflow Flower 
+(wrapper around Celery Flower). The client component of Airflow is Airflow Worker which runs on every worker VM.
+
+Validate the workflow engine by making sure that all of the relevant services are running properly:
+
+.. code-block:: shell
+
+	 salt -G 'roles:tracker' cmd.run 'service airflow-scheduler status'
+	 salt -G 'roles:tracker' cmd.run 'service airflow-webserver status'
+	 salt -G 'roles:tracker' cmd.run 'service airflow-flower status'
+	 salt -G 'roles:worker' cmd.run 'service airflow-worker status'
+	 
+When Airflow is first configured it creates some DB tables, make sure that these tables are present:
+
+.. code-block:: shell
+
+	salt 'db-server' postgres.psql_query \
+	"SELECT tablename FROM pg_catalog.pg_tables WHERE schemaname = 'public'" \
+	host=postgresql.service.consul port=5432 user=butler_admin \
+	password=butler maintenance_db=airflow
+
+Check if your workflows have been deployed properly by logging onto the tracker VM via SSH and running:
+
+.. code-block: shell
+
+	airflow listdags
+	
+Two web UIs that are helpful in managing the workflow engine are served up on the tracker VM the are - 
+the Airflow Web UI on port 8889 and the Celery Flower UI on port 5555. The Airflow Web UI in particular
+is instrumental in keeping track of workflow progress and identifying issues with workflow execution.
+
+.. _monitoring_validation_section:
+
+**Monitoring Server Validation and Troubleshooting**
+
+The monitoring components of Butler are optional to its core functionality but are highly useful for
+identifying and troubleshooting operational issues. The monitoring components consist of a Monitoring
+Server which runs a time-series database InfluxDB(https://www.influxdata.com/time-series-platform/influxdb/)
+and a monitoring data visualization tool Grafana (https://grafana.com/). Monitoring clients (all VMs) run
+a metrics collection daemon Collectd (https://collectd.org/) that collects health metrics and ships them
+to the Monitoring Server.
+
+Validate that these components are in order by making sure that the respective services are operating.
+
+.. code-block:: shell
+
+	 salt -G 'roles:monitoring-server' cmd.run 'service influxdb status'
+	 salt -G 'roles:monitoring-server' cmd.run 'service grafana-server status'
+	 salt '*' cmd.run 'service collectd status'
+
+InfluxDB has an admin Web UI which is accessible on the Monitoring Server (salt-master VM by default) on 
+port 8083. Grafana is primarily accessed via its Web UI which presents the user with a series of dashboards
+that visualize various metrics. Grafana is available on the Monitoring Server on port 3000. Validate that you
+can access this URL and view various dashboards.
+
+.. _saltstack_troubleshooting_section:
+
+**General Saltstack Troubleshooting**
+
+Butler is complex software that is distributed over many VMs and issues are sometimes inevitable. If you are
+having difficulties getting the full software configuration to work it is advisable to proceed step-by-step
+setting up individual machines in the order that they are specified in the *butler.deploy* orchestration state.
+To this end you can commands like :shell:`salt salt-master state.highstate` and :shell:`salt job-queue state.highstate` 
+and observe whether they succeed or fail, resolving any issues. When you can get the individual steps to succeed you
+can try executing all of the steps at once via the salt orchestrator.
+
+Sometimes rather than running commands from the salt-master it is easier and more informative to run commands directly
+from the VMs that you are trying to set up. For this purpose you can use the :shell:`salt-run` command which can be
+used on any salt minion to target a particular state to that minion. The minion will communicate with the salt-master
+retrieve latest state definitions and execute them locally. This command supports additional arguments to produce
+debug output. You would thus run the following command on a VM you are trying to set up and are running into issues with:
+
+.. code-block:: shell
+
+	salt-call state.highstate -l debug
+	
+This will produce extensive debug output to standard out to help you identify configuration issues.
+
+State definitions are taken by Salt directly from the Butler git repository (and are optionally overlayed with your own
+custom states stored in a separate Git repo). If you are finding that your state changes are not being reflected in the
+runtime environment you simply need to wait a little longer for the Salt cache to get refreshed. The git repo is polled
+every 60 seconds for new state changes. 
+	 
 .. _workflow_configuration_section:
 
 Workflow/Analysis Configuration
