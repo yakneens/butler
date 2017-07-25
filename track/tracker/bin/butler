@@ -11,7 +11,7 @@ from tracker.model.analysis_run import *
 from tracker.model.analysis import *
 from tracker.model.workflow import *
 import tracker.model
-
+from sqlalchemy import inspect
 
 def set_up_dag_run(context, dag_run_obj):
     dag_run_obj.payload = {"config": context["config"]}
@@ -209,12 +209,12 @@ def get_number_of_runs_command(args):
         format(num_runs, analysis_id, args.run_status)
         
 def list_workflows_command(args):
-    all_workflows = list_workflows()
+    all_workflows = [{ c.key: getattr(obj, c.key)for c in inspect(obj).mapper.column_attrs} for obj in list_workflows()]
     headers = ["workflow_id","workflow_name","workflow_version", "config_id", "created_date", "last_updated_date"]
     print tabulate(all_workflows, headers, tablefmt="grid")
     
 def list_analyses_command(args):
-    all_analyses = list_analyses()
+    all_analyses = [{ c.key: getattr(obj, c.key)for c in inspect(obj).mapper.column_attrs} for obj in list_analyses()]
     headers = ["analysis_id", "config_id", "analysis_name", "start_date", "created_date", "last_updated_date"]
     print tabulate(all_analyses, headers, tablefmt="grid")
 
