@@ -210,12 +210,24 @@ def get_number_of_runs_command(args):
         
 def list_workflows_command(args):
     all_workflows = [{ c.key: getattr(obj, c.key)for c in inspect(obj).mapper.column_attrs} for obj in list_workflows()]
-    headers = ["workflow_id","workflow_name","workflow_version", "config_id", "created_date", "last_updated_date"]
+    headers = {"workflow_id": "workflow_id",
+               "workflow_name": "workflow_name",
+               "workflow_version": "workflow_version",
+               "config_id": "config_id",
+               "created_date": "created_date", 
+               "last_updated_date": "last_updated_date"}
+    
     print tabulate(all_workflows, headers, tablefmt="grid")
     
 def list_analyses_command(args):
     all_analyses = [{ c.key: getattr(obj, c.key)for c in inspect(obj).mapper.column_attrs} for obj in list_analyses()]
-    headers = ["analysis_id", "config_id", "analysis_name", "start_date", "created_date", "last_updated_date"]
+    headers = {"analysis_id": "analysis_id", 
+               "config_id": "config_id", 
+               "analysis_name": "analysis_name", 
+               "start_date": "start_date", 
+               "created_date": "created_date", 
+               "last_updated_date": "last_updated_date"}
+    
     print tabulate(all_analyses, headers, tablefmt="grid")
 
 if __name__ == '__main__':
