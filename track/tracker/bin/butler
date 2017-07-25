@@ -209,24 +209,38 @@ def get_number_of_runs_command(args):
         format(num_runs, analysis_id, args.run_status)
         
 def list_workflows_command(args):
-    all_workflows = [{ c.key: getattr(obj, c.key)for c in inspect(obj).mapper.column_attrs} for obj in list_workflows()]
-    headers = collections.OrderedDict({"workflow_id": "workflow_id",
-               "workflow_name": "workflow_name",
-               "workflow_version": "workflow_version",
-               "config_id": "config_id",
-               "created_date": "created_date", 
-               "last_updated_date": "last_updated_date"})
+    all_workflows = [{c.key: getattr(obj, c.key)for c in inspect(obj).mapper.column_attrs} for obj in list_workflows()]
+    all_workflows = [[v["workflow_id"],
+                      v["workflow_name"],
+                      v["workflow_version"],
+                      v["created_date"],
+                      v["last_updated_date"],
+                      v["config_id"]] for v in all_workflows]
+    
+    headers = ["workflow_id",
+               "workflow_name",
+               "workflow_version",
+               "created_date", 
+               "last_updated_date",
+               "config_id"]
     
     print tabulate(all_workflows, headers, tablefmt="grid")
     
 def list_analyses_command(args):
-    all_analyses = [{ c.key: getattr(obj, c.key)for c in inspect(obj).mapper.column_attrs} for obj in list_analyses()]
-    headers = collections.OrderedDict({"analysis_id": "analysis_id", 
-               "config_id": "config_id", 
-               "analysis_name": "analysis_name", 
-               "start_date": "start_date", 
-               "created_date": "created_date", 
-               "last_updated_date": "last_updated_date"})
+    all_analyses = [{c.key: getattr(obj, c.key)for c in inspect(obj).mapper.column_attrs} for obj in list_analyses()]
+    all_analyses = [[v["analysis_id"],
+                     v["analysis_name"],
+                     v["start_date"],
+                     v["created_date"],
+                     v["last_updated_date"],
+                     v["config_id"]] for v in all_analyses]
+    
+    headers = ["analysis_id", 
+               "analysis_name", 
+               "start_date", 
+               "created_date", 
+               "last_updated_date",
+               "config_id"]
     
     print tabulate(all_analyses, headers, tablefmt="grid")
 
