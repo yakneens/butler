@@ -70,8 +70,17 @@ def set_configuration_for_workflow(workflow_id, config_id):
 
     return my_workflow
 
-
+    
 def get_workflow_by_id(workflow_id):
+    """
+    Get a workflow with ID workflow_ID
+    
+    Args:
+        workflow_id (id): ID of workflow
+    
+    Returns:
+        my_workflow (Workflow): The workflow with id workflow_id.
+    """
     session = connection.Session()
 
     my_workflow = session.query(Workflow).filter(
@@ -80,3 +89,19 @@ def get_workflow_by_id(workflow_id):
     connection.engine.dispose()
 
     return my_workflow
+
+def list_workflows():
+    """
+    Return all of the existing workflows
+    
+    Returns:
+        all_workflows(List): All of the existing workflows.
+    """
+    session = connection.Session()
+
+    all_workflows = session.query(Workflow).all()
+    session.close()
+    connection.engine.dispose()
+
+    return all_workflows
+    

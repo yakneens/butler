@@ -70,3 +70,18 @@ def set_configuration_for_analysis(analysis_id, config_id):
     connection.engine.dispose()
 
     return my_analysis
+
+def list_analyses():
+    """
+    Return all of the existing analyses.
+    
+    Returns:
+        all_analyses(List): All of the existing analyses.
+    """
+    session = connection.Session()
+
+    all_analyses = session.query(Analysis).all()
+    session.close()
+    connection.engine.dispose()
+
+    return all_analyses

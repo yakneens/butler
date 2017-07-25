@@ -2,6 +2,7 @@
 from uuid import uuid4
 import argparse
 import os
+from tabulate import tabulate
 
 from airflow.operators import TriggerDagRunOperator
 
@@ -95,6 +96,12 @@ def parse_args():
                                            choices=tracker.model.analysis_run.run_status_list,
                                            required=False)
     get_number_of_runs_parser.set_defaults(func=get_number_of_runs_command)
+    
+    list_workflows_parser = sub_parsers.add_parser("list-workflows")
+    list_workflows_parser.set_defaults(func=list_workflows_command)
+    
+    list_analyses_parser = sub_parsers.add_parser("list-analyses")
+    list_analyses_parser.set_defaults(func=list_analyses_command)
 
     my_args = my_parser.parse_args()
 
@@ -200,6 +207,16 @@ def get_number_of_runs_command(args):
     num_runs = get_number_of_runs_with_status(analysis_id, run_status)
     print "There are {} analysis runs for analysis {}, with status {}".\
         format(num_runs, analysis_id, args.run_status)
+        
+def list_workflows_command(args):
+    all_workflows = list_workflows()
+    headers = ["workflow_id","workflow_name","workflow_version", "config_id", "created_date", "last_updated_date"]
+    print tabulate(all_workflows, headers, tablefmt="grid")
+    
+def list_analyses_command(args):
+    all_analyses = list_analyses()
+    headers = ["analysis_id", "config_id", "analysis_name", "start_date", "created_date", "last_updated_date"]
+    print tabulate(all_analyses, headers, tablefmt="grid")
 
 if __name__ == '__main__':
     my_args = parse_args()
