@@ -16,7 +16,8 @@ base:
     - consul.join-all
   'G@roles:monitoring-server':
     - influxdb
-    - grafana 
+    - grafana
+    - kapacitor
   'G@roles:worker':
     - celery
     - airflow

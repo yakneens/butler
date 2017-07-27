@@ -14,6 +14,7 @@ base:
     - airflow
   'G@roles:monitoring-server':
     - grafana
+    - kapacitor
   'G@roles:db-server':
     - grafana
     - run-tracking-db
