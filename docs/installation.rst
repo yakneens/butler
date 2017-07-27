@@ -505,6 +505,48 @@ every 60 seconds for new state changes.
 Workflow/Analysis Configuration
 -------------------------------
 
+Once all of the software components of Butler are installed and configured it is time to configure some test workflows
+and analyses. Butler ships with several test workflows and analyses for you to try along with some data that is necessary
+for testing. At this point most of our interactions will be with the Butler CLI which is accessible on the tracker VM so
+you should SSH onto that host.
+
+Butler keeps track of various workflows and analyses by keeping its own database on the db-server. To get started we need
+to register some of our test workflows and create a test analysis. When we run Workflows for a particular Analysis on 
+data Butler also creates Analysis Runs. Each of these objects supports configuration parameters that are supplied in the form
+of JSON files and are merged at runtime into an effective configuration which is a set of values that govern the execution
+of a particular workflow instance where Workflow-level configuration is most general (it applies for all invocations of this
+workflow), Analysis-level configuration overrides Workflow-level configuration (and applies for all Analysis Runs under one 
+Analysis), and Analysis Run-level configuration is the most specific (applies just for the one Analysis Run) and overrides the
+previous two configuration levels. The JSON files that are supplied at each level are stored into Butler's database and can be
+queried at any later date to reproduce the configuration settings for any particular execution. More details are available in 
+the Reference Guides :ref:`Analysis Tracker Section<analysis_tracker_section>`. 
+
+Airflow keeps its workflow definitions (called DAGS in Airflow parlance) in :shell:`/opt/airflow/dags` and we can register these workflows 
+with Butler by using Butler's :shell:`create-workflow` command as follows:
+
+.. code-block:: shell
+
+	butler create-workflow -n freebayes -v 1.0 -c /opt/butler/examples/workflow/freebayes-workflow/freebayes-workflow-config.json
+	 
+Here the -n flag corresponds to the workflow name which should match the name of the Airflow DAG that will be executed by this 
+workflow. This name can be gleaned from the python file that defines the DAG structure, as below where the DAG name is *freebayes*:
+
+.. code-block:: python
+	
+	dag = DAG("freebayes", default_args=default_args,
+          schedule_interval=None, concurrency=10000, max_active_runs=2000)
+          
+N.B. If you do not use a matching name then Butler will not know which Airflow DAG to execute when you launch the workflow which will 
+result in runtime errors.
+
+The -v parameter represents the workflow version, and the -c parameter a path to the JSON configuration file that supplies configuration
+values that will apply to all invocations of this workflow. 
+
+When you run the :shell:`create-workflow` command you will be issued a numeric workflow_id corresponding to this workflow that you can
+use to launch workflow instances. You can always look up a listing of existing workflow instances, along with their IDs by running 
+:shell:`butler list-workflows`.            
+
+
 .. _test_execution_section:
 
 Workflow Test Execution

@@ -899,6 +899,8 @@ This means that most bugs and issues related to dependency installation are only
 is running and fails. Thankfully, the job of installing and configuring dependencies is made relatively easy by the 
 Butler Configuration Management System. 
 
+.. _analysis_tracker_section:
+
 Analysis Tracker
 ''''''''''''''''
 
