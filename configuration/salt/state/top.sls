@@ -18,6 +18,7 @@ base:
     - influxdb
     - grafana
     - kapacitor
+    - chronograf
   'G@roles:worker':
     - celery
     - airflow

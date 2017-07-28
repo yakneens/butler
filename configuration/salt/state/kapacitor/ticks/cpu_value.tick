@@ -1,0 +1,42 @@
+// Parameters
+var info = 70
+var warn = 80
+var crit = 90
+var infoSig = 2.5
+var warnSig = 3
+var critSig = 3.5
+var period = 10s
+var every = 10s
+
+// Dataframe
+var data = stream
+  |from()
+    .database('metrics')
+    .retentionPolicy('default')
+    .measurement('cpu_value')
+//    .groupBy('host')
+    .where(lambda: "type" == 'percent' AND "type_instance" == 'idle')
+  |eval(lambda: 100 - "value")
+    .as('used')
+  |window()
+    .period(period)
+    .every(every)
+  |mean('used')
+    .as('stat')
+
+// Thresholds
+var alert = data
+  |eval(lambda: sigma("stat"))
+    .as('sigma')
+    .keep()
+  |alert()
+    .id('{{ index .Tags "host"}}/cpu_value')
+    .message('{{ .ID }}:{{ index .Fields "stat" }}')
+//    .info(lambda: "stat" > info OR "sigma" > infoSig)
+    .warn(lambda: "stat" > warn OR "sigma" > warnSig)
+    .crit(lambda: "stat" > crit OR "sigma" > critSig)
+
+// Alert
+alert
+  .log('/tmp/cpu_alert_log_2.txt')
+~                                      
