@@ -526,7 +526,8 @@ with Butler by using Butler's :shell:`create-workflow` command as follows:
 
 .. code-block:: shell
 
-	butler create-workflow -n freebayes -v 1.0 -c /opt/butler/examples/workflow/freebayes-workflow/freebayes-workflow-config.json
+	butler create-workflow -n freebayes -v 1.0 \
+	-c /opt/butler/examples/workflow/freebayes-workflow/freebayes-workflow-config.json
 	 
 Here the -n flag corresponds to the workflow name which should match the name of the Airflow DAG that will be executed by this 
 workflow. This name can be gleaned from the python file that defines the DAG structure, as below where the DAG name is *freebayes*:

@@ -24,7 +24,6 @@ Contents
 .. toctree::
    :maxdepth: 3
    
-   architecture
    installation
    reference
 
