@@ -89,7 +89,7 @@ Who uses Butler?
 ================
 
 * The **Pan Cancer Analysis of Whole Genomes Project** (PCAWG_) - used Butler to run cancer genomics workflows on 2800+ high-coverage whole genome samples (725 TB of data) on Openstack.
-* The **European Open Science Cloud Pilot Project ** (EOSC_) - using Butler to run cancer genomics workflows on multiple platforms (Openstack, AWS).
+* The **European Open Science Cloud Pilot Project** (EOSC_) - using Butler to run cancer genomics workflows on multiple platforms (Openstack, AWS).
 * The **Pan Prostate Cancer Group** - using Butler to run cancer genomics workflows on 2000+ whole genome prostate cancer samples on Openstack. 
 
 ===============
