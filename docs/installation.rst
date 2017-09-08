@@ -242,6 +242,17 @@ API requests on your behalf, the errors it encounters are not always adequately 
 output by setting the :shell:`OS_DEBUG=1` environment variable which will allow you to inspect the individual OpenStack API calls that are being made
 and the responses that are being received. Once you are done debugging it is highly recommended to unset these variables.
 
+Deployment on AWS
+```````````````````````
+
+This section is under construction, please check back soon.
+
+
+Deployment on Microsoft Azure
+```````````````````````
+
+This section is under construction, please check back soon.
+
  	
 .. _software_configuration_section:
 
