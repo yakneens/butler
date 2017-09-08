@@ -72,6 +72,18 @@ Common Workflow Language (CWL_). Butler ships with a number of ready-made workfl
 * Variant filtering
 * R_ data analysis
 
+A typical Butler deployment looks like this:
+
+.. image:: docs/images/embassy_butler_deployment_architecture.png
+
+It can look like a bit of a tangle but is actually fairly simple: The Salt Master configures and installs software, 
+the Tracker schedules workflows and puts them into a RabbitMQ queue keeping track of their state in a database, 
+a fleet of Workers pick up workflow tasks and execute them, the Monitoring Server harvests logs and metrics
+from everything and visualizes them on graphical dashboards. That's about it. Many more details about how
+everything works can be found in the Documentation_.
+
+
+
 ================
 Who uses Butler?
 ================
