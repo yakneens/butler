@@ -123,10 +123,6 @@ html_static_path = ['_static']
 
 html_last_updated_fmt = '%b %d, %Y'
 
-html_additional_pages = {
-    'google5790eaed29f5cf13': 'extras/google5790eaed29f5cf13.html',
-}
-
 # -- Options for HTMLHelp output ------------------------------------------
 
 # Output file base name for HTML help builder.
