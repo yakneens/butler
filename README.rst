@@ -131,4 +131,3 @@ Read our preprint_ on bioRxiv.
 .. raw:: html
 	<script type="text/javascript" src="https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js"></script><div class="altmetric-embed" data-badge-type="donut" data-altmetric-id="24922011" />
 	
-	
