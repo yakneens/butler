@@ -6,6 +6,7 @@ base:
     - elastic.filebeat
     - elastic.packetbeat
     - ntp
+    - telegraf
   'G@roles:consul-bootstrap':
     - consul.bootstrap
   'G@roles:consul-server':
