@@ -12,6 +12,7 @@ from tracker.model.analysis import *
 from tracker.model.workflow import *
 import tracker.model
 from sqlalchemy import inspect
+import json
 
 def set_up_dag_run(context, dag_run_obj):
     dag_run_obj.payload = {"config": context["config"]}
@@ -263,7 +264,7 @@ def print_effective_configuration_command(args):
     effective_config = get_effective_configuration(analysis_run_id)
     
     if effective_config != None:
-        print effective_config.config
+        print json.dumps(effective_config, indent=4)
     else:
         print "No configuration found for Analysis Run with id: " + str(analysis_run_id)
     
@@ -273,7 +274,7 @@ def print_configuration_command(args):
     my_config = get_configuration_by_id(config_id)
     
     if my_config != None:
-        print my_config.config
+        print json.dumps(my_config.config, indent=4)
     else:
         print "No configuration found with config_id: " + str(config_id)
 
