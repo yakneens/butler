@@ -210,3 +210,22 @@ def is_uuid(my_object):
     except ValueError:
         return False
     return str(my_uuid) == my_object
+
+def get_configuration_by_id(config_id):
+    """
+    Get the configuration with ID config_id.
+
+    Args:
+        config_id (id): ID of configuration
+
+    Returns:
+        my_configuration (Configuration): The configuration that has id config_id.
+    """
+    session = connection.Session()
+
+    my_configuration = session.query(Configuration).filter(
+        Configuration.config_id == config_id).first()
+
+    session.close()
+    connection.engine.dispose()
+    return my_configuration

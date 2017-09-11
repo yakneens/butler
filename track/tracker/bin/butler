@@ -102,6 +102,19 @@ def parse_args():
     
     list_analyses_parser = sub_parsers.add_parser("list-analyses")
     list_analyses_parser.set_defaults(func=list_analyses_command)
+    
+    print_effective_config_parser = sub_parsers.add_parser("print-effective-config")
+    print_effective_config_parser.add_argument(
+        "-r", "--analysis_run_id", help="ID of the analysis run to look up effective configuration for",
+        dest="analysis_run_id", required=True)
+    print_effective_config_parser.set_defaults(func=print_effective_configuration_command)
+    
+    print_config_parser = sub_parsers.add_parser("print-config")
+    print_config_parser.add_argument(
+        "-c", "--config_id", help="Configuration id to look up.",
+        dest="config_id", required=True)
+    
+    print_config_parser.set_defaults(func=print_configuration_command)
 
     my_args = my_parser.parse_args()
 
@@ -243,6 +256,26 @@ def list_analyses_command(args):
                "config_id"]
     
     print tabulate(all_analyses, headers, tablefmt="grid")
+    
+def print_effective_configuration_command(args):
+    analysis_run_id = args.analysis_run_id
+    
+    effective_config = get_effective_configuration(analysis_run_id)
+    
+    if effective_config != None:
+        print effective_config.config
+    else:
+        print "No configuration found for Analysis Run with id: " + str(analysis_run_id)
+    
+def print_configuration_command(args):
+    config_id = args.config_id
+    
+    my_config = get_configuration_by_id(config_id)
+    
+    if my_config != None:
+        print my_config.config
+    else:
+        print "No configuration found with config_id: " + str(config_id)
 
 if __name__ == '__main__':
     my_args = parse_args()
