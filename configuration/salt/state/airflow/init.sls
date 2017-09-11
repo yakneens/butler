@@ -17,6 +17,11 @@ install_airflow:
   pip.installed: 
     - name: airflow
     - upgrade: True
+    
+install_statsd:
+  pip.installed: 
+    - name: statsd
+    - upgrade: True
 
 airflow_user:
   user.present:
