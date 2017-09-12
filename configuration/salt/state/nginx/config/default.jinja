@@ -1,12 +1,12 @@
 server {
-    listen 80;
+    listen 8080;
 
-    root /usr/share/nginx/html;
+    root /opt/butler/web;
     index index.html index.htm;
 
-    server_name localhost;
+    server_name _;
 
-    location / {
+    location /html {
         try_files $uri $uri/ =404;
     }
 }
