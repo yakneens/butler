@@ -1,10 +1,10 @@
 server {
-    listen {{ salt['network.interface_ip'](interface) }}:80;
+    listen 80;
 
     root /usr/share/nginx/html;
     index index.html index.htm;
 
-    server_name {{ salt['network.interface_ip'](interface) }};
+    server_name localhost;
 
     location / {
         try_files $uri $uri/ =404;
