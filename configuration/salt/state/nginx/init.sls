@@ -16,7 +16,7 @@ nginx:
     
 /etc/nginx/sites-available/default:
   file.managed:
-    - source: salt://nginx/files/config/default.jinja
+    - source: salt://nginx/config/default.jinja
     - template: jinja
     - user: root
     - group: root
@@ -30,7 +30,7 @@ nginx:
       
 /usr/share/nginx/html/index.html:
   file.managed:
-    - source: salt://nginx/conf/index.html.jinja
+    - source: salt://nginx/config/index.html.jinja
     - template: jinja
     - user: root
     - group: root
