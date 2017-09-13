@@ -1,3 +1,10 @@
+allow_nginx_connect:
+  selinux.boolean:
+    - name: httpd_can_network_connect
+    - value: 1
+    - persist: true
+
+
 nginx:
   pkg:
     - installed

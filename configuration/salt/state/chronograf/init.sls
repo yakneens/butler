@@ -5,3 +5,12 @@ chronograf:
   service.running:
     - require:
       - pkg: chronograf
+    - watch:
+      - file: /usr/lib/systemd/system/chronograf.service
+      
+/usr/lib/systemd/system/chronograf.service:
+  file.managed:
+    - source: salt://chronograf/config/chronograf.service
+    - user: root
+    - group: root
+    - mode: 744
