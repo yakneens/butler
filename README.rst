@@ -1,4 +1,4 @@
-|health| |docs|
+|health| |docs| |gitter|
 
 .. |build-status| image:: https://img.shields.io/travis/rtfd/readthedocs.org.svg?style=flat
     :alt: build status
@@ -16,6 +16,10 @@
    
 .. |coverage| image:: https://coveralls.io/repos/github/llevar/butler/badge.svg?branch=master
 	:target: https://coveralls.io/github/llevar/butler?branch=master
+
+.. |gitter| image:: https://badges.gitter.im/butler-cloud/Lobby.svg
+   	:alt: Join the chat at https://gitter.im/butler-cloud/Lobby
+   	:target: https://gitter.im/butler-cloud/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 
 .. image:: docs/images/butler_logo_with_text.png
  
@@ -129,6 +133,3 @@ Watch the keynote_ presentation by Sergei Yakneen from the de.NBI Cloud Computin
 Read our preprint_ on bioRxiv.
 
 
-.. image:: https://badges.gitter.im/butler-cloud/Lobby.svg
-   :alt: Join the chat at https://gitter.im/butler-cloud/Lobby
-   :target: https://gitter.im/butler-cloud/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
