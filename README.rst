@@ -127,3 +127,8 @@ Head over to the Documentation_ to learn about how to use Butler for your projec
 Watch the keynote_ presentation by Sergei Yakneen from the de.NBI Cloud Computing Summer School in Giessen, Germany, from June 2017 that describes Butler.
 
 Read our preprint_ on bioRxiv.
+
+
+.. image:: https://badges.gitter.im/butler-cloud/Lobby.svg
+   :alt: Join the chat at https://gitter.im/butler-cloud/Lobby
+   :target: https://gitter.im/butler-cloud/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
