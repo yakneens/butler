@@ -6,6 +6,26 @@ upstream rabbitmq {
 	server rabbitmq.service.consul:15672;
 }
 
+upstream airflow {
+	server airflow.service.consul:8889;
+}
+
+upstream celery {
+	server airflow.service.consul:5555;
+}
+
+upstream grafana {
+	server grafana.service.consul:3000;
+}
+
+upstream kibana {
+	server kibana.service.consul:5601;
+}
+
+upstream consul {
+	server consul-ui.service.consul:8500;
+}
+
 server {
 	listen 8090;
 	
@@ -26,6 +46,41 @@ server {
 
 	location ^~ /rabbitmq/ {
 		proxy_pass http://rabbitmq/;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real_IP $remote_addr;
+		proxy_set_header X-Forwarded-For $remote_addr;
+	}
+	
+	location ^~ /celery/ {
+		proxy_pass http://celery/;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real_IP $remote_addr;
+		proxy_set_header X-Forwarded-For $remote_addr;
+	}
+	
+	location ^~ /airflow/ {
+		proxy_pass http://airflow/;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real_IP $remote_addr;
+		proxy_set_header X-Forwarded-For $remote_addr;
+	}
+	
+	location ^~ /grafana/ {
+		proxy_pass http://grafana/;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real_IP $remote_addr;
+		proxy_set_header X-Forwarded-For $remote_addr;
+	}
+	
+	location ^~ /kibana/ {
+		proxy_pass http://kibana/;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real_IP $remote_addr;
+		proxy_set_header X-Forwarded-For $remote_addr;
+	}
+	
+	location ^~ /consul-ui/ {
+		proxy_pass http://consul-ui/;
 		proxy_set_header Host $host;
 		proxy_set_header X-Real_IP $remote_addr;
 		proxy_set_header X-Forwarded-For $remote_addr;

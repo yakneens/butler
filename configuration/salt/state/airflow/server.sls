@@ -31,3 +31,12 @@ airflow-scheduler:
 airflow-flower:
   service.running:
     - enable: True
+    
+airflow_consul_config:
+  file.managed:
+    - name: /etc/opt/consul.d/airflow_consul.json
+    - source: salt://airflow/config/airflow_consul.json
+    - user: root
+    - group: root
+    - mode: 644 
+    - makedirs: True 
