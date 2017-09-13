@@ -23,11 +23,11 @@ enable_on_boot_logstash:
 
 install_beats_plugin:
   cmd.run:
-    - name: /opt/logstash/bin/plugin install logstash-input-beats
+    - name: /usr/share/logstash/bin/logstash-plugin install logstash-input-beats
     
 update_beats_plugin:
   cmd.run:
-    - name: /opt/logstash/bin/plugin update logstash-input-beats
+    - name: /usr/share/logstash/bin/logstash-plugin update logstash-input-beats
     
 /etc/logstash/conf.d/config.json:
   file.managed:
