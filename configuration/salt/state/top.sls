@@ -15,6 +15,8 @@ base:
   'G@roles:consul-client':
     - consul.client
     - consul.join-all
+  'G@roles:consul-ui':
+    - consul.ui
   'G@roles:monitoring-server':
     - influxdb
     - grafana
@@ -51,7 +53,10 @@ base:
     - elastic.kibana
     - celery
   'G@roles:R':
-    - R  
+    - R
+  'G@roles:butler-web':
+    - nginx
+    - butler.web   
 
 
   

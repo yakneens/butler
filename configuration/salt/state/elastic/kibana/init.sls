@@ -20,6 +20,16 @@
     - group: root
     - mode: 744
     - makedirs: True
+    
+    
+kibana_consul_config:
+  file.managed:
+    - name: /etc/opt/consul.d/kibana_consul.json
+    - source: salt://elastic/kibana/config/kibana_consul.json
+    - user: root
+    - group: root
+    - mode: 644 
+    - makedirs: True 
 
 start_kibana:
   service.running:
