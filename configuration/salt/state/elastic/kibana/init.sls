@@ -1,9 +1,9 @@
 /opt/kibana:
   archive.extracted:
-    - source: https://download.elastic.co/kibana/kibana/kibana-4.2.0-linux-x64.tar.gz
+    - source: https://artifacts.elastic.co/downloads/kibana/kibana-5.6.0-linux-x86_64.tar.gz
     - archive_format: tar
     - tar_options: z
-    - source_hash: sha1=ff3653824735edff3201761f584729b2d0cd0216
+    - source_hash: sha1=741e45710e93f637b41adfb57efee7acce0f2b99
 
 /usr/lib/systemd/system/kibana.service:
   file.managed:

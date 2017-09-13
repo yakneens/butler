@@ -9,8 +9,8 @@ elastic_consul_config:
     
 elasticsearch_repo:
   pkgrepo.managed:
-    - humanname: Logstash YUM Repo
-    - baseurl: http://packages.elasticsearch.org/elasticsearch/2.x/centos
+    - humanname: Elastic YUM Repo
+    - baseurl: https://artifacts.elastic.co/packages/5.x/yum
     - gpgkey: http://packages.elasticsearch.org/GPG-KEY-elasticsearch
 
 install_elasticsearch:
