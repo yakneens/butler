@@ -79,8 +79,8 @@ server {
 		proxy_set_header X-Forwarded-For $remote_addr;
 	}
 	
-	location ^~ /consul-ui/ {
-		proxy_pass http://consul-ui/;
+	location ^~ /consul/ {
+		proxy_pass http://consul/;
 		proxy_set_header Host $host;
 		proxy_set_header X-Real_IP $remote_addr;
 		proxy_set_header X-Forwarded-For $remote_addr;
