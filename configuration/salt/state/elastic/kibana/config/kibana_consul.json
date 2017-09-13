@@ -1,1 +1,1 @@
-{"service": {"name": "Consul", "tags": ["consul"], "port": 8500}}
+{"service": {"name": "Kibana", "tags": ["kibana"], "port": 8500}}
