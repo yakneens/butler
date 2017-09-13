@@ -37,10 +37,3 @@ nginx:
       - file: /etc/nginx/sites-available/default
     - makedirs: True 
       
-/usr/share/nginx/html/index.html:
-  file.managed:
-    - source: salt://nginx/config/index.html.jinja
-    - template: jinja
-    - user: root
-    - group: root
-    - mode: 644

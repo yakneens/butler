@@ -1,59 +1,33 @@
 upstream chronograf {
-        server influxdb.service.consul:8888;
+	server influxdb.service.consul:8888;
 }
 
-upstream influxdb_http_api {
-        server influxdb.service.consul:8086;
-}
-
-server {
-    listen 8090;
-
-    root /opt/butler/web/html;
-    index index.html index.htm;
-    server_name _;
-rewrite ^/([^/]+\.*)$ /chronograf/$1;
-#rewrite ^/([^/]+\.css)$ /chronograf/$1;
-#rewrite ^/([^/]+\.ttf)$ /chronograf/$1;
-#rewrite ^/([^/]+\.jpg)$ /chronograf/$1;
-
-        location / {
-try_files $uri $uri/ / =404;
-proxy_pass http://chronograf/;
-}
-
-##    location ~ /chronograf/?(.*)$  {
-location ^~ /chronograf/ {
-        proxy_pass http://chronograf/;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real_IP $remote_addr;
-        proxy_set_header X-Forwarded-For $remote_addr;
-    }
-
-location /influxdb_http_api/ {
-        proxy_pass http://influxdb_http_api/;
-        proxy_set_header Host $host;
-        proxy_set_header X-Real_IP $remote_addr;
-        proxy_set_header X-Forwarded-For $remote_addr;
-}
+upstream rabbitmq {
+	server rabbitmq.service.consul:15672;
 }
 
 server {
-        listen 8091;
-        server_name _;
+	listen 8090;
+	
+	root /opt/butler/web/html;
+	index index.html index.htm;
+	server_name _;
 
-        location / {
-                proxy_pass http://chronograf/;
-                proxy_set_header Host $host;
-                proxy_set_header X-Real_IP $remote_addr;
-                proxy_set_header X-Forwarded-For $remote_addr;
-        }
+	location / {
+		try_files $uri $uri/ / =404;
+	}
 
-        location /a/ {
-proxy_pass http://chronograf/;
-                proxy_set_header Host $host;
-                proxy_set_header X-Real_IP $remote_addr;
-                proxy_set_header X-Forwarded-For $remote_addr;
-        }
+	location ^~ /chronograf/ {
+		proxy_pass http://chronograf/;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real_IP $remote_addr;
+		proxy_set_header X-Forwarded-For $remote_addr;
+	}
 
+	location ^~ /rabbitmq/ {
+		proxy_pass http://rabbitmq/;
+		proxy_set_header Host $host;
+		proxy_set_header X-Real_IP $remote_addr;
+		proxy_set_header X-Forwarded-For $remote_addr;
+	}
 }
