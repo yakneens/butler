@@ -27,6 +27,16 @@ airflow-scheduler:
     - user: root
     - group: root
     - mode: 744
+    - template: jinja
+    
+{{ pillar['airflow_flower_config'] }}:
+  file.managed:
+    - source: salt://airflow/config/flower_config.py
+    - user: airflow
+    - group: airflow
+    - mode: 600
+    - makedirs: True
+    - template: jinja
 
 airflow-flower:
   service.running:

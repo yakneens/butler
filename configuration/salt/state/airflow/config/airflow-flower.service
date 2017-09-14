@@ -7,7 +7,7 @@ After=network-online.target
 EnvironmentFile=/etc/sysconfig/airflow
 Environment=
 Restart=on-failure
-ExecStart=/usr/bin/airflow flower --url_prefix=flower
+ExecStart=/usr/bin/airflow flower --flower_conf {{ pillar['airflow_flower_config'] }}
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGINT
 
