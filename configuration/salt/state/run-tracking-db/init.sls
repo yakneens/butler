@@ -5,6 +5,7 @@ butler_admin_user:
     - superuser: True
     - password: {{ pillar['postgres.password'] }}
     - user: postgres
+    - db_host: localhost
 
     
 /data/run_tracking/db:
