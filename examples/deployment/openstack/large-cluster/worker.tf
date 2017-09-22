@@ -9,12 +9,6 @@ resource "openstack_compute_instance_v2" "worker" {
 	network = {
 		uuid = "${var.main_network_id}"
 	}
-	network = {
-		uuid = "${var.pan_prostate_network_id}"
-	}
-	network = {
-		uuid = "${var.gnos_network_id}"
-	}
 	connection {
 		user = "${var.user}"
 	 	private_key = "${file(var.key_file)}"
@@ -34,7 +28,7 @@ resource "openstack_compute_instance_v2" "worker" {
 	provisioner "remote-exec" {
 	  inline = [
 	    "chmod +x /tmp/salt_setup.sh",
-	    "/tmp/salt_setup.sh ${null_resource.masterip.triggers.address} worker-${count.index} \"worker, germline, consul-client\""
+	    "/tmp/salt_setup.sh ${null_resource.masterip.triggers.address} worker-${count.index} \"worker, consul-client\""
 	  ]
 	}
 }

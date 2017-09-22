@@ -35,6 +35,7 @@ base:
     - celery
     - airflow
     - airflow.init-db
+    - airflow.patch-airflow-url-prefix
     - airflow.server
     - jsonmerge
     - butler.tracker
