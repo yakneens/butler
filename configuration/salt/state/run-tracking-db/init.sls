@@ -7,6 +7,7 @@ butler_admin_user:
     - user: postgres
     - db_host: localhost
     - db_user: postgres
+    - maintenance_db: postgres
 
     
 /data/run_tracking/db:
