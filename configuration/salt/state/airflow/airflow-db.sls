@@ -4,6 +4,7 @@ run_tracking_db_airflow:
     - owner: butler_admin
     - tablespace: run_dbspace
     - user: postgres
+    - db_host: localhost
 
 run_tracking_db_celery:
   postgres_database.present:
@@ -11,4 +12,4 @@ run_tracking_db_celery:
     - owner: butler_admin
     - tablespace: run_dbspace
     - user: postgres
-  
+    - db_host: localhost 
