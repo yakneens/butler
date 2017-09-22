@@ -31,6 +31,7 @@ base:
     - cwltool
     - docker    
   'G@roles:tracker':
+    - git
     - run-tracking-db.set_db_url
     - celery
     - airflow
@@ -56,6 +57,7 @@ base:
   'G@roles:R':
     - R
   'G@roles:butler-web':
+    - git
     - nginx
     - butler.web   
 
