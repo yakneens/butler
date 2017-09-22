@@ -14,19 +14,19 @@
     
 grafana_tablespace:
   postgres_tablespace.present:
-     - name: grafana_dbspace
-     - owner: {{ pillar['postgres.user'] }}
-     - directory: /data/grafana/db
-     - user: postgres
-     - db_password:  {{ pillar['postgres.password'] }}
+    - name: grafana_dbspace
+    - owner: {{ pillar['postgres.user'] }}
+    - directory: /data/grafana/db
+    - user: postgres
+    - db_host: localhost
 
 grafana_indexspace:
   postgres_tablespace.present:
-     - name: grafana_indexspace
-     - owner: {{ pillar['postgres.user'] }}
-     - directory: /data/grafana/indexes
-     - user: postgres
-     - db_password:  {{ pillar['postgres.password'] }}
+    - name: grafana_indexspace
+    - owner: {{ pillar['postgres.user'] }}
+    - directory: /data/grafana/indexes
+    - user: postgres
+    - db_host: localhost
      
 grafana_db:
   postgres_database.present:
@@ -34,4 +34,4 @@ grafana_db:
     - owner: {{ pillar['postgres.user'] }}
     - tablespace: grafana_dbspace
     - user: postgres
-    - db_password:  {{ pillar['postgres.password'] }}
+    - db_host: localhost
