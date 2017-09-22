@@ -18,6 +18,7 @@ grafana_tablespace:
      - owner: {{ pillar['postgres.user'] }}
      - directory: /data/grafana/db
      - user: postgres
+     - db_password:  {{ pillar['postgres.password'] }}
 
 grafana_indexspace:
   postgres_tablespace.present:
@@ -25,11 +26,12 @@ grafana_indexspace:
      - owner: {{ pillar['postgres.user'] }}
      - directory: /data/grafana/indexes
      - user: postgres
-
+     - db_password:  {{ pillar['postgres.password'] }}
+     
 grafana_db:
   postgres_database.present:
     - name: {{ pillar['grafana.db_name'] }}
     - owner: {{ pillar['postgres.user'] }}
     - tablespace: grafana_dbspace
     - user: postgres
-
+    - db_password:  {{ pillar['postgres.password'] }}
