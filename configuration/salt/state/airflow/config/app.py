@@ -12,23 +12,25 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import logging
 import socket
 import six
 
 from flask import Flask
 from flask_admin import Admin, base
 from flask_cache import Cache
-from flask_wtf.csrf import CSRFProtect
-csrf = CSRFProtect()
+from flask_wtf.csrf import CsrfProtect
+csrf = CsrfProtect()
 
 import airflow
-from airflow import models, LoggingMixin
+from airflow import models
 from airflow.settings import Session
 
 from airflow.www.blueprints import routes
 from airflow import jobs
 from airflow import settings
 from airflow import configuration
+
 
 class URLPrefixMiddleware(object):
 
@@ -87,7 +89,7 @@ def create_app(config=None, testing=False):
         av(vs.QueryView(name='Ad Hoc Query', category="Data Profiling"))
         av(vs.ChartModelView(
             models.Chart, Session, name="Charts", category="Data Profiling"))
-        av(vs.KnownEventView(
+        av(vs.KnowEventView(
             models.KnownEvent,
             Session, name="Known Events", category="Data Profiling"))
         av(vs.SlaMissModelView(
@@ -117,7 +119,7 @@ def create_app(config=None, testing=False):
             url='http://pythonhosted.org/airflow/'))
         admin.add_link(
             base.MenuLink(category='Docs',
-                name='Github',url='https://github.com/apache/incubator-airflow'))
+                name='Github',url='https://github.com/airbnb/airflow'))
 
         av(vs.VersionView(name='Version', category="About"))
 
@@ -129,17 +131,16 @@ def create_app(config=None, testing=False):
 
         def integrate_plugins():
             """Integrate plugins to the context"""
-            log = LoggingMixin().log
             from airflow.plugins_manager import (
                 admin_views, flask_blueprints, menu_links)
             for v in admin_views:
-                log.debug('Adding view %s', v.name)
+                logging.debug('Adding view ' + v.name)
                 admin.add_view(v)
             for bp in flask_blueprints:
-                log.debug('Adding blueprint %s', bp.name)
+                logging.debug('Adding blueprint ' + bp.name)
                 app.register_blueprint(bp)
             for ml in sorted(menu_links, key=lambda x: x.name):
-                log.debug('Adding menu link %s', ml.name)
+                logging.debug('Adding menu link ' + ml.name)
                 admin.add_link(ml)
 
         integrate_plugins()
