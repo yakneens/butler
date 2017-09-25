@@ -1,5 +1,6 @@
 base:
   '*':
+    - selinux
     - consul
     - dnsmasq
     - collectd
@@ -23,6 +24,7 @@ base:
     - kapacitor
     - chronograf
   'G@roles:worker':
+    - git
     - celery
     - airflow
     - airflow.worker
