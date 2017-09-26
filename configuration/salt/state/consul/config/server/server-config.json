@@ -5,7 +5,7 @@
 	"data_dir": "/var/consul",
 	"log_level": "INFO",
 	"enable_syslog": true,
-	"ui_dir": "/opt/consul/ui/dist/",
+	"ui": "true",
 	"client_addr": "0.0.0.0",
 	"bootstrap_expect": 2
 }
