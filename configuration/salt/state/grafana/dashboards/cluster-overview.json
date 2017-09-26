@@ -67,7 +67,7 @@
                 "host"
               ],
               "measurement": "load_shortterm",
-              "query": "SELECT mean(value) FROM \"load_shortterm\" WHERE $timeFilter  AND \"host\" =~ /^genotyper/ GROUP BY time($interval), \"host\"",
+              "query": "SELECT mean(value) FROM \"load_shortterm\" WHERE $timeFilter  AND \"host\" =~ /^worker/ GROUP BY time($interval), \"host\"",
               "rawQuery": true,
               "tags": []
             }

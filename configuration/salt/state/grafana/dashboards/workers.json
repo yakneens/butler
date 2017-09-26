@@ -1,7 +1,7 @@
 {
   "id": 9,
-  "title": "Genotypers",
-  "originalTitle": "Genotypers",
+  "title": "Workers",
+  "originalTitle": "Workers",
   "tags": [],
   "style": "dark",
   "timezone": "browser",
@@ -67,12 +67,12 @@
                 "host"
               ],
               "measurement": "load_midterm",
-              "query": "SELECT mean(value) FROM \"load_midterm\" WHERE \"host\" =~ /^genotyper/ AND $timeFilter GROUP BY time($interval), \"host\"",
+              "query": "SELECT mean(value) FROM \"load_midterm\" WHERE \"host\" =~ /^worker/ AND $timeFilter GROUP BY time($interval), \"host\"",
               "tags": [
                 {
                   "key": "host",
                   "operator": "=~",
-                  "value": "/^genotyper/"
+                  "value": "/^worker/"
                 }
               ]
             }
@@ -144,13 +144,13 @@
               ],
               "groupByTags": [],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /^genotyper/ AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval)",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /^worker/ AND \"type_instance\" = 'used' AND $timeFilter GROUP BY time($interval)",
               "rawQuery": false,
               "tags": [
                 {
                   "key": "host",
                   "operator": "=~",
-                  "value": "/^genotyper/"
+                  "value": "/^worker/"
                 },
                 {
                   "condition": "AND",
@@ -170,13 +170,13 @@
               ],
               "groupByTags": [],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /^genotyper/ AND \"type_instance\" = 'cached' AND $timeFilter GROUP BY time($interval)",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /^worker/ AND \"type_instance\" = 'cached' AND $timeFilter GROUP BY time($interval)",
               "rawQuery": false,
               "tags": [
                 {
                   "key": "host",
                   "operator": "=~",
-                  "value": "/^genotyper/"
+                  "value": "/^worker/"
                 },
                 {
                   "condition": "AND",
@@ -196,13 +196,13 @@
               ],
               "groupByTags": [],
               "measurement": "memory_value",
-              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /^genotyper/ AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval)",
+              "query": "SELECT mean(value) FROM \"memory_value\" WHERE \"host\" =~ /^worker/ AND \"type_instance\" = 'free' AND $timeFilter GROUP BY time($interval)",
               "rawQuery": false,
               "tags": [
                 {
                   "key": "host",
                   "operator": "=~",
-                  "value": "/^genotyper/"
+                  "value": "/^worker/"
                 },
                 {
                   "condition": "AND",
@@ -279,7 +279,7 @@
               ],
               "groupByTags": [],
               "measurement": "cpu_value",
-              "query": "SELECT mean(value) FROM \"cpu_value\" WHERE \"type\" = 'percent' AND \"type_instance\" = 'user' AND \"host\" =~ /^genotyper/ AND $timeFilter GROUP BY time($interval)",
+              "query": "SELECT mean(value) FROM \"cpu_value\" WHERE \"type\" = 'percent' AND \"type_instance\" = 'user' AND \"host\" =~ /^worker/ AND $timeFilter GROUP BY time($interval)",
               "tags": [
                 {
                   "key": "type",
@@ -296,7 +296,7 @@
                   "condition": "AND",
                   "key": "host",
                   "operator": "=~",
-                  "value": "/^genotyper/"
+                  "value": "/^worker/"
                 }
               ]
             }
@@ -839,8 +839,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-45",
-              "value": "genotyper\\-45"
+              "text": "worker-45",
+              "value": "worker\\-45"
             }
           },
           "seriesOverrides": [],
@@ -983,8 +983,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-45",
-              "value": "genotyper\\-45"
+              "text": "worker-45",
+              "value": "worker\\-45"
             }
           },
           "seriesOverrides": [],
@@ -1118,8 +1118,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-45",
-              "value": "genotyper\\-45"
+              "text": "worker-45",
+              "value": "worker\\-45"
             }
           },
           "seriesOverrides": [],
@@ -1241,8 +1241,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-45",
-              "value": "genotyper\\-45"
+              "text": "worker-45",
+              "value": "worker\\-45"
             }
           },
           "seriesOverrides": [],
@@ -1327,8 +1327,8 @@
       "scopedVars": {
         "my_host": {
           "selected": true,
-          "text": "genotyper-45",
-          "value": "genotyper\\-45"
+          "text": "worker-45",
+          "value": "worker\\-45"
         }
       },
       "showTitle": true,
@@ -1379,8 +1379,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-46",
-              "value": "genotyper\\-46"
+              "text": "worker-46",
+              "value": "worker\\-46"
             }
           },
           "seriesOverrides": [],
@@ -1523,8 +1523,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-46",
-              "value": "genotyper\\-46"
+              "text": "worker-46",
+              "value": "worker\\-46"
             }
           },
           "seriesOverrides": [],
@@ -1658,8 +1658,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-46",
-              "value": "genotyper\\-46"
+              "text": "worker-46",
+              "value": "worker\\-46"
             }
           },
           "seriesOverrides": [],
@@ -1781,8 +1781,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-46",
-              "value": "genotyper\\-46"
+              "text": "worker-46",
+              "value": "worker\\-46"
             }
           },
           "seriesOverrides": [],
@@ -1869,8 +1869,8 @@
       "scopedVars": {
         "my_host": {
           "selected": true,
-          "text": "genotyper-46",
-          "value": "genotyper\\-46"
+          "text": "worker-46",
+          "value": "worker\\-46"
         }
       },
       "showTitle": true,
@@ -1921,8 +1921,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-47",
-              "value": "genotyper\\-47"
+              "text": "worker-47",
+              "value": "worker\\-47"
             }
           },
           "seriesOverrides": [],
@@ -2065,8 +2065,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-47",
-              "value": "genotyper\\-47"
+              "text": "worker-47",
+              "value": "worker\\-47"
             }
           },
           "seriesOverrides": [],
@@ -2200,8 +2200,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-47",
-              "value": "genotyper\\-47"
+              "text": "worker-47",
+              "value": "worker\\-47"
             }
           },
           "seriesOverrides": [],
@@ -2323,8 +2323,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-47",
-              "value": "genotyper\\-47"
+              "text": "worker-47",
+              "value": "worker\\-47"
             }
           },
           "seriesOverrides": [],
@@ -2411,8 +2411,8 @@
       "scopedVars": {
         "my_host": {
           "selected": true,
-          "text": "genotyper-47",
-          "value": "genotyper\\-47"
+          "text": "worker-47",
+          "value": "worker\\-47"
         }
       },
       "showTitle": true,
@@ -2463,8 +2463,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-48",
-              "value": "genotyper\\-48"
+              "text": "worker-48",
+              "value": "worker\\-48"
             }
           },
           "seriesOverrides": [],
@@ -2607,8 +2607,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-48",
-              "value": "genotyper\\-48"
+              "text": "worker-48",
+              "value": "worker\\-48"
             }
           },
           "seriesOverrides": [],
@@ -2742,8 +2742,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-48",
-              "value": "genotyper\\-48"
+              "text": "worker-48",
+              "value": "worker\\-48"
             }
           },
           "seriesOverrides": [],
@@ -2865,8 +2865,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-48",
-              "value": "genotyper\\-48"
+              "text": "worker-48",
+              "value": "worker\\-48"
             }
           },
           "seriesOverrides": [],
@@ -2953,8 +2953,8 @@
       "scopedVars": {
         "my_host": {
           "selected": true,
-          "text": "genotyper-48",
-          "value": "genotyper\\-48"
+          "text": "worker-48",
+          "value": "worker\\-48"
         }
       },
       "showTitle": true,
@@ -3005,8 +3005,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-49",
-              "value": "genotyper\\-49"
+              "text": "worker-49",
+              "value": "worker\\-49"
             }
           },
           "seriesOverrides": [],
@@ -3149,8 +3149,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-49",
-              "value": "genotyper\\-49"
+              "text": "worker-49",
+              "value": "worker\\-49"
             }
           },
           "seriesOverrides": [],
@@ -3284,8 +3284,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-49",
-              "value": "genotyper\\-49"
+              "text": "worker-49",
+              "value": "worker\\-49"
             }
           },
           "seriesOverrides": [],
@@ -3407,8 +3407,8 @@
           "scopedVars": {
             "my_host": {
               "selected": true,
-              "text": "genotyper-49",
-              "value": "genotyper\\-49"
+              "text": "worker-49",
+              "value": "worker\\-49"
             }
           },
           "seriesOverrides": [],
@@ -3495,8 +3495,8 @@
       "scopedVars": {
         "my_host": {
           "selected": true,
-          "text": "genotyper-49",
-          "value": "genotyper\\-49"
+          "text": "worker-49",
+          "value": "worker\\-49"
         }
       },
       "showTitle": true,
@@ -3548,13 +3548,13 @@
         "allFormat": "regex values",
         "current": {
           "tags": [],
-          "text": "genotyper-45 + genotyper-46 + genotyper-47 + genotyper-48 + genotyper-49",
+          "text": "worker-45 + worker-46 + worker-47 + worker-48 + worker-49",
           "value": [
-            "genotyper\\-45",
-            "genotyper\\-46",
-            "genotyper\\-47",
-            "genotyper\\-48",
-            "genotyper\\-49"
+            "worker\\-45",
+            "worker\\-46",
+            "worker\\-47",
+            "worker\\-48",
+            "worker\\-49"
           ]
         },
         "datasource": null,
@@ -3566,253 +3566,253 @@
         "options": [
           {
             "selected": false,
-            "text": "genotyper-0",
-            "value": "genotyper\\-0"
+            "text": "worker-0",
+            "value": "worker\\-0"
           },
           {
             "selected": false,
-            "text": "genotyper-1",
-            "value": "genotyper\\-1"
+            "text": "worker-1",
+            "value": "worker\\-1"
           },
           {
             "selected": false,
-            "text": "genotyper-10",
-            "value": "genotyper\\-10"
+            "text": "worker-10",
+            "value": "worker\\-10"
           },
           {
             "selected": false,
-            "text": "genotyper-11",
-            "value": "genotyper\\-11"
+            "text": "worker-11",
+            "value": "worker\\-11"
           },
           {
             "selected": false,
-            "text": "genotyper-12",
-            "value": "genotyper\\-12"
+            "text": "worker-12",
+            "value": "worker\\-12"
           },
           {
             "selected": false,
-            "text": "genotyper-13",
-            "value": "genotyper\\-13"
+            "text": "worker-13",
+            "value": "worker\\-13"
           },
           {
             "selected": false,
-            "text": "genotyper-14",
-            "value": "genotyper\\-14"
+            "text": "worker-14",
+            "value": "worker\\-14"
           },
           {
             "selected": false,
-            "text": "genotyper-15",
-            "value": "genotyper\\-15"
+            "text": "worker-15",
+            "value": "worker\\-15"
           },
           {
             "selected": false,
-            "text": "genotyper-16",
-            "value": "genotyper\\-16"
+            "text": "worker-16",
+            "value": "worker\\-16"
           },
           {
             "selected": false,
-            "text": "genotyper-17",
-            "value": "genotyper\\-17"
+            "text": "worker-17",
+            "value": "worker\\-17"
           },
           {
             "selected": false,
-            "text": "genotyper-18",
-            "value": "genotyper\\-18"
+            "text": "worker-18",
+            "value": "worker\\-18"
           },
           {
             "selected": false,
-            "text": "genotyper-19",
-            "value": "genotyper\\-19"
+            "text": "worker-19",
+            "value": "worker\\-19"
           },
           {
             "selected": false,
-            "text": "genotyper-2",
-            "value": "genotyper\\-2"
+            "text": "worker-2",
+            "value": "worker\\-2"
           },
           {
             "selected": false,
-            "text": "genotyper-20",
-            "value": "genotyper\\-20"
+            "text": "worker-20",
+            "value": "worker\\-20"
           },
           {
             "selected": false,
-            "text": "genotyper-21",
-            "value": "genotyper\\-21"
+            "text": "worker-21",
+            "value": "worker\\-21"
           },
           {
             "selected": false,
-            "text": "genotyper-22",
-            "value": "genotyper\\-22"
+            "text": "worker-22",
+            "value": "worker\\-22"
           },
           {
             "selected": false,
-            "text": "genotyper-23",
-            "value": "genotyper\\-23"
+            "text": "worker-23",
+            "value": "worker\\-23"
           },
           {
             "selected": false,
-            "text": "genotyper-24",
-            "value": "genotyper\\-24"
+            "text": "worker-24",
+            "value": "worker\\-24"
           },
           {
             "selected": false,
-            "text": "genotyper-25",
-            "value": "genotyper\\-25"
+            "text": "worker-25",
+            "value": "worker\\-25"
           },
           {
             "selected": false,
-            "text": "genotyper-26",
-            "value": "genotyper\\-26"
+            "text": "worker-26",
+            "value": "worker\\-26"
           },
           {
             "selected": false,
-            "text": "genotyper-27",
-            "value": "genotyper\\-27"
+            "text": "worker-27",
+            "value": "worker\\-27"
           },
           {
             "selected": false,
-            "text": "genotyper-28",
-            "value": "genotyper\\-28"
+            "text": "worker-28",
+            "value": "worker\\-28"
           },
           {
             "selected": false,
-            "text": "genotyper-29",
-            "value": "genotyper\\-29"
+            "text": "worker-29",
+            "value": "worker\\-29"
           },
           {
             "selected": false,
-            "text": "genotyper-3",
-            "value": "genotyper\\-3"
+            "text": "worker-3",
+            "value": "worker\\-3"
           },
           {
             "selected": false,
-            "text": "genotyper-30",
-            "value": "genotyper\\-30"
+            "text": "worker-30",
+            "value": "worker\\-30"
           },
           {
             "selected": false,
-            "text": "genotyper-31",
-            "value": "genotyper\\-31"
+            "text": "worker-31",
+            "value": "worker\\-31"
           },
           {
             "selected": false,
-            "text": "genotyper-32",
-            "value": "genotyper\\-32"
+            "text": "worker-32",
+            "value": "worker\\-32"
           },
           {
             "selected": false,
-            "text": "genotyper-33",
-            "value": "genotyper\\-33"
+            "text": "worker-33",
+            "value": "worker\\-33"
           },
           {
             "selected": false,
-            "text": "genotyper-34",
-            "value": "genotyper\\-34"
+            "text": "worker-34",
+            "value": "worker\\-34"
           },
           {
             "selected": false,
-            "text": "genotyper-35",
-            "value": "genotyper\\-35"
+            "text": "worker-35",
+            "value": "worker\\-35"
           },
           {
             "selected": false,
-            "text": "genotyper-36",
-            "value": "genotyper\\-36"
+            "text": "worker-36",
+            "value": "worker\\-36"
           },
           {
             "selected": false,
-            "text": "genotyper-37",
-            "value": "genotyper\\-37"
+            "text": "worker-37",
+            "value": "worker\\-37"
           },
           {
             "selected": false,
-            "text": "genotyper-38",
-            "value": "genotyper\\-38"
+            "text": "worker-38",
+            "value": "worker\\-38"
           },
           {
             "selected": false,
-            "text": "genotyper-39",
-            "value": "genotyper\\-39"
+            "text": "worker-39",
+            "value": "worker\\-39"
           },
           {
             "selected": false,
-            "text": "genotyper-4",
-            "value": "genotyper\\-4"
+            "text": "worker-4",
+            "value": "worker\\-4"
           },
           {
             "selected": false,
-            "text": "genotyper-40",
-            "value": "genotyper\\-40"
+            "text": "worker-40",
+            "value": "worker\\-40"
           },
           {
             "selected": false,
-            "text": "genotyper-41",
-            "value": "genotyper\\-41"
+            "text": "worker-41",
+            "value": "worker\\-41"
           },
           {
             "selected": false,
-            "text": "genotyper-42",
-            "value": "genotyper\\-42"
+            "text": "worker-42",
+            "value": "worker\\-42"
           },
           {
             "selected": false,
-            "text": "genotyper-43",
-            "value": "genotyper\\-43"
+            "text": "worker-43",
+            "value": "worker\\-43"
           },
           {
             "selected": false,
-            "text": "genotyper-44",
-            "value": "genotyper\\-44"
+            "text": "worker-44",
+            "value": "worker\\-44"
           },
           {
             "selected": true,
-            "text": "genotyper-45",
-            "value": "genotyper\\-45"
+            "text": "worker-45",
+            "value": "worker\\-45"
           },
           {
             "selected": true,
-            "text": "genotyper-46",
-            "value": "genotyper\\-46"
+            "text": "worker-46",
+            "value": "worker\\-46"
           },
           {
             "selected": true,
-            "text": "genotyper-47",
-            "value": "genotyper\\-47"
+            "text": "worker-47",
+            "value": "worker\\-47"
           },
           {
             "selected": true,
-            "text": "genotyper-48",
-            "value": "genotyper\\-48"
+            "text": "worker-48",
+            "value": "worker\\-48"
           },
           {
             "selected": true,
-            "text": "genotyper-49",
-            "value": "genotyper\\-49"
+            "text": "worker-49",
+            "value": "worker\\-49"
           },
           {
             "selected": false,
-            "text": "genotyper-5",
-            "value": "genotyper\\-5"
+            "text": "worker-5",
+            "value": "worker\\-5"
           },
           {
             "selected": false,
-            "text": "genotyper-6",
-            "value": "genotyper\\-6"
+            "text": "worker-6",
+            "value": "worker\\-6"
           },
           {
             "selected": false,
-            "text": "genotyper-7",
-            "value": "genotyper\\-7"
+            "text": "worker-7",
+            "value": "worker\\-7"
           },
           {
             "selected": false,
-            "text": "genotyper-8",
-            "value": "genotyper\\-8"
+            "text": "worker-8",
+            "value": "worker\\-8"
           },
           {
             "selected": false,
-            "text": "genotyper-9",
-            "value": "genotyper\\-9"
+            "text": "worker-9",
+            "value": "worker\\-9"
           },
           {
             "selected": false,
