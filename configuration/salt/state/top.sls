@@ -3,7 +3,6 @@ base:
     - selinux
     - consul
     - dnsmasq
-    - collectd
     - elastic.filebeat
     - elastic.packetbeat
     - ntp
