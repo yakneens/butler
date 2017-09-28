@@ -3,5 +3,6 @@
 	"datacenter": "butler_dc",
 	"data_dir": "/var/consul",
 	"log_level": "INFO",
-	"enable_syslog": true
+	"enable_syslog": true,
+	"enable_script_checks": true
 }

@@ -7,5 +7,6 @@
 	"enable_syslog": true,
 	"ui": true,
 	"client_addr": "0.0.0.0",
-	"bootstrap_expect": 2
+	"bootstrap_expect": 2,
+	"enable_script_checks": true
 }
