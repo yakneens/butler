@@ -1,7 +1,6 @@
 set_up_consul:
   salt.state:
     - tgt: '*'
-    - tgt_type: grain
     - sls:
       - consul
       
