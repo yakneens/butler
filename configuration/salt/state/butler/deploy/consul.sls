@@ -4,7 +4,6 @@ set_up_consul_servers:
     - tgt_type: grain
     - sls:
       - consul
-      - consul.server
       
 set_up_consul_clients:
   salt.state:
@@ -12,7 +11,6 @@ set_up_consul_clients:
     - tgt_type: grain
     - sls:
       - consul
-      - consul.client
       
 join_consul_members:
   salt.state:
