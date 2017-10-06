@@ -23,7 +23,11 @@ sudo yum install dnsmasq -y
 
 sudo yum install salt-minion -y
 
-sudo  yum install collectd -y
+sudo pip uninstall tornado -y
+sudo pip install tornado
+sudo yum install java -y
+
+#sudo  yum install collectd -y
 
 #Update local policy to allow collectd access to the log file. 
 #Need to place collectd_log_allow.te into /tmp on the host before running

@@ -42,6 +42,7 @@ base:
     - jsonmerge
     - butler.tracker
     - butler.deploy.example-workflows
+    - hostfile
   'G@roles:db-server':
     - postgres
     - run-tracking-db
