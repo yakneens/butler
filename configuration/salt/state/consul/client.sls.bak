@@ -5,9 +5,9 @@
     - group: root
     - mode: 644
     
-/usr/lib/systemd/system/consul-client.service:
+/usr/lib/systemd/system/consul.service:
   file.managed:
-    - source: salt://consul/config/client/consul-client.service
+    - source: salt://consul/config/consul.service
     - user: root
     - group: root
     - mode: 744

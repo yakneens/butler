@@ -2,19 +2,12 @@ base:
   '*':
     - selinux
     - consul
+    - consul.join-all
     - dnsmasq
     - elastic.filebeat
     - elastic.packetbeat
     - ntp
     - telegraf
-  'G@roles:consul-bootstrap':
-    - consul.bootstrap
-  'G@roles:consul-server':
-    - consul.server
-    - consul.join-all
-  'G@roles:consul-client':
-    - consul.client
-    - consul.join-all
   'G@roles:consul-ui':
     - consul.ui
   'G@roles:monitoring-server':
