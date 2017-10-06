@@ -1,4 +1,3 @@
-{%- salt.saltutil.runner('mine.update', tgt='*') %}
 {%- set members = salt['mine.get']('roles:(consul-server|consul-client)', 'network.ip_addrs', 'grain_pcre').values() %}
 {%- set node_ip = salt['grains.get']('ip4_interfaces')['eth0'] %}
 {%- set join_members = [] %}
