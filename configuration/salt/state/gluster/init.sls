@@ -6,7 +6,9 @@ glusterfs_consul_config:
     - group: root
     - mode: 644 
     - makedirs: True
-
+  cmd.run:
+    - name: service consul restart
+    
 /etc/yum.repos.d/glusterfs-epel.repo:
   file.managed:
     - source: salt://gluster/config/glusterfs-epel.repo

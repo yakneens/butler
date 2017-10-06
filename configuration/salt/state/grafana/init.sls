@@ -27,7 +27,9 @@ grafana_consul_config:
     - group: root
     - mode: 644 
     - makedirs: True 
-
+  cmd.run:
+    - name: service consul restart
+    
 /etc/grafana/grafana.ini:
   file.managed:
     - source: salt://grafana/config/grafana.ini

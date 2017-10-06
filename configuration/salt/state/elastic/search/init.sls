@@ -6,7 +6,9 @@ elastic_consul_config:
     - group: root
     - mode: 644 
     - makedirs: True 
-    
+  cmd.run:
+    - name: service consul restart
+        
 elasticsearch_repo:
   pkgrepo.managed:
     - humanname: Elastic YUM Repo

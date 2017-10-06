@@ -43,4 +43,6 @@ rabbitmq_consul_config:
     - group: root
     - mode: 644 
     - makedirs: True
-    - template: jinja  
+    - template: jinja
+  cmd.run:
+    - name: service consul restart  

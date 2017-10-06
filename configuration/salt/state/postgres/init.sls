@@ -52,4 +52,6 @@ run_tracking_db_consul_config:
     - user: root
     - group: root
     - mode: 644 
-    - makedirs: True  
+    - makedirs: True
+  cmd.run:
+    - name: service consul restart  
