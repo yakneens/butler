@@ -275,11 +275,13 @@ Each VM has what in Saltstack parlance is called a *highstate* that is the state
 have been successfully applied. In order to fully configure our system then we need to apply this *highstate* to all of our VMs. This can be done
 by manually running the necessary commands or by executing the Salt orchestrator that we have developed for this purpose.
 
-At this point you need to SSH to the salt-master and change the user to root. Then issue the following command at the shell:
+At this point you need to SSH to the salt-master and change the user to root. Then issue the following commands at the shell:
 
 .. code-block:: shell
-	
+
+	salt-run mine.update '*'
 	salt-run state.orchestrate butler.deploy
+
 
 It can take up to 30 minutes for all of the necessary software to be installed. The results will be periodically dumped to standard out and standard error.
 These are typically color-coded where green means that everything went well and red means that there were some errors. If everything is well you
@@ -538,15 +540,15 @@ with Butler by using Butler's :shell:`create-workflow` command as follows:
 
 .. code-block:: shell
 
-	butler create-workflow -n freebayes -v 1.0 \
-	-c /opt/butler/examples/workflow/freebayes-workflow/freebayes-workflow-config.json
+	butler create-workflow -n test -v 1.0 \
+	-c /opt/butler/examples/workflow/test-workflow/test-workflow-config.json
 	 
 Here the -n flag corresponds to the workflow name which should match the name of the Airflow DAG that will be executed by this 
-workflow. This name can be gleaned from the python file that defines the DAG structure, as below where the DAG name is *freebayes*:
+workflow. This name can be gleaned from the python file that defines the DAG structure, as below where the DAG name is *test*:
 
 .. code-block:: python
 	
-	dag = DAG("freebayes", default_args=default_args,
+	dag = DAG("test", default_args=default_args,
           schedule_interval=None, concurrency=10000, max_active_runs=2000)
           
 N.B. If you do not use a matching name then Butler will not know which Airflow DAG to execute when you launch the workflow which will 
@@ -559,9 +561,55 @@ When you run the :shell:`create-workflow` command you will be issued a numeric w
 use to launch workflow instances. You can always look up a listing of existing workflow instances, along with their IDs by running 
 :shell:`butler list-workflows`.            
 
+Once you have a workflow registered it is time to create an Analysis.
 
+.. code-block:: shell
+
+	butler create-analysis -n test -d 01-01-2017 \
+	-c /opt/butler/examples/analyses/test-analysis/analysis.json
+	
+The -n flag here corresponds to the analysis name, -d to the analysis date, and -c to the analysis-level JSON configuration file. The 
+analysis-level configuration augments and overrides workflow-level configuration, it will apply to all analysis runs that are executed
+under this analysis. This command will generate an analysis ID. You can look up a listing of existing analyses and their IDs by running
+:shell:`butler list-analyses`.
+
+Once you have a workflow and an analysis created you can go on to the last stage of testing - creating and scheduling analysis runs.
+	
 .. _test_execution_section:
 
 Workflow Test Execution
 -----------------------
+
+A workflow is launched in Butler using the :shell:`workflow-launch` command. 
+
+.. code-block:: shell
+
+	butler workflow-launch -w 1 -a 1 \
+	-c /opt/butler/examples/analyses/test-analysis/run-config/
+	
+Here -w corresponds to a workflow ID, -a corresponds to an analysis ID, and -c is a path to a directory that contains Analysis Run 
+configuration files. Each JSON file in this directory results in one Analysis Run being created. The typical use case is to use a 
+scripting language to generate these JSON files en masse, such that each file corresponds to an individual sample that needs to be
+analysed and contains its ID and location. This isn't strictly necessary though, and depending on your workflow and needs each
+analysis run configuration may even be an empty JSON file - :shell:`{}`. Running the workflow-launch command will send the 
+corresponding workflows off for scheduling by the Airflow engine and their status can be tracked on the Airflow Web UI.
+
+.. _airflow_main_page:
+.. figure:: images/airflow_web_ui_main_page.png  
+
+   The main page of Airflow Web UI.
+
+The Airflow Web UI is published at http://airflow.service.consul:8889/airflow/. Once you have launched your workflow you can track
+the status of execution on this UI, see :numref:`airflow_main_page`. If everything goes well you will see the workflow complete 
+with a green status. You can click on the "test" task to view the detail page which has a number of actions you can take, see 
+:numref:`airflow_task_detail`. Select "View Log" to validate that the task output is "Hello, world! - set by Analysis Run." 
+
+.. _airflow_task_detail:
+.. figure:: images/airflow_task_actions.png  
+
+   The Airflow task actions.
+   
+This completes the installation and validation of Butler. As a next step you can experiment with other example workflows and
+analyses that ship with Butler, or you can start running your own real payloads. Many more details about Butler internals are
+in the :doc:`Reference Guide<reference>`. 
 
