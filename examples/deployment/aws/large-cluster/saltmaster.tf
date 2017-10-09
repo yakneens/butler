@@ -1,6 +1,6 @@
-resource "aws_instance" "salt_master" {
+resource "aws_instance" "salt-master" {
 	ami = "${lookup(var.aws_amis, var.region)}"
-	instance_type = "t2.micro"
+	instance_type = "${var.salt-master-flavor}"
 	associate_public_ip_address = true  
 	tags {
 		Name = "salt-master"
@@ -18,7 +18,7 @@ resource "aws_instance" "salt_master" {
 	  bastion_private_key = "${file(var.private_key_path)}"
 	  bastion_host = "${aws_instance.butler_jump.public_ip}"
 	  bastion_user = "${var.username}"
-	  host = "${aws_instance.salt_master.private_ip}"
+	  host = "${self.private_ip}"
 	}
     
     provisioner "file" {
@@ -48,7 +48,9 @@ resource "aws_instance" "salt_master" {
 		     "sudo yum install salt-master -y",
 		     "sudo yum install salt-minion -y",
 		     "sudo yum install python-pip -y",
-		     "sudo yum install GitPython -y",
+		     "sudo pip uninstall tornado -y",
+			 "sudo pip install tornado",
+			 "sudo yum install GitPython -y",
 		     "sudo service salt-master stop",
 		     "sudo mv /home/${var.username}/master /etc/salt/master",       
 		     "sudo service salt-master start",
@@ -63,7 +65,7 @@ resource "aws_instance" "salt_master" {
 	provisioner "remote-exec" {
 	  inline = [
 	    "chmod +x /tmp/salt_setup.sh",
-	    "/tmp/salt_setup.sh `sudo ifconfig eth0 | awk '/inet /{print $2}'` salt-master \"salt-master, consul-server, monitoring-server\""
+	    "/tmp/salt_setup.sh `sudo ifconfig eth0 | awk '/inet /{print $2}'` salt-master \"salt-master, consul-server, monitoring-server, consul-ui, butler-web, elasticsearch\""
 	  ]
 	}
 	
@@ -71,6 +73,6 @@ resource "aws_instance" "salt_master" {
 
 resource "null_resource" "masterip" {
   triggers = {
-    address = "${aws_instance.salt_master.private_ip}"
+    address = "${aws_instance.salt-master.private_ip}"
   }
 }

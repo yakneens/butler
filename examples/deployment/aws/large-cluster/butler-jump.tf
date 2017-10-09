@@ -11,13 +11,25 @@ resource "aws_instance" "butler_jump" {
 
 	connection {
 		user = "${var.username}"
+		type = "ssh"
+		private_key = "${file(var.private_key_path)}"
 	}
   
 	key_name = "${aws_key_pair.butler_auth.id}"
   
 	associate_public_ip_address = true
+	
+	provisioner "file" {
+	  source = "${var.private_key_path}"
+	  destination = "${var.private_key_path}"
+	}
+	
+	provisioner "remote-exec" {
+	  inline = [
+	    "echo 'Host *\n\tStrictHostKeyChecking no\n\tIdentityFile ${var.private_key_path}' >> ~/.ssh/config",
+	    "chmod 600 ~/.ssh/*"
+	  ]
+	}
+	
 }
 
-output "butler_jump_ip" {
-	value = "${aws_instance.butler_jump.public_ip}"
-}

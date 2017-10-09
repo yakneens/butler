@@ -37,6 +37,25 @@ variable "worker_count" {
 
 variable "aws_amis" {
   default = {
-    eu-central-1 = "ami-9bf712f4"
+    eu-central-1 = "ami-fa2df395"
   }
+}
+
+variable "salt-master-flavor" {
+	default="t2.xlarge"
+}
+variable "worker-flavor" {
+	default="t2.xlarge"
+}
+
+variable "db-server-flavor" {
+	default="t2.xlarge"
+}
+
+variable "job-queue-flavor" {
+	default="t2.xlarge"
+}
+
+variable "tracker-flavor" {
+	default="t2.xlarge"
 }

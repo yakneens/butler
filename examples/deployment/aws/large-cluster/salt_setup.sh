@@ -8,6 +8,8 @@ sudo yum install wget yum-plugin-priorities -y
 sudo yum install -y https://repo.saltstack.com/yum/redhat/salt-repo-latest-2.el7.noarch.rpm
 sudo yum clean expire-cache
 sudo yum install salt-minion -y
+sudo pip uninstall tornado -y
+sudo pip install tornado
 sudo service salt-minion stop
 echo "master: $1" | sudo tee  -a /etc/salt/minion
 echo "id: $2" | sudo tee -a /etc/salt/minion

@@ -23,8 +23,8 @@ resource "aws_security_group" "butler_internal" {
   vpc_id = "${aws_vpc.butler.id}"
   
   ingress {
-    from_port = 22
-    to_port = 22
+    from_port = 0
+    to_port = 65535
     protocol = "tcp"
     cidr_blocks = ["10.0.0.0/24"]
   }

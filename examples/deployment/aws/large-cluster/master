@@ -13,7 +13,7 @@ gitfs_provider: gitpython
 gitfs_remotes:
   - git://github.com/llevar/butler.git:
     - root: configuration/salt/state
-    - base: ebi_changes
+    - base: master
 
 #
 pillar_roots:
@@ -27,7 +27,7 @@ ext_pillar:
 #  - hiera: /etc/hiera.yaml
 #  - cmd_yaml: cat /etc/salt/yaml
   - git:
-    - ebi_changes git://github.com/llevar/butler.git:
+    - master git://github.com/llevar/butler.git:
       - root: configuration/salt/pillar
       - env: base
 
