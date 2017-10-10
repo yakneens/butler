@@ -14,7 +14,7 @@ rabbitmq_management_plugin:
     
 start_rabbitmq:    
   service.running:
-    - name: rabbitmq-server
+    - name: rabbitmq-server-3.3.5-34.el7.noarch
     - enable: True
     
 rabbitmq_vhost:
