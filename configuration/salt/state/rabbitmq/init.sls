@@ -3,9 +3,8 @@ install_erlang:
     - name: erlang
     
 install_rabbitmq:
-  pkg.installed: 
-    - sources: 
-      - rabbitmq: https://www.rabbitmq.com/releases/rabbitmq-server/v3.6.9/rabbitmq-server-3.6.9-1.el7.noarch.rpm
+  pkg.latest: 
+    - name: rabbitmq-server
     
 rabbitmq_management_plugin:
   rabbitmq_plugin.enabled:
@@ -14,7 +13,7 @@ rabbitmq_management_plugin:
     
 start_rabbitmq:    
   service.running:
-    - name: rabbitmq-server-3.3.5-34.el7.noarch
+    - name: rabbitmq-server
     - enable: True
     
 rabbitmq_vhost:
