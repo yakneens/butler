@@ -18,3 +18,6 @@ base:
   'G@roles:db-server':
     - grafana
     - run-tracking-db
+  'G@roles:butler-web':
+    - butler
+

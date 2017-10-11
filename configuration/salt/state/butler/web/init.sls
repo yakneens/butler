@@ -22,4 +22,7 @@ butler-clone:
       - file: /etc/nginx/sites-available/butler-site
     - makedirs: True 
 
+butler_web_selinux_port
+  cmd.run:
+    - name: semanage port -a -t http_port_t -p tcp {{ pillar["butler_web_port"] }}
  

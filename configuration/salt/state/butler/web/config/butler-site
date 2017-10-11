@@ -27,7 +27,7 @@ upstream consul {
 }
 
 server {
-	listen 8090;
+	listen {{ pillar["butler_web_port"] }};
 	
 	root /opt/butler/web/html;
 	index index.html index.htm;
