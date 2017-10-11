@@ -52,5 +52,5 @@ airflow_consul_config:
     - makedirs: True 
   cmd.run:
     - name: systemctl restart consul
-  include:
-    - consul.join-server
+
+{% include 'consul/join-server.sls' %}

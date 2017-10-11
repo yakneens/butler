@@ -11,4 +11,4 @@ join-cluster:
       - consul join {{ server }}
 {%- endfor %}
     - watch:
-      - service: consul-server  
+      - service: consul  
