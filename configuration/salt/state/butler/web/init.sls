@@ -25,4 +25,5 @@ butler-clone:
 butler_web_selinux_port:
   cmd.run:
     - name: semanage port -a -t http_port_t -p tcp {{ pillar["butler_web_port"] }}
+    - unless: FOUND="no"; for i in $(semanage port -l | grep http_port_t | tr -s ' ' | cut -d ' ' -f 3- | tr -d ','); do if [ "$i" == "{{  pillar["butler_web_port"] }}" ]; then FOUND="yes"; fi; done; if [ "$FOUND" == "yes" ]; then /bin/true; else /bin/false; fi
  

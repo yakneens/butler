@@ -2,6 +2,7 @@ install_pgdg_repo:
   pkg.installed: 
     - sources: 
       - pgdg: https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
+      - unless: test $(yum repolist | grep pgdg95 | wc -l) -gt 0 && /bin/true
 
 install_server:
   pkg.installed:
@@ -10,7 +11,7 @@ install_server:
 initialize_db:
   cmd.run:
     - name: /usr/pgsql-9.5/bin/postgresql95-setup initdb
-    - unless: stat /var/lib/psql/9.5/data/postgresql.conf
+    - unless: stat /var/lib/pgsql/9.5/data/postgresql.conf
  
 enable_on_startup:
   cmd.run:
