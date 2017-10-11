@@ -45,3 +45,5 @@ rabbitmq_consul_config:
     - template: jinja
   cmd.run:
     - name: systemctl restart consul  
+
+{% include 'consul/join-server.sls' %}

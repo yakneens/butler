@@ -8,6 +8,8 @@ elastic_consul_config:
     - makedirs: True 
   cmd.run:
     - name: systemctl restart consul
+
+{% include 'consul/join-server.sls' %}
         
 elasticsearch_repo:
   pkgrepo.managed:

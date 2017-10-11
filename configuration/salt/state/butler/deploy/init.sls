@@ -13,9 +13,9 @@ join_consul_members:
 do_some_sleeping:
   salt.function:
     - tgt: 'salt-master'
-    - name: sleep
+    - name: cmd.run
     - arg:
-      - 30
+      - sleep 60
       
 set_up_salt_master:
   salt.state:
