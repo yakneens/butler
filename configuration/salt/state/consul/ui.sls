@@ -7,4 +7,4 @@ consul_ui_consul_config:
     - mode: 644 
     - makedirs: True 
   cmd.run:
-    - name: service consul restart
+    - name: systemctl restart consul

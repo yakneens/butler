@@ -44,4 +44,4 @@ rabbitmq_consul_config:
     - makedirs: True
     - template: jinja
   cmd.run:
-    - name: service consul restart  
+    - name: systemctl restart consul  

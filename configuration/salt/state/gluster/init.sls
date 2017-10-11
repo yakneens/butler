@@ -7,7 +7,7 @@ glusterfs_consul_config:
     - mode: 644 
     - makedirs: True
   cmd.run:
-    - name: service consul restart
+    - name: systemctl restart consul
     
 /etc/yum.repos.d/glusterfs-epel.repo:
   file.managed:
