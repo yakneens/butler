@@ -11,7 +11,7 @@ test_postgres_service:
     - tgt_type: grain
     - name: cmd.run
     - arg:
-      - test $(service postgresql-9.5 status | grep running | wc -l) > 1 && /bin/true
+      - test $(systemctl status postgresql-9.5 | grep running | wc -l) > 1 && /bin/true
       
 test_postgres_service_name:
   salt.function:
@@ -27,7 +27,7 @@ test_rabbitmq_service:
     - tgt_type: grain
     - name: cmd.run
     - arg:
-      - test $(service rabbitmq-server status | grep running | wc -l) > 1 && /bin/true
+      - test $(systemctl status rabbitmq-server | grep running | wc -l) > 1 && /bin/true
       
 test_rabbitmq_service_name:
   salt.function:
@@ -43,7 +43,7 @@ test_airflow_scheduler_service:
     - tgt_type: grain
     - name: cmd.run
     - arg:
-      - test $(service airflow-scheduler status | grep running | wc -l) > 1 && /bin/true
+      - test $(systemctl status airflow-scheduler | grep running | wc -l) > 1 && /bin/true
 
 test_airflow_webserver_service:
   salt.function:
@@ -51,7 +51,7 @@ test_airflow_webserver_service:
     - tgt_type: grain
     - name: cmd.run
     - arg:
-      - test $(service airflow-webserver status | grep running | wc -l) > 1 && /bin/true
+      - test $(systemctl status airflow-webserver | grep running | wc -l) > 1 && /bin/true
       
 test_airflow_service_name:
   salt.function:
@@ -67,7 +67,7 @@ test_airflow_worker_service:
     - tgt_type: grain
     - name: cmd.run
     - arg:
-      - test $(service airflow-worker status | grep running | wc -l) > 1 && /bin/true
+      - test $(systemctl status airflow-worker | grep running | wc -l) > 1 && /bin/true
       
 test_influxdb_service:
   salt.function:
@@ -75,7 +75,7 @@ test_influxdb_service:
     - tgt_type: grain
     - name: cmd.run
     - arg:
-      - test $(service influxdb status | grep running | wc -l) > 1 && /bin/true
+      - test $(systemctl status influxdb | grep running | wc -l) > 1 && /bin/true
       
 test_influxdb_service_name:
   salt.function:
@@ -91,7 +91,7 @@ test_grafana_service:
     - tgt_type: grain
     - name: cmd.run
     - arg:
-      - test $(service grafana-server status | grep running | wc -l) > 1 && /bin/true
+      - test $(systemctl status grafana-server | grep running | wc -l) > 1 && /bin/true
       
 test_grafana_service_name:
   salt.function:
@@ -107,7 +107,7 @@ test_chronograf_service:
     - tgt_type: grain
     - name: cmd.run
     - arg:
-      - test $(service chronograf status | grep running | wc -l) > 1 && /bin/true
+      - test $(systemctl status chronograf | grep running | wc -l) > 1 && /bin/true
       
 test_kapacitor_service:
   salt.function:
@@ -115,11 +115,11 @@ test_kapacitor_service:
     - tgt_type: grain
     - name: cmd.run
     - arg:
-      - test $(service kapacitor status | grep running | wc -l) > 1 && /bin/true
+      - test $(systemctl status kapacitor | grep running | wc -l) > 1 && /bin/true
       
 test_telegraf_service:
   salt.function:
     - tgt: '*'
     - name: cmd.run
     - arg:
-      - test $(service telegraf status | grep running | wc -l) > 1 && /bin/true
+      - test $(systemctl status telegraf | grep running | wc -l) > 1 && /bin/true
