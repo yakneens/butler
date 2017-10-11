@@ -13,6 +13,6 @@ sudo pip install tornado
 sudo service salt-minion stop
 echo "master: $1" | sudo tee  -a /etc/salt/minion
 echo "id: $2" | sudo tee -a /etc/salt/minion
-echo "roles: [$3]" | sudo tee -a /etc/salt/grains
+echo "roles: [$3]" | sudo tee /etc/salt/grains
 sudo hostname $2
 sudo service salt-minion start
