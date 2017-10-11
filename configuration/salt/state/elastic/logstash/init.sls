@@ -6,10 +6,6 @@ logstash_consul_config:
     - group: root
     - mode: 644 
     - makedirs: True 
-  cmd.run:
-    - name: systemctl restart consul
-
-{% include 'consul/join-server.sls' %}
     
 logstash_repo:
   pkgrepo.managed:
