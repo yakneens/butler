@@ -173,7 +173,7 @@ Deployment on OpenStack
 ```````````````````````
 
 We will be using the Terraform configuration files found at examples/deployment/openstack/large-cluster to deploy our Butler
-cluster on OpenStack. These values can be populated directly into the respective variables inside :shell:`vars.tf` file.
+cluster on OpenStack. The necessary configuration values can be populated directly into the respective variables inside :shell:`vars.tf` file.
 Alternatively you can create a separate file with the extension :shell:`.tfvars` which contains a list of key/value pairs
 (:shell:`variable_name = variable_value`) that are used to assign values to these variables. Since this file is likely to contain 
 sensitive information it is a good idea to add it to your :shell:`.gitignore` so that you don't check it in by accident. 
@@ -246,7 +246,57 @@ and the responses that are being received. Once you are done debugging it is hig
 Deployment on AWS
 ```````````````````````
 
-This section is under construction, please check back soon.
+We will be using the Terraform configuration files found at examples/deployment/aws/large-cluster to deploy our Butler
+cluster on Amazon Web Services. The necessary configuration values can be populated directly into the respective variables 
+inside :shell:`vars.tf` file. Alternatively you can create a separate file with the extension :shell:`.tfvars` which contains a 
+list of key/value pairs (:shell:`variable_name = variable_value`) that are used to assign values to these variables. Since this 
+file is likely to contain sensitive information it is a good idea to add it to your :shell:`.gitignore` so that you don't check 
+it in by accident. You can also supply variable values as environment variables with the form :shell:`TF_VAR_variable_name`.
+
+Variables you need to set:
+
+* :shell:`access_key` - AWS Access Key.
+* :shell:`secret_key` - AWS Secret Key.
+* :shell:`region` - Name of the region you are deploying to.
+* :shell:`username` - Username that can be used to SSH to the VMs.
+* :shell:`private_key_path` - Path on the local machine to the private SSH key you will use to connect to your VMs.
+* :shell:`private_key_path` - Path on the local machine to the public SSH key that will be put on your VMs.
+* :shell:`aws_amis` - A list of AMI IDs for each region that you want to deploy to.
+* :shell:`worker_count` - Number of workers to launch. Set this to a small number (like 1) for your first couple
+  of launches.
+
+
+N.B. Although Butler is theoretically OS-agnostic, all of the deployments to date have used **CentOS** as the platform. If you want
+Butler to work out of the box you should use CentOS as your base VM image. If you want to use another OS you should expect to
+have to make some modifications to the YAML Saltstack state definitions that are responsible for software deployment and configuration.
+Although these states are largely cross-platform about 10% have CentOS specific configurations that would need to be changed to
+successfully deploy on another platform.
+
+Each Butler VM that you deploy has a specific AWS VM flavor. If you have non-standard flavor names on your deployment or you wish to
+use non-default values then you can populate the following variables:
+
+* :shell:`salt-master-flavor`
+* :shell:`worker-flavor`
+* :shell:`db-server-flavor`
+* :shell:`job-queue-flavor`
+* :shell:`tracker-flavor`
+
+Once you have populated these variables with values you are ready for deployment. Run :shell:`terraform plan -var-file path_to_your_vars_file.tfvars`
+to see what actions Terraform is planning to take based on your configurations. If you are satisfied then you are ready to run
+:shell:`terraform apply -var-file path_to_your_vars_file.tfvars`. This will launch your Butler cluster into existence over the course
+of about 10-20 minutes depending on size. If all is well you will see a message at the end that your resources have been successfully created.
+You will also see a list of VM names and their IP Addresses.
+
+The Terraform deployment process creates a separate VM that will be used as a gateway host to all of the other VMs in the Butler deployment.
+Access to these VMs is disabled from the outside (via security group) and is only available from the gateway host that is called butler_jump.
+Your private key is pre-populated onto this host by the deployment process. Additionally IPs of the Butler management nodes are mapped to
+friendly names via the /etc/hosts file on butler_jump. Thus, to log onto the salt-master for instance, ssh onto the butler_jump host and from
+there SSH onto salt-master simply by running :shell:`ssh salt-master`. The worker nodes are not mapped by name and you should connect to them
+using their private IP address. 
+
+You are now ready to move on to the Software Configuration stage of the deployment.
+
+When you are done with your cluster you can cleanly tear it down by running :shell:`terraform destroy -var-file path_to_your_vars_file.tfvars`
 
 
 Deployment on Microsoft Azure
