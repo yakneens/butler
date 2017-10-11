@@ -7,7 +7,7 @@
     - force: True
     - makedirs: True
 
-{% if "tracker" in grains['groles'] %}    
+{% if "tracker" in grains['roles'] %}    
 ew_restart_airflow_scheduler:
   cmd.run:
     - name: service airflow-scheduler restart
