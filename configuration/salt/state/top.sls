@@ -2,7 +2,6 @@ base:
   '*':
     - selinux
     - consul
-    - consul.join-all
     - dnsmasq
     - elastic.filebeat
     - elastic.packetbeat
