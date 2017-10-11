@@ -9,6 +9,13 @@ join_consul_members:
     - tgt: 'salt-master'
     - sls:
       - consul.join-all
+
+do_some_sleeping:
+  salt.function:
+    - tgt: 'salt-master'
+    - name: sleep
+    - arg:
+      - 30
       
 set_up_salt_master:
   salt.state:
