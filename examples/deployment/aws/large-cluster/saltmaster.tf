@@ -65,7 +65,7 @@ resource "aws_instance" "salt-master" {
 	provisioner "remote-exec" {
 	  inline = [
 	    "chmod +x /tmp/salt_setup.sh",
-	    "/tmp/salt_setup.sh `sudo ifconfig eth0 | awk '/inet /{print $2}'` salt-master \"salt-master, consul-server, monitoring-server, consul-ui, butler-web, elasticsearch\""
+	    "/tmp/salt_setup.sh `sudo ifconfig eth0 | awk '/inet /{print $2}'` salt-master \"salt-master, consul-server, monitoring-server, consul-ui, butler-web\""
 	  ]
 	}
 	

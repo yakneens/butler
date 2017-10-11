@@ -1,5 +1,5 @@
 resource "aws_instance" "butler_jump" {
-	ami = "${lookup(var.aws_amis, var.region)}"
+	ami = "ami-fa2df395"
 	instance_type = "t2.micro"
   
 	tags {
