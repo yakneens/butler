@@ -21,5 +21,5 @@
 	"log_level": "DEBUG",
 	"enable_syslog": true,
 	"enable_script_checks": true,
-	"retry_join": [{% for join_member in join_members %}{{ "\"" + join_member + "\"," }}{% endfor %}]
+	"retry_join": [{% for join_member in join_members %}{{ "\"" + join_member + "\"" }}{{ "," if not loop.last }}{% endfor %}]
 }
