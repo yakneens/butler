@@ -4,12 +4,6 @@ set_up_consul:
     - sls:
       - consul
       
-join_consul_members:
-  salt.state:
-    - tgt: 'salt-master'
-    - sls:
-      - consul.join-all
-
 do_some_sleeping:
   salt.function:
     - tgt: 'salt-master'
