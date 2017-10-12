@@ -37,7 +37,7 @@ variable "worker_count" {
 
 variable "aws_amis" {
   default = {
-    eu-central-1 = "ami-1d1ea272"
+    eu-central-1 = "ami-fa2df395"
   }
 }
 
