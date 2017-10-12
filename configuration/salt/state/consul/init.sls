@@ -48,25 +48,12 @@ agent:
     - dir_mode: 755
     - file_mode: 644
 
-{% set roles = salt['grains.get']('roles', '') %}
-
-{% if "consul-server" in roles -%}
-/etc/opt/consul.d/server-config.json:
+/etc/opt/consul.d/consul-config.json:
   file.managed:
-    - source: salt://consul/config/server-config.json
+    - source: salt://consul/config/consul-config.json
     - user: root
     - group: root
     - mode: 644
-{% endif -%}
-
-{% if "consul-client" in roles -%}
-/etc/opt/consul.d/client-config.json:
-  file.managed:
-    - source: salt://consul/config/client-config.json
-    - user: root
-    - group: root
-    - mode: 644
-{% endif -%} 
 
 /usr/lib/systemd/system/consul.service:
   file.managed:
@@ -74,6 +61,7 @@ agent:
     - user: root
     - group: root
     - mode: 744
+    - template: jinja
     
 consul:
   service.running:

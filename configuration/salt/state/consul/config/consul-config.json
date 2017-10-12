@@ -1,0 +1,25 @@
+{% set roles = salt['grains.get']('roles', '') %}
+{%- set members = salt['mine.get']('roles:(consul-server|consul-client)', 'network.ip_addrs', 'grain_pcre').values() %}
+{%- set node_ip = salt['grains.get']('ip4_interfaces')['eth0'] %}
+{%- set join_members = [] %}
+{%- for member in members if member[0] != node_ip %}
+{% do join_members.append(member[0]) %}
+{%- endfor %}
+
+{
+{% if "consul-server" in roles %}
+	"bootstrap": false,
+	"server": true,
+	"ui": true,
+	"bootstrap_expect": 2,
+{% else %}
+	"server": false,
+{% endif %}
+	"client_addr": "0.0.0.0",
+	"datacenter": "butler_dc",
+	"data_dir": "/var/consul",
+	"log_level": "DEBUG",
+	"enable_syslog": true,
+	"enable_script_checks": true,
+	"retry_join": [{% for join_member in join_members %}{{ join_member + "," }}{% endfor %}]
+}
