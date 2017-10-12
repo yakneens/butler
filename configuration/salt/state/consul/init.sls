@@ -54,6 +54,7 @@ agent:
     - user: root
     - group: root
     - mode: 644
+    - template: jinja
 
 /usr/lib/systemd/system/consul.service:
   file.managed:
