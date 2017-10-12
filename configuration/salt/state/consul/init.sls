@@ -61,7 +61,7 @@ agent:
     - source: salt://consul/config/consul.service
     - user: root
     - group: root
-    - mode: 744
+    - mode: 644
 
     
 consul:
