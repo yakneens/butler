@@ -292,11 +292,12 @@ Access to these VMs is disabled from the outside (via security group) and is onl
 Your private key is pre-populated onto this host by the deployment process. Additionally IPs of the Butler management nodes are mapped to
 friendly names via the /etc/hosts file on butler_jump. Thus, to log onto the salt-master for instance, ssh onto the butler_jump host and from
 there SSH onto salt-master simply by running :shell:`ssh salt-master`. The worker nodes are not mapped by name and you should connect to them
-using their private IP address. 
+using their private IP addresses if you need to. 
 
 You are now ready to move on to the Software Configuration stage of the deployment.
 
-When you are done with your cluster you can cleanly tear it down by running :shell:`terraform destroy -var-file path_to_your_vars_file.tfvars`
+When you are done with your cluster you can cleanly tear it down by running :shell:`terraform destroy -var-file path_to_your_vars_file.tfvars`.
+Make sure to check for any orphaned volumes that may not have been destroyed by the process.
 
 
 Deployment on Microsoft Azure
