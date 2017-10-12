@@ -61,7 +61,7 @@ agent:
     - user: root
     - group: root
     - mode: 744
-    - template: jinja
+
     
 consul:
   service.running:
