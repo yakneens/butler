@@ -70,21 +70,25 @@ def create_analysis_run(analysis_id, config_id, workflow_id):
         my_analysis_run (AnalysisRun): The newly created analysis run.
     """
     session = connection.Session()
-
-    my_analysis_run = AnalysisRun()
-    my_analysis_run.analysis_id = analysis_id
-    my_analysis_run.workflow_id = workflow_id
-    my_analysis_run.config_id = config_id
-    my_analysis_run.run_status = RUN_STATUS_READY
-
-    now = datetime.datetime.now()
-    my_analysis_run.last_updated_date = now
-    my_analysis_run.created_date = now
-
-    session.add(my_analysis_run)
-    session.commit()
-    session.close()
-    connection.engine.dispose()
+    try :
+        my_analysis_run = AnalysisRun()
+        my_analysis_run.analysis_id = analysis_id
+        my_analysis_run.workflow_id = workflow_id
+        my_analysis_run.config_id = config_id
+        my_analysis_run.run_status = RUN_STATUS_READY
+    
+        now = datetime.datetime.now()
+        my_analysis_run.last_updated_date = now
+        my_analysis_run.created_date = now
+    
+        session.add(my_analysis_run)
+        session.commit()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+        connection.engine.dispose()
     return my_analysis_run
 
 
@@ -100,18 +104,23 @@ def set_configuration_for_analysis_run(analysis_run_id, config_id):
         my_analysis_run (AnalysisRun): The updated analysis run.
     """
     session = connection.Session()
-
-    my_analysis_run = session.query(AnalysisRun).filter(
-        AnalysisRun.analysis_run_id == analysis_run_id).first()
-
-    my_analysis_run.config_id = config_id
-
-    now = datetime.datetime.now()
-    my_analysis_run.last_updated_date = now
-
-    session.commit()
-    session.close()
-    connection.engine.dispose()
+    
+    try:
+        my_analysis_run = session.query(AnalysisRun).filter(
+            AnalysisRun.analysis_run_id == analysis_run_id).first()
+    
+        my_analysis_run.config_id = config_id
+    
+        now = datetime.datetime.now()
+        my_analysis_run.last_updated_date = now
+    
+        session.commit()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+        connection.engine.dispose()
 
     return my_analysis_run
 
@@ -127,12 +136,15 @@ def get_analysis_run_by_id(analysis_run_id):
         my_analysis_run (AnalysisRun): The analysis run that has id analysis_run_id.
     """
     session = connection.Session()
-
-    my_analysis_run = session.query(AnalysisRun).filter(
-        AnalysisRun.analysis_run_id == analysis_run_id).first()
-
-    session.close()
-    connection.engine.dispose()
+    
+    try:
+        my_analysis_run = session.query(AnalysisRun).filter(
+            AnalysisRun.analysis_run_id == analysis_run_id).first()
+    except:
+        session.rollback()
+    finally:
+        session.close()
+        connection.engine.dispose()
     return my_analysis_run
 
 
@@ -156,15 +168,19 @@ def set_ready(my_run):
     else:
 
         session = connection.Session()
-
-        my_run.run_status = RUN_STATUS_READY
-        now = datetime.datetime.now()
-        my_run.last_updated_date = now
-
-        session.add(my_run)
-        session.commit()
-        session.close()
-        connection.engine.dispose()
+        try:
+            my_run.run_status = RUN_STATUS_READY
+            now = datetime.datetime.now()
+            my_run.last_updated_date = now
+    
+            session.add(my_run)
+            session.commit()
+        except:
+            session.rollback()
+            raise
+        finally:
+            session.close()
+            connection.engine.dispose()
 
 
 def set_scheduled(my_run):
@@ -187,15 +203,19 @@ def set_scheduled(my_run):
     else:
 
         session = connection.Session()
-
-        my_run.run_status = RUN_STATUS_SCHEDULED
-        now = datetime.datetime.now()
-        my_run.last_updated_date = now
-
-        session.add(my_run)
-        session.commit()
-        session.close()
-        connection.engine.dispose()
+        try:
+            my_run.run_status = RUN_STATUS_SCHEDULED
+            now = datetime.datetime.now()
+            my_run.last_updated_date = now
+    
+            session.add(my_run)
+            session.commit()
+        except:
+            session.rollback()
+            raise
+        finally:
+            session.close()
+            connection.engine.dispose()
 
 
 def set_in_progress(my_run):
@@ -217,16 +237,20 @@ def set_in_progress(my_run):
         raise ValueError(msg)
     else:
         session = connection.Session()
-
-        my_run.run_status = RUN_STATUS_IN_PROGRESS
-        now = datetime.datetime.now()
-        my_run.last_updated_date = now
-        my_run.run_start_date = now
-
-        session.add(my_run)
-        session.commit()
-        session.close()
-        connection.engine.dispose()
+        try:
+            my_run.run_status = RUN_STATUS_IN_PROGRESS
+            now = datetime.datetime.now()
+            my_run.last_updated_date = now
+            my_run.run_start_date = now
+    
+            session.add(my_run)
+            session.commit()
+        except:
+            session.rollback()
+            raise
+        finally:
+            session.close()
+            connection.engine.dispose()
 
 
 def set_completed(my_run):
@@ -247,17 +271,21 @@ def set_completed(my_run):
     else:
 
         session = connection.Session()
-
-        my_run.run_status = RUN_STATUS_COMPLETED
-
-        now = datetime.datetime.now()
-        my_run.last_updated_date = now
-        my_run.run_end_date = now
-
-        session.add(my_run)
-        session.commit()
-        session.close()
-        connection.engine.dispose()
+        try:
+            my_run.run_status = RUN_STATUS_COMPLETED
+    
+            now = datetime.datetime.now()
+            my_run.last_updated_date = now
+            my_run.run_end_date = now
+    
+            session.add(my_run)
+            session.commit()
+        except:
+            session.rollback()
+            raise
+        finally:
+            session.close()
+            connection.engine.dispose()
 
 
 def set_error(my_run):
@@ -268,24 +296,34 @@ def set_error(my_run):
         my_run (AnalysisRun): AnalysisRun object to update
     """
     session = connection.Session()
-
-    my_run.run_status = RUN_STATUS_ERROR
-
-    now = datetime.datetime.now()
-    my_run.last_updated_date = now
-
-    session.add(my_run)
-    session.commit()
-    session.close()
-    connection.engine.dispose()
+    try:
+        
+        my_run.run_status = RUN_STATUS_ERROR
+    
+        now = datetime.datetime.now()
+        my_run.last_updated_date = now
+    
+        session.add(my_run)
+        session.commit()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+        connection.engine.dispose()
 
 
 def get_number_of_runs_with_status(analysis_id, run_status):
     session = connection.Session()
-    num_runs = session.query(AnalysisRun).filter(and_(
+    try:
+        num_runs = session.query(AnalysisRun).filter(and_(
         AnalysisRun.analysis_id == analysis_id, AnalysisRun.run_status == run_status)).count()
-    session.close()
-    connection.engine.dispose()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+        connection.engine.dispose()
 
     return num_runs
 

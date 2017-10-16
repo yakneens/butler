@@ -26,19 +26,24 @@ def create_workflow(workflow_name, workflow_version, config_id):
 
     """
     session = connection.Session()
-
-    my_workflow = Workflow()
-    my_workflow.workflow_name = workflow_name
-    my_workflow.workflow_version = workflow_version
-    my_workflow.config_id = config_id
-
-    now = datetime.datetime.now()
-    my_workflow.last_updated_date = now
-    my_workflow.created_date = now
-
-    session.add(my_workflow)
-    session.commit()
-    session.close()
+    try:
+        
+        my_workflow = Workflow()
+        my_workflow.workflow_name = workflow_name
+        my_workflow.workflow_version = workflow_version
+        my_workflow.config_id = config_id
+    
+        now = datetime.datetime.now()
+        my_workflow.last_updated_date = now
+        my_workflow.created_date = now
+    
+        session.add(my_workflow)
+        session.commit()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
 
     return my_workflow
 
@@ -55,18 +60,23 @@ def set_configuration_for_workflow(workflow_id, config_id):
         my_workflow (Workflow): The updated workflow.
     """
     session = connection.Session()
-
-    my_workflow = session.query(Workflow).filter(
-        Workflow.workflow_id == workflow_id).first()
-
-    my_workflow.config_id = config_id
-
-    now = datetime.datetime.now()
-    my_workflow.last_updated_date = now
-
-    session.commit()
-    session.close()
-    connection.engine.dispose()
+    
+    try:
+        my_workflow = session.query(Workflow).filter(
+            Workflow.workflow_id == workflow_id).first()
+    
+        my_workflow.config_id = config_id
+    
+        now = datetime.datetime.now()
+        my_workflow.last_updated_date = now
+    
+        session.commit()
+    except:
+        session.rollback()
+        raise
+    finally:        
+        session.close()
+        connection.engine.dispose()
 
     return my_workflow
 
@@ -83,10 +93,15 @@ def get_workflow_by_id(workflow_id):
     """
     session = connection.Session()
 
-    my_workflow = session.query(Workflow).filter(
-        Workflow.workflow_id == workflow_id).first()
-    session.close()
-    connection.engine.dispose()
+    try:
+        my_workflow = session.query(Workflow).filter(
+            Workflow.workflow_id == workflow_id).first()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+        connection.engine.dispose()
 
     return my_workflow
 
@@ -99,9 +114,14 @@ def list_workflows():
     """
     session = connection.Session()
 
-    all_workflows = session.query(Workflow).all()
-    session.close()
-    connection.engine.dispose()
+    try:
+        all_workflows = session.query(Workflow).all()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+        connection.engine.dispose()
 
     return all_workflows
     

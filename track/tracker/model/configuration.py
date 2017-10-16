@@ -38,19 +38,25 @@ def create_configuration(config_id, config):
     if is_uuid(config_id):
         if is_json(config):
             session = connection.Session()
+            
+            try:
 
-            my_config = Configuration()
-            my_config.config_id = config_id
-            my_config.config = json.loads(config)
-
-            now = datetime.datetime.now()
-            my_config.last_updated_date = now
-            my_config.created_date = now
-
-            session.add(my_config)
-            session.commit()
-            session.close()
-            connection.engine.dispose()
+                my_config = Configuration()
+                my_config.config_id = config_id
+                my_config.config = json.loads(config)
+    
+                now = datetime.datetime.now()
+                my_config.last_updated_date = now
+                my_config.created_date = now
+    
+                session.add(my_config)
+                session.commit()
+            except:
+                session.rollback()
+                raise
+            finally:
+                session.close()
+                connection.engine.dispose()
 
         else:
             raise ValueError("Configuration object not in json format.")
@@ -107,25 +113,28 @@ def get_effective_configuration(analysis_run_id):
 
     """
     session = connection.Session()
-
-    run_config = aliased(Configuration)
-    analysis_config = aliased(Configuration)
-    workflow_config = aliased(Configuration)
-
-    my_configs = session.query(AnalysisRun.analysis_run_id, run_config.config.label("run_config"),
-                               analysis_config.config.label("analysis_config"), 
-                               workflow_config.config.label("workflow_config")).\
-        join(Analysis, AnalysisRun.analysis_id == Analysis.analysis_id).\
-        join(Workflow, AnalysisRun.workflow_id == Workflow.workflow_id).\
-        outerjoin(run_config, AnalysisRun.config_id == run_config.config_id).\
-        outerjoin(analysis_config, Analysis.config_id == analysis_config.config_id).\
-        outerjoin(workflow_config, Workflow.config_id == workflow_config.config_id).\
-        filter(AnalysisRun.analysis_run_id == analysis_run_id).first()
-    config_list = [my_configs.workflow_config,
-                   my_configs.analysis_config, my_configs.run_config]
-
-    session.close()
-    connection.engine.dispose()
+    try:        
+        run_config = aliased(Configuration)
+        analysis_config = aliased(Configuration)
+        workflow_config = aliased(Configuration)
+    
+        my_configs = session.query(AnalysisRun.analysis_run_id, run_config.config.label("run_config"),
+                                   analysis_config.config.label("analysis_config"), 
+                                   workflow_config.config.label("workflow_config")).\
+            join(Analysis, AnalysisRun.analysis_id == Analysis.analysis_id).\
+            join(Workflow, AnalysisRun.workflow_id == Workflow.workflow_id).\
+            outerjoin(run_config, AnalysisRun.config_id == run_config.config_id).\
+            outerjoin(analysis_config, Analysis.config_id == analysis_config.config_id).\
+            outerjoin(workflow_config, Workflow.config_id == workflow_config.config_id).\
+            filter(AnalysisRun.analysis_run_id == analysis_run_id).first()
+        config_list = [my_configs.workflow_config,
+                       my_configs.analysis_config, my_configs.run_config]
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+        connection.engine.dispose()
 
     return merge_configurations(config_list)
 
@@ -163,14 +172,18 @@ def update_configuration(config_id, new_config):
 
     """
     session = connection.Session()
-
-    my_config = session.query(Configuration).filter(
-        Configuration.config_id == config_id).first()
-    updated_config = merge_configurations([my_config.config, new_config])
-    my_config.config = updated_config
-    session.commit()
-    session.close()
-    connection.engine.dispose()
+    try:
+        my_config = session.query(Configuration).filter(
+            Configuration.config_id == config_id).first()
+        updated_config = merge_configurations([my_config.config, new_config])
+        my_config.config = updated_config
+        session.commit()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+        connection.engine.dispose()
     
     return my_config
 
@@ -222,10 +235,13 @@ def get_configuration_by_id(config_id):
         my_configuration (Configuration): The configuration that has id config_id.
     """
     session = connection.Session()
-
-    my_configuration = session.query(Configuration).filter(
-        Configuration.config_id == config_id).first()
-
-    session.close()
-    connection.engine.dispose()
+    try:
+        my_configuration = session.query(Configuration).filter(
+            Configuration.config_id == config_id).first()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+        connection.engine.dispose()
     return my_configuration

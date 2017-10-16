@@ -28,19 +28,24 @@ def create_analysis(analysis_name, start_date, config_id):
     """
 
     session = connection.Session()
-    my_analysis = Analysis()
-    my_analysis.analysis_name = analysis_name
-    my_analysis.start_date = start_date
-    my_analysis.config_id = config_id
-
-    now = datetime.datetime.now()
-    my_analysis.last_updated_date = now
-    my_analysis.created_date = now
-
-    session.add(my_analysis)
-    session.commit()
-    session.close()
-    connection.engine.dispose()
+    try:
+        my_analysis = Analysis()
+        my_analysis.analysis_name = analysis_name
+        my_analysis.start_date = start_date
+        my_analysis.config_id = config_id
+    
+        now = datetime.datetime.now()
+        my_analysis.last_updated_date = now
+        my_analysis.created_date = now
+    
+        session.add(my_analysis)
+        session.commit()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+        connection.engine.dispose()
     return my_analysis
 
 
@@ -56,18 +61,22 @@ def set_configuration_for_analysis(analysis_id, config_id):
         my_analysis (Analysis): The updated analysis.
     """
     session = connection.Session()
-
-    my_analysis = session.query(Analysis).filter(
-        Analysis.analysis_id == analysis_id).first()
-
-    my_analysis.config_id = config_id
-
-    now = datetime.datetime.now()
-    my_analysis.last_updated_date = now
-
-    session.commit()
-    session.close()
-    connection.engine.dispose()
+    try:
+        my_analysis = session.query(Analysis).filter(
+            Analysis.analysis_id == analysis_id).first()
+    
+        my_analysis.config_id = config_id
+    
+        now = datetime.datetime.now()
+        my_analysis.last_updated_date = now
+    
+        session.commit()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+        connection.engine.dispose()
 
     return my_analysis
 
@@ -79,9 +88,13 @@ def list_analyses():
         all_analyses(List): All of the existing analyses.
     """
     session = connection.Session()
-
-    all_analyses = session.query(Analysis).all()
-    session.close()
-    connection.engine.dispose()
+    try:
+        all_analyses = session.query(Analysis).all()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+        connection.engine.dispose()
 
     return all_analyses
