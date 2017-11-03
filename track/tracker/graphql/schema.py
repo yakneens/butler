@@ -15,12 +15,15 @@ class Workflow(SQLAlchemyObjectType):
     class Meta:
         model = WorkflowModel
         interfaces = (relay.Node, )
+       
         
 class Analysis(SQLAlchemyObjectType):
 
     class Meta:
         model = AnalysisModel
         interfaces = (relay.Node, )
+    
+
 
 
 class AnalysisRun(SQLAlchemyObjectType):

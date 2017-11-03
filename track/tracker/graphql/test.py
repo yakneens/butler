@@ -1,7 +1,7 @@
 from graphene.test import Client
 from schema import schema
 from examples.complex_example import query
-
+from uuid import uuid4
 client = Client(schema)
 
 add_workflow_query = '''
@@ -57,26 +57,28 @@ add_analysis_run_query = '''
     '''
 query_list = [add_config_query, add_workflow_query, add_analysis_query, add_analysis_run_query]
 
+config_id = str(uuid4())
+
 variable_values = '''
     {
         "workflow": {
             "workflowName":"QWERA",
             "workflowVersion":"asdasd",
-            "configId":"e08df590-1b28-440d-84ab-be14266ada93"
+            "configId":"''' + config_id + '''"
         },
         "config": {
-            "configId":"e08df590-1b28-440d-84ab-be14266ada93",
+            "configId":"''' + config_id + '''",
             "config": "{\"blah\": \"blah\"}"
         },
         "analysis": {
             "analysisName": "My analysis",
             "startDate": "10-15-2017",
-            "configId": "e08df590-1b28-440d-84ab-be14266ada93"
+            "configId": "''' + config_id + '''"
         },
         "analysisRun": {
             "workflowId": 1,
             "analysisId": 1,
-            "configId": "e08df590-1b28-440d-84ab-be14266ada93"
+            "configId": "''' + config_id + '''"
         }
     }
     '''

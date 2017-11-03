@@ -1,0 +1,186 @@
+schema {
+  query: Query
+  mutation: MyMutations
+}
+
+type Analysis implements Node {
+  analysisId: ID!
+  configId: String
+  analysisName: String
+  startDate: DateTime
+  createdDate: DateTime
+  lastUpdatedDate: DateTime
+  configuration: Configuration
+  analysisRunCollection(before: String, after: String, first: Int, last: Int): AnalysisRunConnection
+  id: ID!
+}
+
+type AnalysisConnection {
+  pageInfo: PageInfo!
+  edges: [AnalysisEdge]!
+}
+
+type AnalysisEdge {
+  node: Analysis
+  cursor: String!
+}
+
+input AnalysisInput {
+  analysisName: String
+  startDate: String
+  configId: ID!
+}
+
+type AnalysisRun implements Node {
+  analysisRunId: ID!
+  analysisId: Int!
+  configId: String
+  runStatus: Int!
+  workflowId: Int!
+  createdDate: DateTime
+  runStartDate: DateTime
+  runEndDate: DateTime
+  lastUpdatedDate: DateTime
+  runErrorCode: Int
+  workflow: Workflow
+  analysis: Analysis
+  configuration: Configuration
+  id: ID!
+}
+
+type AnalysisRunConnection {
+  pageInfo: PageInfo!
+  edges: [AnalysisRunEdge]!
+}
+
+type AnalysisRunEdge {
+  node: AnalysisRun
+  cursor: String!
+}
+
+input AnalysisRunInput {
+  workflowId: Int!
+  analysisId: Int!
+  configId: ID!
+}
+
+input ConfigInput {
+  configId: ID!
+  config: String!
+}
+
+type Configuration implements Node {
+  configId: String!
+  config: JSONString
+  createdDate: DateTime
+  lastUpdatedDate: DateTime
+  analysisRunCollection(before: String, after: String, first: Int, last: Int): AnalysisRunConnection
+  workflowCollection(before: String, after: String, first: Int, last: Int): WorkflowConnection
+  analysisCollection(before: String, after: String, first: Int, last: Int): AnalysisConnection
+  id: ID!
+}
+
+input CreateAnalysisInput {
+  myAnalysis: AnalysisInput
+  clientMutationId: String
+}
+
+type CreateAnalysisPayload {
+  ok: Boolean
+  analysis: Analysis
+  clientMutationId: String
+}
+
+input CreateAnalysisRunInput {
+  myAnalysisRun: AnalysisRunInput
+  clientMutationId: String
+}
+
+type CreateAnalysisRunPayload {
+  ok: Boolean
+  analysisRun: AnalysisRun
+  clientMutationId: String
+}
+
+input CreateConfigurationInput {
+  myConfig: ConfigInput
+  clientMutationId: String
+}
+
+type CreateConfigurationPayload {
+  ok: Boolean
+  config: Configuration
+  clientMutationId: String
+}
+
+input CreateWorkflowInput {
+  myWorkflow: WorkflowInput
+  clientMutationId: String
+}
+
+type CreateWorkflowPayload {
+  ok: Boolean
+  workflow: Workflow
+  clientMutationId: String
+}
+
+scalar DateTime
+
+scalar JSONString
+
+type MyMutations {
+  createConfig(input: CreateConfigurationInput!): CreateConfigurationPayload
+  createWorkflow(input: CreateWorkflowInput!): CreateWorkflowPayload
+  createAnalysis(input: CreateAnalysisInput!): CreateAnalysisPayload
+  createAnalysisRun(input: CreateAnalysisRunInput!): CreateAnalysisRunPayload
+}
+
+interface Node {
+  id: ID!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type Query {
+  node(id: ID!): Node
+  allWorkflows(before: String, after: String, first: Int, last: Int): WorkflowConnection
+  allAnalyses(before: String, after: String, first: Int, last: Int): AnalysisConnection
+  allAnalysisRuns(before: String, after: String, first: Int, last: Int): AnalysisRunConnection
+  workflow: Workflow
+  analysis: Analysis
+  analysisRun: AnalysisRun
+  configuration: Configuration
+}
+
+type Workflow implements Node {
+  workflowId: ID!
+  workflowName: String
+  workflowVersion: String
+  configId: String
+  createdDate: DateTime
+  lastUpdatedDate: DateTime
+  configuration: Configuration
+  analysisRunCollection(before: String, after: String, first: Int, last: Int): AnalysisRunConnection
+  id: ID!
+}
+
+type WorkflowConnection {
+  pageInfo: PageInfo!
+  edges: [WorkflowEdge]!
+}
+
+type WorkflowEdge {
+  node: Workflow
+  cursor: String!
+}
+
+input WorkflowInput {
+  workflowName: String
+  workflowVersion: String
+  configId: ID!
+}
