@@ -18,7 +18,7 @@
 	"client_addr": "0.0.0.0",
 	"datacenter": "butler_dc",
 	"data_dir": "/var/consul",
-	"log_level": "DEBUG",
+	"log_level": "INFO",
 	"enable_syslog": true,
 	"enable_script_checks": true,
 	"retry_join": [{% for join_member in join_members %}{{ "\"" + join_member + "\"" }}{{ "," if not loop.last else ''}}{% endfor %}]
