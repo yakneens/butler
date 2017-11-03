@@ -11,9 +11,6 @@ fileserver_backend:
 gitfs_provider: gitpython
 
 gitfs_remotes:
-  - git://github.com/llevar/eosc_pilot.git:
-    - root: configuration/salt/state
-    - base: master
   - git://github.com/llevar/butler.git:
     - root: configuration/salt/state
     - base: master
@@ -33,8 +30,6 @@ ext_pillar:
     - master git://github.com/llevar/butler.git:
       - root: configuration/salt/pillar
       - env: base
-    - master git://github.com/llevar/pan-prostate.git:
-      - root: configuration/salt/pillar
-      - env: base
+
 
 
