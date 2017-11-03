@@ -23,7 +23,7 @@ sudo yum install dnsmasq -y
 
 sudo yum install salt-minion -y
 
-sudo pip uninstall tornado -y
+sudo pip uninstall tornado
 sudo pip install tornado
 sudo yum install java -y
 
