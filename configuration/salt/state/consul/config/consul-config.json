@@ -11,7 +11,7 @@
 	"bootstrap": false,
 	"server": true,
 	"ui": true,
-	"bootstrap_expect": 3,
+	"bootstrap_expect": {{ pillar['consul.bootstrap.expect'] }},
 {%- else %}
 	"server": false,
 {%- endif %}

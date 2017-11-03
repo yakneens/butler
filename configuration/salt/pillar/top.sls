@@ -4,7 +4,7 @@ base:
     - collectd
     - postgres
     - rabbitmq
-    - influxdb   
+    - influxdb
   'G@roles:worker':
     - test-data
     - run-tracking-db
@@ -20,4 +20,8 @@ base:
     - run-tracking-db
   'G@roles:butler-web':
     - butler
+  'G@roles:consul-server':
+      - consul.server   
+  'G@roles:single-node':
+    - consul.single_node
 
