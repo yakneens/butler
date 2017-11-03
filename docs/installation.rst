@@ -631,11 +631,11 @@ Once you have a workflow and an analysis created you can go on to the last stage
 Workflow Test Execution
 -----------------------
 
-A workflow is launched in Butler using the :shell:`workflow-launch` command. 
+A workflow is launched in Butler using the :shell:`launch-workflow` command. 
 
 .. code-block:: shell
 
-	butler workflow-launch -w 1 -a 1 \
+	butler launch-workflow -w 1 -a 1 \
 	-c /opt/butler/examples/analyses/test-analysis/run-config/
 	
 Here -w corresponds to a workflow ID, -a corresponds to an analysis ID, and -c is a path to a directory that contains Analysis Run 
