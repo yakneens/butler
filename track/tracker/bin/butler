@@ -5,6 +5,7 @@ import os
 from tabulate import tabulate
 import collections
 from airflow.operators import TriggerDagRunOperator
+from airflow.models import DagBag
 
 from tracker.model.configuration import *
 from tracker.model.analysis_run import *
@@ -189,6 +190,10 @@ def launch_workflow_command(args):
 
     if not os.path.isdir(config_location):
         raise ValueError("config_location must be a path to a directory")
+
+    my_dag_bag = DagBag(None)
+    if my_workflow.workflow_name not in my_dag_bag.dags:
+        raise ValueError("Workflow with name {} not found by Airflow. Make sure that Butler and Airflow workflow names match".format(my_workflow.workflow_name))
 
     my_dag_run = TriggerDagRunOperator(
         trigger_dag_id=my_workflow.workflow_name,
