@@ -13,6 +13,7 @@ base:
     - grafana
     - kapacitor
     - chronograf
+    - salt.pepper
   'G@roles:worker':
     - git
     - celery
@@ -52,7 +53,9 @@ base:
   'G@roles:butler-web':
     - git
     - nginx
-    - butler.web   
+    - butler.web
+  'G@roles:salt-master':
+    - salt.api
 
 
   

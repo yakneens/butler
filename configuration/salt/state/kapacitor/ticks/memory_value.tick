@@ -39,4 +39,18 @@ var alert = data
 
 // Alert
 alert
+
+
+session.post('http://localhost:8000/login', json={
+    'username': 'butler_admin',
+    'password': 'butler_admin',
+    'eauth': 'auto',
+})
+
+resp = session.post('http://localhost:8000', json=[{
+    'client': 'local',
+    'tgt': tracker,
+    'fun': 'service.restart',
+    'arg': ['airflow-scheduler'],
+}])
   .log('/tmp/mem_alert_log.txt')

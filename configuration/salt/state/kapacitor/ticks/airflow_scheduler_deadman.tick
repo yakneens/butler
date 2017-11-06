@@ -1,0 +1,73 @@
+var db = 'telegraf'
+
+var rp = 'autogen'
+
+var measurement = 'airflow_scheduler_heartbeat'
+
+var groupBy = []
+
+var whereFilter = lambda: ("metric_type" == 'gauge')
+
+var period = 1m
+
+0s
+
+var name = 'Airflow Scheduler Heartbeat'
+
+var idVar = name + ':{{.Group}}'
+
+var message = 'Airflow Scheduler heartbeat missing! ({{.Name}} @ {{.Time}}) '
+
+var idTag = 'alertID'
+
+var levelTag = 'level'
+
+var messageField = 'message'
+
+var durationField = 'duration'
+
+var outputDB = 'chronograf'
+
+var outputRP = 'autogen'
+
+var outputMeasurement = 'alerts'
+
+var triggerType = 'deadman'
+
+var threshold = 0.0
+
+var data = stream
+    |from()
+        .database(db)
+        .retentionPolicy(rp)
+        .measurement(measurement)
+        .groupBy(groupBy)
+        .where(whereFilter)
+
+var trigger = data
+    |deadman(threshold, period)
+        .stateChangesOnly()
+        .message(message)
+        .id(idVar)
+        .idTag(idTag)
+        .levelTag(levelTag)
+        .messageField(messageField)
+        .durationField(durationField)
+        .slack()
+        .channel('#embassyalerts')
+        .username('llevar')
+
+trigger
+    |eval(lambda: "emitted")
+        .as('value')
+        .keep('value', messageField, durationField)
+    |influxDBOut()
+        .create()
+        .database(outputDB)
+        .retentionPolicy(outputRP)
+        .measurement(outputMeasurement)
+        .tag('alertName', name)
+        .tag('triggerType', triggerType)
+
+trigger
+    |httpOut('output')

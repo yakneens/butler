@@ -1,0 +1,7 @@
+[main]
+SALTAPI_URL=https://salt-api.service.consul:8000/
+SALTAPI_USER=butler_admin
+SALTAPI_PASS=butler_admin
+
+#Do not use auto auth in production!
+SALTAPI_EAUTH=auto
