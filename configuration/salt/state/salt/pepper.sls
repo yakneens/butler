@@ -5,7 +5,7 @@ install_salt_peppe:
     
 /root/.pepperrc:
   file.managed:
-    - source: salt://salt/config/.pepperrc
+    - source: salt://salt/config/pepperrc
     - user: root
     - group: root
     - mode: 644

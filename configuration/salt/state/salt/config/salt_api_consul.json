@@ -1,0 +1,1 @@
+{"service": {"name": "salt-api", "tags": ["salt-api"], "port": 8000}}
