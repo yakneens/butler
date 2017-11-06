@@ -31,5 +31,22 @@ ext_pillar:
       - root: configuration/salt/pillar
       - env: base
 
+# Do not use auto auth in production! Set up a proper authentication scheme.
+#external_auth:
+#  auto:
+#    butler_admin:
+#      - .*
+#      - '@runner'
+#      - '@wheel'
+#      - '@jobs'
+
+rest_cherrypy:
+  port: 8000
+  host: 0.0.0.0
+  disable_ssl: True
+#  ssl_crt: /etc/pki/tls/certs/localhost.crt
+#  ssl_key: /etc/pki/tls/certs/localhost.key
+#  debug: True
+
 
 

@@ -27,7 +27,7 @@ resource "openstack_compute_instance_v2" "job-queue" {
 	provisioner "remote-exec" {
 	  inline = [
 	    "chmod +x /tmp/salt_setup.sh",
-	    "/tmp/salt_setup.sh ${null_resource.masterip.triggers.address} job-queue \"job-queue, consul-client\""
+	    "/tmp/salt_setup.sh ${null_resource.masterip.triggers.address} job-queue \"job-queue, consul-server\""
 	  ]
 	}
 }
