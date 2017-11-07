@@ -16,7 +16,7 @@ var name = 'Airflow Scheduler Heartbeat'
 
 var idVar = name + ':{{.Group}}'
 
-var message = 'Airflow Scheduler heartbeat missing! ({{.Name}} @ {{.Time}}) '
+var message = 'Airflow Scheduler heartbeat missing! ({{.Name}} @ {{.Time}})  {{.TaskName}} Restarting Airflow Scheduler.'
 
 var idTag = 'alertID'
 
@@ -53,6 +53,7 @@ var trigger = data
         .levelTag(levelTag)
         .messageField(messageField)
         .durationField(durationField)
+        .exec('/bin/restart_airflow.sh')
         .slack()
         .channel('#embassyalerts')
         .username('llevar')

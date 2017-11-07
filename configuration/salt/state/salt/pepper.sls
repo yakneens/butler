@@ -9,3 +9,10 @@ install_salt_peppe:
     - user: root
     - group: root
     - mode: 644
+   
+/var/lib/kapacitor/.pepperrc:
+  file.managed:
+    - source: salt://salt/config/pepperrc
+    - user: kapacitor
+    - group: kapacitor
+    - mode: 644
