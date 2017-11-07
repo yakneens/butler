@@ -116,8 +116,9 @@ class BaseJob(Base, LoggingMixin):
         '''
         pass
 
-    def heartbeat_callback(self):
-        pass
+    @provide_session
+    def heartbeat_callback(self, session=None):
+        Stats.gauge('worker_heartbeat', 1, 1)
 
     def heartbeat(self):
         '''
