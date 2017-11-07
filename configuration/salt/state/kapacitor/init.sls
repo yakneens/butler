@@ -18,7 +18,7 @@ kapacitor:
     
 /bin/:
   file.recurse:
-    - source: salt://kapacitor/config/scripts
+    - source: salt://kapacitor/scripts/
     - user: kapacitor
     - group: kapacitor
     - dir_mode: 755
