@@ -15,3 +15,11 @@ kapacitor:
     - group: root
     - mode: 644
     - template: jinja
+    
+/bin/:
+  file.recurse:
+    - source: salt://kapacitor/config/scripts
+    - user: kapacitor
+    - group: kapacitor
+    - dir_mode: 755
+    - file_mode: 744

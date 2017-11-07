@@ -116,9 +116,8 @@ class BaseJob(Base, LoggingMixin):
         '''
         pass
 
-    @provide_session
-    def heartbeat_callback(self, session=None):
-        Stats.gauge('worker_heartbeat', 1, 1)
+    def heartbeat_callback(self):
+        pass
 
     def heartbeat(self):
         '''
@@ -1090,6 +1089,10 @@ class LocalTaskJob(BaseJob):
 
     def on_kill(self):
         self.process.terminate()
+        
+    @provide_session
+    def heartbeat_callback(self, session=None):
+        Stats.gauge('worker_heartbeat', 1, 1)
 
     """
     def heartbeat_callback(self):
