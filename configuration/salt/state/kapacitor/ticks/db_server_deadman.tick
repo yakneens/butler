@@ -1,0 +1,74 @@
+var db = 'telegraf'
+
+var rp = 'autogen'
+
+var measurement = 'postgresql'
+
+var groupBy = []
+
+var whereFilter = lambda: ("server" == 'host=postgresql.service.consul user=butler_admin port=5432 sslmode=disable dbname=run_tracking')
+
+var period = 1m
+
+0s
+
+var name = 'DB Server Heartbeat'
+
+var idVar = name + ':{{.Group}}'
+
+var message = 'DB Server not responding! ({{.Name}} @  {{.Time}}) Restarting the DB Server.'
+
+var idTag = 'alertID'
+
+var levelTag = 'level'
+
+var messageField = 'message'
+
+var durationField = 'duration'
+
+var outputDB = 'chronograf'
+
+var outputRP = 'autogen'
+
+var outputMeasurement = 'alerts'
+
+var triggerType = 'deadman'
+
+var threshold = 0.0
+
+var data = stream
+    |from()
+        .database(db)
+        .retentionPolicy(rp)
+        .measurement(measurement)
+        .groupBy(groupBy)
+        .where(whereFilter)
+
+var trigger = data
+    |deadman(threshold, period)
+        .stateChangesOnly()
+        .message(message)
+        .id(idVar)
+        .idTag(idTag)
+        .levelTag(levelTag)
+        .messageField(messageField)
+        .durationField(durationField)
+        .exec('/bin/restart_postgres.sh')
+        .slack()
+        .channel('#embassyalerts')
+        .username('kapacitor')
+
+trigger
+    |eval(lambda: "emitted")
+        .as('value')
+        .keep('value', messageField, durationField)
+    |influxDBOut()
+        .create()
+        .database(outputDB)
+        .retentionPolicy(outputRP)
+        .measurement(outputMeasurement)
+        .tag('alertName', name)
+        .tag('triggerType', triggerType)
+
+trigger
+    |httpOut('output')
