@@ -9,6 +9,8 @@ freebayes_pkgs:
       - kernel-devel
       - gcc
       - zlib-devel
+      - bzip2-devel
+      - xz-devel
       
 freebayes-clone:
   git.latest:

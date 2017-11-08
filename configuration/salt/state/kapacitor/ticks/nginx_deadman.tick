@@ -1,0 +1,72 @@
+var db = 'telegraf'
+
+var rp = 'autogen'
+
+var measurement = 'procstat'
+
+var groupBy = []
+
+var whereFilter = lambda: ("process_name" == 'nginx')
+
+var period = 1m
+
+var name = 'Nginx Deadman'
+
+var idVar = name + ':{{.Group}}'
+
+var message = 'Nginx not responding! ({{.Name}} @  {{.Time}}) Restarting Nginx.'
+
+var idTag = 'alertID'
+
+var levelTag = 'level'
+
+var messageField = 'message'
+
+var durationField = 'duration'
+
+var outputDB = 'chronograf'
+
+var outputRP = 'autogen'
+
+var outputMeasurement = 'alerts'
+
+var triggerType = 'deadman'
+
+var threshold = 0.0
+
+var data = stream
+    |from()
+        .database(db)
+        .retentionPolicy(rp)
+        .measurement(measurement)
+        .groupBy(groupBy)
+        .where(whereFilter)
+
+var trigger = data
+    |deadman(threshold, period)
+        .stateChangesOnly()
+        .message(message)
+        .id(idVar)
+        .idTag(idTag)
+        .levelTag(levelTag)
+        .messageField(messageField)
+        .durationField(durationField)
+        .exec('pepper -G \'roles:butler-web\' service.restart nginx')
+        .slack()
+        .channel('#embassyalerts')
+        .username('kapacitor')
+
+trigger
+    |eval(lambda: "emitted")
+        .as('value')
+        .keep('value', messageField, durationField)
+    |influxDBOut()
+        .create()
+        .database(outputDB)
+        .retentionPolicy(outputRP)
+        .measurement(outputMeasurement)
+        .tag('alertName', name)
+        .tag('triggerType', triggerType)
+
+trigger
+    |httpOut('output')
