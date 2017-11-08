@@ -1,2 +1,2 @@
 #!/bin/bash
-pepper 'job-queue' service.restart rabbitmq-server
+pepper -G 'roles:job-queue' service.restart rabbitmq-server

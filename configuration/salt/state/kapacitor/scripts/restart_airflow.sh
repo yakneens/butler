@@ -1,2 +1,2 @@
 #!/bin/bash
-pepper 'tracker' service.restart airflow-scheduler
+pepper -G 'roles:tracker' service.restart airflow-scheduler

@@ -51,7 +51,7 @@ var trigger = data
         .levelTag(levelTag)
         .messageField(messageField)
         .durationField(durationField)
-        .exec('pepper -G \'roles:butler-web\' service.restart nginx')
+        .exec('/bin/restart_nginx.sh')
         .slack()
         .channel('#embassyalerts')
         .username('kapacitor')

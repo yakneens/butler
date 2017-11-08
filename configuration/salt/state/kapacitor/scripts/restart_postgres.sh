@@ -1,2 +1,2 @@
 #!/bin/bash
-pepper 'db-server' service.restart postgresql-9.5
+pepper -G 'roles:db-server' service.restart postgresql-9.5
