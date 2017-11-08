@@ -32,6 +32,13 @@ agent:
     - group: root
     - mode: 744
     - makedirs: True
+    
+/var/run/consul:
+  file.directory:
+    - user: root
+    - group: root
+    - mode: 744
+    - makedirs: True
 
 /etc/opt/consul.d:
   file.directory:
