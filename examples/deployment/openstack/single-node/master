@@ -1,0 +1,35 @@
+# auto accept minion keys (UNSAFE)
+auto_accept: True
+
+# set output to detailed on failure
+state_output: mixed
+
+#set remote states and pillars
+fileserver_backend:
+  - git
+
+gitfs_provider: gitpython
+
+gitfs_remotes:
+  - git://github.com/llevar/butler.git:
+    - root: configuration/salt/state
+    - base: master
+
+#
+pillar_roots:
+  base:
+    - /srv/pillar
+
+top_file_merging_strategy: same
+default_top: base
+
+ext_pillar:
+#  - hiera: /etc/hiera.yaml
+#  - cmd_yaml: cat /etc/salt/yaml
+  - git:
+    - master git://github.com/llevar/butler.git:
+      - root: configuration/salt/pillar
+      - env: base
+
+
+

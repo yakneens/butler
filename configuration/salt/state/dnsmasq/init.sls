@@ -20,6 +20,7 @@ dnsmasq:
 
 /etc/resolv.conf:
   file.prepend:
+    - header: True
     - text:
       - nameserver 127.0.0.1
       - nameserver 8.8.8.8
