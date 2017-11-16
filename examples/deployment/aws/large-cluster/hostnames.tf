@@ -16,7 +16,7 @@ resource "null_resource" "hostnames" {
 		}
 		
 		inline = [
-		  "echo '${aws_instance.salt-master.private_ip}\tsalt-master\n${aws_instance.tracker.private_ip}\ttracker\n${aws_instance.job-queue.private_ip}\tjob-queue\n${aws_instance.db-server.private_ip}\tdb-server\n' | sudo tee /etc/hosts"
+		  "echo '${aws_instance.salt-master.private_ip}\tsalt-master\n${aws_instance.tracker.private_ip}\ttracker\n${aws_instance.job-queue.private_ip}\tjob-queue\n${aws_instance.db-server.private_ip}\tdb-server\n127.0.0.1\tlocalhost\n' | sudo tee /etc/hosts"
 		]
 	
 	}

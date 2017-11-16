@@ -16,7 +16,7 @@ resource "null_resource" "hostnames" {
 		}
 		
 		inline = [
-		  "echo '${openstack_compute_instance_v2.salt-master.access_ip_v4}\tsalt-master\n${openstack_compute_instance_v2.tracker.access_ip_v4}\ttracker\n${openstack_compute_instance_v2.job-queue.access_ip_v4}\tjob-queue\n${openstack_compute_instance_v2.db-server.access_ip_v4}\tdb-server\n' | sudo tee /etc/hosts"
+		  "echo '${openstack_compute_instance_v2.salt-master.access_ip_v4}\tsalt-master\n${openstack_compute_instance_v2.tracker.access_ip_v4}\ttracker\n${openstack_compute_instance_v2.job-queue.access_ip_v4}\tjob-queue\n${openstack_compute_instance_v2.db-server.access_ip_v4}\tdb-server\n127.0.0.1\tlocalhost\n' | sudo tee /etc/hosts"
 		]
 	
 	}
