@@ -5,7 +5,10 @@ kapacitor define airflow_scheduler_deadman -type stream -tick /opt/butler/config
 kapacitor enable airflow_scheduler_deadman
 
 kapacitor define airflow_webserver_deadman -type stream -tick /opt/butler/configuration/salt/state/kapacitor/ticks/airflow_webserver_deadman.tick -dbrp telegraf.autogen
-kapacitor enable airflow_webserver_deadman                                                                                                                            
+kapacitor enable airflow_webserver_deadman          
+
+kapacitor define airflow_worker_deadman -type stream -tick /opt/butler/configuration/salt/state/kapacitor/ticks/airflow_worker_deadman.tick -dbrp telegraf.autogen
+kapacitor enable airflow_worker_deadman                                                                                                                    
 
 
 kapacitor define chronograf_deadman -type stream -tick /opt/butler/configuration/salt/state/kapacitor/ticks/chronograf_deadman.tick -dbrp telegraf.autogen 

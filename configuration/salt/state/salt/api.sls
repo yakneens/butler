@@ -3,6 +3,11 @@ install_pyopenssl:
     - name: pyopenssl
     - upgrade: True
     
+install_cherrypy:
+  pip.installed: 
+    - name: cherrypy==4.0.0
+
+    
 salt-api:
   pkg.installed: []
   service.running: []
