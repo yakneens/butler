@@ -33,3 +33,9 @@ kapacitor enable rabbitmq_deadman
 
 kapacitor define salt_master_deadman -type stream -tick /opt/butler/configuration/salt/state/kapacitor/ticks/salt_master_deadman.tick -dbrp telegraf.autogen 
 kapacitor enabled salt_master_deadman
+
+kapacitor define consul_deadman -type stream -tick /opt/butler/configuration/salt/state/kapacitor/ticks/consul_deadman.tick -dbrp telegraf.autogen 
+kapacitor enabled consul_deadman
+
+kapacitor define grafana_deadman -type stream -tick /opt/butler/configuration/salt/state/kapacitor/ticks/grafana_deadman.tick -dbrp telegraf.autogen 
+kapacitor enabled grafana_deadman
