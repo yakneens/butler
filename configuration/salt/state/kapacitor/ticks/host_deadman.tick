@@ -2,20 +2,23 @@ var db = 'telegraf'
 
 var rp = 'autogen'
 
-var measurement = 'procstat'
+var measurement = 'system'
 
 var groupBy = ['host']
 
-var whereFilter = lambda: ("user" == 'airflow')
+var whereFilter = lambda: TRUE
 
 var period = 30s
 
-var name = 'Airflow Worker Deadman'
+var name = 'Host Deadman'
 
 var idVar = name + ':{{.Group}}'
 
-var message = 'Airflow Worker on {{index .Tags "host"}} is offline  at {{.Time}}'
-var messageN = 'Airflow Worker on {{index .Tags "host"}} is back online  at {{.Time}}'
+var blah = '{{index .Tags "host"}}'
+
+var message = 'The host {{index .Tags "host"}} is offline as of  {{.Time}}'
+
+var messageN = 'The host {{index .Tags "host"}} is back online at {{.Time}}'
 
 var idTag = 'alertID'
 
@@ -52,8 +55,9 @@ var trigger = data
         .levelTag(levelTag)
         .messageField(messageField)
         .durationField(durationField)
-        .exec('/bin/restart_airflow_worker.py')
         .slack()
+        .channel('#embassyalerts')
+        .exec('/bin/relaunch_worker.py')
 
 trigger
     |eval(lambda: "emitted")

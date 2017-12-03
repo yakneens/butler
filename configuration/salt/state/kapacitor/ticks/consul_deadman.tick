@@ -15,6 +15,7 @@ var name = 'Consul Deadman'
 var idVar = name + ':{{.Group}}'
 
 var message = 'Consul is down on {{index .Tags "host"}} at {{.Time}}'
+var messageN = 'Consul on {{index .Tags "host"}} is back online at {{.Time}}'
 
 var idTag = 'alertID'
 
@@ -45,7 +46,7 @@ var data = stream
 var trigger = data
     |deadman(threshold, period)
         .stateChangesOnly()
-        .message(message)
+        .message('{{ if eq .Level "CRITICAL" }}' + message + '{{else}}' + messageN + '{{end}}')
         .id(idVar)
         .idTag(idTag)
         .levelTag(levelTag)
