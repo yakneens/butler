@@ -11,6 +11,13 @@ install_butler_healing_agent:
     - name: pip install -e .
     - cwd: /opt/butler/heal/
 
+/opt/butler/heal/healing_agent/bin/butler_healing_agent:
+  file.managed:
+    - source: /opt/butler/heal/healing_agent/bin/butler_healing_agent
+    - user: root
+    - group: root
+    - mode: 755
+
 /usr/bin/butler_healing_agent:
   file.symlink:
     - target: /opt/butler/heal/healing_agent/bin/butler_healing_agent
