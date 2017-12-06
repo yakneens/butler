@@ -9,7 +9,7 @@ import argparse
 from datetime import datetime
 import time
 
-logging.basicConfig(filename="/var/log/butler/self-healing.log", level=logging.DEBUG)
+logging.basicConfig(filename="/var/log/butler/self-healing.log", level=logging.DEBUG, format='%(asctime)s %(message)s')
 
 TF_PROVIDER_OPENSTACK = "openstack"
 TF_PROVIDER_AWS = "aws"
