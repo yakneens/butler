@@ -11,13 +11,13 @@ def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
-    name="analysis_run_tracker",
+    name="butler_healing_agent",
     version="0.0.1",
     author="Sergei Yakneen",
     author_email="llevar@gmail.com",
-    description=("Tools for tracking Butler analysis runs"),
+    description=("Tools for self-healing Butler clusters."),
     license="Apache 2.0",
-    keywords="Butler analysis run tracker",
+    keywords="Butler self-healing agent",
     url="http://github.com/llevar/butler",
     packages=find_packages(),
     long_description=read('README.md'),

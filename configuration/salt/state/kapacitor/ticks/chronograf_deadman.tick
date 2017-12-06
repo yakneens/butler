@@ -14,7 +14,8 @@ var name = 'Chronograf Deadman'
 
 var idVar = name + ':{{.Group}}'
 
-var message = 'Chronograf not responding!  {{.Time}} Restarting Chronograf.'
+var message = 'Chronograf is offline @ {{.Time}}. Restarting Chronograf.'
+var messageN = 'Chronograf is back online @ {{.Time}}.'
 
 var idTag = 'alertID'
 
@@ -45,13 +46,13 @@ var data = stream
 var trigger = data
     |deadman(threshold, period)
         .stateChangesOnly()
-        .message(message)
+        .message('{{ if eq .Level "CRITICAL" }}' + message + '{{else}}' + messageN + '{{end}}')
         .id(idVar)
         .idTag(idTag)
         .levelTag(levelTag)
         .messageField(messageField)
         .durationField(durationField)
-        .exec('/bin/restart_chronograf.sh')
+        .exec('butler_healing_agent', 'restart-chronograf')
         .slack()
         .channel('#embassyalerts')
         .username('kapacitor')

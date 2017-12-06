@@ -8,13 +8,14 @@ var groupBy = []
 
 var whereFilter = lambda: ("process_name" == 'salt-master')
 
-var period = 10m
+var period = 30s
 
 var name = 'Salt Master Deadman'
 
 var idVar = name + ':{{.Group}}'
 
-var message = 'Salt Master is not responding! {{.Time }}'
+var message = 'Salt Master is offline @ {{.Time}}.'
+var messageN = 'Salt Master is back online @ {{.Time}}.'
 
 var idTag = 'alertID'
 
@@ -45,7 +46,7 @@ var data = stream
 var trigger = data
     |deadman(threshold, period)
         .stateChangesOnly()
-        .message(message)
+        .message('{{ if eq .Level "CRITICAL" }}' + message + '{{else}}' + messageN + '{{end}}')
         .id(idVar)
         .idTag(idTag)
         .levelTag(levelTag)

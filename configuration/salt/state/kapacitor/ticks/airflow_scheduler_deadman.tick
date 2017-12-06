@@ -16,7 +16,8 @@ var name = 'Airflow Scheduler Heartbeat'
 
 var idVar = name + ':{{.Group}}'
 
-var message = 'Airflow Scheduler heartbeat missing! ({{.Name}} @ {{.Time}})  {{.TaskName}} Restarting Airflow Scheduler.'
+var message = 'Airflow Scheduler is offline @ {{.Time}}. Restarting Airflow Scheduler.'
+var messageN = 'Airflow Scheduler is back online @ {{.Time}}.'
 
 var idTag = 'alertID'
 
@@ -47,13 +48,13 @@ var data = stream
 var trigger = data
     |deadman(threshold, period)
         .stateChangesOnly()
-        .message(message)
+        .message('{{ if eq .Level "CRITICAL" }}' + message + '{{else}}' + messageN + '{{end}}')
         .id(idVar)
         .idTag(idTag)
         .levelTag(levelTag)
         .messageField(messageField)
         .durationField(durationField)
-        .exec('/bin/restart_airflow.sh')
+        .exec('butler_healing_agent', 'restart-airflow-scheduler')
         .slack()
         .channel('#embassyalerts')
         .username('llevar')

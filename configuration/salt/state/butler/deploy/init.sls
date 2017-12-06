@@ -1,3 +1,9 @@
+set_up_dnsmasq:
+  salt.state:
+    - tgt: '*'
+    - sls:
+      - dnsmasq
+
 set_up_consul:
   salt.state:
     - tgt: '*'

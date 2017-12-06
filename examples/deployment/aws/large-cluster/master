@@ -31,3 +31,15 @@ ext_pillar:
       - root: configuration/salt/pillar
       - env: base
 
+external_auth:
+  auto:
+    butler_admin:
+      - .*
+      - '@runner'
+      - '@wheel'
+      - '@jobs'
+
+rest_cherrypy:
+  port: 8000
+  host: 0.0.0.0
+  disable_ssl: True

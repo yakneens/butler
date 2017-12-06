@@ -14,7 +14,8 @@ var name = 'Airflow Webserver Deadman'
 
 var idVar = name + ':{{.Group}}'
 
-var message = 'Airflow Webserver not responding. {{.Time}} Restarting Airflow Webserver.'
+var message = 'Airflow Webserver is offline @ {{.Time}}. Restarting Airflow Webserver.'
+var messageN = 'Airflow Webserver is back online @ {{.Time}}.'
 
 var idTag = 'alertID'
 
@@ -45,13 +46,13 @@ var data = stream
 var trigger = data
     |deadman(threshold, period)
         .stateChangesOnly()
-        .message(message)
+        .message('{{ if eq .Level "CRITICAL" }}' + message + '{{else}}' + messageN + '{{end}}')
         .id(idVar)
         .idTag(idTag)
         .levelTag(levelTag)
         .messageField(messageField)
         .durationField(durationField)
-        .exec('/bin/restart_airflow_webserver.sh')
+        .exec('butler_healing_agent', 'restart-airflow-webserver')
         .slack()
         .channel('#embassyalerts')
         .username('kapacitor')

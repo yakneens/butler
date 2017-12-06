@@ -16,9 +16,9 @@ var idVar = name + ':{{.Group}}'
 
 var blah = '{{index .Tags "host"}}'
 
-var message = 'The host {{index .Tags "host"}} is offline as of  {{.Time}}'
+var message = 'The host {{index .Tags "host"}} is offline as of {{.Time}}.'
 
-var messageN = 'The host {{index .Tags "host"}} is back online at {{.Time}}'
+var messageN = 'The host {{index .Tags "host"}} is back online at {{.Time}}.'
 
 var idTag = 'alertID'
 

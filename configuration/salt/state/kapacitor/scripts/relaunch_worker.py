@@ -24,6 +24,7 @@ if level == "CRITICAL":
         "terraform taint -lock=false -state=/opt/eosc_pilot/deployment/embassy/terraform.tfstate openstack_compute_instance_v2.worker." + host_name.split("-")[1],
         "terraform apply -lock=false -state=/opt/eosc_pilot/deployment/embassy/terraform.tfstate --var-file /opt/eosc_pilot/deployment/embassy/ebi_credentials.tfvars -auto-approve",
         "pepper '*' mine.update",
+        "pepper " +  host_name + " state.apply dnsmasq",
         "pepper " +  host_name + " state.apply consul",
         "pepper " + host_name + "state.highstate"       
         ]

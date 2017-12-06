@@ -14,7 +14,8 @@ var name = 'Nginx Deadman'
 
 var idVar = name + ':{{.Group}}'
 
-var message = 'Nginx not responding! ({{.Name}} @  {{.Time}}) Restarting Nginx.'
+var message = 'Nginx is offline @ {{.Time}}. Restarting Nginx.'
+var messageN = 'Nginx is back online @ {{.Time}}.'
 
 var idTag = 'alertID'
 
@@ -45,13 +46,13 @@ var data = stream
 var trigger = data
     |deadman(threshold, period)
         .stateChangesOnly()
-        .message(message)
+        .message('{{ if eq .Level "CRITICAL" }}' + message + '{{else}}' + messageN + '{{end}}')
         .id(idVar)
         .idTag(idTag)
         .levelTag(levelTag)
         .messageField(messageField)
         .durationField(durationField)
-        .exec('/bin/restart_nginx.sh')
+        .exec('butler_healing_agent', 'restart-nginx')
         .slack()
         .channel('#embassyalerts')
         .username('kapacitor')

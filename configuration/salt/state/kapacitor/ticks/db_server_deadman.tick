@@ -16,7 +16,8 @@ var name = 'DB Server Heartbeat'
 
 var idVar = name + ':{{.Group}}'
 
-var message = 'DB Server not responding! ({{.Name}} @  {{.Time}}) Restarting the DB Server.'
+var message = 'PostgreSQL is offline @ {{.Time}}. Restarting PostgreSQL.'
+var messageN = 'PostgreSQL is back online @ {{.Time}}.'
 
 var idTag = 'alertID'
 
@@ -47,13 +48,13 @@ var data = stream
 var trigger = data
     |deadman(threshold, period)
         .stateChangesOnly()
-        .message(message)
+        .message('{{ if eq .Level "CRITICAL" }}' + message + '{{else}}' + messageN + '{{end}}')
         .id(idVar)
         .idTag(idTag)
         .levelTag(levelTag)
         .messageField(messageField)
         .durationField(durationField)
-        .exec('/bin/restart_postgres.sh')
+        .exec('butler_healing_agent', 'restart-postgres')
         .slack()
         .channel('#embassyalerts')
         .username('kapacitor')

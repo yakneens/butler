@@ -2,22 +2,20 @@ var db = 'telegraf'
 
 var rp = 'autogen'
 
-var measurement = 'rabbitmq_overview'
+var measurement = 'procstat'
 
-var groupBy = []
+var groupBy = ['host']
 
-var whereFilter = lambda: ("host" == 'job-queue')
+var whereFilter = lambda: ("process_name" == 'salt-minion')
 
-var period = 1m
+var period = 30s
 
-0s
-
-var name = 'Job Queue Heartbeat'
+var name = 'Salt Minion Deadman'
 
 var idVar = name + ':{{.Group}}'
 
-var message = 'RabbitMQ is offline @ {{.Time}}. Restarting RabbitMQ.'
-var messageN = 'RabbitMQ is back online @ {{.Time}}.'
+var message = 'Salt Minion  on {{index .Tags "host"}}  is offline @ {{.Time}}.'
+var messageN = 'Salt Minion on {{index .Tags "host"}} is back online @ {{.Time}}.'
 
 var idTag = 'alertID'
 
@@ -54,9 +52,8 @@ var trigger = data
         .levelTag(levelTag)
         .messageField(messageField)
         .durationField(durationField)
-        .exec('butler_healing_agent', 'restart-rabbitmq')
         .slack()
-        .channel('#embassyalerts')
+        .channel('#embassy')
         .username('kapacitor')
 
 trigger

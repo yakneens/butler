@@ -14,8 +14,8 @@ var name = 'Consul Deadman'
 
 var idVar = name + ':{{.Group}}'
 
-var message = 'Consul is down on {{index .Tags "host"}} at {{.Time}}'
-var messageN = 'Consul on {{index .Tags "host"}} is back online at {{.Time}}'
+var message = 'Consul is offline on {{index .Tags "host"}} at {{.Time}}. Restarting Consul.'
+var messageN = 'Consul on {{index .Tags "host"}} is back online at {{.Time}}.'
 
 var idTag = 'alertID'
 
@@ -52,7 +52,7 @@ var trigger = data
         .levelTag(levelTag)
         .messageField(messageField)
         .durationField(durationField)
-        .exec('/bin/restart_consul.py')
+        .exec('butler_healing_agent', 'restart-chronograf')
         .slack()
 
 trigger
