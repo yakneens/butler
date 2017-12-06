@@ -17,6 +17,14 @@ install_butler_healing_agent:
     - user: root
     - group: root
     - mode: 755
+    
+/var/log/butler:
+  file.directory:
+    - user:root
+    - group: root
+    - dir_mode: 755
+    - file_mode: 644
+    - makedirs: True
 
 /usr/bin/butler_healing_agent:
   file.symlink:
