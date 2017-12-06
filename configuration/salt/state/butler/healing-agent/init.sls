@@ -20,7 +20,7 @@ install_butler_healing_agent:
     
 /var/log/butler:
   file.directory:
-    - user:root
+    - user: root
     - group: root
     - dir_mode: 755
     - file_mode: 644
