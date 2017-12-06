@@ -23,3 +23,13 @@ kapacitor:
     - group: kapacitor
     - dir_mode: 755
     - file_mode: 744
+    
+/tmp/kapacitor_ticks/:
+  file.recurse:
+    - source: salt://kapacitor/scripts
+    - user: root
+    - group: root
+    - dir_mode: 755
+    - file_mode: 644
+    - template: jinja
+    

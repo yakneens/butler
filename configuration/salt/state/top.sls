@@ -13,7 +13,11 @@ base:
     - grafana
     - kapacitor
     - chronograf
+    - salt.api
     - salt.pepper
+    - butler.healing-agent
+    - terraform
+    - terraform.consul-backend
   'G@roles:worker':
     - git
     - celery
