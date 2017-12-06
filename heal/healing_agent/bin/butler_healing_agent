@@ -156,7 +156,7 @@ def relaunch_worker_command(args, alert_data):
         worker_number = host_name.split("-")[1]
     
         call_command("pepper --client=wheel key.delete match={}".format(host_name))
-        call_command("terraform taint -lock=false -state={} {}.worker.{}".format(tf_resource, tf_state_location, worker_number), tf_location)
+        call_command("terraform taint -lock=false -state={} {}.worker.{}".format(tf_state_location, tf_resource, worker_number), tf_location)
         call_command("terraform apply -lock=false -state={} --var-file {} -auto-approve".format(tf_state_location, tf_var_file_location), tf_location)
 
         locate_minon_key(host_name)

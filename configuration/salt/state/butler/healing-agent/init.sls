@@ -22,8 +22,8 @@ install_butler_healing_agent:
   file.directory:
     - user: root
     - group: root
-    - dir_mode: 755
-    - file_mode: 644
+    - dir_mode: 777
+    - file_mode: 666
     - makedirs: True
 
 /usr/bin/butler_healing_agent:
