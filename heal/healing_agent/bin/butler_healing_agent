@@ -137,7 +137,7 @@ def locate_minon_key(host_name):
         logging.debug("Retrieved key data: " + key_data)
         if is_key_present(key_data, host_name):
             return True
-        else
+        else:
             logging.debug("Key data for host {} not found at time {}. Sleeping for {} seconds.".format(host_name, datetime.now(), MINION_CONNECT_SLEEP_PERIOD))
             time.sleep(MINION_CONNECT_SLEEP_PERIOD)
             minion_connect_try = minion_connect_try + 1
@@ -159,9 +159,8 @@ def relaunch_worker_command(args, alert_data):
         call_command("terraform taint -lock=false -state={} {}.worker.{}".format(tf_resource, tf_state_location, worker_number), tf_location)
         call_command("terraform apply -lock=false -state={} --var-file {} -auto-approve".format(tf_state_location, tf_var_file_location), tf_location)
 
-        
-                
-                
+        locate_minon_key(host_name)
+                                
         call_command("pepper '*' mine.update")
         call_command("pepper {} state.apply dnsmasq".format(host_name))
         call_command("pepper {} state.apply consul".format(host_name))
