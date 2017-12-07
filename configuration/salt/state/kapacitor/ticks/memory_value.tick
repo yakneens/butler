@@ -1,4 +1,4 @@
-
+{% raw %}
 // Parameters
 var info = 70
 var warn = 85
@@ -54,3 +54,5 @@ resp = session.post('http://localhost:8000', json=[{
     'arg': ['airflow-scheduler'],
 }])
   .log('/tmp/mem_alert_log.txt')
+  
+{% endraw %}

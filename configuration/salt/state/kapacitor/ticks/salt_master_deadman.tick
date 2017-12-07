@@ -1,3 +1,4 @@
+{% raw %}
 var db = 'telegraf'
 
 var rp = 'autogen'
@@ -53,7 +54,9 @@ var trigger = data
         .messageField(messageField)
         .durationField(durationField)
         .slack()
-        .channel('#embassy')
+{% endraw %}
+        .channel('{{ pillar['kapacitor.slack_channel'] }}')
+{% raw %}
         .username('kapacitor')
 
 trigger
@@ -70,3 +73,4 @@ trigger
 
 trigger
     |httpOut('output')
+{% endraw %}

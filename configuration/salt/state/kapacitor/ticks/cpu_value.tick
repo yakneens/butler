@@ -1,3 +1,4 @@
+{% raw %}
 // Parameters
 var info = 70
 var warn = 80
@@ -39,4 +40,5 @@ var alert = data
 // Alert
 alert
   .log('/tmp/cpu_alert_log_2.txt')
-~                                      
+~ 
+{% endraw %}                                     

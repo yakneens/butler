@@ -1,3 +1,4 @@
+{% raw %}
 var db = 'telegraf'
 
 var rp = 'autogen'
@@ -54,6 +55,9 @@ var trigger = data
         .durationField(durationField)
         .exec('butler_healing_agent', 'restart-grafana')
         .slack()
+{% endraw %}
+        .channel('{{ pillar['kapacitor.slack_channel'] }}')
+{% raw %}
 
 trigger
     |eval(lambda: "emitted")
@@ -69,3 +73,4 @@ trigger
 
 trigger
     |httpOut('output')
+{% endraw %}

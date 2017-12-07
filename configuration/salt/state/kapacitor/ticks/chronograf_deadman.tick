@@ -1,3 +1,4 @@
+{% raw %}
 var db = 'telegraf'
 
 var rp = 'autogen'
@@ -54,7 +55,9 @@ var trigger = data
         .durationField(durationField)
         .exec('butler_healing_agent', 'restart-chronograf')
         .slack()
-        .channel('#embassyalerts')
+{% endraw %}
+        .channel('{{ pillar['kapacitor.slack_channel'] }}')
+{% raw %}
         .username('kapacitor')
 
 trigger
@@ -71,3 +74,4 @@ trigger
 
 trigger
     |httpOut('output')
+{% endraw %}
