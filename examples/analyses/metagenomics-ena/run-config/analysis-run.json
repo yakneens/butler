@@ -1,0 +1,9 @@
+{
+	"output_basename": "ena_test_assembly",
+ 	"ena_accession": [
+ 		"SRR1199571",
+		"DRR075556",
+		"SRR1199568",
+		"ERR922615"
+	]
+ }

@@ -1,0 +1,12 @@
+{
+ 	"output_basename": "ena_test_assembly",
+ 	"ena_accession": [],
+ 	"threads": 1,
+ 	"kraken_db_path": "/test_data/minikraken_20171013_4GB/",
+  	"cwl_file_location": "/opt/butler/examples/workflows/metagenomics-ena-workflow/cwl-workflow/metagenomics_workflow_ena.cwl",
+	"cwl_config_template_location": "/opt/butler/examples/workflows/metagenomics-ena-workflow/config-template.json",
+	"cwl_config_location": "/tmp/metagenomics-ena-workflow-config.json",
+	"cwl_flags": " --debug --non-strict --enable-dev ",
+	"tmp_outdir": ""
+  
+}

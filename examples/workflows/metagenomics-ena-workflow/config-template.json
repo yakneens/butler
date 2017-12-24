@@ -1,0 +1,11 @@
+{
+  "output_basename": "ena_test_assembly",
+  "ena_accession": [
+    "SRR1199568"
+  ],
+  "threads": 1,
+  "kraken_db": {
+    "class": "Directory",
+    "path": "/root/test_data/minikraken_20171013_4GB/"
+  }
+}
