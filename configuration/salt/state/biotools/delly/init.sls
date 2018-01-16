@@ -14,6 +14,7 @@ delly_pkgs:
 delly-clone:
   git.latest:
     - force_reset: True
+    - rev: v0.7.7
     - name: git://github.com/tobiasrausch/delly.git
     - target: /opt/delly
     - submodules: True
