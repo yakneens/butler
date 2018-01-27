@@ -10,6 +10,9 @@ delly_pkgs:
       - gcc
       - zlib-devel
       - boost-devel
+      - bzip2-devel
+      - xz-devel
+      - ncurses-devel
       
 delly-clone:
   git.latest:
