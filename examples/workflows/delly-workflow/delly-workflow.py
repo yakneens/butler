@@ -30,18 +30,16 @@ def run_delly(**kwargs):
     delly_path = config["delly"]["path"]
     reference_location = config["reference_location"]
     variants_location = config["variants_location"]
-    variants_type = config["variants_type"]
     exclude_template_path = config["delly"]["exclude_template_path"]
 
-    result_filename = "{}/{}_{}.bcf".format(
-        result_path_prefix, sample_id, variants_type)
+    result_filename = "{}/{}.bcf".format(
+        result_path_prefix, sample_id)
     
-    log_filename = "{}/{}_{}.log".format(
-        result_path_prefix, sample_id, variants_type)
+    log_filename = "{}/{}.log".format(
+        result_path_prefix, sample_id)
 
-    delly_command = "{} call -t {} -g {} -v {} -o {} -x {} {} > {}".\
+    delly_command = "{} call -g {} -v {} -o {} -x {} {} > {}".\
         format(delly_path,
-               variants_type,
                reference_location,
                variants_location,
                result_filename,
