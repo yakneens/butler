@@ -21,5 +21,11 @@
 	"log_level": "INFO",
 	"enable_syslog": true,
 	"enable_script_checks": true,
+	"dns_config": {
+		"service_ttl": {
+			"*": "5s",
+			"postgresql": "1m"			
+		}
+	},
 	"retry_join": [{% for join_member in join_members %}{{ "\"" + join_member + "\"" }}{{ "," if not loop.last else ''}}{% endfor %}]
 }
