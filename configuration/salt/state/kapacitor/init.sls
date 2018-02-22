@@ -1,7 +1,7 @@
 kapacitor:
   pkg.installed:
     - sources:
-      - kapacitor: https://dl.influxdata.com/kapacitor/releases/kapacitor-1.3.3.x86_64.rpm
+      - kapacitor: https://dl.influxdata.com/kapacitor/releases/kapacitor-1.4.0.x86_64.rpm
   service.running:
     - require:
       - pkg: kapacitor
