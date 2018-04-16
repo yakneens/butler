@@ -24,7 +24,7 @@ sudo yum install dnsmasq -y
 sudo yum install salt-minion -y
 
 sudo pip uninstall tornado
-sudo pip install tornado
+sudo pip install tornado==4.2.1
 sudo yum install java -y
 
 #sudo  yum install collectd -y
