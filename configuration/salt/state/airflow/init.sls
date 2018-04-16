@@ -23,6 +23,10 @@ install_statsd:
     - name: statsd
     - upgrade: True
 
+airflow_group:
+  group.present:
+    - name: airflow
+
 airflow_user:
   user.present:
     - name: airflow
