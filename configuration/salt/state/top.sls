@@ -17,7 +17,6 @@ base:
     - salt.pepper
     - butler.healing-agent
     - terraform
-    - terraform.consul-backend
   'G@roles:worker':
     - git
     - celery
