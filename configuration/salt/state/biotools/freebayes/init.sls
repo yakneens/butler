@@ -16,7 +16,7 @@ freebayes-clone:
   git.latest:
 #    - rev: v0.9.20
     - force_reset: True
-    - name: git://github.com/ekg/freebayes.git
+    - name: https://github.com/ekg/freebayes
     - target: /opt/freebayes
     - submodules: True
     

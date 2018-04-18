@@ -13,7 +13,7 @@ vcflib_pkgs:
 vcflib-clone:
   git.latest:
     - force_reset: True
-    - name: git://github.com/ekg/vcflib.git
+    - name: https://github.com/ekg/vcflib
     - target: /opt/vcflib
     - submodules: True
     
