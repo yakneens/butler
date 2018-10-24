@@ -133,3 +133,4 @@ Watch the keynote_ presentation by Sergei Yakneen from the de.NBI Cloud Computin
 Read our preprint_ on bioRxiv.
 
 .. image:: docs/images/de.NBI_Bild.png
+	:scale:20%
