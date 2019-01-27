@@ -1,12 +1,20 @@
+docker_prereqs:
+  pkg.latest:
+    - pkgs:
+      - yum-utils
+      - device-mapper-persistent-data
+      - lvm2
+
+
 docker_repo:
   pkgrepo.managed:
     - humanname: Docker YUM Repo
-    - baseurl: https://yum.dockerproject.org/repo/main/centos/7/
-    - gpgkey: https://yum.dockerproject.org/gpg
+    - baseurl: https://download.docker.com/linux/centos/7/
+    - gpgkey: https://download.docker.com/linux/centos/gpg
     
 docker_package:
   pkg.installed:
-    - name: docker-engine
+    - name: docker-ce
     
 enable_on_boot_docker:
   service.enabled:
