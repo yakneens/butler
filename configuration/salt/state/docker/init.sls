@@ -9,7 +9,7 @@ docker_prereqs:
 docker_repo:
   pkgrepo.managed:
     - humanname: Docker YUM Repo
-    - baseurl: https://download.docker.com/linux/centos/7/
+    - baseurl: https://download.docker.com/linux/centos/7/x86_64/stable/
     - gpgkey: https://download.docker.com/linux/centos/gpg
     
 docker_package:
