@@ -1,6 +1,8 @@
 ncurses-devel:
   pkg.installed: []
-       
+
+automake:
+  pkg.installed: []
      
 samtools-clone:
   git.latest:
