@@ -4,7 +4,7 @@ ncurses-devel:
      
 samtools-clone:
   git.latest:
-    - rev: 1.2
+    - rev: 1.9
     - force_reset: True
     - name: https://github.com/samtools/samtools.git
     - target: /opt/samtools
