@@ -10,31 +10,16 @@ samtools-clone:
     - target: /opt/samtools
     - submodules: True
 
-samtools-configure:
+
+samtools-install:
   cmd.run:
-    - name: /opt/samtools/configure --prefix=/usr/bin
+    - names:
+      - autoheader
+      - autoconf -Wno-syntax
+      - ./configure
+      - make
+      - make install
     - cwd: /opt/samtools
     - watch:
       - git: samtools-clone
 
-samtools-make:
-  cmd.run:
-    - name: make
-    - cwd: /opt/samtools
-    - watch: 
-      - git: samtools-configure
-      
-samtools-install:
-  cmd.run:
-    - name: make install
-    - cwd: /opt/samtools
-    - watch: 
-      - cmd: samtools-make
-      
-/usr/bin/samtools:
-  file.symlink:
-    - target: /opt/samtools/samtools
-    - user: root
-    - group: root
-    - mode: 755
-    - force: True
