@@ -1,17 +1,17 @@
 htslib-deps:
   pkg.installed:
     - pkgs:
-      autoconf
-      automake
-      make
-      gcc
-      perl-Data-Dumper
-      zlib-devel
-      bzip2
-      bzip2-devel
-      xz-devel
-      curl-devel
-      openssl-devel
+      - autoconf
+      - automake
+      - make
+      - gcc
+      - perl-Data-Dumper
+      - zlib-devel
+      - bzip2
+      - bzip2-devel
+      - xz-devel
+      - curl-devel
+      - openssl-devel
 
 htslib-clone:
   git.latest:
