@@ -9,13 +9,20 @@ samtools-clone:
     - name: https://github.com/samtools/samtools.git
     - target: /opt/samtools
     - submodules: True
-    
+
+samtools-configure:
+  cmd.run:
+    - name: configure --prefix=/usr/bin
+    - cwd: /opt/samtools
+    - watch:
+      - git: samtools-clone
+
 samtools-make:
   cmd.run:
     - name: make
     - cwd: /opt/samtools
     - watch: 
-      - git: samtools-clone
+      - git: samtools-configure
       
 samtools-install:
   cmd.run:
