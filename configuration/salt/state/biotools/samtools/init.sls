@@ -18,7 +18,7 @@ samtools-install:
     - names:
       - autoheader
       - autoconf -Wno-syntax
-      - ./configure
+      - ./configure --with-htslib=/opt/htslib
       - make
       - make install
     - cwd: /opt/samtools
