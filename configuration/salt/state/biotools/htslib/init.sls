@@ -1,24 +1,22 @@
 htslib-clone:
   git.latest:
-    - rev: 1.2
+    - rev: 1.9
     - force_reset: True
     - name: https://github.com/samtools/htslib.git
     - target: /opt/htslib
     - submodules: True
     
-htslib-make:
-  cmd.run:
-    - name: make
-    - cwd: /opt/htslib
-    - watch: 
-      - git: htslib-clone
-      
 htslib-install:
   cmd.run:
-    - name: make install
+    - names:
+      - autoheader
+      - autoconf -Wno-syntax
+      - ./configure --with-htslib=/opt/htslib
+      - make
+      - make install
     - cwd: /opt/htslib
-    - watch: 
-      - cmd: htslib-make
+    - watch:
+      - git: htslib-clone
       
 /usr/bin/htslib:
   file.symlink:
