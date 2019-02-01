@@ -12,7 +12,7 @@ samtools-clone:
 
 samtools-configure:
   cmd.run:
-    - name: ./configure --prefix=/usr/bin
+    - name: /opt/samtools/configure --prefix=/usr/bin
     - cwd: /opt/samtools
     - watch:
       - git: samtools-clone
