@@ -52,7 +52,7 @@ A Framework for large-scale scientific analysis on the cloud
 .. _EOSC: http://eoscpilot.eu/
 .. _source repository: https://github.com/llevar/butler
 .. _keynote: https://youtu.be/n5W3p3hN_bQ
-.. _preprint: http://www.biorxiv.org/content/early/2017/09/07/185736
+.. _paper: https://www.nature.com/articles/s41587-019-0360-3
 
 ===============
 What is Butler?
@@ -130,7 +130,7 @@ Head over to the Documentation_ to learn about how to use Butler for your projec
 
 Watch the keynote_ presentation by Sergei Yakneen from the de.NBI Cloud Computing Summer School in Giessen, Germany, from June 2017 that describes Butler.
 
-Read our preprint_ on bioRxiv.
+Read the Butler paper_ in Nature Biotechnology.
 
 .. image:: docs/images/de.NBI_Bild.png
    :scale: 20%
